@@ -1,0 +1,7 @@
+# Intentionally incomplete.
+# The first inventory output concatenated package names, so it is unsafe to
+# use as an installation manifest. Regenerate on the source workstation with:
+#
+# dnf repoquery --userinstalled --qf '%{name}\n' | sort -u > rpm-userinstalled.txt
+#
+# This file will contain the reviewed, intentionally installed package set.
