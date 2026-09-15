@@ -19,23 +19,39 @@ shell_major="$(gnome-shell --version | grep -oE '[0-9]+' | head -1)"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
-# extensions.gnome.org exposes a version-tag download endpoint. We pin the
-# inventory version and request the current Shell major for compatibility.
+# extensions.gnome.org stores pinned archives as:
+#   extension-data/<UUID-with-@-removed>.v<VERSION>.shell-extension.zip
+# Dots in the UUID are preserved. Replacing both '@' and '.' with underscores
+# produced invalid URLs and caused clean restores to receive HTTP 404.
 install_ego() {
-  local uuid="$1" version="$2" dest zip url
+  local uuid="$1" version="$2" dest zip url archive_uuid
   [[ -n "$version" ]] || return 2
   dest="$HOME/.local/share/gnome-shell/extensions/$uuid"
   zip="$tmp/${uuid//\//_}.zip"
-  url="https://extensions.gnome.org/extension-data/${uuid//[@.]/_}.v${version}.shell-extension.zip"
+  archive_uuid="${uuid//@/}"
+  url="https://extensions.gnome.org/extension-data/${archive_uuid}.v${version}.shell-extension.zip"
 
   echo "INSTALL: $uuid v$version"
   if ! curl -fL --retry 2 -o "$zip" "$url"; then
     echo "WARN: pinned archive unavailable for $uuid v$version; leaving it unresolved." >&2
     return 1
   fi
+
+  # Validate the archive before replacing an existing extension directory.
+  if ! unzip -tq "$zip" >/dev/null 2>&1; then
+    echo "WARN: downloaded archive is invalid for $uuid v$version." >&2
+    return 1
+  fi
+
   rm -rf "$dest"
   mkdir -p "$dest"
   unzip -q "$zip" -d "$dest"
+
+  if [[ ! -f "$dest/metadata.json" ]]; then
+    echo "WARN: $uuid v$version archive has no metadata.json." >&2
+    rm -rf "$dest"
+    return 1
+  fi
 
   if ! grep -q "\"$shell_major\"" "$dest/metadata.json" 2>/dev/null; then
     echo "WARN: $uuid v$version does not declare GNOME $shell_major compatibility." >&2
@@ -72,9 +88,9 @@ while IFS= read -r uuid; do
 done < "$LIST"
 
 if (( missing > 0 )); then
-  printf 'INFO: %d extension(s) remain unresolved.\n' "$missing"
-else
-  echo "All required GNOME extensions are present."
+  printf 'ERROR: %d required extension(s) remain unresolved.\n' "$missing" >&2
+  exit 1
 fi
 
+echo "All required GNOME extensions are present."
 echo "Log out and back in before enabling newly installed extensions."
