@@ -24,11 +24,11 @@ stages=(
 
 for stage in "${stages[@]}"; do
   path="$ROOT_DIR/$stage"
-  if [[ -x "$path" ]]; then
+  if [[ -f "$path" ]]; then
     log "Running $stage"
-    "$path"
+    bash "$path"
   else
-    printf 'SKIP: %s is not executable or not implemented yet.\n' "$stage"
+    printf 'SKIP: %s is not implemented yet.\n' "$stage"
   fi
 done
 
