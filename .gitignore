@@ -26,3 +26,6 @@ shell-history*
 *.tmp
 *.bak
 .DS_Store
+
+# Local package inventory (reference only)
+packages/rpm-userinstalled-full.txt
