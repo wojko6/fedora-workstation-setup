@@ -15,7 +15,7 @@ gnome-shell-extension-appindicator
 gnome-shell-extension-background-logo
 
 # Applications
-brave-browser
+brave-origin
 poedit
 
 # Administration / development
@@ -61,8 +61,8 @@ vpcs
 # installer. Keeping nordvpn-gui in the manifest makes the desired package
 # state explicit and lets the normal package stage verify/retain it.
 nordvpn-gui
-# Tailscale is installed from its official stable Fedora repository. Login and
-# node authentication are intentionally not stored or automated by this repo.
+# Fedora 44 provides Tailscale directly in the Fedora updates repositories.
+# Login and node authentication are intentionally not stored or automated.
 tailscale
 
 # Packet analysis
