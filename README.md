@@ -24,7 +24,7 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 All required GNOME extensions reported `ACTIVE`, and the curated GNOME desired-state audit matched 78 checks. Environment-specific VM exclusions are reported explicitly as `SKIP` rather than hidden or treated as restore warnings.
 
-See [`PROJECT-STATUS.md`](PROJECT-STATUS.md) for the current acceptance status and [`docs/CLEAN-ROOM-RESTORE-REPORT.md`](docs/CLEAN-ROOM-RESTORE-REPORT.md) for the validation report.
+See [`PROJECT-STATUS.md`](PROJECT-STATUS.md) for the current acceptance status, [`docs/CLEAN-ROOM-RESTORE-REPORT.md`](docs/CLEAN-ROOM-RESTORE-REPORT.md) for the clean-room validation report, and [`docs/DISASTER-RECOVERY.md`](docs/DISASTER-RECOVERY.md) for the offline disaster-recovery strategy and the 2026-09-15 backup-integrity validation.
 
 ## Design
 
