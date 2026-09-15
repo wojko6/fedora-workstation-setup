@@ -52,4 +52,13 @@ if (( ${#packages[@]} == 0 )); then
   exit 0
 fi
 
+# Fedora Workstation ships ffmpeg-free. The desired workstation manifest uses
+# RPM Fusion's full ffmpeg build, and the two packages conflict by design.
+# Perform this one known replacement explicitly instead of enabling
+# --allowerasing for the entire workstation package transaction.
+if printf '%s\n' "${packages[@]}" | grep -Fxq ffmpeg && rpm -q ffmpeg-free >/dev/null 2>&1; then
+  echo "==> Replacing Fedora ffmpeg-free with RPM Fusion ffmpeg"
+  sudo dnf install -y --allowerasing ffmpeg
+fi
+
 sudo dnf install -y "${packages[@]}"
