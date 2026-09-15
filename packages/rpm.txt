@@ -1,7 +1,18 @@
-# Reviewed Fedora packages required to reproduce system-managed GNOME extensions.
-# Keep one package per line. Additional workstation packages will be added after
-# regenerating and reviewing the user-installed RPM inventory.
+# Reviewed workstation RPM manifest.
+# This is intentionally NOT a verbatim dump of `dnf repoquery --userinstalled`.
+# Fedora base packages, firmware, kernels and version-specific kmods are restored
+# by Fedora itself or pulled as dependencies. Keep this list focused on the
+# workstation capabilities that should survive a clean reinstall.
 
+# GNOME / workstation tools
+gnome-boxes
+gnome-browser-connector
+gnome-extensions-app
+gnome-tweaks
+mediawriter
+ptyxis
+
+# System-managed GNOME extensions
 gnome-shell-extension-apps-menu
 gnome-shell-extension-drive-menu
 gnome-shell-extension-launch-new-instance
@@ -9,3 +20,95 @@ gnome-shell-extension-places-menu
 gnome-shell-extension-window-list
 gnome-shell-extension-appindicator
 gnome-shell-extension-background-logo
+
+# Browsers / desktop applications
+brave-origin
+poedit
+
+# Development / administration
+7zip-standalone
+bind-utils
+btop
+curl
+dos2unix
+fastfetch
+fedora-packager
+fedpkg
+gh
+git
+htop
+lsof
+mtr
+net-tools
+nmap-ncat
+openssh-clients
+openssh-server
+podman
+rsync
+ShellCheck
+smartmontools
+tcpdump
+traceroute
+tree
+usbutils
+whois
+
+# Networking / virtualization lab
+dnsmasq
+dynamips
+gns3-gui
+gns3-server
+VirtualBox
+akmod-VirtualBox
+virt-viewer
+vpcs
+
+# Packet analysis
+wireshark
+wireshark-cli
+
+# Gaming
+steam
+gamemode
+
+# NVIDIA graphics - use akmods, never kernel-version-specific kmod packages
+akmod-nvidia
+xorg-x11-drv-nvidia-cuda
+
+# Filesystems / storage utilities
+btrfs-progs
+cifs-utils
+compsize
+cryptsetup
+exfatprogs
+hfsplus-tools
+ntfs-3g
+ntfsprogs
+nvme-cli
+xfsprogs
+
+# Media support
+ffmpeg
+gstreamer1-plugins-bad-freeworld
+gstreamer1-plugins-ugly
+libavcodec-freeworld
+libheif-freeworld
+
+# Language / office
+langpacks-pl
+libreoffice-calc
+libreoffice-impress
+libreoffice-writer
+unoconv
+
+# Third-party repository release packages
+rpmfusion-free-release
+rpmfusion-nonfree-release
+
+# Intentionally excluded from this manifest:
+# - kernel, kernel-core, kernel-modules*, grub/shim and Fedora base packages
+# - hardware firmware bundles installed by the Fedora workstation base
+# - kmod-nvidia-<kernel> and kmod-VirtualBox-<kernel> generated for old kernels
+# - transient installer/base-environment dependencies
+# - NordVPN is handled separately because its repository/source must be prepared
+#   before installing nordvpn-gui.
