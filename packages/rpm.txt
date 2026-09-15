@@ -65,6 +65,12 @@ akmod-VirtualBox
 virt-viewer
 vpcs
 
+# VPN
+# setup-repositories.sh prepares NordVPN's official RPM repository first.
+# nordvpn-gui depends on the nordvpn package, so DNF restores the CLI/daemon
+# automatically instead of duplicating both packages in this manifest.
+nordvpn-gui
+
 # Packet analysis
 wireshark
 wireshark-cli
@@ -112,5 +118,3 @@ rpmfusion-nonfree-release
 # - hardware firmware bundles installed by the Fedora workstation base
 # - kmod-nvidia-<kernel> and kmod-VirtualBox-<kernel> generated for old kernels
 # - transient installer/base-environment dependencies
-# - NordVPN is handled separately because its repository/source must be prepared
-#   before installing nordvpn-gui.
