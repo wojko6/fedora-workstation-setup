@@ -168,8 +168,17 @@ if [[ -f "$EXT_INVENTORY" ]]; then
     [[ "$uuid" == "uuid" || -z "$uuid" || -z "$expected_version" ]] && continue
 
     # System extensions under /usr/share are restored and versioned by Fedora RPMs.
-    # Pin exact metadata versions only for user extensions under ~/.local.
+    # User-extension inventory pins the extensions.gnome.org archive release number,
+    # which is not always identical to metadata.json's internal version. Dhruva is
+    # one real example: EGO archive v16 contains metadata version 17 / version-name 2.0.
     [[ "$location" != "~/.local/"* ]] && continue
+
+    ext_dir="$HOME/.local/share/gnome-shell/extensions/$uuid"
+    metadata="$ext_dir/metadata.json"
+    if [[ ! -f "$metadata" ]]; then
+      bad "required extension metadata missing: $uuid"
+      continue
+    fi
 
     current="$(
       gnome-extensions info "$uuid" 2>/dev/null |
@@ -177,14 +186,31 @@ if [[ -f "$EXT_INVENTORY" ]]; then
       head -n 1
     )"
 
-    if [[ -z "$current" ]]; then
-      bad "required extension version unavailable: $uuid"
-    elif [[ "$current" == "$expected_version" ||
-            "$current" =~ \("$expected_version"\)$ ]]; then
-      ok "extension version $uuid = $expected_version"
-    else
-      bad "extension version $uuid: expected $expected_version, found $current"
-    fi
+    # Most EGO releases use the same number as metadata.json version, but some do
+    # not. For those exceptions, verify the known archive pin against the expected
+    # metadata pair instead of falsely treating gnome-extensions' internal version
+    # as the EGO archive release number.
+    case "$uuid:$expected_version" in
+      dhruva@narkagni:16)
+        metadata_version="$(sed -nE 's/^[[:space:]]*"version"[[:space:]]*:[[:space:]]*([0-9]+),?[[:space:]]*$/\1/p' "$metadata" | head -n 1)"
+        metadata_name="$(sed -nE 's/^[[:space:]]*"version-name"[[:space:]]*:[[:space:]]*"([^"]+)"[,]?[[:space:]]*$/\1/p' "$metadata" | head -n 1)"
+        if [[ "$metadata_version" == "17" && "$metadata_name" == "2.0" ]]; then
+          ok "extension archive $uuid = EGO v16 (metadata 2.0/17)"
+        else
+          bad "extension archive $uuid: expected EGO v16 metadata 2.0/17, found ${metadata_name:-?}/${metadata_version:-?}"
+        fi
+        ;;
+      *)
+        if [[ -z "$current" ]]; then
+          bad "required extension version unavailable: $uuid"
+        elif [[ "$current" == "$expected_version" ||
+                "$current" =~ \("$expected_version"\)$ ]]; then
+          ok "extension version $uuid = $expected_version"
+        else
+          bad "extension version $uuid: expected $expected_version, found $current"
+        fi
+        ;;
+    esac
   done < "$EXT_INVENTORY"
 else
   bad "extension inventory missing"
