@@ -1,0 +1,6 @@
+# Copy this file to desktop/launchers/asus-router.conf and fill in your local values.
+# The real file is intended to stay local and must not be committed.
+SSH_KEY="$HOME/.ssh/id_ed25519"
+SSH_PORT="2222"
+SSH_USER="router-admin"
+ROUTER_HOST="192.168.1.1"
