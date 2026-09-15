@@ -67,13 +67,33 @@ fi
 echo
 echo "=== EXTERNAL REPOSITORIES ==="
 repo_ids="$(dnf repolist --enabled 2>/dev/null | awk 'NR > 1 {print $1}')"
-for repo in rpmfusion-free rpmfusion-nonfree brave-browser nordvpn; do
+for repo in rpmfusion-free rpmfusion-nonfree brave-browser nordvpn tailscale-stable; do
   if grep -Fxq "$repo" <<<"$repo_ids"; then
     ok "repo $repo"
   else
     warn "repo not enabled: $repo"
   fi
 done
+
+echo
+echo "=== TAILSCALE ==="
+if command -v tailscale >/dev/null 2>&1 && rpm -q tailscale >/dev/null 2>&1; then
+  ok "Tailscale client installed"
+  if systemctl is-enabled tailscaled >/dev/null 2>&1; then
+    ok "tailscaled service enabled"
+  else
+    warn "tailscaled service is not enabled"
+  fi
+  if systemctl is-active tailscaled >/dev/null 2>&1; then
+    ok "tailscaled service active"
+  else
+    warn "tailscaled service is not active"
+  fi
+  # Authentication is intentionally private state and is not a restore
+  # requirement. The verifier therefore does not require a logged-in tailnet.
+else
+  warn "Tailscale client missing"
+fi
 
 echo
 echo "=== GNOME EXTENSIONS ==="
