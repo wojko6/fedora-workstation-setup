@@ -8,6 +8,10 @@ secrets/
 id_rsa*
 id_ed25519*
 
+# Local launcher configuration
+# Contains host/user/port/key details for the ASUS SSH launcher.
+desktop/launchers/asus-router.conf
+
 # NetworkManager profiles may contain Wi-Fi credentials
 NetworkManager/system-connections/
 *.nmconnection
