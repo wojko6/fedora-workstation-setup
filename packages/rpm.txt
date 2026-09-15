@@ -1,9 +1,3 @@
-# Reviewed workstation RPM manifest.
-# This is intentionally NOT a verbatim dump of `dnf repoquery --userinstalled`.
-# Fedora base packages, firmware, kernels and version-specific kmods are restored
-# by Fedora itself or pulled as dependencies. Keep this list focused on the
-# workstation capabilities that should survive a clean reinstall.
-
 # GNOME / workstation tools
 gnome-boxes
 gnome-browser-connector
@@ -12,10 +6,7 @@ gnome-tweaks
 mediawriter
 ptyxis
 
-# System-managed GNOME extensions
-# drive-menu is intentionally absent here: on the source workstation it is a
-# per-user extension under ~/.local/share/gnome-shell/extensions and is restored
-# by scripts/install-extensions.sh instead of RPM.
+# System GNOME extensions
 gnome-shell-extension-apps-menu
 gnome-shell-extension-launch-new-instance
 gnome-shell-extension-places-menu
@@ -23,11 +14,11 @@ gnome-shell-extension-window-list
 gnome-shell-extension-appindicator
 gnome-shell-extension-background-logo
 
-# Browsers / desktop applications
-brave-origin
+# Applications
+brave-browser
 poedit
 
-# Development / administration
+# Administration / development
 7zip-standalone
 bind-utils
 btop
@@ -55,7 +46,7 @@ tree
 usbutils
 whois
 
-# Networking / virtualization lab
+# Lab / virtualization
 dnsmasq
 dynamips
 gns3-gui
@@ -66,9 +57,9 @@ virt-viewer
 vpcs
 
 # VPN
-# setup-repositories.sh prepares NordVPN's official RPM repository first.
-# nordvpn-gui depends on the nordvpn package, so DNF restores the CLI/daemon
-# automatically instead of duplicating both packages in this manifest.
+# setup-repositories.sh bootstraps NordVPN through the vendor's current Linux
+# installer. Keeping nordvpn-gui in the manifest makes the desired package
+# state explicit and lets the normal package stage verify/retain it.
 nordvpn-gui
 
 # Packet analysis
@@ -79,11 +70,11 @@ wireshark-cli
 steam
 gamemode
 
-# NVIDIA graphics - use akmods, never kernel-version-specific kmod packages
+# NVIDIA
 akmod-nvidia
 xorg-x11-drv-nvidia-cuda
 
-# Filesystems / storage utilities
+# Filesystems / storage
 btrfs-progs
 cifs-utils
 compsize
@@ -95,7 +86,7 @@ ntfsprogs
 nvme-cli
 xfsprogs
 
-# Media support
+# Multimedia
 ffmpeg
 gstreamer1-plugins-bad-freeworld
 gstreamer1-plugins-ugly
@@ -109,12 +100,6 @@ libreoffice-impress
 libreoffice-writer
 unoconv
 
-# Third-party repository release packages
+# RPM Fusion release packages
 rpmfusion-free-release
 rpmfusion-nonfree-release
-
-# Intentionally excluded from this manifest:
-# - kernel, kernel-core, kernel-modules*, grub/shim and Fedora base packages
-# - hardware firmware bundles installed by the Fedora workstation base
-# - kmod-nvidia-<kernel> and kmod-VirtualBox-<kernel> generated for old kernels
-# - transient installer/base-environment dependencies
