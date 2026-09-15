@@ -7,8 +7,8 @@ repo_enabled() {
 
 echo "==> Configuring external Fedora repositories"
 
-# RPM Fusion: release packages are already part of packages/rpm.txt, but they
-# must exist before packages from RPM Fusion can be installed.
+# RPM Fusion must exist before packages such as akmod-nvidia, Steam and
+# multimedia codecs from RPM Fusion can be installed.
 if ! rpm -q rpmfusion-free-release >/dev/null 2>&1 || ! rpm -q rpmfusion-nonfree-release >/dev/null 2>&1; then
   fedora_ver="$(rpm -E %fedora)"
   sudo dnf install -y \
@@ -18,25 +18,29 @@ else
   echo "OK: RPM Fusion release packages already installed"
 fi
 
-# The source workstation uses the Brave Browser repository. Keep the repository
-# setup separate from the package manifest so a clean Fedora can bootstrap it.
+# Brave Origin uses Brave's official release repository. On Fedora 41+ the
+# supported dnf5 syntax is config-manager addrepo --from-repofile=...
 if repo_enabled brave-browser; then
   echo "OK: Brave repository already enabled"
 else
-  echo "INFO: Brave repository is not enabled."
-  echo "      Configure the Brave repository before installing brave-origin."
+  echo "==> Adding Brave official RPM repository"
+  sudo dnf install -y dnf-plugins-core
+  sudo dnf config-manager addrepo \
+    --from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
 fi
 
-# NordVPN is a third-party repository. Do not embed credentials or account data.
+# NordVPN publishes a release RPM which installs its official repository.
+# This contains no user credentials or Nord Account token.
 if repo_enabled repo.nordvpn.com_yum_nordvpn_centos_x86_64; then
   echo "OK: NordVPN repository already enabled"
 else
-  echo "INFO: NordVPN repository is not enabled."
-  echo "      Configure NordVPN's official RPM repository before installing nordvpn-gui."
+  echo "==> Adding NordVPN official RPM repository"
+  sudo dnf install -y \
+    https://repo.nordvpn.com/yum/nordvpn/centos/noarch/Packages/n/nordvpn-release-1.0.0-1.noarch.rpm
 fi
 
-# Other repositories observed on the source workstation are intentionally not
-# bootstrapped here unless required by the reviewed restore manifest:
+# Repositories observed on the source workstation but intentionally not
+# bootstrapped unless they become part of the reviewed restore manifest:
 # google-chrome and COPR repositories for PyCharm/VPCS.
 
 echo "==> Repository setup stage finished"
