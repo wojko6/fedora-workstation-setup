@@ -1,7 +1,14 @@
-# Intentionally incomplete.
-# The first inventory output concatenated package names, so it is unsafe to
-# use as an installation manifest. Regenerate on the source workstation with:
-#
-# dnf repoquery --userinstalled --qf '%{name}\n' | sort -u > rpm-userinstalled.txt
-#
-# This file will contain the reviewed, intentionally installed package set.
+# Reviewed Fedora packages required to reproduce system-managed GNOME extensions.
+# Keep one package per line. Additional workstation packages will be added after
+# regenerating and reviewing the user-installed RPM inventory.
+
+gnome-shell-extension-apps-menu
+gnome-shell-extension-drive-menu
+gnome-shell-extension-launch-new-instance
+gnome-shell-extension-places-menu
+gnome-shell-extension-window-list
+gnome-shell-extension-appindicator
+
+# Fedora's Background Logo extension is present on the source workstation.
+# Its owning package will be detected locally before it is added here, rather
+# than guessing a package name in this public restore manifest.
