@@ -39,8 +39,19 @@ else
     https://repo.nordvpn.com/yum/nordvpn/centos/noarch/Packages/n/nordvpn-release-1.0.0-1.noarch.rpm
 fi
 
+# VPCS is part of the reviewed GNS3 restore manifest. The source workstation
+# obtains it from the tgerov/vpcs COPR, so bootstrap the same source before
+# packages/rpm.txt is installed.
+if dnf repolist --enabled 2>/dev/null | grep -Fq 'tgerov:vpcs'; then
+  echo "OK: VPCS COPR repository already enabled"
+else
+  echo "==> Enabling COPR repository for VPCS (tgerov/vpcs)"
+  sudo dnf install -y dnf-plugins-core
+  sudo dnf copr enable -y tgerov/vpcs
+fi
+
 # Repositories observed on the source workstation but intentionally not
 # bootstrapped unless they become part of the reviewed restore manifest:
-# google-chrome and COPR repositories for PyCharm/VPCS.
+# google-chrome and the PyCharm COPR repository.
 
 echo "==> Repository setup stage finished"
