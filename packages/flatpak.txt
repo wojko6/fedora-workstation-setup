@@ -1,0 +1,3 @@
+# Flatpak application IDs captured from the current workstation.
+com.mattjakeman.ExtensionManager
+com.vscodium.codium
