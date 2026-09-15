@@ -13,8 +13,10 @@ mediawriter
 ptyxis
 
 # System-managed GNOME extensions
+# drive-menu is intentionally absent here: on the source workstation it is a
+# per-user extension under ~/.local/share/gnome-shell/extensions and is restored
+# by scripts/install-extensions.sh instead of RPM.
 gnome-shell-extension-apps-menu
-gnome-shell-extension-drive-menu
 gnome-shell-extension-launch-new-instance
 gnome-shell-extension-places-menu
 gnome-shell-extension-window-list
