@@ -14,6 +14,7 @@ log "Fedora workstation setup"
 cat /etc/fedora-release
 
 stages=(
+  scripts/setup-repositories.sh
   scripts/install-packages.sh
   scripts/install-flatpaks.sh
   scripts/install-extensions.sh
