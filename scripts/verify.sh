@@ -42,7 +42,7 @@ fi
 echo
 echo "=== EXTERNAL REPOSITORIES ==="
 repo_ids="$(dnf repolist --enabled 2>/dev/null | awk 'NR > 1 {print $1}')"
-for repo in rpmfusion-free rpmfusion-nonfree brave-browser repo.nordvpn.com_yum_nordvpn_centos_x86_64; do
+for repo in rpmfusion-free rpmfusion-nonfree brave-browser nordvpn; do
   if grep -Fxq "$repo" <<<"$repo_ids"; then
     ok "repo $repo"
   else
@@ -59,14 +59,14 @@ if command -v gnome-extensions >/dev/null 2>&1; then
       if gnome-extensions info "$uuid" >/dev/null 2>&1; then
         ok "extension installed: $uuid"
       else
-        warn "extension missing: $uuid"
+        bad "required extension missing: $uuid"
       fi
     done < "$EXT_LIST"
   else
     bad "missing $EXT_LIST"
   fi
 else
-  warn "gnome-extensions command unavailable"
+  bad "gnome-extensions command unavailable"
 fi
 
 echo
@@ -178,16 +178,16 @@ if [[ -f "$EXT_INVENTORY" ]]; then
     )"
 
     if [[ -z "$current" ]]; then
-      warn "extension version unavailable: $uuid"
+      bad "required extension version unavailable: $uuid"
     elif [[ "$current" == "$expected_version" ||
             "$current" =~ \("$expected_version"\)$ ]]; then
       ok "extension version $uuid = $expected_version"
     else
-      warn "extension version $uuid: expected $expected_version, found $current"
+      bad "extension version $uuid: expected $expected_version, found $current"
     fi
   done < "$EXT_INVENTORY"
 else
-  warn "extension inventory missing"
+  bad "extension inventory missing"
 fi
 
 echo
