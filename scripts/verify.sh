@@ -58,6 +58,24 @@ if command -v gnome-extensions >/dev/null 2>&1; then
       [[ -z "$uuid" || "$uuid" == \#* ]] && continue
       if gnome-extensions info "$uuid" >/dev/null 2>&1; then
         ok "extension installed: $uuid"
+
+        state="$(gnome-extensions info "$uuid" 2>/dev/null |
+          sed -nE 's/^[[:space:]]*(State|Stan):[[:space:]]*//p' | head -n 1)"
+        if [[ "$state" == "ACTIVE" ]]; then
+          ok "extension runtime active: $uuid"
+        else
+          bad "required extension runtime state $uuid: ${state:-unknown}"
+        fi
+
+        ext_dir="$HOME/.local/share/gnome-shell/extensions/$uuid"
+        schema_dir="$ext_dir/schemas"
+        if [[ -d "$schema_dir" ]] && compgen -G "$schema_dir/*.gschema.xml" >/dev/null; then
+          if [[ -f "$schema_dir/gschemas.compiled" ]]; then
+            ok "extension schemas compiled: $uuid"
+          else
+            bad "required extension schemas not compiled: $uuid"
+          fi
+        fi
       else
         bad "required extension missing: $uuid"
       fi
@@ -166,11 +184,6 @@ EXT_INVENTORY="$ROOT_DIR/gnome/extensions-inventory.tsv"
 if [[ -f "$EXT_INVENTORY" ]]; then
   while IFS=$'\t' read -r uuid name expected_version shell_versions url location; do
     [[ "$uuid" == "uuid" || -z "$uuid" || -z "$expected_version" ]] && continue
-
-    # System extensions under /usr/share are restored and versioned by Fedora RPMs.
-    # User-extension inventory pins the extensions.gnome.org archive release number,
-    # which is not always identical to metadata.json's internal version. Dhruva is
-    # one real example: EGO archive v16 contains metadata version 17 / version-name 2.0.
     [[ "$location" != "~/.local/"* ]] && continue
 
     ext_dir="$HOME/.local/share/gnome-shell/extensions/$uuid"
@@ -180,16 +193,9 @@ if [[ -f "$EXT_INVENTORY" ]]; then
       continue
     fi
 
-    current="$(
-      gnome-extensions info "$uuid" 2>/dev/null |
-      sed -nE 's/^[[:space:]]*(Version|Wersja):[[:space:]]*//p' |
-      head -n 1
-    )"
+    current="$(gnome-extensions info "$uuid" 2>/dev/null |
+      sed -nE 's/^[[:space:]]*(Version|Wersja):[[:space:]]*//p' | head -n 1)"
 
-    # Most EGO releases use the same number as metadata.json version, but some do
-    # not. For those exceptions, verify the known archive pin against the expected
-    # metadata pair instead of falsely treating gnome-extensions' internal version
-    # as the EGO archive release number.
     case "$uuid:$expected_version" in
       dhruva@narkagni:16)
         metadata_version="$(sed -nE 's/^[[:space:]]*"version"[[:space:]]*:[[:space:]]*([0-9]+),?[[:space:]]*$/\1/p' "$metadata" | head -n 1)"
@@ -203,8 +209,7 @@ if [[ -f "$EXT_INVENTORY" ]]; then
       *)
         if [[ -z "$current" ]]; then
           bad "required extension version unavailable: $uuid"
-        elif [[ "$current" == "$expected_version" ||
-                "$current" =~ \("$expected_version"\)$ ]]; then
+        elif [[ "$current" == "$expected_version" || "$current" =~ \("$expected_version"\)$ ]]; then
           ok "extension version $uuid = $expected_version"
         else
           bad "extension version $uuid: expected $expected_version, found $current"
