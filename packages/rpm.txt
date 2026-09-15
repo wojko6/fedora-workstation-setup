@@ -8,7 +8,4 @@ gnome-shell-extension-launch-new-instance
 gnome-shell-extension-places-menu
 gnome-shell-extension-window-list
 gnome-shell-extension-appindicator
-
-# Fedora's Background Logo extension is present on the source workstation.
-# Its owning package will be detected locally before it is added here, rather
-# than guessing a package name in this public restore manifest.
+gnome-shell-extension-background-logo
