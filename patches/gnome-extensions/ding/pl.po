@@ -1,0 +1,514 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: desktop-icons\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2023-06-15 21:45+0200\n"
+"Last-Translator: Maciej Karpiński <kontakt@karpinski.tech>\n"
+"Language-Team: \n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 3.3.1\n"
+
+msgid ""
+"\n"
+"<b>Enable option, \"Allow Executing File as a Program\"</b>"
+msgstr ""
+"\n"
+"<b>Włącz opcję „Plik wykonywalny jako program”</b>"
+
+msgid ""
+"\n"
+"<b>Set Permissions, in \"Others Access\", \"Read Only\" or \"None\"</b>"
+msgstr ""
+"\n"
+"<b>Ustaw Uprawnienia, „Inni Dostęp”, „Tylko do odczytu” lub „Brak”</b>"
+
+msgid "\"${programName}\" is needed for Desktop Icons"
+msgstr "\"${programName}\" jest potrzebny do działania Ikon Pulpitu"
+
+msgid "Action to do when launching a program from the desktop"
+msgstr "Czynność do wykonania podczas uruchamiania programu z pulpitu"
+
+msgid "Add an emblem to allow to identify soft links."
+msgstr "Dodaj emblemat, aby umożliwić identyfikację miękkich linków."
+
+msgid "Add an emblem to links"
+msgstr "Dodaj emblemat do linków"
+
+msgid "Add an emblem to soft links"
+msgstr "Dodaj emblemat do miękkich linków"
+
+msgid "Add new drives to the opposite side of the screen"
+msgstr "Dodaj nowe dyski po przeciwnej stronie ekranu"
+
+msgid "Allow Launching"
+msgstr "Zezwól na uruchamianie"
+
+msgid "Always"
+msgstr "Zawsze"
+
+msgid "Always keep Icons Arranged by the last arranged order"
+msgstr "Zawsze zachowaj autorozmieszczanie ikon wg. ostatniego porządku"
+
+msgid "Always keep Icons Stacked, Similar types are grouped"
+msgstr "Zawsze zachowuj grupowanie ikon, podobne typy są grupowane"
+
+msgid "An Array of strings types, Don't Stack these types of files"
+msgstr "Tablica napisów-typów, nie grupuj tych typów"
+
+msgid "Archive name"
+msgstr "Nazwa archiwum"
+
+msgid "Arrange Order"
+msgstr "Porządek autorozmieszczania"
+
+msgid "Ask what to do"
+msgstr "Zapytaj co zrobić"
+
+msgid "AutoAr is not installed"
+msgstr "AutoAr jest nie zainstalowany"
+
+msgid "Bottom-left corner"
+msgstr "Do lewego dolnego rogu"
+
+msgid "Bottom-right corner"
+msgstr "Do prawego dolnego rogu"
+
+msgid "Broken Desktop File"
+msgstr "Uszkodzony plik pulpitu"
+
+msgid "Broken Link"
+msgstr "Wadliwy link (skrót)"
+
+msgid "Can not email a Directory"
+msgstr "Nie można wysłać Katalogu"
+
+msgid "Can not open this File because it is a Broken Symlink"
+msgstr "Nie można otworzyć pliku ponieważ jest to uszkodzony link symboliczny"
+
+msgid "Cancel"
+msgstr "Anuluj"
+
+msgid "Cancelled compression"
+msgstr "Anulowano kompresje"
+
+msgid "Clear Current Selection before New Search"
+msgstr ""
+"Obecne zaznaczenie uniemożliwia nowe wyszukiwanie, odznacz obecne zaznaczenie"
+
+msgid "Click type for open files"
+msgstr "Wybierz sposób otwierania elementów"
+
+msgid "Close"
+msgstr "Zamknij"
+
+msgid "Command not found"
+msgstr "Nie odnaleziono polecenia"
+
+msgid "Common Properties"
+msgstr "Właściwości"
+
+msgid "Compatible with all operating systems."
+msgstr "Kompatybilne ze wszystkimi systemami operacyjnymi."
+
+msgid "Compress {0} file"
+msgid_plural "Compress {0} files"
+msgstr[0] "Kompresuj {0} plik"
+msgstr[1] "Kompresuj {0} pliki"
+msgstr[2] "Kompresuj {0} plików"
+
+msgid "Compress {0} folder"
+msgid_plural "Compress {0} folders"
+msgstr[0] "Kompresuj {0} katalog"
+msgstr[1] "Kompresuj {0} katalogi"
+msgstr[2] "Kompresuj {0} katalogów"
+
+msgid "Compressing files"
+msgstr "Skompresuj pliki"
+
+msgid "Compressing files into '${outputFile}'"
+msgstr "Kompresowanie plików do '${outputFile}'"
+
+msgid "Compressing files into '${outputFile}' has been cancelled by the user."
+msgstr ""
+"Kompresja plików do '${outputFile}' została anulowana przez użytkownika."
+
+msgid "Compressing files into '${outputFile}' has been completed."
+msgstr "Kompresja plików do '${outputFile}' została zakończona."
+
+msgid "Compression completed"
+msgstr "Kompresja zakończona"
+
+msgid "Copy"
+msgstr "Skopiuj"
+
+msgid "Create archive"
+msgstr "Utwórz archiwum"
+
+msgid "Creating destination folder"
+msgstr "Tworzenie katalogu docelowego"
+
+msgid "Cut"
+msgstr "Wytnij"
+
+msgid "Delete permanently"
+msgstr "Usuń trwale"
+
+msgid "Display the content of the file"
+msgstr "Pokaż zawartość pliku"
+
+msgid "Don't Allow Launching"
+msgstr "Nie zezwalaj na uruchamianie"
+
+msgid "Double click"
+msgstr "Podwójne kliknięcie"
+
+msgid "Eject"
+msgstr "Wysuń"
+
+msgid "Empty Trash"
+msgstr "Opróżnij kosz"
+
+msgid "Enter a password here"
+msgstr "Wprowadź hasło"
+
+msgid "Error during compression"
+msgstr "Błąd podczas kompresji"
+
+msgid "Error during extraction"
+msgstr "Błąd podczas rozpakowywania"
+
+msgid "Extract Here"
+msgstr "Rozpakuj tutaj"
+
+msgid "Extract To..."
+msgstr "Rozpakuj do…"
+
+msgid "Extracting '${fullPathFile}' has been cancelled by the user."
+msgstr "Rozpakowanie '${fullPathFile}' zostało anulowane przez użytkownika."
+
+msgid "Extracting '${fullPathFile}' has been completed."
+msgstr "Rozpakowywanie '${fullPathFile}' zostało zakończone."
+
+msgid "Extracting files"
+msgstr "Rozpakuj pliki"
+
+msgid "Extracting files into '${outputPath}'"
+msgstr "Rozpakowanie plików do '${outputPath}'"
+
+msgid "Extraction cancelled"
+msgstr "Rozpakowywanie anulowane"
+
+msgid "Extraction completed"
+msgstr "Rozpakowywanie zakończone"
+
+msgid "Find Files on Desktop"
+msgstr "Znajdź pliki na Pulpicie"
+
+msgid ""
+"For this functionality to work in Desktop Icons, you must install \"$"
+"{programName}\" in your system."
+msgstr ""
+"Dla tej funkcjonalności musisz zainstalować\"${programName}\" w swoim "
+"systemie."
+
+msgid "Highlight the drop place during Drag'n'Drop"
+msgstr "Podświetl miejsce upuszczenia pliku podczas przeciągania"
+
+msgid "Home"
+msgstr "Katalog domowy"
+
+msgid "Icon size"
+msgstr "Rozmiar ikon"
+
+msgid "Icons Arranged by this property"
+msgstr "Ikony autorozmieszczane są na podstawie tej właściwości"
+
+msgid "Invalid Permissions on Desktop File"
+msgstr "Nieprawidłowe uprawnienia pliku pulpitu"
+
+msgid "Keep Icons Arranged"
+msgstr "Zachowaj autorozmieszczanie ikon"
+
+msgid "Keep Icons Stacked"
+msgstr "Zachowaj Grupowanie Ikon"
+
+msgid "Large"
+msgstr "Duży"
+
+msgid "Launch the file"
+msgstr "Uruchom plik"
+
+msgid "Launch using Dedicated Graphics Card"
+msgstr "Uruchom za pomocą dedykowanej karty graficznej"
+
+msgid "Local files only"
+msgstr "Tylko dla lokalnych plików"
+
+msgid "Move to Trash"
+msgstr "Przenieś do kosza"
+
+msgid "Nautilus File Manager not found"
+msgstr "Menedżer plików Nautilus nie został odnaleziony"
+
+msgid "Never"
+msgstr "Nigdy"
+
+msgid "New Folder"
+msgstr "Nowy katalog"
+
+msgid "New Folder with {0} item"
+msgid_plural "New Folder with {0} items"
+msgstr[0] "Nowy folder zawierający {0} element"
+msgstr[1] "Nowy folder zawierający {0} elementy"
+msgstr[2] "Nowy folder zawierający {0} elementów"
+
+msgid "New icons alignment"
+msgstr "Wyrównanie nowych ikon"
+
+msgid "New icons start corner"
+msgstr "Wyrównanie ikon"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open"
+msgstr "Otwórz"
+
+msgid "Open All With Other Application..."
+msgstr "Otwórz za pomocą innego programu..."
+
+msgid "Open All..."
+msgstr "Otwórz wiele..."
+
+msgid "Open With Other Application"
+msgstr "Otwórz za pomocą innego programu"
+
+msgid "Open in Terminal"
+msgstr "Otwórz w terminalu"
+
+msgid ""
+"Paint the label text in black instead of white. Useful when using light "
+"backgrounds."
+msgstr ""
+"Ustaw tekst etykiety na czarno zamiast na biało. Przydatne przy korzystaniu "
+"z jasnego tła."
+
+msgid "Passphrase required for ${filename}"
+msgstr "Wymagane hasło dla ${filename}"
+
+msgid "Password"
+msgstr "Hasło"
+
+msgid "Password protected .zip, must be installed on Windows and Mac."
+msgstr ".zip zabezpieczony hasłem musi być zainstalowany na Windows i Mac."
+
+msgid "Properties"
+msgstr "Właściwości"
+
+msgid "Removing partial file '${outputFile}'"
+msgstr "Usuwanie częściowego pliku „${outputFile}”"
+
+msgid "Rename"
+msgstr "Zmień nazwę"
+
+msgid "Rename…"
+msgstr "Zmień nazwę…"
+
+msgid "Run as a program"
+msgstr "Uruchom jako program"
+
+msgid "Select"
+msgstr "Wybierz"
+
+msgid "Select Extract Destination"
+msgstr "Wybierz miejsce rozpakowania archiwum"
+
+msgid "Selection includes a Directory, compress the directory to a file first."
+msgstr "Zaznaczenie zawiera Katalog, najpierw skompresuj Katalog do pliku."
+
+msgid "Send to..."
+msgstr "Wyślij do…"
+
+msgid "Set the corner from where the icons will start to be placed."
+msgstr "Ustaw róg od którego zaczną być umieszczane ikony."
+
+msgid "Set the size for the desktop icons."
+msgstr "Ustawia rozmiar ikon na pulpicie."
+
+msgid "Settings"
+msgstr "Ustawienia"
+
+msgid "Settings shared with Nautilus"
+msgstr "Ustawienia współdzielone z Nautilus"
+
+msgid "Show All in Files"
+msgstr "Wyświetl w menedżerze plików"
+
+msgid "Show a context menu item to delete permanently"
+msgstr "Pokaż element usuń trwale w menu kontekstowym"
+
+msgid "Show external drives in the desktop"
+msgstr "Pokaż dyski zewnętrzne na pulpicie"
+
+msgid "Show hidden files"
+msgstr "Pokaż ukryte pliki"
+
+msgid "Show image thumbnails"
+msgstr "Pokazuj podgląd obrazów"
+
+msgid "Show in Files"
+msgstr "Wyświetl w menedżerze plików"
+
+msgid "Show mounted network volumes in the desktop."
+msgstr "Pokaż zamontowane woluminy sieciowe na pulpicie."
+
+msgid "Show network drives in the desktop"
+msgstr "Pokaż dyski sieciowe na pulpicie"
+
+msgid "Show personal folder"
+msgstr "Katalog domowy"
+
+msgid "Show the disk drives connected to the computer."
+msgstr "Pokaż dyski podłączone do komputera."
+
+msgid "Show the personal folder in the desktop"
+msgstr "Katalog domowy na pulpicie"
+
+msgid "Show the personal folder in the desktop."
+msgstr "Wyświetla katalog domowy na pulpicie."
+
+msgid "Show the trash icon in the desktop"
+msgstr "Kosz na pulpicie"
+
+msgid "Show the trash icon in the desktop."
+msgstr "Wyświetla kosz na pulpicie."
+
+msgid "Show trash icon"
+msgstr "Kosz"
+
+msgid "Shows a rectangle in the destination place during DnD"
+msgstr ""
+"Pokarz prostokąt w miejscu docelowym podczas Przeciągania i Upuszczania"
+
+msgid "Single click"
+msgstr "Pojedyncze kliknięcie"
+
+msgid "Size for the desktop icons"
+msgstr "Rozmiar ikon na pulpicie"
+
+msgid "Small"
+msgstr "Mały"
+
+msgid "Smaller archives but Linux and Mac only."
+msgstr "Bardziej skompresowane archiwa, tylko dla Linux'a i Mac'a."
+
+msgid "Smaller archives but must be installed on Windows and Mac."
+msgstr ""
+"Bardziej skompresowane archiwa, ale muszą być zainstalowane na Windows lub "
+"Mac."
+
+msgid "Sort Special Folders - Home/Trash Drives."
+msgstr "Sortuj Katalogi Specjalne - Katalog domowy/Kosz/Dyski."
+
+msgid "Stack This Type"
+msgstr "Zwiń ten typ pliku"
+
+msgid "Standard"
+msgstr "Standardowy"
+
+msgid "The Nautilus File Manager is mandatory to work with Desktop Icons NG."
+msgstr "Menedżer plików Nautilus jest obowiązkowy do pracy z Desktop Icons NG."
+
+msgid "The output file '${outputFile}' already exists."
+msgstr "Plik wyjściowy '${outputFile}' już istnieje."
+
+msgid ""
+"This .desktop File has incorrect Permissions. Right Click to edit "
+"Properties, then:\n"
+msgstr ""
+"Ten plik .desktop ma nieprawidłowe uprawnienia. Kliknij prawym przyciskiem "
+"myszy, aby edytować Właściwości, a następnie:\n"
+
+msgid ""
+"This .desktop file has errors or points to a program without permissions. It "
+"can not be executed.\n"
+"\n"
+"\t<b>Edit the file to set the correct executable Program.</b>"
+msgstr ""
+"Ten plik .desktop zawiera błędy lub wskazuje na program, który nie ma "
+"odpowiednich praw dostępu. Nie może zostać wykonany.\n"
+"\n"
+"\t<b>Edytuj plik, by ustawić poprawny wykonywalny program"
+
+msgid ""
+"This .desktop file is not trusted, it can not be launched. To enable "
+"launching, right-click, then:\n"
+"\n"
+"<b>Enable \"Allow Launching\"</b>"
+msgstr ""
+"Ten plik .desktop nie jest zaufany, nie można go uruchomić. Aby włączyć "
+"uruchamianie, kliknij prawym przyciskiem myszy, a następnie:\n"
+"\n"
+"<b>Włącz opcję „Zezwalaj na uruchamianie”</b>"
+
+msgid "Tiny"
+msgstr "Malutki"
+
+msgid ""
+"To be able to work with compressed files, install file-roller and/or gir-1.2-"
+"gnomeAutoAr"
+msgstr ""
+"Aby móc pracować z plikami skompresowanymi, zainstaluj file-roller lub gnome-"
+"autoar"
+
+msgid "Top-left corner"
+msgstr "Do lewego górnego rogu"
+
+msgid "Top-right corner"
+msgstr "Do prawego górnego rogu"
+
+msgid "Type of Files to not Stack"
+msgstr "Typ plików, którego nie grupować"
+
+msgid "Unmount"
+msgstr "Odmontuj"
+
+msgid "Unstack This Type"
+msgstr "Rozwiń ten typ pliku"
+
+msgid "Use Nemo instead of Nautilus to open folders."
+msgstr "Użyj Nemo zamiast Nautilus'a do otwierania katalogów."
+
+msgid "Use Nemo to open folders"
+msgstr "Użyj Nemo do otwierania katalogów"
+
+msgid "Use black for label text"
+msgstr "Użyj czarnego tekstu etykiety"
+
+msgid "Use dark text in icon labels"
+msgstr "Używaj ciemnego tekstu w etykietach ikon"
+
+msgid ""
+"When adding drives and volumes to the desktop, add them to the opposite side "
+"of the screen."
+msgstr ""
+"Dodając dyski i woluminy do pulpitu, dodaj je po przeciwnej stronie ekranu."
+
+msgid ""
+"When arranging Icons on desktop, to sort and change the position of the "
+"Home, Trash and mounted Network or External Drives"
+msgstr ""
+"Kiedy porządkujesz Ikony na pulpicie, sortuj i zmień pozycję:Katalogu "
+"domowego, Kosza oraz Pamięci Sieciowych i Zewnętrznych"
+
+msgid ""
+"When doing a Drag'n'Drop operation, marks the place in the grid where the "
+"icon will be put with a semitransparent rectangle."
+msgstr ""
+"Kiedy Przeciągasz i Upuszczasz, oznacz miejsce w siatce ikon,gdzie ikona "
+"zostanie upuszczana za pomocą półprzeźroczystego prostokąta."
