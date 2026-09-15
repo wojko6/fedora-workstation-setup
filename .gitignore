@@ -1,0 +1,24 @@
+# Secrets and credentials
+secrets/
+.env
+*.key
+*.pem
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+
+# NetworkManager profiles may contain Wi-Fi credentials
+NetworkManager/system-connections/
+*.nmconnection
+
+# Raw/private workstation dumps
+dconf-full.ini
+shell-history*
+*.history
+
+# Local/generated state
+*.log
+*.tmp
+*.bak
+.DS_Store
