@@ -29,17 +29,9 @@ else
     --from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
 fi
 
-# Tailscale is part of the workstation desired state. Add the vendor's stable
-# Fedora repository before the RPM manifest is installed. Authentication is
-# deliberately not automated: node identity and login remain private state.
-if repo_enabled tailscale-stable; then
-  echo "OK: Tailscale stable repository already enabled"
-else
-  echo "==> Adding Tailscale stable Fedora repository"
-  sudo dnf install -y dnf-plugins-core
-  sudo dnf config-manager addrepo \
-    --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo
-fi
+# Tailscale is available directly from Fedora 44 repositories, so no external
+# Tailscale repository is required. Authentication remains private state and is
+# deliberately not automated by this repository.
 
 # NordVPN's current Linux instructions install the GUI through the vendor's
 # official installer. This avoids depending on the legacy nordvpn-release RPM,
