@@ -27,7 +27,7 @@ night-light-enabled=false
 night-light-schedule-automatic=false
 
 [org/gnome/shell]
-favorite-apps=['brave-origin.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop', 'org.gnome.TextEditor.desktop', 'org.gnome.Calculator.desktop', 'gns3.desktop']
+favorite-apps=['brave-origin.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop', 'org.gnome.TextEditor.desktop', 'org.gnome.Calculator.desktop', 'gns3.desktop', 'com.mattjakeman.ExtensionManager.desktop']
 
 [org/gnome/shell/extensions/blur-my-shell]
 settings-version=2
