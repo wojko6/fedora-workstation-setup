@@ -1,6 +1,11 @@
 # Curated, portable GNOME settings captured from Fedora 44 / GNOME 50.
 # Deliberately excludes locations, recent paths, timestamps, window state and command history.
 
+[org/gnome/desktop/background]
+picture-uri='file:///usr/share/backgrounds/gnome/amber-l.jxl'
+picture-uri-dark='file:///usr/share/backgrounds/gnome/amber-d.jxl'
+picture-options='zoom'
+
 [org/gnome/desktop/interface]
 accent-color='blue'
 color-scheme='prefer-dark'
