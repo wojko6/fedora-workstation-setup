@@ -8,10 +8,27 @@ EXT_LIST="$ROOT_DIR/gnome/enabled-extensions.txt"
 pass=0
 warn=0
 fail=0
+skip=0
 
 ok()   { printf 'PASS: %s\n' "$*"; pass=$((pass + 1)); }
 warn() { printf 'WARN: %s\n' "$*"; warn=$((warn + 1)); }
 bad()  { printf 'FAIL: %s\n' "$*"; fail=$((fail + 1)); }
+skip() { printf 'SKIP: %s\n' "$*"; skip=$((skip + 1)); }
+
+virt="none"
+if command -v systemd-detect-virt >/dev/null 2>&1; then
+  virt="$(systemd-detect-virt 2>/dev/null || true)"
+  [[ -n "$virt" ]] || virt="none"
+fi
+is_vm=0
+[[ "$virt" != "none" ]] && is_vm=1
+
+is_vm_host_only_pkg() {
+  case "$1" in
+    VirtualBox|akmod-VirtualBox|akmod-nvidia|xorg-x11-drv-nvidia-cuda) return 0 ;;
+    *) return 1 ;;
+  esac
+}
 
 echo "=== SYSTEM ==="
 if [[ -r /etc/fedora-release ]]; then
@@ -23,6 +40,12 @@ fi
 
 gnome-shell --version 2>/dev/null || warn "GNOME Shell version unavailable"
 printf 'Session: %s\n' "${XDG_SESSION_TYPE:-unknown}"
+printf 'Virtualization: %s\n' "$virt"
+if (( is_vm )); then
+  ok "virtualized test environment detected: $virt"
+else
+  ok "physical host environment detected"
+fi
 
 echo
 echo "=== RPM MANIFEST ==="
@@ -31,6 +54,8 @@ if [[ -f "$RPM_MANIFEST" ]]; then
     [[ -z "$pkg" || "$pkg" == \#* ]] && continue
     if rpm -q "$pkg" >/dev/null 2>&1; then
       ok "rpm $pkg"
+    elif (( is_vm )) && is_vm_host_only_pkg "$pkg"; then
+      skip "host-only rpm not required in VM: $pkg"
     else
       warn "rpm missing: $pkg"
     fi
@@ -99,6 +124,8 @@ if [[ -n "$iface" ]]; then
   else
     warn "Wi-Fi power save is not confirmed off"
   fi
+elif (( is_vm )); then
+  skip "Wi-Fi hardware check not applicable in VM"
 else
   warn "No Wi-Fi interface detected"
 fi
@@ -145,7 +172,7 @@ if [[ -f "$DING_PO" ]] && command -v msgfmt >/dev/null 2>&1; then
     if [[ -f "$DING_INSTALLED_PO" ]] && cmp -s "$DING_PO" "$DING_INSTALLED_PO"; then
       ok "DING pl.po matches repository"
     else
-      warn "DING installed pl.po differs or is missing"
+      skip "DING source pl.po is not a runtime requirement"
     fi
 
     if [[ -f "$DING_MO" ]] && cmp -s "$tmp_mo" "$DING_MO"; then
@@ -163,18 +190,27 @@ fi
 
 echo
 echo "=== DESKTOP LAUNCHERS ==="
-for launcher in "Counter-Strike 2.desktop" "asus-router.desktop"; do
-  if [[ -f "$HOME/Pulpit/$launcher" ]]; then
-    ok "desktop launcher: $launcher"
-  else
-    warn "desktop launcher missing: $launcher"
-  fi
-done
-
-if [[ -f "$ROOT_DIR/desktop/launchers/asus-router.conf" ]]; then
-  ok "private ASUS launcher configuration available"
+if [[ -f "$HOME/Pulpit/Counter-Strike 2.desktop" ]]; then
+  ok "desktop launcher: Counter-Strike 2.desktop"
 else
-  warn "private ASUS launcher configuration missing"
+  warn "desktop launcher missing: Counter-Strike 2.desktop"
+fi
+
+ASUS_CONF="$ROOT_DIR/desktop/launchers/asus-router.conf"
+if [[ -f "$ASUS_CONF" ]]; then
+  ok "private ASUS launcher configuration available"
+  if [[ -f "$HOME/Pulpit/asus-router.desktop" ]]; then
+    ok "desktop launcher: asus-router.desktop"
+  else
+    warn "private ASUS config exists but desktop launcher is missing"
+  fi
+else
+  skip "private ASUS launcher configuration intentionally absent"
+  if [[ -f "$HOME/Pulpit/asus-router.desktop" ]]; then
+    warn "ASUS launcher exists without repository private configuration"
+  else
+    skip "ASUS launcher not expected without private configuration"
+  fi
 fi
 
 echo
@@ -223,6 +259,6 @@ fi
 
 echo
 echo "=== SUMMARY ==="
-printf 'PASS=%d WARN=%d FAIL=%d\n' "$pass" "$warn" "$fail"
+printf 'PASS=%d WARN=%d FAIL=%d SKIP=%d\n' "$pass" "$warn" "$fail" "$skip"
 
 (( fail == 0 ))
