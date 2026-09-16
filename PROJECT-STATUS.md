@@ -22,13 +22,13 @@ All required GNOME extensions were installed and reported `ACTIVE` at runtime. T
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After post-restore maintenance and the 2026-09-16 workstation security validation, including Secure Boot enablement, the current desired state was verified on the physical Fedora workstation:
+After post-restore maintenance, the 2026-09-16 workstation security validation, Secure Boot enablement, and the latest reproducible workstation configuration updates, the current desired state was verified on the physical Fedora workstation:
 
 ```text
-PASS=170 WARN=0 FAIL=0 SKIP=0
+PASS=175 WARN=0 FAIL=0 SKIP=0
 ```
 
-The physical-host validation includes Brave Origin, Tailscale package/service state, Wi-Fi firewall-zone policy, disabled LLMNR, disabled GNOME/GVfs WS-Discovery, workstation kernel hardening, Secure Boot, and signed NVIDIA kernel-module verification. Authentication, network identities, credentials, private signing material, and other private state remain intentionally outside Git.
+The physical-host validation includes Brave Origin, Tailscale package/service state, Wi-Fi firewall-zone policy, disabled LLMNR, disabled GNOME/GVfs WS-Discovery, workstation kernel hardening, Secure Boot, signed NVIDIA kernel-module verification, and reproducible DDC/CI support for external-monitor brightness control. Authentication, network identities, credentials, private signing material, and other private state remain intentionally outside Git.
 
 ## Security validation — 2026-09-16
 
@@ -47,7 +47,13 @@ Validated and applied controls:
 - the local akmods signing certificate is enrolled through MOK, and the NVIDIA kernel module is signed with SHA-256 and loads successfully under Secure Boot;
 - kernel lockdown reports `integrity` as the active mode under the validated Secure Boot configuration.
 
-The update policy was exercised with a material graphics-stack update. NVIDIA/akmods was upgraded from 610.57.04 to 615.71.09. The kmod for kernel `7.2.5-200.fc44.x86_64` was built successfully, its module was signed, the machine rebooted successfully, and the RTX 3060 was operational on driver 615.71.09 afterward. Secure Boot was subsequently enabled after MOK enrollment; NVIDIA 615.71.09 remained operational and the system reported zero failed services. The repository verifier then returned `PASS=170 WARN=0 FAIL=0 SKIP=0`.
+The update policy was exercised with a material graphics-stack update. NVIDIA/akmods was upgraded from 610.57.04 to 615.71.09. The kmod for kernel `7.2.5-200.fc44.x86_64` was built successfully, its module was signed, the machine rebooted successfully, and the RTX 3060 was operational on driver 615.71.09 afterward. Secure Boot was subsequently enabled after MOK enrollment; NVIDIA 615.71.09 remained operational and the system reported zero failed services.
+
+The latest physical verifier run, after the current desired-state updates including DDC/CI external-monitor brightness support and order-insensitive GNOME favorite-app auditing, returned:
+
+```text
+PASS=175 WARN=0 FAIL=0 SKIP=0
+```
 
 ### Deferred security item
 
@@ -72,10 +78,12 @@ Testing on a pristine system and subsequent physical-host verification exposed s
 13. LLMNR and GNOME/GVfs WS-Discovery exposed discovery surfaces that were unnecessary for this workstation. Both are now disabled reproducibly while required mDNS remains available.
 14. Kernel pointer visibility was more permissive than the selected workstation policy. `kernel.kptr_restrict=1` is now persistent and verified.
 15. Secure Boot had been disabled despite the NVIDIA akmods module already being locally signed. The signing certificate was enrolled through MOK, Secure Boot was enabled, and the NVIDIA path was validated before the state was accepted.
+16. External-monitor brightness control through DDC/CI required `ddcutil` plus the packaged Fedora udev access rules. The restore now installs `ddcutil`, initializes the udev access path, and tracks the GNOME brightness extension in desired state.
+17. GNOME favorite-app ordering was producing non-actionable desired-state drift. The audit now requires the same favorite applications while intentionally allowing their icon order to vary.
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for the tested Fedora 44 / GNOME 50.4 baseline and a zero-warning, zero-failure desired-state verification on the physical workstation after security hardening, a material NVIDIA/graphics-stack update, and Secure Boot activation. Package installation, repositories, Flatpaks, pinned GNOME extensions, extension schemas, curated GNOME settings, desktop launcher restoration, the DING translation patch, network/security controls, Tailscale package/service state, Secure Boot state, NVIDIA module signing, and verification logic have been exercised across these validation stages.
+The repository has passed a clean-room functional restore test for the tested Fedora 44 / GNOME 50.4 baseline and a zero-warning, zero-failure desired-state verification on the physical workstation after security hardening, a material NVIDIA/graphics-stack update, Secure Boot activation, and the latest workstation desired-state updates. Package installation, repositories, Flatpaks, pinned GNOME extensions, extension schemas, curated GNOME settings, desktop launcher restoration, the DING translation patch, network/security controls, Tailscale package/service state, Secure Boot state, NVIDIA module signing, DDC/CI support, and verification logic have been exercised across these validation stages.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, VPN authentication state, Tailscale node identity, private signing keys, and other private state remain intentionally outside Git and must be restored separately.
 
