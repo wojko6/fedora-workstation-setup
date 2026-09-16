@@ -32,10 +32,24 @@ while IFS= read -r line || [[ -n "$line" ]]; do
   expected="${line#*=}"
   current="$(dconf read "${section}${key}" 2>/dev/null || true)"
 
-  if [[ "$current" == "$expected" ]]; then
-    ok "${section}${key}"
+  path="${section}${key}"
+
+  # The order of GNOME favorite applications is intentionally not part of
+  # desired state. Require the same applications, but allow the user to
+  # rearrange their icons freely.
+  if [[ "$path" == "/org/gnome/shell/favorite-apps" ]]; then
+    expected_sorted="$(printf '%s\n' "$expected" | tr -d "[]' " | tr ',' '\n' | sort)"
+    current_sorted="$(printf '%s\n' "$current" | tr -d "[]' " | tr ',' '\n' | sort)"
+
+    if [[ "$current_sorted" == "$expected_sorted" ]]; then
+      ok "$path"
+    else
+      no "$path expected=${expected} current=${current:-<unset>}"
+    fi
+  elif [[ "$current" == "$expected" ]]; then
+    ok "$path"
   else
-    no "${section}${key} expected=${expected} current=${current:-<unset>}"
+    no "$path expected=${expected} current=${current:-<unset>}"
   fi
 done < "$SETTINGS"
 
