@@ -1,0 +1,28 @@
+--- a/src/ui/AppGridUI.js
++++ b/src/ui/AppGridUI.js
+@@ -22,6 +22,7 @@
+ import Shell from 'gi://Shell';
+ import Clutter from 'gi://Clutter';
+ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
++import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
+
+ import { setBoxVertical, hexToRgba } from '../core/Utils.js';
+ import AppContextMenu from './context-menu/AppContextMenu.js';
+@@ -100,7 +101,7 @@
+         const leftSpacer = new St.Widget({ x_expand: true });
+
+         const title = new St.Label({
+-            text: 'All Applications',
++            text: _('All Applications'),
+             style_class: 'app-list-title',
+             y_align: Clutter.ActorAlign.CENTER,
+         });
+@@ -143,7 +144,7 @@
+
+         this.searchEntry = new St.Entry({
+             style_class: 'app-list-search',
+-            hint_text: 'Search apps...',
++            hint_text: _('Search apps...'),
+             can_focus: true,
+             x_expand: true,
+         });

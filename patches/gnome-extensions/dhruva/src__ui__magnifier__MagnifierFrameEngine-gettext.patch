@@ -1,0 +1,19 @@
+--- a/src/ui/magnifier/MagnifierFrameEngine.js
++++ b/src/ui/magnifier/MagnifierFrameEngine.js
+@@ -20,6 +20,7 @@
+ import GLib from 'gi://GLib';
+ import Clutter from 'gi://Clutter';
+ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
++import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
+
+ import PeekManager from '../../core/PeekManager.js';
+ import { isActorAlive } from '../../core/Utils.js';
+@@ -528,7 +529,7 @@
+
+         if (btn._delegate && btn._delegate.isFolder) appName = btn._delegate.folderData.name;
+         else if (btn._delegate && btn._delegate.app) appName = btn._delegate.app.get_name();
+-        else if (btn.get_child && btn.get_child() && btn.get_child().has_style_class_name && btn.get_child().has_style_class_name('dock-grid-icon')) appName = 'Applications';
++        else if (btn.get_child && btn.get_child() && btn.get_child().has_style_class_name && btn.get_child().has_style_class_name('dock-grid-icon')) appName = _('Applications');
+
+         if (appName) {
+             if (dockActor._tooltipHoveredIndex !== closestIndex) {

@@ -109,3 +109,4 @@ unoconv
 # RPM Fusion release packages
 rpmfusion-free-release
 rpmfusion-nonfree-release
+cldr-emoji-annotation

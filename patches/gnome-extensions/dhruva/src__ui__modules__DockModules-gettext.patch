@@ -1,0 +1,19 @@
+--- a/src/ui/modules/DockModules.js
++++ b/src/ui/modules/DockModules.js
+@@ -26,6 +26,7 @@
+ import Clutter from 'gi://Clutter';
+ import PangoCairo from 'gi://PangoCairo';
+ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
++import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
+
+ import { hexToRgba } from '../../core/Utils.js';
+ import { applyIconFilter } from '../DragDrop.js';
+@@ -465,7 +466,7 @@
+         if (settings.get_boolean('full-width')) {
+             desktopModule = buildDesktopButtonModule(dockUI);
+         } else {
+-            desktopModule = createBtn('user-desktop', 'Show Desktop', () => {
++            desktopModule = createBtn('user-desktop', _('Show Desktop'), () => {
+                 toggleDesktop(dockUI);
+             });
+         }

@@ -1,0 +1,19 @@
+--- a/src/ui/context-menu/WindowThumbnailBuilder.js
++++ b/src/ui/context-menu/WindowThumbnailBuilder.js
+@@ -24,6 +24,7 @@
+ import { setBoxVertical } from '../../core/Utils.js';
+ import { createWindowControl } from './ContextMenuItems.js';
+ import { animateMinimize, animateRestore } from '../effects/WindowEffects.js';
++import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
+
+
+ const THUMB_SPACING = 12;
+@@ -54,7 +55,7 @@
+         thumbBtn.set_child(new St.Bin({ child: clone, style: 'border-radius: 6px; overflow: hidden;' }));
+     }
+
+-    let winTitleText = win.get_title() || 'Window';
++    let winTitleText = win.get_title() || _('Window');
+     if (winTitleText.length > MAX_TITLE_LEN) {
+         winTitleText = `${winTitleText.substring(0, 18)}...`;
+     }

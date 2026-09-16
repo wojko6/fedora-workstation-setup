@@ -1,0 +1,85 @@
+--- a/src/ui/folder-menu/EmojiPicker.js
++++ b/src/ui/folder-menu/EmojiPicker.js
+@@ -21,9 +21,11 @@
+ import GLib from 'gi://GLib';
+ import Clutter from 'gi://Clutter';
+ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
++import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
+
+
+ import emojisData from '../emojis.js';
++import emojiPl from './emoji-pl.js';
+ import { isActorAlive, setBoxVertical } from '../../core/Utils.js';
+
+
+@@ -95,7 +97,7 @@
+         });
+         setBoxVertical(catBox, false);
+         const catLabel = new St.Label({
+-            text: 'All',
++            text: _('All'),
+             style: 'color: white; font-weight: bold; font-size: 14px;'
+         });
+         const catIcon = new St.Icon({
+@@ -108,7 +110,7 @@
+         catBtn.set_child(catBox);
+
+         const searchEntry = new St.Entry({
+-            hint_text: 'Search emojis...',
++            hint_text: _('Search emojis...'),
+             x_expand: true,
+             style: 'font-size: 15px; font-family: sans-serif; border-radius: 8px; padding: 8px 14px; color: white; background-color: rgba(255,255,255,0.1); border: none; box-shadow: none;'
+         });
+@@ -220,11 +222,11 @@
+         });
+         setBoxVertical(textDetailBox, true);
+         this.emojiNameLabel = new St.Label({
+-            text: 'Hover an emoji',
++            text: _('Hover an emoji'),
+             style: 'font-size: 14px; font-weight: bold; color: white;'
+         });
+         this.emojiCatLabel = new St.Label({
+-            text: 'Category',
++            text: _('Category'),
+             style: 'font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 2px;'
+         });
+
+@@ -261,7 +263,16 @@
+
+         if (filterText) {
+             const q = filterText.toLowerCase();
+-            filtered = filtered.filter(e => (e.name && e.name.toLowerCase().includes(q)) || (e.emoji && e.emoji.includes(q)));
++            filtered = filtered.filter(e => {
++                const localized = emojiPl[e.emoji];
++                const polishName = localized?.name || '';
++                const polishKeywords = localized?.keywords || [];
++
++                return (e.name && e.name.toLowerCase().includes(q)) ||
++                    polishName.toLowerCase().includes(q) ||
++                    polishKeywords.some(keyword => keyword.toLowerCase().includes(q)) ||
++                    (e.emoji && e.emoji.includes(q));
++            });
+         }
+
+         const shown = filtered.slice(0, MAX_SHOWN_EMOJIS);
+@@ -276,7 +287,10 @@
+                 this.gridContainer.add_child(currentRow);
+             }
+             const emoji = item.emoji;
+-            const name = item.name.charAt(0).toUpperCase() + item.name.slice(1);
++            const localized = emojiPl[emoji];
++            const sourceName = localized?.name || item.name;
++            const name = sourceName.charAt(0).toUpperCase() + sourceName.slice(1);
++            const category = _(item.category);
+
+             const baseStyle = 'font-size: 46px; border-radius: 10px; width: 72px; height: 72px; text-align: center; background-color: transparent;';
+             const btn = new St.Button({
+@@ -286,7 +300,7 @@
+             });
+
+             btn._baseStyle = btn.style;
+-            btn._emojiData = { emoji, name, category: item.category };
++            btn._emojiData = { emoji, name, category };
+             btn._btnIndex = index;
+
+             btn.connectObject('notify::hover', () => {

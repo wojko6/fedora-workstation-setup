@@ -1,0 +1,19 @@
+--- a/src/ui/modules/SystemFoldersModule.js
++++ b/src/ui/modules/SystemFoldersModule.js
+@@ -19,6 +19,7 @@
+
+ import Gio from 'gi://Gio';
+ import GLib from 'gi://GLib';
++import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
+
+
+ export function buildSystemFoldersModule(dockUI, createBtn, toggleAppWindow) {
+@@ -27,7 +28,7 @@
+
+     if (settings.get_boolean('show-home')) {
+         const homeDir = GLib.get_home_dir();
+-        systemModules.push(createBtn('user-home', 'Home', (btn) => toggleAppWindow(`file://${homeDir}`, homeDir, 'Home', btn), homeDir));
++        systemModules.push(createBtn('user-home', _('Home'), (btn) => toggleAppWindow(`file://${homeDir}`, homeDir, _('Home'), btn), homeDir));
+     }
+
+     const addHomeFolder = (setting, icon, dirEnum, fallback) => {

@@ -1,0 +1,20 @@
+--- a/src/core/FolderManager.js
++++ b/src/core/FolderManager.js
+@@ -17,6 +17,8 @@
+  */
+
+
++import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
++
+ export default class FolderManager {
+     constructor(settings, uuid, appManager = null) {
+         this.settings = settings;
+@@ -71,7 +73,7 @@
+         this._saveFolders();
+     }
+
+-    createFolder(name = 'New Folder', icon = 'folder-symbolic') {
++    createFolder(name = _('New Folder'), icon = 'folder-symbolic') {
+         const id = `dhruva-folder-${Date.now()}`;
+         const newFolder = {
+             id,

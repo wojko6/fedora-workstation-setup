@@ -1,0 +1,99 @@
+--- a/src/ui/context-menu/AppContextMenu.js
++++ b/src/ui/context-menu/AppContextMenu.js
+@@ -23,6 +23,7 @@
+ import Shell from 'gi://Shell';
+ import Clutter from 'gi://Clutter';
+ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
++import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
+
+ import PeekManager from '../../core/PeekManager.js';
+ import { setBoxVertical } from '../../core/Utils.js';
+@@ -138,14 +139,14 @@
+             this.panel.add_child(titleBox);
+             addSeparator(this.panel);
+
+-            this.panel.add_child(createIconMenuItem('Unpack Stack', () => {
++            this.panel.add_child(createIconMenuItem(_('Unpack Stack'), () => {
+                 fData.apps.forEach(appId => this.dockUI.appManager.favManager.addFavorite(appId));
+                 this.dockUI.folderManager.deleteFolder(fData.id);
+                 this.dockUI.queueRender();
+                 this.hide();
+             }, false, this));
+
+-            this.panel.add_child(createIconMenuItem('Close All Apps', () => {
++            this.panel.add_child(createIconMenuItem(_('Close All Apps'), () => {
+                 fData.apps.forEach(appId => {
+                     const a = this.dockUI.appManager.appSystem.lookup_app(appId);
+                     if (a) a.request_quit();
+@@ -154,7 +155,7 @@
+             }, false, this));
+
+             addSeparator(this.panel);
+-            this.panel.add_child(createIconMenuItem(`Delete ${fData.name}`, () => {
++            this.panel.add_child(createIconMenuItem(_('Delete %s').replace('%s', fData.name), () => {
+                 this.dockUI.folderManager.deleteFolder(fData.id);
+                 this.dockUI.queueRender();
+                 this.hide();
+@@ -190,7 +191,7 @@
+             let addedFolder = false;
+             folders.forEach(f => {
+                 if (!f.apps.includes(this.app.get_id())) {
+-                    const btn = createIconMenuItem(`Add to ${f.name}`, () => {
++                    const btn = createIconMenuItem(_('Add to %s').replace('%s', f.name), () => {
+                         this.dockUI.folderManager.addAppToFolder(f.id, this.app.get_id());
+
+                         if (this.dockUI.folderManager.saveFolders) this.dockUI.folderManager.saveFolders();
+@@ -222,7 +223,7 @@
+         }
+
+         if (this.app.is_module && this.app.open) {
+-            this.panel.add_child(createMenuItem(`Open ${this.app.get_name()}`, () => {
++            this.panel.add_child(createMenuItem(_('Open %s').replace('%s', this.app.get_name()), () => {
+                 this.app.open();
+                 this.hide();
+             }, false, this));
+@@ -239,7 +240,7 @@
+         const quietContext = new Gio.AppLaunchContext();
+
+         if (this.app.can_open_new_window && this.app.can_open_new_window()) {
+-            this.panel.add_child(createMenuItem('New Window', () => {
++            this.panel.add_child(createMenuItem(_('New Window'), () => {
+                 if (appInfo) appInfo.launch([], quietContext);
+                 else this.app.open_new_window(-1);
+                 this.hide();
+@@ -261,7 +262,7 @@
+
+         if (!this.app.is_module && this.app.get_id && (!this.buttonActor || !this.buttonActor._inFolder)) {
+             const isPinned = this.appManager.hasApp(this.app);
+-            this.panel.add_child(createMenuItem(isPinned ? 'Unpin from Dhruva' : 'Pin to Dhruva', () => {
++            this.panel.add_child(createMenuItem(isPinned ? _('Unpin from Dhruva') : _('Pin to Dhruva'), () => {
+                 if (isPinned) this.appManager.removeApp(this.app);
+                 else this.appManager.addApp(this.app);
+                 this.dockUI._renderDock();
+@@ -270,7 +271,7 @@
+         }
+
+         if (this.buttonActor && this.buttonActor._inFolder) {
+-            this.panel.add_child(createIconMenuItem(`Remove from ${this.buttonActor._folderName || 'Stack'}`, () => {
++            this.panel.add_child(createIconMenuItem(_('Remove from %s').replace('%s', this.buttonActor._folderName || _('Stack')), () => {
+                 this.dockUI.folderManager.removeAppFromFolder(this.buttonActor._folderId, this.app.get_id());
+
+                 if (this.dockUI.folderManager.saveFolders) this.dockUI.folderManager.saveFolders();
+@@ -285,7 +286,7 @@
+
+         if (this.app.get_state() === Shell.AppState.RUNNING) {
+             addSeparator(this.panel);
+-            this.panel.add_child(createMenuItem(windows.length > 1 ? 'Close All Windows' : (this.app.is_module ? 'Close Folder' : 'Quit'), () => {
++            this.panel.add_child(createMenuItem(windows.length > 1 ? _('Close All Windows') : (this.app.is_module ? _('Close Folder') : _('Quit')), () => {
+                 this._addAppToIgnoreList(this.app);
+                 if (this.app.request_quit) this.app.request_quit();
+                 if (this.dockUI.actor) this.dockUI.actor._lastIconClickTime = 0;
+@@ -299,7 +300,7 @@
+
+         if (shouldShowSettings) {
+             if (!isAppGrid) addSeparator(this.panel);
+-            this.panel.add_child(createMenuItem('Dhruva Settings', () => {
++            this.panel.add_child(createMenuItem(_('Dhruva Settings'), () => {
+                 this.hide();
+                 const res = this.openPrefsCallback();
+                 if (res instanceof Promise) res.catch(e => console.warn('[Dhruva]', e.message));

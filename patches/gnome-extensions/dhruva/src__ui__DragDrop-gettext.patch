@@ -1,0 +1,19 @@
+--- a/src/ui/DragDrop.js
++++ b/src/ui/DragDrop.js
+@@ -21,6 +21,7 @@
+ import Shell from 'gi://Shell';
+ import Clutter from 'gi://Clutter';
+ import * as DND from 'resource:///org/gnome/shell/ui/dnd.js';
++import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
+
+ import { isActorAlive } from '../core/Utils.js';
+ import { playTrashEffect } from './effects/TrashEffect.js';
+@@ -156,7 +157,7 @@
+                     } else {
+                         const targetAppId = (app && app.get_id) ? app.get_id() : null;
+                         if (targetAppId && targetAppId !== draggedId) {
+-                            const folderId = dockUI.folderManager.createFolder('New Folder');
++                            const folderId = dockUI.folderManager.createFolder(_('New Folder'));
+                             dockUI.folderManager.addAppToFolder(folderId, targetAppId);
+                             dockUI.folderManager.addAppToFolder(folderId, draggedId);
+                         }

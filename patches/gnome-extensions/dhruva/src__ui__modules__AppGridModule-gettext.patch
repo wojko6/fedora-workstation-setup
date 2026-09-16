@@ -1,0 +1,19 @@
+--- a/src/ui/modules/AppGridModule.js
++++ b/src/ui/modules/AppGridModule.js
+@@ -22,6 +22,7 @@
+ import GLib from 'gi://GLib';
+ import Clutter from 'gi://Clutter';
+ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
++import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
+
+ import { applyIconFilter } from '../DragDrop.js';
+ import AppContextMenu from '../context-menu/AppContextMenu.js';
+@@ -260,7 +261,7 @@
+         app: {
+             is_module: true,
+             get_id: () => 'dhruva-grid-button',
+-            get_name: () => 'Applications',
++            get_name: () => _('Applications'),
+             get_state: () => 0,
+             get_windows: () => []
+         }

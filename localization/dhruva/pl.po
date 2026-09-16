@@ -1,0 +1,1194 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Dhruva 2.0\n"
+"PO-Revision-Date: 2026-09-16\n"
+"Last-Translator: Fedora Workstation Setup project\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "Layout"
+msgstr "Układ"
+
+msgid "Screen Placement"
+msgstr "Położenie na ekranie"
+
+msgid "Where to place the dock on your display"
+msgstr "Wybierz położenie docka na ekranie"
+
+msgid "Screen Edge"
+msgstr "Krawędź ekranu"
+
+msgid "Which edge to attach to"
+msgstr "Wybierz krawędź, do której ma być przypięty dock"
+
+msgid "Left"
+msgstr "Lewa"
+
+msgid "Bottom"
+msgstr "Dół"
+
+msgid "Top"
+msgstr "Góra"
+
+msgid "Right"
+msgstr "Prawa"
+
+msgid "Preferred Monitor"
+msgstr "Preferowany monitor"
+
+msgid "Choose display for the dock"
+msgstr "Wybierz ekran dla docka"
+
+msgid "Show on All Monitors"
+msgstr "Pokazuj na wszystkich monitorach"
+
+msgid "Display the dock on every connected screen"
+msgstr "Wyświetlaj dock na każdym podłączonym ekranie"
+
+msgid "Isolate Monitors"
+msgstr "Izoluj monitory"
+
+msgid "Only show apps running on the current monitor"
+msgstr "Pokazuj tylko aplikacje uruchomione na bieżącym monitorze"
+
+msgid "Independent Dock Mode"
+msgstr "Tryb niezależnego docka"
+
+msgid "Use completely separate pinned apps and custom app launcher"
+msgstr "Używaj osobnych przypiętych aplikacji i własnego programu uruchamiającego"
+
+msgid "Show Independent Dock in Overview"
+msgstr "Pokazuj niezależny dock w podglądzie"
+
+msgid "Shows dock on the left side during overview"
+msgstr "Pokazuje dock po lewej stronie w trybie podglądu"
+
+msgid "Full Screen Width"
+msgstr "Pełna szerokość ekranu"
+
+msgid "Extend dock edge to edge"
+msgstr "Rozciągnij dock od krawędzi do krawędzi"
+
+msgid "Icon Alignment"
+msgstr "Wyrównanie ikon"
+
+msgid "Justification when Full Width is active"
+msgstr "Wyrównanie przy włączonej pełnej szerokości"
+
+msgid "Start"
+msgstr "Początek"
+
+msgid "Center"
+msgstr "Środek"
+
+msgid "End"
+msgstr "Koniec"
+
+msgid "Edge Margin"
+msgstr "Odstęp od krawędzi"
+
+msgid "Distance from screen edge"
+msgstr "Odległość od krawędzi ekranu"
+
+msgid "Sizing &amp; Spacing"
+msgstr "Rozmiar i odstępy"
+
+msgid "Base dimensions for dock and icons"
+msgstr "Podstawowe wymiary docka i ikon"
+
+msgid "Base Icon Size"
+msgstr "Podstawowy rozmiar ikon"
+
+msgid "Normal size of app icons"
+msgstr "Normalny rozmiar ikon aplikacji"
+
+msgid "Icon Gap"
+msgstr "Odstęp między ikonami"
+
+msgid "Distance between icons"
+msgstr "Odległość między ikonami"
+
+msgid "Side Padding"
+msgstr "Odstęp po bokach"
+
+msgid "Extra gap inside dock ends"
+msgstr "Dodatkowy odstęp przy końcach docka"
+
+msgid "Dock Height / Thickness"
+msgstr "Wysokość / grubość docka"
+
+msgid "Extra padding on top/bottom (or left/right)"
+msgstr "Dodatkowy odstęp u góry i dołu (lub po lewej i prawej)"
+
+msgid "Appearance"
+msgstr "Wygląd"
+
+msgid "Panel Style"
+msgstr "Styl panelu"
+
+msgid "Background colors and borders"
+msgstr "Kolory tła i obramowania"
+
+msgid "Custom Color"
+msgstr "Własny kolor"
+
+msgid "Wallpaper Color"
+msgstr "Kolor tapety"
+
+msgid "Dock Theme"
+msgstr "Motyw docka"
+
+msgid "Choose a preset theme or use custom colors"
+msgstr "Wybierz gotowy motyw lub użyj własnych kolorów"
+
+msgid "Chameleon Active"
+msgstr "Kameleon aktywny"
+
+msgid "Dock color &amp; indicator auto-update from your wallpaper"
+msgstr "Kolor docka i wskaźników jest automatycznie dopasowywany do tapety"
+
+msgid "Primary Color"
+msgstr "Kolor podstawowy"
+
+msgid "Use Gradient"
+msgstr "Użyj gradientu"
+
+msgid "Blend with a second color"
+msgstr "Połącz z drugim kolorem"
+
+msgid "Secondary Color"
+msgstr "Kolor dodatkowy"
+
+msgid "Gradient Direction"
+msgstr "Kierunek gradientu"
+
+msgid "Flow of the gradient"
+msgstr "Kierunek przejścia gradientu"
+
+msgid "Vertical"
+msgstr "Pionowy"
+
+msgid "Horizontal"
+msgstr "Poziomy"
+
+msgid "Background Opacity"
+msgstr "Krycie tła"
+
+msgid "0 = Invisible, 100 = Solid"
+msgstr "0 = niewidoczne, 100 = pełne krycie"
+
+msgid "Hover Box Opacity"
+msgstr "Krycie pola podglądu"
+
+msgid "App preview box background opacity (0-100)"
+msgstr "Krycie tła pola podglądu aplikacji (0–100)"
+
+msgid "Border Radius"
+msgstr "Zaokrąglenie narożników"
+
+msgid "Corner roundness"
+msgstr "Stopień zaokrąglenia narożników"
+
+msgid "Border Outline (Stroke)"
+msgstr "Obrys docka"
+
+msgid "Draw an outer line around the dock"
+msgstr "Rysuj zewnętrzną linię wokół docka"
+
+msgid "Show Desktop Button Style"
+msgstr "Styl przycisku Pokaż pulpit"
+
+msgid "Customize the right-edge desktop button"
+msgstr "Dostosuj przycisk pulpitu przy prawej krawędzi"
+
+msgid "Thickness"
+msgstr "Grubość"
+
+msgid "Width in pixels"
+msgstr "Szerokość w pikselach"
+
+msgid "Opacity"
+msgstr "Krycie"
+
+msgid "Color"
+msgstr "Kolor"
+
+msgid "Stroke Width"
+msgstr "Grubość obrysu"
+
+msgid "Thickness in pixels (0 to disable)"
+msgstr "Grubość w pikselach (0 wyłącza)"
+
+msgid "Stroke Color"
+msgstr "Kolor obrysu"
+
+msgid "Stroke Opacity"
+msgstr "Krycie obrysu"
+
+msgid "Separators"
+msgstr "Separatory"
+
+msgid "Divider lines between dock items"
+msgstr "Linie oddzielające elementy docka"
+
+msgid "Module Separator"
+msgstr "Separator modułów"
+
+msgid "Divides clock, grid, and system icons"
+msgstr "Oddziela zegar, siatkę aplikacji i ikony systemowe"
+
+msgid "Enable Module Separator"
+msgstr "Włącz separator modułów"
+
+msgid "Show a divider for system modules"
+msgstr "Pokazuj separator modułów systemowych"
+
+msgid "Height / Length"
+msgstr "Wysokość / długość"
+
+msgid "Percentage of dock size (10-100)"
+msgstr "Procent rozmiaru docka (10–100)"
+
+msgid "App Separator"
+msgstr "Separator aplikacji"
+
+msgid "Divides pinned apps from running apps"
+msgstr "Oddziela przypięte aplikacje od uruchomionych"
+
+msgid "Enable App Separator"
+msgstr "Włącz separator aplikacji"
+
+msgid "Show a divider between pinned and unpinned apps"
+msgstr "Pokazuj separator między przypiętymi i nieprzypiętymi aplikacjami"
+
+msgid "App Notifications"
+msgstr "Powiadomienia aplikacji"
+
+msgid "Unread message counters"
+msgstr "Liczniki nieprzeczytanych wiadomości"
+
+msgid "Show Notification Badges"
+msgstr "Pokazuj plakietki powiadomień"
+
+msgid "Display unread message counts on app icons"
+msgstr "Pokazuj liczbę nieprzeczytanych wiadomości na ikonach aplikacji"
+
+msgid "Indicators"
+msgstr "Wskaźniki"
+
+msgid "Styles for currently active applications"
+msgstr "Wygląd wskaźników aktywnych aplikacji"
+
+msgid "Running Indicators"
+msgstr "Wskaźniki uruchomionych aplikacji"
+
+msgid "Settings for the active app dots/lines"
+msgstr "Ustawienia kropek i linii aktywnych aplikacji"
+
+msgid "Show Indicators"
+msgstr "Pokazuj wskaźniki"
+
+msgid "Display active marks under icons"
+msgstr "Pokazuj oznaczenia aktywności pod ikonami"
+
+msgid "Indicator Style"
+msgstr "Styl wskaźnika"
+
+msgid "Shape of the indicator"
+msgstr "Kształt wskaźnika"
+
+msgid "Dot"
+msgstr "Kropka"
+
+msgid "Dash"
+msgstr "Kreska"
+
+msgid "Line"
+msgstr "Linia"
+
+msgid "Square"
+msgstr "Kwadrat"
+
+msgid "Indicator Color"
+msgstr "Kolor wskaźnika"
+
+msgid "Indicator Size"
+msgstr "Rozmiar wskaźnika"
+
+msgid "Limit: 2px to 12px"
+msgstr "Zakres: od 2 do 12 px"
+
+msgid "Indicator Spacing"
+msgstr "Odstęp wskaźnika"
+
+msgid "Gap between icon and indicator"
+msgstr "Odstęp między ikoną a wskaźnikiem"
+
+msgid "Indicator Glow"
+msgstr "Poświata wskaźnika"
+
+msgid "Add a shining shadow effect"
+msgstr "Dodaj efekt świetlistego cienia"
+
+msgid "Behavior"
+msgstr "Zachowanie"
+
+msgid "Visibility Rules"
+msgstr "Reguły widoczności"
+
+msgid "Configure dock auto-hide behavior and timings"
+msgstr "Skonfiguruj automatyczne ukrywanie docka i opóźnienia"
+
+msgid "Hide Mode"
+msgstr "Tryb ukrywania"
+
+msgid "Choose when the dock should hide"
+msgstr "Wybierz, kiedy dock ma się ukrywać"
+
+msgid "Intelligent (Dodge Active)"
+msgstr "Inteligentny (omijanie aktywnego okna)"
+
+msgid "Dodge All Windows"
+msgstr "Omijaj wszystkie okna"
+
+msgid "Dodge Maximized"
+msgstr "Omijaj zmaksymalizowane okna"
+
+msgid "Always Hide"
+msgstr "Zawsze ukrywaj"
+
+msgid "Never Hide"
+msgstr "Nigdy nie ukrywaj"
+
+msgid "Hide Delay"
+msgstr "Opóźnienie ukrywania"
+
+msgid "Milliseconds before hiding"
+msgstr "Czas przed ukryciem w milisekundach"
+
+msgid "Unhide Delay"
+msgstr "Opóźnienie pokazywania"
+
+msgid "Milliseconds before showing"
+msgstr "Czas przed pokazaniem w milisekundach"
+
+msgid "Edge Pressure Delay"
+msgstr "Opóźnienie aktywacji przy krawędzi"
+
+msgid "Hold mouse at screen edge to reveal (ms)"
+msgstr "Czas przytrzymania kursora przy krawędzi ekranu (ms)"
+
+msgid "Animations &amp; Effects"
+msgstr "Animacje i efekty"
+
+msgid "Icon Click Effect"
+msgstr "Efekt kliknięcia ikony"
+
+msgid "Animation when an app is clicked"
+msgstr "Animacja po kliknięciu aplikacji"
+
+msgid "None"
+msgstr "Brak"
+
+msgid "Bounce"
+msgstr "Odbicie"
+
+msgid "Jump"
+msgstr "Podskok"
+
+msgid "Heartbeat"
+msgstr "Pulsowanie"
+
+msgid "Spin"
+msgstr "Obrót"
+
+msgid "Flip"
+msgstr "Odwrócenie"
+
+msgid "Squeeze"
+msgstr "Ściśnięcie"
+
+msgid "Glow"
+msgstr "Poświata"
+
+msgid "Shake"
+msgstr "Potrząśnięcie"
+
+msgid "Jelly"
+msgstr "Galaretka"
+
+msgid "Tada"
+msgstr "Tada"
+
+msgid "Swing"
+msgstr "Kołysanie"
+
+msgid "Dim"
+msgstr "Przyciemnienie"
+
+msgid "Move Up"
+msgstr "Przesunięcie w górę"
+
+msgid "Move Down"
+msgstr "Przesunięcie w dół"
+
+msgid "Move Left"
+msgstr "Przesunięcie w lewo"
+
+msgid "Move Right"
+msgstr "Przesunięcie w prawo"
+
+msgid "Enlarge"
+msgstr "Powiększenie"
+
+msgid "Shrink"
+msgstr "Pomniejszenie"
+
+msgid "Roll (Wheel)"
+msgstr "Toczenie (koło)"
+
+msgid "Squish (Drop)"
+msgstr "Spłaszczenie (kropla)"
+
+msgid "Zoom Fade (Ghost)"
+msgstr "Powiększenie z zanikiem (duch)"
+
+msgid "3D Spin (Coin)"
+msgstr "Obrót 3D (moneta)"
+
+msgid "Window Minimize Effect"
+msgstr "Efekt minimalizacji okna"
+
+msgid "Animation when minimizing or restoring"
+msgstr "Animacja podczas minimalizowania lub przywracania"
+
+msgid "Magic Lamp"
+msgstr "Magic Lamp"
+
+msgid "Snake"
+msgstr "Wąż"
+
+msgid "Vortex (Black Hole)"
+msgstr "Wir (czarna dziura)"
+
+msgid "Origami (3D Fold)"
+msgstr "Origami (złożenie 3D)"
+
+msgid "Jelly (Squash & Stretch)"
+msgstr "Galaretka (ściśnięcie i rozciągnięcie)"
+
+msgid "Hover Zoom Physics &amp; Motion"
+msgstr "Powiększanie po najechaniu — fizyka i ruch"
+
+msgid "Hover Zoom"
+msgstr "Powiększanie po najechaniu"
+
+msgid "Magnification effect on hover"
+msgstr "Efekt powiększenia po najechaniu kursorem"
+
+msgid "Zoom Motion Style"
+msgstr "Styl ruchu powiększenia"
+
+msgid "Physics profile for magnification curve"
+msgstr "Profil fizyki krzywej powiększenia"
+
+msgid "Fluid"
+msgstr "Płynny"
+
+msgid "Domino"
+msgstr "Domino"
+
+msgid "Cylinder"
+msgstr "Cylinder"
+
+msgid "Magnetic"
+msgstr "Magnetyczny"
+
+msgid "Coverflow"
+msgstr "Coverflow"
+
+msgid "Zoom Factor"
+msgstr "Współczynnik powiększenia"
+
+msgid "Maximum size multiplier"
+msgstr "Maksymalny mnożnik rozmiaru"
+
+msgid "Animation Smoothness"
+msgstr "Płynność animacji"
+
+msgid "Tracking fluidity"
+msgstr "Płynność śledzenia kursora"
+
+msgid "Influence Spread Radius"
+msgstr "Promień oddziaływania"
+
+msgid "How far neighbor icons react"
+msgstr "Jak daleko reagują sąsiednie ikony"
+
+msgid "Icon Elevation (Rise)"
+msgstr "Uniesienie ikon"
+
+msgid "Distance icons lift towards cursor"
+msgstr "Odległość unoszenia ikon w stronę kursora"
+
+msgid "Dynamic Slot Push"
+msgstr "Dynamiczne rozsuwanie ikon"
+
+msgid "Expand adjacent icon slots smoothly"
+msgstr "Płynnie rozsuwaj miejsca sąsiednich ikon"
+
+msgid "Slot Spread Strength"
+msgstr "Siła rozsuwania ikon"
+
+msgid "Push strength between adjacent icons"
+msgstr "Siła rozsuwania sąsiednich ikon"
+
+msgid "Effect Fine Tuning"
+msgstr "Dokładne dostrajanie efektów"
+
+msgid "Domino Tilt Angle"
+msgstr "Kąt nachylenia Domino"
+
+msgid "Cascade tilt angle in degrees"
+msgstr "Kąt nachylenia kaskady w stopniach"
+
+msgid "Cylinder Angle"
+msgstr "Kąt cylindra"
+
+msgid "3D rotation arc angle"
+msgstr "Kąt łuku obrotu 3D"
+
+msgid "Magnetic Snap Distance"
+msgstr "Zasięg przyciągania magnetycznego"
+
+msgid "Cursor attraction force in pixels"
+msgstr "Siła przyciągania kursora w pikselach"
+
+msgid "Jelly Stretch Intensity"
+msgstr "Intensywność rozciągania galaretki"
+
+msgid "How much icons pull/elongate along cursor path"
+msgstr "Stopień rozciągania ikon wzdłuż ruchu kursora"
+
+msgid "Jelly Shrink Intensity"
+msgstr "Intensywność ściskania galaretki"
+
+msgid "How much opposite side compresses/squashes"
+msgstr "Stopień ściskania przeciwnej strony"
+
+msgid "Coverflow Angle"
+msgstr "Kąt Coverflow"
+
+msgid "Perspective card angle in degrees"
+msgstr "Kąt perspektywy kart w stopniach"
+
+msgid "Interaction &amp; Previews"
+msgstr "Interakcja i podglądy"
+
+msgid "Show App Previews"
+msgstr "Pokazuj podglądy aplikacji"
+
+msgid "Display interactive window thumbnails on hover"
+msgstr "Pokazuj interaktywne miniatury okien po najechaniu"
+
+msgid "Thumbnail Width"
+msgstr "Szerokość miniatur"
+
+msgid "Max width of window thumbnails"
+msgstr "Maksymalna szerokość miniatur okien"
+
+msgid "Live Preview Scale (%)"
+msgstr "Skala podglądu na żywo (%)"
+
+msgid "Screen percentage for the big center preview"
+msgstr "Procent ekranu zajmowany przez duży podgląd"
+
+msgid "Window Aero Peek"
+msgstr "Aero Peek okien"
+
+msgid "Make other windows transparent when hovering thumbnails"
+msgstr "Uczyń pozostałe okna przezroczystymi po najechaniu na miniaturę"
+
+msgid "Peek Animation Speed"
+msgstr "Szybkość animacji podglądu"
+
+msgid "Higher = slower animation (ms)"
+msgstr "Wyższa wartość = wolniejsza animacja (ms)"
+
+msgid "Multitasking &amp; Utilities"
+msgstr "Wielozadaniowość i narzędzia"
+
+msgid "New Window Action"
+msgstr "Akcja nowego okna"
+
+msgid "Shortcut to open a new instance of an app"
+msgstr "Skrót otwierający nowe wystąpienie aplikacji"
+
+msgid "Ctrl + Left Click"
+msgstr "Ctrl + lewy przycisk myszy"
+
+msgid "Middle Mouse Click"
+msgstr "Środkowy przycisk myszy"
+
+msgid "Both"
+msgstr "Obie opcje"
+
+msgid "Lock Icons"
+msgstr "Zablokuj ikony"
+
+msgid "Prevent drag and drop reordering"
+msgstr "Zablokuj zmianę kolejności metodą przeciągnij i upuść"
+
+msgid "Show Unpinned Apps"
+msgstr "Pokazuj nieprzypięte aplikacje"
+
+msgid "Display running apps that are not pinned to the dock"
+msgstr "Pokazuj uruchomione aplikacje, które nie są przypięte do docka"
+
+msgid "Quick launch"
+msgstr "Szybkie uruchamianie"
+
+msgid "Super + 1–9 targets the first nine dock apps (registered as keyboard shortcuts). Change under Settings → Keyboard."
+msgstr "Super + 1–9 uruchamia pierwszych dziewięć aplikacji docka (skróty klawiaturowe). Można je zmienić w Ustawienia → Klawiatura."
+
+msgid "Isolate Workspaces"
+msgstr "Izoluj obszary robocze"
+
+msgid "Only show apps running on the current workspace"
+msgstr "Pokazuj tylko aplikacje uruchomione w bieżącym obszarze roboczym"
+
+msgid "Dock Scroll Action"
+msgstr "Akcja przewijania docka"
+
+msgid "Scroll on empty dock area to switch workspaces"
+msgstr "Przewijaj na pustym obszarze docka, aby przełączać obszary robocze"
+
+msgid "App Scroll Action"
+msgstr "Akcja przewijania aplikacji"
+
+msgid "Scroll on app icons to cycle through its windows"
+msgstr "Przewijaj na ikonie aplikacji, aby przełączać jej okna"
+
+msgid "Modules"
+msgstr "Moduły"
+
+msgid "Dock Modules"
+msgstr "Moduły docka"
+
+msgid "Enable extra shortcuts on your dock"
+msgstr "Włącz dodatkowe skróty w docku"
+
+msgid "Recycle Bin (Trash)"
+msgstr "Kosz"
+
+msgid "Show a shortcut to the trash folder"
+msgstr "Pokazuj skrót do Kosza"
+
+msgid "Show Desktop Button"
+msgstr "Pokazuj przycisk pulpitu"
+
+msgid "Quickly minimize all windows"
+msgstr "Szybko minimalizuj wszystkie okna"
+
+msgid "Show Applications Button"
+msgstr "Pokazuj przycisk aplikacji"
+
+msgid "App drawer launcher"
+msgstr "Przycisk otwierający listę aplikacji"
+
+msgid "Application Button Position"
+msgstr "Położenie przycisku aplikacji"
+
+msgid "Where to place the launcher"
+msgstr "Wybierz położenie przycisku"
+
+msgid "Left Edge"
+msgstr "Lewa krawędź"
+
+msgid "App Grid Button Color"
+msgstr "Kolor przycisku siatki aplikacji"
+
+msgid "Use Old App Grid Icon"
+msgstr "Użyj starej ikony siatki aplikacji"
+
+msgid "Show default dotted grid icon instead of Dhruva logo"
+msgstr "Pokazuj domyślną ikonę siatki zamiast logo Dhruvy"
+
+msgid "Custom App Grid Icon"
+msgstr "Własna ikona siatki aplikacji"
+
+msgid "Size: 256x256 or 512x512 (.png, .svg, .ico)"
+msgstr "Rozmiar: 256×256 lub 512×512 (.png, .svg, .ico)"
+
+msgid "Browse..."
+msgstr "Przeglądaj..."
+
+msgid "Select App Custom Grid Icon"
+msgstr "Wybierz własną ikonę siatki aplikacji"
+
+msgid "Images (.png, .svg, .ico)"
+msgstr "Obrazy (.png, .svg, .ico)"
+
+msgid "Reset to default icon"
+msgstr "Przywróć domyślną ikonę"
+
+msgid "Custom Icon Scale (%)"
+msgstr "Skala własnej ikony (%)"
+
+msgid "Adjust size multiplier (Default: 125)"
+msgstr "Dostosuj mnożnik rozmiaru (domyślnie: 125)"
+
+msgid "Standard Folders"
+msgstr "Standardowe foldery"
+
+msgid "Add quick access folders to the dock"
+msgstr "Dodaj foldery szybkiego dostępu do docka"
+
+msgid "Home"
+msgstr "Katalog domowy"
+
+msgid "Shortcut to Home directory"
+msgstr "Skrót do katalogu domowego"
+
+msgid "Downloads"
+msgstr "Pobrane"
+
+msgid "Shortcut to Downloads"
+msgstr "Skrót do folderu Pobrane"
+
+msgid "Documents"
+msgstr "Dokumenty"
+
+msgid "Shortcut to Documents"
+msgstr "Skrót do folderu Dokumenty"
+
+msgid "Pictures"
+msgstr "Obrazy"
+
+msgid "Shortcut to Pictures"
+msgstr "Skrót do folderu Obrazy"
+
+msgid "Videos"
+msgstr "Wideo"
+
+msgid "Shortcut to Videos"
+msgstr "Skrót do folderu Wideo"
+
+msgid "Music"
+msgstr "Muzyka"
+
+msgid "Shortcut to Music"
+msgstr "Skrót do folderu Muzyka"
+
+msgid "Show USB &amp; Mounted Drives"
+msgstr "Pokazuj USB i zamontowane dyski"
+
+msgid "Automatically show connected drives and partitions on the dock"
+msgstr "Automatycznie pokazuj podłączone dyski i partycje w docku"
+
+msgid "Custom Quick Folders"
+msgstr "Własne szybkie foldery"
+
+msgid "Add your own directory shortcuts to the dock"
+msgstr "Dodaj własne skróty do katalogów w docku"
+
+msgid "System Folder (Default)"
+msgstr "Folder systemowy (domyślny)"
+
+msgid "Public Share"
+msgstr "Publiczne"
+
+msgid "Templates"
+msgstr "Szablony"
+
+msgid "Desktop"
+msgstr "Pulpit"
+
+msgid "Projects / Code"
+msgstr "Projekty / kod"
+
+msgid "Cloud / Remote"
+msgstr "Chmura / zdalne"
+
+msgid "Edit Quick Folder"
+msgstr "Edytuj szybki folder"
+
+msgid "Add Quick Folder"
+msgstr "Dodaj szybki folder"
+
+msgid "Update"
+msgstr "Aktualizuj"
+
+msgid "Add"
+msgstr "Dodaj"
+
+msgid "Cancel"
+msgstr "Anuluj"
+
+msgid "Folder Name (e.g. Workspace)"
+msgstr "Nazwa folderu (np. Obszar roboczy)"
+
+msgid "Folder Path"
+msgstr "Ścieżka folderu"
+
+msgid "Browse folder..."
+msgstr "Przeglądaj folder..."
+
+msgid "Select Folder"
+msgstr "Wybierz folder"
+
+msgid "Preset System Icon"
+msgstr "Gotowa ikona systemowa"
+
+msgid "Custom Image File"
+msgstr "Własny plik obrazu"
+
+msgid "Custom Emoji"
+msgstr "Własne emoji"
+
+msgid "Icon Type"
+msgstr "Typ ikony"
+
+msgid "Select Preset Icon"
+msgstr "Wybierz gotową ikonę"
+
+msgid "Select Image File"
+msgstr "Wybierz plik obrazu"
+
+msgid "PNG, SVG, ICO format"
+msgstr "Format PNG, SVG lub ICO"
+
+msgid "Select Custom Folder Icon Image"
+msgstr "Wybierz własną ikonę folderu"
+
+msgid "Enter Emoji (Only 1 emoji allowed)"
+msgstr "Wprowadź emoji (dozwolone jest tylko 1)"
+
+msgid "Only 1 emoji is allowed. Multiple emojis are not supported."
+msgstr "Dozwolone jest tylko 1 emoji. Wiele emoji nie jest obsługiwanych."
+
+msgid "Custom Folder"
+msgstr "Własny folder"
+
+msgid "Edit folder"
+msgstr "Edytuj folder"
+
+msgid "Remove folder"
+msgstr "Usuń folder"
+
+msgid "<b>+ Add Quick Folder</b>"
+msgstr "<b>+ Dodaj szybki folder</b>"
+
+msgid "Clock &amp; Date"
+msgstr "Zegar i data"
+
+msgid "Display time on horizontal docks"
+msgstr "Wyświetlaj czas w poziomym docku"
+
+msgid "Show Clock"
+msgstr "Pokazuj zegar"
+
+msgid "Hidden automatically on left/right docks"
+msgstr "Automatycznie ukrywany w docku po lewej lub prawej stronie"
+
+msgid "Use 24-Hour Clock"
+msgstr "Używaj zegara 24-godzinnego"
+
+msgid "Display time in 24-hour format"
+msgstr "Wyświetlaj czas w formacie 24-godzinnym"
+
+msgid "Clock Text Size"
+msgstr "Rozmiar tekstu zegara"
+
+msgid "Adjust font size"
+msgstr "Dostosuj rozmiar czcionki"
+
+msgid "Right Edge"
+msgstr "Prawa krawędź"
+
+msgid "Clock Position"
+msgstr "Położenie zegara"
+
+msgid "Separate from App Grid"
+msgstr "Oddzielnie od siatki aplikacji"
+
+msgid "Danger Zone"
+msgstr "Strefa niebezpieczna"
+
+msgid "Master controls for your settings"
+msgstr "Główne opcje zarządzania ustawieniami"
+
+msgid "Backup &amp; Restore"
+msgstr "Kopia zapasowa i przywracanie"
+
+msgid "Import or export your dock layout, themes, custom folders, and pinned apps"
+msgstr "Importuj lub eksportuj układ docka, motywy, własne foldery i przypięte aplikacje"
+
+msgid "Export Configuration"
+msgstr "Eksport konfiguracji"
+
+msgid "Save your current settings and apps to a file"
+msgstr "Zapisz bieżące ustawienia i aplikacje do pliku"
+
+msgid "Export"
+msgstr "Eksportuj"
+
+msgid "Export Dock Configuration"
+msgstr "Eksportuj konfigurację docka"
+
+msgid "Import Configuration"
+msgstr "Import konfiguracji"
+
+msgid "Load a previously saved configuration file"
+msgstr "Wczytaj wcześniej zapisany plik konfiguracji"
+
+msgid "Import"
+msgstr "Importuj"
+
+msgid "Import Dock Configuration"
+msgstr "Importuj konfigurację docka"
+
+msgid "JSON Files"
+msgstr "Pliki JSON"
+
+msgid "Reset All Settings"
+msgstr "Resetuj wszystkie ustawienia"
+
+msgid "Restore all Dhruva Dock settings to their default values"
+msgstr "Przywróć wszystkie ustawienia Dhruva Dock do wartości domyślnych"
+
+msgid "Reset Defaults"
+msgstr "Przywróć domyślne"
+
+msgid "Reset All Settings?"
+msgstr "Zresetować wszystkie ustawienia?"
+
+msgid "Are you sure you want to reset all settings to default? This action cannot be undone."
+msgstr "Czy na pewno przywrócić wszystkie ustawienia domyślne? Tej operacji nie można cofnąć."
+
+msgid "Reset Settings"
+msgstr "Resetuj ustawienia"
+
+msgid "About"
+msgstr "O programie"
+
+msgid "A beautifully crafted, highly customisable dock for GNOME Shell"
+msgstr "Dopracowany i wysoce konfigurowalny dock dla GNOME Shell"
+
+msgid "Version 1  •  GPL-3.0"
+msgstr "Wersja 1  •  GPL-3.0"
+
+msgid "Links"
+msgstr "Odnośniki"
+
+msgid "GitHub Repository"
+msgstr "Repozytorium GitHub"
+
+msgid "Credits"
+msgstr "Autorzy"
+
+msgid "Author &amp; Maintainer"
+msgstr "Autor i opiekun projektu"
+
+msgid "Features"
+msgstr "Funkcje"
+
+msgid "Per-app running indicators · "
+msgstr "Wskaźniki uruchomienia dla aplikacji · "
+
+msgid "Hover zoom magnification · Window minimize effects (Magic Lamp, Snake, Vortex &amp; more) · "
+msgstr "Powiększanie po najechaniu · Efekty minimalizacji okien (Magic Lamp, Wąż, Wir i inne) · "
+
+msgid "Icon click animations (Bounce, Jelly, Heartbeat &amp; 20+ styles) · "
+msgstr "Animacje kliknięcia ikon (Odbicie, Galaretka, Pulsowanie i ponad 20 stylów) · "
+
+msgid "Intelligent auto-hide with edge pressure reveal · "
+msgstr "Inteligentne automatyczne ukrywanie z aktywacją przy krawędzi · "
+
+msgid "Chameleon theme (wallpaper colour matching) · "
+msgstr "Motyw Kameleon dopasowany do kolorów tapety · "
+
+msgid "Full-width dock mode · Multi-monitor support · "
+msgstr "Tryb docka na pełną szerokość · Obsługa wielu monitorów · "
+
+msgid "Custom folders, Trash, Desktop button &amp; App Grid · "
+msgstr "Własne foldery, Kosz, przycisk pulpitu i siatka aplikacji · "
+
+msgid "Workspace isolation · Aero Peek window previews · "
+msgstr "Izolacja obszarów roboczych · Podglądy okien Aero Peek · "
+
+msgid "Lock icons to prevent accidental reorder"
+msgstr "Blokada ikon chroniąca przed przypadkową zmianą kolejności"
+
+msgid "Disclaimer"
+msgstr "Informacja"
+
+msgid "Dhruva Dock is an independent open-source project."
+msgstr "Dhruva Dock jest niezależnym projektem open source."
+
+msgid "Support Development"
+msgstr "Wesprzyj rozwój"
+
+msgid "If you enjoy Dhruva, consider buying me a coffee ☕ or sending crypto!"
+msgstr "Jeśli podoba Ci się Dhruva, możesz postawić autorowi kawę ☕ lub wysłać kryptowalutę."
+
+msgid "Buy Me a Coffee"
+msgstr "Postaw mi kawę"
+
+msgid "Copy %s address"
+msgstr "Kopiuj adres %s"
+
+msgid "%s address copied!"
+msgstr "Skopiowano adres %s!"
+
+msgid "Reset to default"
+msgstr "Przywróć domyślne"
+
+msgid "Reset all in this group"
+msgstr "Przywróć domyślne w tej grupie"
+
+msgid "Recycle Bin"
+msgstr "Kosz"
+
+msgid "Show Desktop"
+msgstr "Pokaż pulpit"
+
+msgid "Applications"
+msgstr "Aplikacje"
+
+msgid "All Applications"
+msgstr "Wszystkie aplikacje"
+
+msgid "Search apps..."
+msgstr "Szukaj aplikacji..."
+
+msgid "Unpack Stack"
+msgstr "Rozpakuj stos"
+
+msgid "Close All Apps"
+msgstr "Zamknij wszystkie aplikacje"
+
+msgid "Delete %s"
+msgstr "Usuń %s"
+
+msgid "Add to %s"
+msgstr "Dodaj do %s"
+
+msgid "Open %s"
+msgstr "Otwórz %s"
+
+msgid "New Window"
+msgstr "Nowe okno"
+
+msgid "Unpin from Dhruva"
+msgstr "Odepnij od Dhruvy"
+
+msgid "Pin to Dhruva"
+msgstr "Przypnij do Dhruvy"
+
+msgid "Remove from %s"
+msgstr "Usuń z %s"
+
+msgid "Stack"
+msgstr "Stos"
+
+msgid "Close All Windows"
+msgstr "Zamknij wszystkie okna"
+
+msgid "Close Folder"
+msgstr "Zamknij folder"
+
+msgid "Quit"
+msgstr "Zakończ"
+
+msgid "Dhruva Settings"
+msgstr "Ustawienia Dhruvy"
+
+msgid "Empty Trash?"
+msgstr "Opróżnić kosz?"
+
+msgid ""
+"Are you sure you want to permanently delete all items from the Trash?\n"
+"This action cannot be undone."
+msgstr ""
+"Czy na pewno chcesz trwale usunąć wszystkie elementy z kosza?\n"
+"Tej operacji nie można cofnąć."
+
+msgid "Empty Trash"
+msgstr "Opróżnij kosz"
+
+msgid "Checking Trash..."
+msgstr "Sprawdzanie kosza..."
+
+msgid "Trash is Empty"
+msgstr "Kosz jest pusty"
+
+msgid "New Folder"
+msgstr "Nowy folder"
+
+msgid "All"
+msgstr "Wszystkie"
+
+msgid "Search emojis..."
+msgstr "Szukaj emoji..."
+
+msgid "Hover an emoji"
+msgstr "Najedź na emoji"
+
+msgid "Category"
+msgstr "Kategoria"
+
+msgid "Name"
+msgstr "Nazwa"
+
+msgid "Monitor %s"
+msgstr "Monitor %s"
+
+msgid "Primary Monitor (%s)"
+msgstr "Monitor główny (%s)"
+
+msgid "Window"
+msgstr "Okno"
+
+msgid "zenity is required for file selection dialogs."
+msgstr "Program zenity jest wymagany do okien wyboru plików."
+
+msgid "Select Custom Folder Icon"
+msgstr "Wybierz własną ikonę folderu"
+
+msgid "Images"
+msgstr "Obrazy"
+
+msgid "Activities"
+msgstr "Aktywności"
+
+msgid "Animals & Nature"
+msgstr "Zwierzęta i natura"
+
+msgid "Component"
+msgstr "Komponenty"
+
+msgid "Flags"
+msgstr "Flagi"
+
+msgid "Food & Drink"
+msgstr "Jedzenie i napoje"
+
+msgid "Objects"
+msgstr "Przedmioty"
+
+msgid "People & Body"
+msgstr "Ludzie i ciało"
+
+msgid "Smileys & Emotion"
+msgstr "Buźki i emocje"
+
+msgid "Symbols"
+msgstr "Symbole"
+
+msgid "Travel & Places"
+msgstr "Podróże i miejsca"

@@ -1,0 +1,42 @@
+--- a/src/ui/folder-menu/FolderMenuBuilder.js
++++ b/src/ui/folder-menu/FolderMenuBuilder.js
+@@ -27,6 +27,7 @@
+ import PangoCairo from 'gi://PangoCairo';
+ import * as DND from 'resource:///org/gnome/shell/ui/dnd.js';
+ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
++import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
+
+
+ import { EmojiPicker } from './EmojiPicker.js';
+@@ -129,7 +130,7 @@
+
+         const nameEntry = new St.Entry({
+             text: this.folderData.name,
+-            hint_text: 'Name',
++            hint_text: _('Name'),
+             style: 'font-size: 14px; border-radius: 6px; padding: 4px 8px; color: white; background-color: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); width: 140px;'
+         });
+
+@@ -155,11 +156,11 @@
+             this.folderMenu.hide();
+             const zenityPath = GLib.find_program_in_path('zenity');
+             if (!zenityPath) {
+-                Main.notifyError('Dhruva', 'zenity is required for file selection dialogs.');
++                Main.notifyError('Dhruva', _('zenity is required for file selection dialogs.'));
+                 return;
+             }
+
+-            const proc = Gio.Subprocess.new(['zenity', '--file-selection', '--title=Select Custom Folder Icon', '--file-filter=Images | *.png *.svg *.ico'], Gio.SubprocessFlags.STDOUT_PIPE);
++            const proc = Gio.Subprocess.new(['zenity', '--file-selection', `--title=${_('Select Custom Folder Icon')}`, `--file-filter=${_('Images')} | *.png *.svg *.ico`], Gio.SubprocessFlags.STDOUT_PIPE);
+             proc.communicate_utf8_async(null, null, (p, res) => {
+                 try {
+                     const [, stdout] = p.communicate_utf8_finish(res);
+@@ -196,7 +197,7 @@
+         }, this);
+
+         const commitSave = () => {
+-            const newName = nameEntry.get_text() || 'New Folder';
++            const newName = nameEntry.get_text() || _('New Folder');
+             this.folderData.name = newName;
+             this.dockUI.folderManager.updateFolder(this.folderData.id, newName, selectedIcon);
+             nameLabel.set_text(newName);

@@ -311,6 +311,100 @@ verify_translation \
   "monitor-smart-saver"
 
 echo
+echo "=== DHRUVA POLISH LOCALIZATION ==="
+
+DHRUVA_EXT="$HOME/.local/share/gnome-shell/extensions/dhruva@narkagni"
+DHRUVA_PO="$ROOT_DIR/localization/dhruva/pl.po"
+DHRUVA_PATCH_DIR="$ROOT_DIR/patches/gnome-extensions/dhruva"
+DHRUVA_GENERATOR="$ROOT_DIR/scripts/generate-dhruva-emoji-pl.py"
+DHRUVA_MO="$DHRUVA_EXT/locale/pl/LC_MESSAGES/dhruva.mo"
+DHRUVA_EMOJI="$DHRUVA_EXT/src/ui/folder-menu/emoji-pl.js"
+
+if [[ ! -d "$DHRUVA_EXT" ]]; then
+  skip "Dhruva Polish localization: extension not installed"
+elif ! command -v msgfmt >/dev/null 2>&1; then
+  bad "Dhruva Polish localization: msgfmt unavailable"
+elif ! command -v python3 >/dev/null 2>&1; then
+  bad "Dhruva Polish localization: python3 unavailable"
+elif [[ ! -f "$DHRUVA_PO" ||
+        ! -x "$DHRUVA_GENERATOR" ||
+        ! -d "$DHRUVA_PATCH_DIR" ]]; then
+  bad "Dhruva Polish localization: repository sources incomplete"
+else
+  dhruva_tmp="$(mktemp -d)"
+  dhruva_ok=1
+
+  if ! msgfmt --check "$DHRUVA_PO" \
+      -o "$dhruva_tmp/dhruva.mo" >/dev/null 2>&1; then
+    dhruva_ok=0
+  fi
+
+  dhruva_patch_count="$(
+    find "$DHRUVA_PATCH_DIR" -maxdepth 1 \
+      -type f -name '*.patch' | wc -l
+  )"
+
+  if [[ "$dhruva_patch_count" -ne 20 ]]; then
+    dhruva_ok=0
+  fi
+
+  if [[ ! -f "$DHRUVA_MO" ]] ||
+     ! cmp -s "$dhruva_tmp/dhruva.mo" "$DHRUVA_MO"; then
+    dhruva_ok=0
+  fi
+
+  if ! grep -q '"gettext-domain"[[:space:]]*:[[:space:]]*"dhruva"' \
+      "$DHRUVA_EXT/metadata.json"; then
+    dhruva_ok=0
+  fi
+
+  if ! grep -q "_('Monitor %s')" \
+      "$DHRUVA_EXT/src/prefs/LayoutPage.js"; then
+    dhruva_ok=0
+  fi
+
+  if ! grep -q "_('Window')" \
+      "$DHRUVA_EXT/src/ui/context-menu/WindowThumbnailBuilder.js"; then
+    dhruva_ok=0
+  fi
+
+  if ! grep -q 'emojiPl' \
+      "$DHRUVA_EXT/src/ui/folder-menu/EmojiPicker.js"; then
+    dhruva_ok=0
+  fi
+
+  if ! python3 "$DHRUVA_GENERATOR" \
+      --source "$DHRUVA_EXT/src/ui/emojis.js" \
+      --output "$dhruva_tmp/emoji-pl.js" >/dev/null 2>&1; then
+    dhruva_ok=0
+  fi
+
+  if [[ ! -f "$DHRUVA_EMOJI" ]] ||
+     ! cmp -s "$dhruva_tmp/emoji-pl.js" "$DHRUVA_EMOJI"; then
+    dhruva_ok=0
+  fi
+
+  if [[ -f "$dhruva_tmp/emoji-pl.js" ]]; then
+    dhruva_emoji_count="$(
+      grep -c '^  "' "$dhruva_tmp/emoji-pl.js"
+    )"
+    if [[ "$dhruva_emoji_count" -ne 1907 ]]; then
+      dhruva_ok=0
+    fi
+  else
+    dhruva_ok=0
+  fi
+
+  rm -rf "$dhruva_tmp"
+
+  if (( dhruva_ok )); then
+    ok "Dhruva Polish localization matches repository (20 patches, 1907 CLDR emoji)"
+  else
+    bad "Dhruva Polish localization missing, incomplete, or differs"
+  fi
+fi
+
+echo
 echo "=== BACKGROUND LOGO POLISH LOCALIZATION ==="
 
 BG_LOGO_PREFS="/usr/share/gnome-shell/extensions/background-logo@fedorahosted.org/prefs.js"
@@ -361,9 +455,9 @@ echo
 echo "=== EXTENSION VERSIONS ==="
 EXT_INVENTORY="$ROOT_DIR/gnome/extensions-inventory.tsv"
 if [[ -f "$EXT_INVENTORY" ]]; then
-  while IFS=$'\t' read -r uuid name expected_version shell_versions url location; do
+  while IFS=$'\t' read -r uuid name expected_version _shell_versions _url location; do
     [[ "$uuid" == "uuid" || -z "$uuid" || -z "$expected_version" ]] && continue
-    [[ "$location" != "~/.local/"* ]] && continue
+    [[ "${location#\~}" != '/.local/'* ]] && continue
     ext_dir="$HOME/.local/share/gnome-shell/extensions/$uuid"; metadata="$ext_dir/metadata.json"
     if [[ ! -f "$metadata" ]]; then bad "required extension metadata missing: $uuid"; continue; fi
     current="$(gnome-extensions info "$uuid" 2>/dev/null | sed -nE 's/^[[:space:]]*(Version|Wersja):[[:space:]]*//p' | head -n 1)"
