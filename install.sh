@@ -24,6 +24,7 @@ stages=(
   network/wifi-power-save.sh
   security/disable-llmnr.sh
   security/kernel-hardening.sh
+  security/disable-wsdd.sh
   scripts/verify.sh
 )
 
