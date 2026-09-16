@@ -20,21 +20,37 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 All required GNOME extensions were installed and reported `ACTIVE` at runtime. The curated GNOME desired-state audit completed with 78 matching checks. The custom DING Polish runtime translation matched the repository source after compilation.
 
-The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings:
+The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-- VirtualBox host packages are not required inside the VirtualBox guest.
-- NVIDIA host drivers are not required inside the test VM.
-- Physical Wi-Fi power-management validation is not applicable to the VM.
-- The DING source `.po` file is not a runtime requirement when the compiled `.mo` matches.
-- Private ASUS launcher configuration and its generated launcher are intentionally absent from a public clean clone.
-
-After post-restore maintenance, the current desired state was also verified on the physical Fedora workstation:
+After post-restore maintenance and the 2026-09-16 workstation security validation, the current desired state was verified on the physical Fedora workstation:
 
 ```text
-PASS=159 WARN=0 FAIL=0 SKIP=0
+PASS=168 WARN=0 FAIL=0 SKIP=0
 ```
 
-This physical-host validation includes Brave Origin, the Fedora-packaged Tailscale client, and checks confirming that `tailscaled` is enabled and active. Authentication and tailnet identity remain private state and are intentionally not validated or stored by this repository.
+The physical-host validation includes Brave Origin, Tailscale package/service state, Wi-Fi firewall-zone policy, disabled LLMNR, disabled GNOME/GVfs WS-Discovery, and the workstation kernel hardening policy. Authentication, network identities, credentials, and other private state remain intentionally outside Git.
+
+## Security validation — 2026-09-16
+
+A focused physical-workstation security review was completed without weakening the reproducible restore model.
+
+Validated and applied controls:
+
+- systemd-resolved LLMNR is disabled globally; TCP/5355 was externally tested before and after the change;
+- `kernel.kptr_restrict=1` is persistent and survived reboot/regression testing;
+- GNOME/GVfs WS-Discovery is disabled because SMB/WSD discovery is not required, while Avahi/mDNS is intentionally retained for local printer discovery;
+- the physical Wi-Fi NetworkManager profile is persistently assigned to firewalld's `public` zone instead of relying on the permissive FedoraWorkstation zone;
+- SSH server remains disabled/inactive and the system reports no failed services;
+- SELinux remains enforcing;
+- package updates are detected/downloaded and surfaced to the user, while installation remains a controlled operation rather than an unattended full-system upgrade.
+
+The update policy was exercised with a material graphics-stack update. NVIDIA/akmods was upgraded from 610.57.04 to 615.71.09. The kmod for kernel `7.2.5-200.fc44.x86_64` was built successfully, its module was signed, the machine rebooted successfully, and the RTX 3060 was operational on driver 615.71.09 afterward. The final repository verifier then returned `PASS=168 WARN=0 FAIL=0 SKIP=0`.
+
+### Deferred security items
+
+Secure Boot is currently disabled. The installed NVIDIA module is signed by the local akmods key, but MOK enrollment was not completed during this validation session. Secure Boot is therefore tracked as planned work rather than being enabled without a validated NVIDIA boot path.
+
+The current Fedora system partition is Btrfs without a LUKS layer. Full-disk encryption is therefore not claimed by this project. A future controlled reinstall/restore is the preferred point to introduce LUKS rather than attempting risky in-place conversion of the current workstation.
 
 ## Issues discovered by clean-room and post-restore testing
 
@@ -51,21 +67,25 @@ Testing on a pristine system and subsequent physical-host verification exposed s
 9. Tailscale was absent from the original restore manifest. It is now part of the RPM desired state and its systemd service state is verified without automating authentication.
 10. The application baseline was corrected from the legacy Brave package expectation to Brave Origin, matching the current workstation desired state.
 11. External-repository verification was aligned with the actual NordVPN repository identifier used on the workstation.
+12. The default physical Wi-Fi/firewalld relationship was broader than required. The desired state now assigns the Wi-Fi profile to the `public` zone and verifies both saved and active zone state.
+13. LLMNR and GNOME/GVfs WS-Discovery exposed discovery surfaces that were unnecessary for this workstation. Both are now disabled reproducibly while required mDNS remains available.
+14. Kernel pointer visibility was more permissive than the selected workstation policy. `kernel.kptr_restrict=1` is now persistent and verified.
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for the tested Fedora 44 / GNOME 50.4 baseline and a zero-warning, zero-failure desired-state verification on the physical workstation. Package installation, repositories, Flatpaks, pinned GNOME extensions, extension schemas, curated GNOME settings, desktop launcher restoration, the DING translation patch, Tailscale package/service state, and verification logic have been exercised across these validation stages.
+The repository has passed a clean-room functional restore test for the tested Fedora 44 / GNOME 50.4 baseline and a zero-warning, zero-failure desired-state verification on the physical workstation after security hardening and a material NVIDIA/graphics-stack update. Package installation, repositories, Flatpaks, pinned GNOME extensions, extension schemas, curated GNOME settings, desktop launcher restoration, the DING translation patch, network/security controls, Tailscale package/service state, and verification logic have been exercised across these validation stages.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, VPN authentication state, Tailscale node identity, and other private state remain intentionally outside Git and must be restored separately.
 
 ## Remaining work
 
-The remaining work is maintenance rather than a known restore blocker:
+The remaining work is maintenance plus two explicitly deferred security decisions:
 
+- plan and validate Secure Boot/MOK enrollment without risking the NVIDIA boot path;
+- introduce LUKS during a future controlled reinstall/restore if full-disk encryption is desired;
 - keep package and GNOME extension pins current as Fedora evolves;
 - periodically repeat the clean-room restore test after major Fedora/GNOME changes;
 - keep private machine-specific configuration separate from the public repository;
-- optionally refine minor visual ordering differences in the GNOME top panel;
 - periodically re-run physical-host verification after material desired-state changes.
 
 The separate disaster-recovery layer is documented in `docs/DISASTER-RECOVERY.md`; it complements rather than replaces this repository-based rebuild path.
@@ -80,6 +100,7 @@ The tested baseline is considered accepted when:
 - curated GNOME desired-state checks match;
 - runtime translation artifacts match;
 - required system services such as `tailscaled` are present and operational where applicable;
+- selected workstation security controls are reproducible and verified;
 - private data is not required from the public repository;
 - `scripts/verify.sh` reports zero `WARN` and zero `FAIL` on the validated target, with only documented environment-specific `SKIP` results where applicable.
 
