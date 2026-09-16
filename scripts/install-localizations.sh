@@ -77,5 +77,10 @@ install_translation \
     "display-brightness-ddcutil@themightydeity.github.com" \
     "display-brightness-ddcutil"
 
+install_translation \
+    "just-another-search-bar" \
+    "just-another-search-bar@xelad0m" \
+    "just-another-search-bar"
+
 echo
 echo "Custom Polish localizations complete."

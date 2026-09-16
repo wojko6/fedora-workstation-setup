@@ -1,0 +1,83 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: just-another-search-bar\n"
+"PO-Revision-Date: 2026-09-16\n"
+"Last-Translator: Fedora Workstation Setup\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "Preferences"
+msgstr "Preferencje"
+
+msgid "Search command"
+msgstr "Polecenie wyszukiwania"
+
+msgid "Default search"
+msgstr "Domyślne wyszukiwanie"
+
+msgid "Choose, add, remove or edit entry"
+msgstr "Wybierz, dodaj, usuń lub edytuj wpis"
+
+msgid "Name"
+msgstr "Nazwa"
+
+msgid "This entry name. Edit and press save to create new entry"
+msgstr "Nazwa tego wpisu. Edytuj ją i naciśnij „Zapisz”, aby utworzyć nowy wpis"
+
+msgid "Command"
+msgstr "Polecenie"
+
+msgid "Command line template with wildcarded query"
+msgstr "Szablon wiersza poleceń z symbolem zastępczym zapytania"
+
+msgid "Wildcard"
+msgstr "Symbol zastępczy"
+
+msgid "Symbol used as wildcard for query in command line"
+msgstr "Symbol używany jako symbol zastępczy zapytania w wierszu poleceń"
+
+msgid "Query delimiter"
+msgstr "Separator zapytania"
+
+msgid "Symbol to use as delimiter for query tokens"
+msgstr "Symbol używany jako separator elementów zapytania"
+
+msgid "test query"
+msgstr "zapytanie testowe"
+
+msgid "Example query"
+msgstr "Przykładowe zapytanie"
+
+msgid "Result command line:"
+msgstr "Wynikowe polecenie:"
+
+msgid "Save"
+msgstr "Zapisz"
+
+msgid "...new keyboard shortcut..."
+msgstr "…nowy skrót klawiszowy…"
+
+msgid "Search bar activation"
+msgstr "Aktywacja paska wyszukiwania"
+
+msgid "Keyboard shortcut"
+msgstr "Skrót klawiszowy"
+
+msgid "Press button to enter new keyboard shortcut"
+msgstr "Naciśnij przycisk, aby wprowadzić nowy skrót klawiszowy"
+
+msgid "Reset defaults"
+msgstr "Przywracanie ustawień domyślnych"
+
+msgid "Reset"
+msgstr "Przywróć"
+
+msgid "Reset all settings to defaults, drop all new entries"
+msgstr "Przywróć wszystkie ustawienia domyślne i usuń wszystkie dodane wpisy"
+
+msgid "Can't open "
+msgstr "Nie można otworzyć "
