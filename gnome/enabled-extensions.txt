@@ -13,6 +13,7 @@ browser-switcher@totoshko88.github.io
 spotlight@nin
 just-perfection-desktop@just-perfection
 dhruva@narkagni
+display-brightness-ddcutil@themightydeity.github.com
 apps-menu@gnome-shell-extensions.gcampax.github.com
 background-logo@fedorahosted.org
 launch-new-instance@gnome-shell-extensions.gcampax.github.com
