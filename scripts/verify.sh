@@ -124,6 +124,21 @@ else
   bad "kernel.kptr_restrict runtime state is not 1"
 fi
 
+if command -v gsettings >/dev/null 2>&1 && gsettings list-schemas 2>/dev/null | grep -Fxq 'org.gnome.system.wsdd'; then
+  if [[ "$(gsettings get org.gnome.system.wsdd display-mode 2>/dev/null)" == "'disabled'" ]]; then
+    ok "GNOME/GVfs WSDD discovery disabled"
+  else
+    bad "GNOME/GVfs WSDD discovery is not disabled"
+  fi
+else
+  bad "GNOME/GVfs WSDD schema unavailable"
+fi
+if ss -lun 2>/dev/null | awk 'NR > 1 {print $5}' | grep -Eq '(^|\]|:)3702$'; then
+  bad "UDP/3702 WSDD listener present"
+else
+  ok "UDP/3702 WSDD listener absent"
+fi
+
 echo
 echo "=== GNOME EXTENSIONS ==="
 if command -v gnome-extensions >/dev/null 2>&1; then
