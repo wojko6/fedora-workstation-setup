@@ -25,7 +25,7 @@ The eight `SKIP` results are intentional environment-specific exclusions rather 
 After post-restore maintenance, the 2026-09-16 workstation security validation, Secure Boot enablement, and the latest reproducible workstation configuration updates, the current desired state was verified on the physical Fedora workstation:
 
 ```text
-PASS=175 WARN=0 FAIL=0 SKIP=0
+PASS=181 WARN=0 FAIL=0 SKIP=0
 ```
 
 The physical-host validation includes Brave Origin, Tailscale package/service state, Wi-Fi firewall-zone policy, disabled LLMNR, disabled GNOME/GVfs WS-Discovery, workstation kernel hardening, Secure Boot, signed NVIDIA kernel-module verification, and reproducible DDC/CI support for external-monitor brightness control. Authentication, network identities, credentials, private signing material, and other private state remain intentionally outside Git.
@@ -52,7 +52,7 @@ The update policy was exercised with a material graphics-stack update. NVIDIA/ak
 The latest physical verifier run, after the current desired-state updates including DDC/CI external-monitor brightness support and order-insensitive GNOME favorite-app auditing, returned:
 
 ```text
-PASS=175 WARN=0 FAIL=0 SKIP=0
+PASS=181 WARN=0 FAIL=0 SKIP=0
 ```
 
 ### Deferred security item
@@ -81,9 +81,27 @@ Testing on a pristine system and subsequent physical-host verification exposed s
 16. External-monitor brightness control through DDC/CI required `ddcutil` plus the packaged Fedora udev access rules. The restore now installs `ddcutil`, initializes the udev access path, and tracks the GNOME brightness extension in desired state.
 17. GNOME favorite-app ordering was producing non-actionable desired-state drift. The audit now requires the same favorite applications while intentionally allowing their icon order to vary.
 
+## Reproducible Polish GNOME localization
+
+The repository also carries reproducible Polish localization support for selected GNOME Shell extensions whose upstream packages either lack complete Polish translations or contain user-visible strings that are not exposed through an existing Polish gettext catalog.
+
+The Dhruva GNOME extension is the most extensive localization case. The accepted implementation includes:
+
+- a Polish gettext catalog containing 393 translated messages;
+- a 20-file source patch set that introduces gettext support across preferences and runtime UI;
+- Polish localization of application-grid, context-menu, trash, folder, dock, monitor, layout, behavior, appearance, module, and related user-visible strings;
+- a generated Polish emoji metadata database based on Fedora CLDR annotations, covering all 1907 emoji used by the tested Dhruva source;
+- search support that retains the original English emoji terms while adding Polish names and keywords;
+- an idempotent localization installer that validates prerequisites, patch applicability, gettext compilation, generated emoji data, and the final installed state;
+- verifier coverage for the installed gettext catalog, Dhruva gettext integration, generated emoji database, and expected patch-set structure.
+
+Before acceptance, all 20 Dhruva patches were applied against a clean upstream source tree with `--fuzz=0`; all 20 applied successfully without offset or fuzz. The resulting physical-workstation verification completed with `PASS=181 WARN=0 FAIL=0 SKIP=0`, while the curated GNOME desired-state audit completed with `PASS=78 WARN=0`.
+
+The localization is maintained as source material rather than as opaque modified extension archives. This keeps the customization reviewable and reproducible while allowing the original extension to remain separately identifiable.
+
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for the tested Fedora 44 / GNOME 50.4 baseline and a zero-warning, zero-failure desired-state verification on the physical workstation after security hardening, a material NVIDIA/graphics-stack update, Secure Boot activation, and the latest workstation desired-state updates. Package installation, repositories, Flatpaks, pinned GNOME extensions, extension schemas, curated GNOME settings, desktop launcher restoration, the DING translation patch, network/security controls, Tailscale package/service state, Secure Boot state, NVIDIA module signing, DDC/CI support, and verification logic have been exercised across these validation stages.
+The repository has passed a clean-room functional restore test for the tested Fedora 44 / GNOME 50.4 baseline and a zero-warning, zero-failure desired-state verification on the physical workstation after security hardening, a material NVIDIA/graphics-stack update, Secure Boot activation, and the latest workstation desired-state updates. Package installation, repositories, Flatpaks, pinned GNOME extensions, extension schemas, curated GNOME settings, desktop launcher restoration, reproducible Polish GNOME extension localizations including the Dhruva gettext/CLDR integration, network/security controls, Tailscale package/service state, Secure Boot state, NVIDIA module signing, DDC/CI support, and verification logic have been exercised across these validation stages.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, VPN authentication state, Tailscale node identity, private signing keys, and other private state remain intentionally outside Git and must be restored separately.
 
@@ -107,7 +125,7 @@ The tested baseline is considered accepted when:
 - required GNOME extensions are installed and `ACTIVE`;
 - extension schemas are compiled where required;
 - curated GNOME desired-state checks match;
-- runtime translation artifacts match;
+- runtime translation artifacts and repository-managed localization sources match;
 - required system services such as `tailscaled` are present and operational where applicable;
 - selected workstation security controls are reproducible and verified;
 - Secure Boot and NVIDIA module signing match the accepted physical-host state;

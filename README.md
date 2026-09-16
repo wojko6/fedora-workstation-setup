@@ -25,12 +25,14 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 The current physical workstation desired state was subsequently validated after security hardening, a controlled NVIDIA/graphics-stack update, Secure Boot enablement, and the latest reproducible workstation configuration updates:
 
 ```text
-PASS=175 WARN=0 FAIL=0 SKIP=0
+PASS=181 WARN=0 FAIL=0 SKIP=0
 ```
 
 All required GNOME extensions reported `ACTIVE`, and the curated GNOME desired-state audit matched 78 checks. Environment-specific VM exclusions are reported explicitly as `SKIP` rather than hidden or treated as restore warnings.
 
 The physical validation includes reproducible LLMNR disablement, kernel pointer hardening, disabled GNOME/GVfs WS-Discovery, persistent Wi-Fi assignment to firewalld's `public` zone, successful operation after the NVIDIA 615.71.09 update, an active Secure Boot path with a signed NVIDIA kernel module, and reproducible DDC/CI support for external-monitor brightness control. LUKS remains explicitly deferred; the repository does not claim full-disk encryption for the current installation.
+
+The desired state also includes reproducible Polish localization support for selected GNOME Shell extensions. The Dhruva integration maintains a 393-message gettext catalog, a 20-patch source localization set, and generated Polish CLDR metadata for all 1907 emoji used by the tested extension source. These artifacts are installed and checked by the repository tooling rather than stored as an opaque modified extension archive.
 
 See [`PROJECT-STATUS.md`](PROJECT-STATUS.md) for the current acceptance and security-validation status, [`docs/CLEAN-ROOM-RESTORE-REPORT.md`](docs/CLEAN-ROOM-RESTORE-REPORT.md) for the clean-room validation report, and [`docs/DISASTER-RECOVERY.md`](docs/DISASTER-RECOVERY.md) for the offline disaster-recovery strategy and the 2026-09-15 backup-integrity validation.
 
@@ -52,6 +54,7 @@ cd fedora-workstation-setup
 
 - `packages/` — RPM and Flatpak package manifests
 - `gnome/` — GNOME and extension configuration
+- `localization/` — repository-managed translation sources
 - `network/` — reproducible network fixes
 - `security/` — selected reproducible workstation hardening
 - `desktop/` — user launchers and desktop configuration
@@ -71,4 +74,4 @@ bash scripts/verify.sh
 
 ## Status
 
-**Validated for the Fedora 44 / GNOME 50.4 baseline.** The latest physical-workstation verification completed with `PASS=175 WARN=0 FAIL=0 SKIP=0`, including Secure Boot, signed NVIDIA-module verification, and the current DDC/CI-enabled workstation desired state. Future Fedora or GNOME upgrades should be followed by another clean-room validation before declaring the new baseline accepted.
+**Validated for the Fedora 44 / GNOME 50.4 baseline.** The latest physical-workstation verification completed with `PASS=181 WARN=0 FAIL=0 SKIP=0`, and the curated GNOME desired-state audit completed with `PASS=78 WARN=0`. The accepted state includes Secure Boot, signed NVIDIA-module verification, DDC/CI external-monitor brightness support, and repository-managed Polish GNOME extension localizations including Dhruva. Future Fedora or GNOME upgrades should be followed by another clean-room validation before declaring the new baseline accepted.
