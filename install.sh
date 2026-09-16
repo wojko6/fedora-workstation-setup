@@ -23,6 +23,7 @@ stages=(
   scripts/restore-gnome.sh
   network/wifi-power-save.sh
   security/disable-llmnr.sh
+  security/kernel-hardening.sh
   scripts/verify.sh
 )
 
