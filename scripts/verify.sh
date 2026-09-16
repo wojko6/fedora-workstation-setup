@@ -311,6 +311,22 @@ verify_translation \
   "monitor-smart-saver"
 
 echo
+echo "=== BACKGROUND LOGO POLISH LOCALIZATION ==="
+
+BG_LOGO_PREFS="/usr/share/gnome-shell/extensions/background-logo@fedorahosted.org/prefs.js"
+
+if [[ ! -f "$BG_LOGO_PREFS" ]]; then
+  skip "Background Logo extension not installed"
+elif grep -q "Pokazuj na wszystkich tłach" "$BG_LOGO_PREFS" &&
+     grep -q "Nazwa pliku (tryb ciemny)" "$BG_LOGO_PREFS" &&
+     grep -q "Lewy dolny róg" "$BG_LOGO_PREFS" &&
+     grep -q "Krycie" "$BG_LOGO_PREFS"; then
+  ok "Background Logo Polish localization installed"
+else
+  bad "Background Logo Polish localization missing or differs"
+fi
+
+echo
 echo "=== DESKTOP LAUNCHERS ==="
 if [[ -f "$HOME/Pulpit/Counter-Strike 2.desktop" ]]; then ok "desktop launcher: Counter-Strike 2.desktop"; else warn "desktop launcher missing: Counter-Strike 2.desktop"; fi
 ASUS_CONF="$ROOT_DIR/desktop/launchers/asus-router.conf"

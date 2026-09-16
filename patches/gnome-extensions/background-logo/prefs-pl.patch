@@ -1,0 +1,84 @@
+--- /tmp/background-logo-prefs.original.js	2026-09-16 18:15:05.595553028 +0200
++++ /tmp/background-logo-prefs.polish.js	2026-09-16 18:15:05.623929927 +0200
+@@ -165,7 +165,7 @@
+         filter.add_pixbuf_formats();
+ 
+         this._fileChooser = new Gtk.FileChooserNative({
+-            title: 'Select an Image',
++            title: 'Wybierz obraz',
+             filter,
+             modal: true,
+         });
+@@ -185,7 +185,7 @@
+         this._updateFilenameLabels();
+ 
+         const filenameRow = new Adw.ActionRow({
+-            title: 'Filename',
++            title: 'Nazwa pliku',
+             activatable: true,
+         });
+         filenameRow.connect('activated', () => {
+@@ -197,7 +197,7 @@
+         this.add(filenameRow);
+ 
+         const filenameDarkRow = new Adw.ActionRow({
+-            title: 'Filename (dark)',
++            title: 'Nazwa pliku (tryb ciemny)',
+             activatable: true,
+         });
+         filenameDarkRow.connect('activated', () => {
+@@ -209,15 +209,15 @@
+         this.add(filenameDarkRow);
+ 
+         const positionModel = new Gio.ListStore({item_type: LogoPosition});
+-        positionModel.append(new LogoPosition('Center', 'center'));
+-        positionModel.append(new LogoPosition('Bottom left', 'bottom-left'));
+-        positionModel.append(new LogoPosition('Bottom center', 'bottom-center'));
+-        positionModel.append(new LogoPosition('Bottom right', 'bottom-right'));
+-        positionModel.append(new LogoPosition('Top left', 'top-left'));
+-        positionModel.append(new LogoPosition('Top center', 'top-center'));
+-        positionModel.append(new LogoPosition('Top right', 'top-right'));
++        positionModel.append(new LogoPosition('Środek', 'center'));
++        positionModel.append(new LogoPosition('Lewy dolny róg', 'bottom-left'));
++        positionModel.append(new LogoPosition('Dół pośrodku', 'bottom-center'));
++        positionModel.append(new LogoPosition('Prawy dolny róg', 'bottom-right'));
++        positionModel.append(new LogoPosition('Lewy górny róg', 'top-left'));
++        positionModel.append(new LogoPosition('Góra pośrodku', 'top-center'));
++        positionModel.append(new LogoPosition('Prawy górny róg', 'top-right'));
+         this._positionRow = new Adw.ComboRow({
+-            title: 'Position',
++            title: 'Położenie',
+             model: positionModel,
+             expression: new Gtk.PropertyExpression(LogoPosition, null, 'name'),
+         });
+@@ -231,9 +231,9 @@
+             () => this._updateSelectedPosition());
+         this._updateSelectedPosition();
+ 
+-        this._addScaleRow('Size', 'logo-size', 0.25);
+-        this._addScaleRow('Border', 'logo-border', 1.0);
+-        this._addScaleRow('Opacity', 'logo-opacity', 1.0);
++        this._addScaleRow('Rozmiar', 'logo-size', 0.25);
++        this._addScaleRow('Margines', 'logo-border', 1.0);
++        this._addScaleRow('Krycie', 'logo-opacity', 1.0);
+     }
+ 
+     _addScaleRow(title, key, stepSize) {
+@@ -297,7 +297,7 @@
+ const OptionsGroup = GObject.registerClass(
+ class OptionsGroup extends Adw.PreferencesGroup {
+     constructor(settings) {
+-        super({title: 'Options'});
++        super({title: 'Opcje'});
+ 
+         this._settings = settings;
+         const alwaysShowSwitch = new Gtk.Switch({
+@@ -308,7 +308,7 @@
+             Gio.SettingsBindFlags.DEFAULT);
+ 
+         const row = new Adw.ActionRow({
+-            title: 'Show for all backgrounds',
++            title: 'Pokazuj na wszystkich tłach',
+             activatable_widget: alwaysShowSwitch,
+         });
+         row.add_suffix(alwaysShowSwitch);
