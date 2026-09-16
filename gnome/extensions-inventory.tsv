@@ -13,7 +13,7 @@ just-another-search-bar@xelad0m	Just Another Search Bar	18	45,46,47,48,49,50	htt
 just-perfection-desktop@just-perfection	Just Perfection	37	45,46,47,48,49,50,51	https://gitlab.gnome.org/jrahmatzadeh/just-perfection	~/.local/share/gnome-shell/extensions/just-perfection-desktop@just-perfection
 monitorSmartSaver@pic16f877ccs.github.com	Monitor Smart Saver	3	47,48,49,50	https://github.com/pic16f877ccs/Monitor-smart-saver	~/.local/share/gnome-shell/extensions/monitorSmartSaver@pic16f877ccs.github.com
 space-bar@luchrioh	Space Bar	39	50	https://github.com/christopher-l/space-bar	~/.local/share/gnome-shell/extensions/space-bar@luchrioh
-spotlight@nin	Spotlight	12	45,46,47,48,49,50,51	https://github.com/itsnin/spotlight	~/.local/share/gnome-shell/extensions/spotlight@nin
+spotlight@nin	Spotlight	14	45,46,47,48,49,50,51	https://github.com/itsnin/spotlight	~/.local/share/gnome-shell/extensions/spotlight@nin
 Vitals@CoreCoding.com	Vitals	85	45,46,47,48,49,50,51	https://github.com/corecoding/Vitals	~/.local/share/gnome-shell/extensions/Vitals@CoreCoding.com
 appindicatorsupport@rgcjonas.gmail.com	AppIndicator and KStatusNotifierItem Support		45,46,47,48,49,50	https://github.com/ubuntu/gnome-shell-extension-appindicator	/usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com
 apps-menu@gnome-shell-extensions.gcampax.github.com	Apps Menu		50	https://gitlab.gnome.org/GNOME/gnome-shell-extensions	/usr/share/gnome-shell/extensions/apps-menu@gnome-shell-extensions.gcampax.github.com

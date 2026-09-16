@@ -246,16 +246,59 @@ if [[ -x "$ROOT_DIR/scripts/audit-gnome.sh" || -f "$ROOT_DIR/scripts/audit-gnome
 else warn "scripts/audit-gnome.sh missing"; fi
 
 echo
-echo "=== DING POLISH TRANSLATION ==="
-DING_PO="$ROOT_DIR/patches/gnome-extensions/ding/pl.po"; DING_DIR="$HOME/.local/share/gnome-shell/extensions/ding@rastersoft.com/locale/pl/LC_MESSAGES"; DING_INSTALLED_PO="$DING_DIR/pl.po"; DING_MO="$DING_DIR/ding.mo"
-if [[ -f "$DING_PO" ]] && command -v msgfmt >/dev/null 2>&1; then
+echo "=== POLISH LOCALIZATIONS ==="
+
+verify_translation() {
+  local name="$1"
+  local uuid="$2"
+  local domain="$3"
+
+  local source_po="$ROOT_DIR/localization/$name/pl.po"
+  local ext_dir="$HOME/.local/share/gnome-shell/extensions/$uuid"
+  local target_mo="$ext_dir/locale/pl/LC_MESSAGES/$domain.mo"
+
+  if [[ ! -d "$ext_dir" ]]; then
+    skip "Polish localization: extension not installed: $uuid"
+    return
+  fi
+
+  if [[ ! -f "$source_po" ]]; then
+    bad "Polish localization source missing: $name"
+    return
+  fi
+
+  if ! command -v msgfmt >/dev/null 2>&1; then
+    bad "msgfmt unavailable for Polish localization verification"
+    return
+  fi
+
+  local tmp_mo
   tmp_mo="$(mktemp)"
-  if msgfmt --check "$DING_PO" -o "$tmp_mo" 2>/dev/null; then
-    if [[ -f "$DING_INSTALLED_PO" ]] && cmp -s "$DING_PO" "$DING_INSTALLED_PO"; then ok "DING pl.po matches repository"; else skip "DING source pl.po is not a runtime requirement"; fi
-    if [[ -f "$DING_MO" ]] && cmp -s "$tmp_mo" "$DING_MO"; then ok "DING ding.mo matches repository translation"; else warn "DING ding.mo differs or is missing"; fi
-  else bad "repository DING pl.po failed msgfmt validation"; fi
+
+  if ! msgfmt --check "$source_po" -o "$tmp_mo" 2>/dev/null; then
+    rm -f "$tmp_mo"
+    bad "Polish localization failed msgfmt validation: $name"
+    return
+  fi
+
+  if [[ -f "$target_mo" ]] && cmp -s "$tmp_mo" "$target_mo"; then
+    ok "Polish localization matches repository: $uuid"
+  else
+    bad "Polish localization differs or is missing: $uuid"
+  fi
+
   rm -f "$tmp_mo"
-else warn "DING translation source or msgfmt unavailable"; fi
+}
+
+verify_translation \
+  "ding" \
+  "ding@rastersoft.com" \
+  "ding"
+
+verify_translation \
+  "display-brightness-ddcutil" \
+  "display-brightness-ddcutil@themightydeity.github.com" \
+  "display-brightness-ddcutil"
 
 echo
 echo "=== DESKTOP LAUNCHERS ==="

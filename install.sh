@@ -19,7 +19,7 @@ stages=(
   scripts/install-flatpaks.sh
   scripts/install-extensions.sh
   scripts/setup-ddcutil.sh
-  scripts/restore-ding-translation.sh
+  scripts/install-localizations.sh
   scripts/install-launchers.sh
   scripts/restore-gnome.sh
   network/wifi-power-save.sh
