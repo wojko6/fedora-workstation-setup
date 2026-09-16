@@ -176,6 +176,36 @@ if [[ -n "$iface" ]]; then
 elif (( is_vm )); then skip "Wi-Fi hardware check not applicable in VM"; else warn "No Wi-Fi interface detected"; fi
 
 echo
+echo "=== WIFI FIREWALL ZONE ==="
+if [[ -n "${iface:-}" ]]; then
+  wifi_profile="$(nmcli -g GENERAL.CONNECTION device show "$iface" 2>/dev/null || true)"
+
+  if [[ -n "$wifi_profile" && "$wifi_profile" != "--" ]]; then
+    saved_zone="$(nmcli -g connection.zone connection show "$wifi_profile" 2>/dev/null || true)"
+
+    if [[ "$saved_zone" == "public" ]]; then
+      ok "Wi-Fi NetworkManager profile uses firewalld zone public"
+    else
+      bad "Wi-Fi NetworkManager profile firewalld zone is not public"
+    fi
+
+    active_zone="$(firewall-cmd --get-zone-of-interface="$iface" 2>/dev/null || true)"
+
+    if [[ "$active_zone" == "public" ]]; then
+      ok "active Wi-Fi interface uses firewalld zone public"
+    else
+      bad "active Wi-Fi interface firewalld zone is not public"
+    fi
+  else
+    warn "Active Wi-Fi NetworkManager profile unavailable"
+  fi
+elif (( is_vm )); then
+  skip "Wi-Fi firewall-zone checks not applicable in VM"
+else
+  warn "No Wi-Fi interface detected for firewall-zone checks"
+fi
+
+echo
 echo "=== FLATPAK APPS ==="
 if command -v flatpak >/dev/null 2>&1; then flatpak list --app --columns=application 2>/dev/null || true; else warn "flatpak command unavailable"; fi
 
