@@ -1,0 +1,80 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: monitor-smart-saver 1.6.0\n"
+"PO-Revision-Date: 2026-09-16\n"
+"Last-Translator: Fedora Workstation Setup\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "General Settings"
+msgstr "Ustawienia ogólne"
+
+msgid "Behavior"
+msgstr "Zachowanie"
+
+msgid "Notification Sound"
+msgstr "Dźwięk powiadomienia"
+
+msgid "Choose which sound to play"
+msgstr "Wybierz dźwięk do odtwarzania"
+
+msgid "Loading..."
+msgstr "Wczytywanie..."
+
+msgid "Enable sound"
+msgstr "Włącz dźwięk"
+
+msgid "Enable or disable sound notifications"
+msgstr "Włącz lub wyłącz powiadomienia dźwiękowe"
+
+msgid "Delay settings"
+msgstr "Ustawienia opóźnień"
+
+msgid "Screen Off Delay"
+msgstr "Opóźnienie wyłączenia ekranu"
+
+msgid "Time in seconds before the screen turns off"
+msgstr "Czas w sekundach przed wyłączeniem ekranu"
+
+msgid "Double-Click Delay"
+msgstr "Opóźnienie podwójnego kliknięcia"
+
+msgid "Double-click detection time in milliseconds"
+msgstr "Czas wykrywania podwójnego kliknięcia w milisekundach"
+
+msgid "Failed to read directory"
+msgstr "Nie udało się odczytać katalogu"
+
+msgid "No matching sound files found"
+msgstr "Nie znaleziono pasujących plików dźwiękowych"
+
+msgid "Screensaver activation canceled!"
+msgstr "Anulowano uruchomienie wygaszacza ekranu!"
+
+msgid "Settings"
+msgstr "Ustawienia"
+
+msgid "System settings"
+msgstr "Ustawienia systemowe"
+
+msgid "Lock disable"
+msgstr "Wyłącz blokowanie"
+
+msgid "Monitor Smart Saver"
+msgstr "Monitor Smart Saver"
+
+msgid "Screensaver will lock the screen in %d second!"
+msgid_plural "Screensaver will lock the screen in %d seconds!"
+msgstr[0] "Wygaszacz zablokuje ekran za %d sekundę!"
+msgstr[1] "Wygaszacz zablokuje ekran za %d sekundy!"
+msgstr[2] "Wygaszacz zablokuje ekran za %d sekund!"
+
+msgid "The screensaver will start in %d second!"
+msgid_plural "The screensaver will start in %d seconds!"
+msgstr[0] "Wygaszacz ekranu uruchomi się za %d sekundę!"
+msgstr[1] "Wygaszacz ekranu uruchomi się za %d sekundy!"
+msgstr[2] "Wygaszacz ekranu uruchomi się za %d sekund!"

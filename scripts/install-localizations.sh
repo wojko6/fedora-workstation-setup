@@ -82,5 +82,10 @@ install_translation \
     "just-another-search-bar@xelad0m" \
     "just-another-search-bar"
 
+install_translation \
+    "monitor-smart-saver" \
+    "monitorSmartSaver@pic16f877ccs.github.com" \
+    "monitor-smart-saver"
+
 echo
 echo "Custom Polish localizations complete."

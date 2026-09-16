@@ -305,6 +305,11 @@ verify_translation \
   "just-another-search-bar@xelad0m" \
   "just-another-search-bar"
 
+verify_translation \
+  "monitor-smart-saver" \
+  "monitorSmartSaver@pic16f877ccs.github.com" \
+  "monitor-smart-saver"
+
 echo
 echo "=== DESKTOP LAUNCHERS ==="
 if [[ -f "$HOME/Pulpit/Counter-Strike 2.desktop" ]]; then ok "desktop launcher: Counter-Strike 2.desktop"; else warn "desktop launcher missing: Counter-Strike 2.desktop"; fi
