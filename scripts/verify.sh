@@ -327,6 +327,25 @@ else
 fi
 
 echo
+echo "=== BROWSER SWITCHER POLISH LOCALIZATION ==="
+
+BS_DIR="$HOME/.local/share/gnome-shell/extensions/browser-switcher@totoshko88.github.io"
+BS_MENU="$BS_DIR/menuBuilder.js"
+BS_INDICATOR="$BS_DIR/indicator.js"
+
+if [[ ! -d "$BS_DIR" ]]; then
+  skip "Browser Switcher extension not installed"
+elif [[ ! -f "$BS_MENU" || ! -f "$BS_INDICATOR" ]]; then
+  bad "Browser Switcher localization target files missing"
+elif grep -Fq "Nie znaleziono przeglądarek" "$BS_MENU" &&
+     grep -Fq "Nie udało się zmienić domyślnej przeglądarki." "$BS_MENU" &&
+     grep -Fq "Wskaźnik Browser Switcher" "$BS_INDICATOR"; then
+  ok "Browser Switcher Polish localization installed"
+else
+  bad "Browser Switcher Polish localization missing or differs"
+fi
+
+echo
 echo "=== DESKTOP LAUNCHERS ==="
 if [[ -f "$HOME/Pulpit/Counter-Strike 2.desktop" ]]; then ok "desktop launcher: Counter-Strike 2.desktop"; else warn "desktop launcher missing: Counter-Strike 2.desktop"; fi
 ASUS_CONF="$ROOT_DIR/desktop/launchers/asus-router.conf"

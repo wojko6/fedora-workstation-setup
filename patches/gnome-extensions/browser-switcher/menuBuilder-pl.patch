@@ -1,0 +1,20 @@
+--- /tmp/browser-switcher-menu.original.js	2026-09-16 18:28:31.427439704 +0200
++++ /tmp/browser-switcher-menu.polish.js	2026-09-16 18:28:31.466492552 +0200
+@@ -51,7 +51,7 @@
+         const currentBrowserId = this._browserManager.getCachedDefaultBrowser();
+ 
+         if (!browsers || browsers.length === 0) {
+-            const item = new PopupMenu.PopupMenuItem('No browsers found', {
++            const item = new PopupMenu.PopupMenuItem('Nie znaleziono przeglądarek', {
+                 reactive: false,
+                 can_focus: false,
+             });
+@@ -102,7 +102,7 @@
+             try {
+                 Main.notify(
+                     'Browser Switcher',
+-                    'Could not change the default browser.'
++                    'Nie udało się zmienić domyślnej przeglądarki.'
+                 );
+             } catch (e) {
+                 console.error(`Browser Switcher: Could not show notification: ${e.message}`);

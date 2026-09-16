@@ -1,0 +1,11 @@
+--- /tmp/browser-switcher-indicator.original.js	2026-09-16 18:28:31.438018493 +0200
++++ /tmp/browser-switcher-indicator.polish.js	2026-09-16 18:28:31.466566794 +0200
+@@ -12,7 +12,7 @@
+ const BrowserIndicator = GObject.registerClass(
+     class BrowserIndicator extends PanelMenu.Button {
+         _init(browserManager) {
+-            super._init(0.0, 'Browser Switcher Indicator');
++            super._init(0.0, 'Wskaźnik Browser Switcher');
+ 
+             this._browserManager = browserManager;
+ 
