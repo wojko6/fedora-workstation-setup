@@ -22,6 +22,7 @@ stages=(
   scripts/install-launchers.sh
   scripts/restore-gnome.sh
   network/wifi-power-save.sh
+  security/disable-llmnr.sh
   scripts/verify.sh
 )
 
