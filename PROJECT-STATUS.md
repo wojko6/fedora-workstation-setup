@@ -22,13 +22,13 @@ All required GNOME extensions were installed and reported `ACTIVE` at runtime. T
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After post-restore maintenance and the 2026-09-16 workstation security validation, the current desired state was verified on the physical Fedora workstation:
+After post-restore maintenance and the 2026-09-16 workstation security validation, including Secure Boot enablement, the current desired state was verified on the physical Fedora workstation:
 
 ```text
-PASS=168 WARN=0 FAIL=0 SKIP=0
+PASS=170 WARN=0 FAIL=0 SKIP=0
 ```
 
-The physical-host validation includes Brave Origin, Tailscale package/service state, Wi-Fi firewall-zone policy, disabled LLMNR, disabled GNOME/GVfs WS-Discovery, and the workstation kernel hardening policy. Authentication, network identities, credentials, and other private state remain intentionally outside Git.
+The physical-host validation includes Brave Origin, Tailscale package/service state, Wi-Fi firewall-zone policy, disabled LLMNR, disabled GNOME/GVfs WS-Discovery, workstation kernel hardening, Secure Boot, and signed NVIDIA kernel-module verification. Authentication, network identities, credentials, private signing material, and other private state remain intentionally outside Git.
 
 ## Security validation — 2026-09-16
 
@@ -42,13 +42,14 @@ Validated and applied controls:
 - the physical Wi-Fi NetworkManager profile is persistently assigned to firewalld's `public` zone instead of relying on the permissive FedoraWorkstation zone;
 - SSH server remains disabled/inactive and the system reports no failed services;
 - SELinux remains enforcing;
-- package updates are detected/downloaded and surfaced to the user, while installation remains a controlled operation rather than an unattended full-system upgrade.
+- package updates are detected/downloaded and surfaced to the user, while installation remains a controlled operation rather than an unattended full-system upgrade;
+- Secure Boot is enabled and verified on the physical workstation;
+- the local akmods signing certificate is enrolled through MOK, and the NVIDIA kernel module is signed with SHA-256 and loads successfully under Secure Boot;
+- kernel lockdown reports `integrity` as the active mode under the validated Secure Boot configuration.
 
-The update policy was exercised with a material graphics-stack update. NVIDIA/akmods was upgraded from 610.57.04 to 615.71.09. The kmod for kernel `7.2.5-200.fc44.x86_64` was built successfully, its module was signed, the machine rebooted successfully, and the RTX 3060 was operational on driver 615.71.09 afterward. The final repository verifier then returned `PASS=168 WARN=0 FAIL=0 SKIP=0`.
+The update policy was exercised with a material graphics-stack update. NVIDIA/akmods was upgraded from 610.57.04 to 615.71.09. The kmod for kernel `7.2.5-200.fc44.x86_64` was built successfully, its module was signed, the machine rebooted successfully, and the RTX 3060 was operational on driver 615.71.09 afterward. Secure Boot was subsequently enabled after MOK enrollment; NVIDIA 615.71.09 remained operational and the system reported zero failed services. The repository verifier then returned `PASS=170 WARN=0 FAIL=0 SKIP=0`.
 
-### Deferred security items
-
-Secure Boot is currently disabled. The installed NVIDIA module is signed by the local akmods key, but MOK enrollment was not completed during this validation session. Secure Boot is therefore tracked as planned work rather than being enabled without a validated NVIDIA boot path.
+### Deferred security item
 
 The current Fedora system partition is Btrfs without a LUKS layer. Full-disk encryption is therefore not claimed by this project. A future controlled reinstall/restore is the preferred point to introduce LUKS rather than attempting risky in-place conversion of the current workstation.
 
@@ -70,23 +71,23 @@ Testing on a pristine system and subsequent physical-host verification exposed s
 12. The default physical Wi-Fi/firewalld relationship was broader than required. The desired state now assigns the Wi-Fi profile to the `public` zone and verifies both saved and active zone state.
 13. LLMNR and GNOME/GVfs WS-Discovery exposed discovery surfaces that were unnecessary for this workstation. Both are now disabled reproducibly while required mDNS remains available.
 14. Kernel pointer visibility was more permissive than the selected workstation policy. `kernel.kptr_restrict=1` is now persistent and verified.
+15. Secure Boot had been disabled despite the NVIDIA akmods module already being locally signed. The signing certificate was enrolled through MOK, Secure Boot was enabled, and the NVIDIA path was validated before the state was accepted.
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for the tested Fedora 44 / GNOME 50.4 baseline and a zero-warning, zero-failure desired-state verification on the physical workstation after security hardening and a material NVIDIA/graphics-stack update. Package installation, repositories, Flatpaks, pinned GNOME extensions, extension schemas, curated GNOME settings, desktop launcher restoration, the DING translation patch, network/security controls, Tailscale package/service state, and verification logic have been exercised across these validation stages.
+The repository has passed a clean-room functional restore test for the tested Fedora 44 / GNOME 50.4 baseline and a zero-warning, zero-failure desired-state verification on the physical workstation after security hardening, a material NVIDIA/graphics-stack update, and Secure Boot activation. Package installation, repositories, Flatpaks, pinned GNOME extensions, extension schemas, curated GNOME settings, desktop launcher restoration, the DING translation patch, network/security controls, Tailscale package/service state, Secure Boot state, NVIDIA module signing, and verification logic have been exercised across these validation stages.
 
-This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, VPN authentication state, Tailscale node identity, and other private state remain intentionally outside Git and must be restored separately.
+This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, VPN authentication state, Tailscale node identity, private signing keys, and other private state remain intentionally outside Git and must be restored separately.
 
 ## Remaining work
 
-The remaining work is maintenance plus two explicitly deferred security decisions:
+The remaining work is maintenance plus one explicitly deferred security decision:
 
-- plan and validate Secure Boot/MOK enrollment without risking the NVIDIA boot path;
 - introduce LUKS during a future controlled reinstall/restore if full-disk encryption is desired;
 - keep package and GNOME extension pins current as Fedora evolves;
 - periodically repeat the clean-room restore test after major Fedora/GNOME changes;
-- keep private machine-specific configuration separate from the public repository;
-- periodically re-run physical-host verification after material desired-state changes.
+- keep private machine-specific configuration and signing material separate from the public repository;
+- periodically re-run physical-host verification after material desired-state changes, especially kernel/NVIDIA updates.
 
 The separate disaster-recovery layer is documented in `docs/DISASTER-RECOVERY.md`; it complements rather than replaces this repository-based rebuild path.
 
@@ -101,6 +102,7 @@ The tested baseline is considered accepted when:
 - runtime translation artifacts match;
 - required system services such as `tailscaled` are present and operational where applicable;
 - selected workstation security controls are reproducible and verified;
+- Secure Boot and NVIDIA module signing match the accepted physical-host state;
 - private data is not required from the public repository;
 - `scripts/verify.sh` reports zero `WARN` and zero `FAIL` on the validated target, with only documented environment-specific `SKIP` results where applicable.
 
