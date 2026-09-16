@@ -6,6 +6,7 @@ clipboard-indicator@tudmotu.com	Clipboard Indicator	71	46,47,48,49,50	https://gi
 ddterm@amezin.github.com	ddterm	72	46,47,48,49,50	https://github.com/ddterm/gnome-shell-extension-ddterm	~/.local/share/gnome-shell/extensions/ddterm@amezin.github.com
 dhruva@narkagni	Dhruva	16	45,46,47,48,49,50,51	https://github.com/narkagni/dhruva	~/.local/share/gnome-shell/extensions/dhruva@narkagni
 ding@rastersoft.com	Desktop Icons NG (DING)	97	50	https://gitlab.com/rastersoft/desktop-icons-ng	~/.local/share/gnome-shell/extensions/ding@rastersoft.com
+display-brightness-ddcutil@themightydeity.github.com	Brightness control using ddcutil	59	49,50	https://github.com/daitj/gnome-display-brightness-ddcutil	~/.local/share/gnome-shell/extensions/display-brightness-ddcutil@themightydeity.github.com
 drive-menu@gnome-shell-extensions.gcampax.github.com	Removable Drive Menu	79	50	https://gitlab.gnome.org/GNOME/gnome-shell-extensions	~/.local/share/gnome-shell/extensions/drive-menu@gnome-shell-extensions.gcampax.github.com
 gnordvpn-local@isopolito	gNordVPN-Local	33	46,47,48,49,50	https://github.com/Isopolito/gNordVPN-Local	~/.local/share/gnome-shell/extensions/gnordvpn-local@isopolito
 just-another-search-bar@xelad0m	Just Another Search Bar	18	45,46,47,48,49,50	https://github.com/xelad0m/just-another-search-bar	~/.local/share/gnome-shell/extensions/just-another-search-bar@xelad0m
