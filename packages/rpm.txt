@@ -77,6 +77,9 @@ gamemode
 akmod-nvidia
 xorg-x11-drv-nvidia-cuda
 
+# Display control
+ddcutil
+
 # Filesystems / storage
 btrfs-progs
 cifs-utils
