@@ -140,6 +140,31 @@ else
 fi
 
 echo
+echo "=== SECURE BOOT ==="
+if (( is_vm )); then
+  skip "Secure Boot physical-host check not applicable in VM"
+  skip "NVIDIA module-signing physical-host check not applicable in VM"
+else
+  if command -v mokutil >/dev/null 2>&1 && mokutil --sb-state 2>/dev/null | grep -Fqi 'SecureBoot enabled'; then
+    ok "Secure Boot enabled"
+  else
+    bad "Secure Boot is not confirmed enabled"
+  fi
+
+  if rpm -q akmod-nvidia >/dev/null 2>&1; then
+    nvidia_signer="$(modinfo -F signer nvidia 2>/dev/null || true)"
+    nvidia_hash="$(modinfo -F sig_hashalgo nvidia 2>/dev/null || true)"
+    if [[ -n "$nvidia_signer" && -n "$nvidia_hash" ]]; then
+      ok "NVIDIA kernel module is signed (${nvidia_hash})"
+    else
+      bad "NVIDIA kernel module signature is not confirmed"
+    fi
+  else
+    skip "NVIDIA module-signing check not applicable without akmod-nvidia"
+  fi
+fi
+
+echo
 echo "=== GNOME EXTENSIONS ==="
 if command -v gnome-extensions >/dev/null 2>&1; then
   if [[ -f "$EXT_LIST" ]]; then
