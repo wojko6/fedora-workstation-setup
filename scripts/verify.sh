@@ -96,6 +96,25 @@ else
 fi
 
 echo
+echo "=== SECURITY HARDENING ==="
+LLMNR_CONF="/etc/systemd/resolved.conf.d/10-disable-llmnr.conf"
+if [[ -f "$LLMNR_CONF" ]] && grep -Eq '^[[:space:]]*LLMNR[[:space:]]*=[[:space:]]*no[[:space:]]*$' "$LLMNR_CONF"; then
+  ok "systemd-resolved LLMNR disabled in persistent configuration"
+else
+  bad "systemd-resolved LLMNR hardening missing"
+fi
+if command -v resolvectl >/dev/null 2>&1 && resolvectl status 2>/dev/null | grep -q 'Protocols: -LLMNR'; then
+  ok "LLMNR disabled at runtime"
+else
+  bad "LLMNR runtime state is not confirmed disabled"
+fi
+if ss -ltn 2>/dev/null | awk 'NR > 1 {print $4}' | grep -Eq '(^|\]|:)5355$'; then
+  bad "TCP/5355 listener present"
+else
+  ok "TCP/5355 listener absent"
+fi
+
+echo
 echo "=== GNOME EXTENSIONS ==="
 if command -v gnome-extensions >/dev/null 2>&1; then
   if [[ -f "$EXT_LIST" ]]; then
@@ -236,22 +255,17 @@ fi
 echo
 echo "=== EXTENSION VERSIONS ==="
 EXT_INVENTORY="$ROOT_DIR/gnome/extensions-inventory.tsv"
-
 if [[ -f "$EXT_INVENTORY" ]]; then
   while IFS=$'\t' read -r uuid name expected_version shell_versions url location; do
     [[ "$uuid" == "uuid" || -z "$uuid" || -z "$expected_version" ]] && continue
     [[ "$location" != "~/.local/"* ]] && continue
-
     ext_dir="$HOME/.local/share/gnome-shell/extensions/$uuid"
     metadata="$ext_dir/metadata.json"
     if [[ ! -f "$metadata" ]]; then
       bad "required extension metadata missing: $uuid"
       continue
     fi
-
-    current="$(gnome-extensions info "$uuid" 2>/dev/null |
-      sed -nE 's/^[[:space:]]*(Version|Wersja):[[:space:]]*//p' | head -n 1)"
-
+    current="$(gnome-extensions info "$uuid" 2>/dev/null | sed -nE 's/^[[:space:]]*(Version|Wersja):[[:space:]]*//p' | head -n 1)"
     case "$uuid:$expected_version" in
       dhruva@narkagni:16)
         metadata_version="$(sed -nE 's/^[[:space:]]*"version"[[:space:]]*:[[:space:]]*([0-9]+),?[[:space:]]*$/\1/p' "$metadata" | head -n 1)"
