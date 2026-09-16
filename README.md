@@ -22,15 +22,15 @@ Clean-room result:
 PASS=147 WARN=0 FAIL=0 SKIP=8
 ```
 
-The current physical workstation desired state was subsequently validated after security hardening and a controlled NVIDIA/graphics-stack update:
+The current physical workstation desired state was subsequently validated after security hardening, a controlled NVIDIA/graphics-stack update, and Secure Boot enablement:
 
 ```text
-PASS=168 WARN=0 FAIL=0 SKIP=0
+PASS=170 WARN=0 FAIL=0 SKIP=0
 ```
 
 All required GNOME extensions reported `ACTIVE`, and the curated GNOME desired-state audit matched 78 checks. Environment-specific VM exclusions are reported explicitly as `SKIP` rather than hidden or treated as restore warnings.
 
-The physical validation includes reproducible LLMNR disablement, kernel pointer hardening, disabled GNOME/GVfs WS-Discovery, persistent Wi-Fi assignment to firewalld's `public` zone, and successful operation after the NVIDIA 615.71.09 update. Secure Boot and LUKS remain explicitly deferred items; the repository does not claim either as currently enabled.
+The physical validation includes reproducible LLMNR disablement, kernel pointer hardening, disabled GNOME/GVfs WS-Discovery, persistent Wi-Fi assignment to firewalld's `public` zone, successful operation after the NVIDIA 615.71.09 update, and an active Secure Boot path with a signed NVIDIA kernel module. LUKS remains explicitly deferred; the repository does not claim full-disk encryption for the current installation.
 
 See [`PROJECT-STATUS.md`](PROJECT-STATUS.md) for the current acceptance and security-validation status, [`docs/CLEAN-ROOM-RESTORE-REPORT.md`](docs/CLEAN-ROOM-RESTORE-REPORT.md) for the clean-room validation report, and [`docs/DISASTER-RECOVERY.md`](docs/DISASTER-RECOVERY.md) for the offline disaster-recovery strategy and the 2026-09-15 backup-integrity validation.
 
@@ -71,4 +71,4 @@ bash scripts/verify.sh
 
 ## Status
 
-**Validated for the Fedora 44 / GNOME 50.4 baseline.** The latest physical-workstation verification completed with `PASS=168 WARN=0 FAIL=0 SKIP=0`. Future Fedora or GNOME upgrades should be followed by another clean-room validation before declaring the new baseline accepted.
+**Validated for the Fedora 44 / GNOME 50.4 baseline.** The latest physical-workstation verification completed with `PASS=170 WARN=0 FAIL=0 SKIP=0`, including Secure Boot and signed NVIDIA-module verification. Future Fedora or GNOME upgrades should be followed by another clean-room validation before declaring the new baseline accepted.
