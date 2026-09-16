@@ -18,6 +18,7 @@ stages=(
   scripts/install-packages.sh
   scripts/install-flatpaks.sh
   scripts/install-extensions.sh
+  scripts/setup-ddcutil.sh
   scripts/restore-ding-translation.sh
   scripts/install-launchers.sh
   scripts/restore-gnome.sh
