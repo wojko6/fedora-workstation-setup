@@ -12,11 +12,14 @@ The recovery model has three independent layers:
 
 The offline backup is intentionally **not stored in Git**.
 
-## Validated recovery set — 2026-09-15
+## Validated recovery sets
 
-A disaster-recovery set was created from the physical Fedora workstation on 2026-09-15.
+Two complete disaster-recovery generations are currently retained on offline external storage:
 
-The set contains:
+- **2026-09-15** — original validated recovery set;
+- **2026-09-17** — refreshed recovery set created after the current Fedora 44 / GNOME 50.4 workstation state reached its accepted physical verification baseline.
+
+The latest 2026-09-17 recovery set contains:
 
 - a read-only Btrfs snapshot stream for the root filesystem;
 - a read-only Btrfs snapshot stream for the home filesystem;
@@ -31,9 +34,11 @@ The set contains:
 - an offline restore guide;
 - a SHA-256 manifest covering the recovery artifacts.
 
-The Btrfs streams were compressed with Zstandard. Compression-stream integrity was tested before finalization. The completed recovery set was then verified against its SHA-256 manifest, with every listed artifact passing verification.
+The Btrfs streams and the `/boot` and EFI archives were compressed with Zstandard. Compression-stream integrity was tested before finalization. The completed 2026-09-17 recovery set was then verified against its SHA-256 manifest, with every listed artifact passing verification.
 
-Temporary local Btrfs snapshots used to produce the backup were removed only after the external recovery set had passed verification.
+The refreshed set contains 15 files and occupies approximately 81 GB. The previous 2026-09-15 generation remains retained separately and was not overwritten.
+
+Temporary local Btrfs snapshots used to produce the refreshed backup were removed only after the external recovery set had passed full verification. The temporary top-level Btrfs mount used during backup creation was also unmounted after cleanup.
 
 ## Security and privacy boundary
 
@@ -66,6 +71,8 @@ The exact disk reconstruction procedure depends on the replacement disk and file
 
 ## Validation status
 
-**Offline recovery backup created and integrity-verified: PASS — 2026-09-15.**
+**Latest offline recovery backup created and integrity-verified: PASS — 2026-09-17.**
+
+The earlier **2026-09-15** generation remains retained as an independent previous recovery point.
 
 This validates backup creation and artifact integrity. It does **not** claim that a full bare-metal restore from the private backup has been exercised. The repository-based clean-room restore is separately validated and documented in [`CLEAN-ROOM-RESTORE-REPORT.md`](CLEAN-ROOM-RESTORE-REPORT.md).
