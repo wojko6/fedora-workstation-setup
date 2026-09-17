@@ -445,7 +445,24 @@ if [[ -f "$HOME/Pulpit/Counter-Strike 2.desktop" ]]; then ok "desktop launcher: 
 ASUS_CONF="$ROOT_DIR/desktop/launchers/asus-router.conf"
 if [[ -f "$ASUS_CONF" ]]; then
   ok "private ASUS launcher configuration available"
-  if [[ -f "$HOME/Pulpit/asus-router.desktop" ]]; then ok "desktop launcher: asus-router.desktop"; else warn "private ASUS config exists but desktop launcher is missing"; fi
+  ASUS_LAUNCHER="$HOME/Pulpit/asus-router.desktop"
+  if [[ ! -f "$ASUS_LAUNCHER" ]]; then
+    warn "private ASUS config exists but desktop launcher is missing"
+  else
+    ok "desktop launcher: asus-router.desktop"
+
+    if grep -Fq "ddterm@amezin.github.com/bin/com.github.amezin.ddterm -- ssh" "$ASUS_LAUNCHER"; then
+      ok "ASUS launcher uses ddterm"
+    else
+      bad "ASUS launcher does not use expected ddterm command"
+    fi
+
+    if grep -Eq "__[A-Z0-9_]+__" "$ASUS_LAUNCHER"; then
+      bad "ASUS launcher contains unresolved template placeholders"
+    else
+      ok "ASUS launcher template fully rendered"
+    fi
+  fi
 else
   skip "private ASUS launcher configuration intentionally absent"
   if [[ -f "$HOME/Pulpit/asus-router.desktop" ]]; then warn "ASUS launcher exists without repository private configuration"; else skip "ASUS launcher not expected without private configuration"; fi

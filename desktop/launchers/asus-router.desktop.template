@@ -2,7 +2,7 @@
 Type=Application
 Name=ASUS Router SSH
 Comment=Connect to an ASUS router over SSH
-Exec=ptyxis --tab --title="ASUS Router SSH" -- ssh -o IdentitiesOnly=yes -o PreferredAuthentications=publickey -o PasswordAuthentication=no -i __SSH_KEY__ -p __SSH_PORT__ __SSH_USER__@__ROUTER_HOST__
+Exec=__DDTERM_BIN__ -- ssh -o IdentitiesOnly=yes -o PreferredAuthentications=publickey -o PasswordAuthentication=no -i __SSH_KEY__ -p __SSH_PORT__ __SSH_USER__@__ROUTER_HOST__
 Icon=utilities-terminal
 Terminal=false
 Categories=Network;

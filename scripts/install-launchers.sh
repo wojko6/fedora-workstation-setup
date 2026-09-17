@@ -30,9 +30,16 @@ if [[ -f "$ASUS_CONF" ]]; then
   : "${SSH_USER:?SSH_USER is required in $ASUS_CONF}"
   : "${ROUTER_HOST:?ROUTER_HOST is required in $ASUS_CONF}"
 
+  DDTERM_BIN="$HOME/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/bin/com.github.amezin.ddterm"
+  if [[ ! -x "$DDTERM_BIN" ]]; then
+    printf 'ERROR: ddterm command not found or not executable: %s\n' "$DDTERM_BIN" >&2
+    exit 1
+  fi
+
   tmp="$(mktemp)"
   trap 'rm -f "$tmp"' EXIT
   sed \
+    -e "s|__DDTERM_BIN__|$DDTERM_BIN|g" \
     -e "s|__SSH_KEY__|$SSH_KEY|g" \
     -e "s|__SSH_PORT__|$SSH_PORT|g" \
     -e "s|__SSH_USER__|$SSH_USER|g" \
