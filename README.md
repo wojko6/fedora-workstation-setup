@@ -59,7 +59,7 @@ cd fedora-workstation-setup
 ./install.sh
 ```
 
-`install.sh` orchestrates the restore stages in `scripts/` and is designed to remain conservative and safe to rerun where practical. GNOME Shell may require a sign-out/sign-in or reboot after newly installed extensions are registered; run `scripts/verify.sh` after the final session restart.
+`install.sh` orchestrates the restore stages in `scripts/` and is designed to remain conservative and safe to rerun where practical. It deliberately does **not** run the final verifier in the same GNOME session, because newly installed extensions and Shell metadata may not be fully active until the session is restarted. After `install.sh` completes, sign out and back in (or reboot), then run `bash scripts/verify.sh` from the repository directory.
 
 ## Repository layout
 
