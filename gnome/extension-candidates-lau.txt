@@ -1,19 +1,27 @@
-# Extensions introduced by the 2026-09-17 Lau-inspired desktop refresh.
+# GNOME extension candidates from the 2026-09-17 Lau-inspired refresh.
 #
-# These are audit candidates, not accepted desired state yet. Promote an UUID
-# to gnome/enabled-extensions.txt only after the physical Fedora workstation
-# reports a healthy runtime state and the extension is intentionally retained.
-
-Bluetooth-Battery-Meter@maniacx.github.com
-caffeine@patapon.info
-gsconnect@andyholmes.github.io
-tilingshell@ferrarodomenico.com
-freon@UshakovVasilii_Github.yahoo.com
-mediacontrols@cliffniff.github.com
-arcmenu@arcmenu.com
-user-theme@gnome-shell-extensions.gcampax.github.com
-
-# Intentionally excluded:
-# dash2dock-lite@icedman.github.com
-# Dhruva is the canonical dock. Running both produced duplicate docks during
-# the physical-host test, so Dash2Dock Animated must remain disabled/absent.
+# Audit status: CLOSED.
+#
+# The following extensions passed physical Fedora / GNOME 50 runtime validation
+# and were promoted to gnome/enabled-extensions.txt:
+#
+# - Bluetooth-Battery-Meter@maniacx.github.com
+# - caffeine@patapon.info
+# - gsconnect@andyholmes.github.io
+# - tilingshell@ferrarodomenico.com
+# - freon@UshakovVasilii_Github.yahoo.com
+# - arcmenu@arcmenu.com
+# - user-theme@gnome-shell-extensions.gcampax.github.com
+#
+# Rejected / intentionally absent from desired state:
+#
+# - mediacontrols@cliffniff.github.com
+#   Media Controls v47 declares GNOME Shell 46-49 only and reported OUT OF DATE
+#   on GNOME Shell 50.4 during the physical-host audit.
+#
+# - dash2dock-lite@icedman.github.com
+#   Dash2Dock Animated itself declared GNOME 50 compatibility, but it conflicts
+#   with the project's canonical Dhruva dock and previously produced duplicate
+#   docks. It therefore remains intentionally absent.
+#
+# There are currently no pending extension candidates in this refresh batch.
