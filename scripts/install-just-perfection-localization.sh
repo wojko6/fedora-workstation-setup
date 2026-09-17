@@ -5,7 +5,8 @@ ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 UUID="just-perfection-desktop@just-perfection"
 DOMAIN="just-perfection"
 EXPECTED_VERSION="37"
-SOURCE_PO="$ROOT_DIR/localization/just-perfection/pl.po"
+BASE_PO="$ROOT_DIR/localization/just-perfection/pl.po"
+ADDITIONS_PO="$ROOT_DIR/localization/just-perfection/v37-additions.po"
 EXT_DIR="$HOME/.local/share/gnome-shell/extensions/$UUID"
 METADATA="$EXT_DIR/metadata.json"
 LOCALE_DIR="$EXT_DIR/locale/pl/LC_MESSAGES"
@@ -19,6 +20,10 @@ command -v msgfmt >/dev/null 2>&1 || {
   echo "FAIL: msgfmt is required (install gettext)" >&2
   exit 1
 }
+command -v msgcat >/dev/null 2>&1 || {
+  echo "FAIL: msgcat is required (install gettext)" >&2
+  exit 1
+}
 
 if [[ ! -d "$EXT_DIR" ]]; then
   echo "SKIP: Just Perfection is not installed: $UUID"
@@ -29,8 +34,12 @@ fi
   echo "FAIL: missing Just Perfection metadata: $METADATA" >&2
   exit 1
 }
-[[ -f "$SOURCE_PO" ]] || {
-  echo "FAIL: missing Polish translation source: $SOURCE_PO" >&2
+[[ -f "$BASE_PO" ]] || {
+  echo "FAIL: missing Polish translation source: $BASE_PO" >&2
+  exit 1
+}
+[[ -f "$ADDITIONS_PO" ]] || {
+  echo "FAIL: missing Just Perfection v37 completion source: $ADDITIONS_PO" >&2
   exit 1
 }
 
@@ -55,12 +64,18 @@ if [[ "$domain" != "$DOMAIN" ]]; then
   exit 1
 fi
 
-msgfmt --check "$SOURCE_PO" -o /dev/null
+msgfmt --check "$BASE_PO" -o /dev/null
+msgfmt --check "$ADDITIONS_PO" -o /dev/null
 
 mkdir -p "$LOCALE_DIR"
+tmp_po="$(mktemp)"
 tmp_mo="$(mktemp)"
-trap 'rm -f "$tmp_mo"' EXIT
-msgfmt "$SOURCE_PO" -o "$tmp_mo"
+trap 'rm -f "$tmp_po" "$tmp_mo"' EXIT
+
+# The upstream po/main.pot bundled with the v37 source is stale (v34-era).
+# Merge the repository base translation with the audited v35-v37 UI additions.
+msgcat --use-first "$BASE_PO" "$ADDITIONS_PO" -o "$tmp_po"
+msgfmt --check "$tmp_po" -o "$tmp_mo"
 
 if [[ -f "$TARGET_MO" ]] && cmp -s "$tmp_mo" "$TARGET_MO"; then
   echo "PASS: Just Perfection v37 Polish localization already installed"
