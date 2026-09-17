@@ -37,26 +37,50 @@ compile_extension_schemas() {
   fi
 }
 
+installed_version() {
+  local uuid="$1"
+  gnome-extensions info "$uuid" 2>/dev/null \
+    | sed -nE 's/^[[:space:]]*(Version|Wersja):[[:space:]]*//p' \
+    | head -n 1
+}
+
+version_matches() {
+  local current="$1" expected="$2"
+  [[ -n "$current" && ( "$current" == "$expected" || "$current" =~ \("$expected"\)$ ) ]]
+}
+
+# Runtime/internal extension versions and extensions.gnome.org archive numbers
+# are usually identical, but Dhruva is a documented exception. The audited
+# clean-room baseline uses EGO archive v16, whose extension metadata is the
+# accepted Dhruva runtime state tracked separately in extensions-inventory.tsv.
+ego_archive_version() {
+  local uuid="$1" runtime_version="$2"
+  case "$uuid:$runtime_version" in
+    dhruva@narkagni:17) printf '%s\n' '16' ;;
+    *) printf '%s\n' "$runtime_version" ;;
+  esac
+}
+
 # extensions.gnome.org stores pinned archives as:
 #   extension-data/<UUID-with-@-removed>.v<VERSION>.shell-extension.zip
 # Dots in the UUID are preserved. Replacing both '@' and '.' with underscores
 # produced invalid URLs and caused clean restores to receive HTTP 404.
 install_ego() {
-  local uuid="$1" version="$2" dest zip url archive_uuid
-  [[ -n "$version" ]] || return 2
+  local uuid="$1" archive_version="$2" dest zip url archive_uuid
+  [[ -n "$archive_version" ]] || return 2
   dest="$HOME/.local/share/gnome-shell/extensions/$uuid"
   zip="$tmp/${uuid//\//_}.zip"
   archive_uuid="${uuid//@/}"
-  url="https://extensions.gnome.org/extension-data/${archive_uuid}.v${version}.shell-extension.zip"
+  url="https://extensions.gnome.org/extension-data/${archive_uuid}.v${archive_version}.shell-extension.zip"
 
-  echo "INSTALL: $uuid v$version"
+  echo "INSTALL: $uuid EGO v$archive_version"
   if ! curl -fL --retry 2 -o "$zip" "$url"; then
-    echo "WARN: pinned archive unavailable for $uuid v$version; leaving it unresolved." >&2
+    echo "WARN: pinned archive unavailable for $uuid EGO v$archive_version; leaving it unresolved." >&2
     return 1
   fi
 
   if ! unzip -tq "$zip" >/dev/null 2>&1; then
-    echo "WARN: downloaded archive is invalid for $uuid v$version." >&2
+    echo "WARN: downloaded archive is invalid for $uuid EGO v$archive_version." >&2
     return 1
   fi
 
@@ -65,13 +89,13 @@ install_ego() {
   unzip -q "$zip" -d "$dest"
 
   if [[ ! -f "$dest/metadata.json" ]]; then
-    echo "WARN: $uuid v$version archive has no metadata.json." >&2
+    echo "WARN: $uuid EGO v$archive_version archive has no metadata.json." >&2
     rm -rf "$dest"
     return 1
   fi
 
   if ! grep -q "\"$shell_major\"" "$dest/metadata.json" 2>/dev/null; then
-    echo "WARN: $uuid v$version does not declare GNOME $shell_major compatibility." >&2
+    echo "WARN: $uuid EGO v$archive_version does not declare GNOME $shell_major compatibility." >&2
   fi
 
   compile_extension_schemas "$uuid" "$dest" || {
@@ -80,7 +104,7 @@ install_ego() {
   }
 }
 
-# Build UUID -> version/location lookup from the audited workstation.
+# Build UUID -> runtime-version/location lookup from the audited workstation.
 declare -A versions locations
 while IFS=$'\t' read -r uuid _name version _shells _url location; do
   [[ "$uuid" == "uuid" || -z "$uuid" ]] && continue
@@ -91,8 +115,31 @@ done < "$INVENTORY"
 missing=0
 while IFS= read -r uuid; do
   [[ -z "$uuid" || "$uuid" == \#* ]] && continue
+
+  location="${locations[$uuid]:-}"
+  expected_version="${versions[$uuid]:-}"
+  archive_version="$(ego_archive_version "$uuid" "$expected_version")"
+
   if gnome-extensions info "$uuid" >/dev/null 2>&1; then
-    printf 'OK:   %s\n' "$uuid"
+    current_version="$(installed_version "$uuid")"
+
+    if [[ "$location" != /usr/share/* && -n "$expected_version" ]] && \
+       ! version_matches "$current_version" "$expected_version"; then
+      printf 'DRIFT: %s expected runtime version %s, found %s\n' \
+        "$uuid" "$expected_version" "${current_version:-unknown}"
+      echo "RESTORE: reinstalling pinned EGO archive v$archive_version"
+
+      if install_ego "$uuid" "$archive_version"; then
+        printf 'DONE: restored %s from pinned archive\n' "$uuid"
+      else
+        printf 'MISS(user): %s\n' "$uuid"
+        missing=$((missing + 1))
+      fi
+      continue
+    fi
+
+    printf 'OK:   %s%s\n' "$uuid" \
+      "${current_version:+ (runtime version $current_version)}"
     ext_dir="$HOME/.local/share/gnome-shell/extensions/$uuid"
     if [[ -d "$ext_dir" ]] && ! compile_extension_schemas "$uuid" "$ext_dir"; then
       missing=$((missing + 1))
@@ -100,12 +147,10 @@ while IFS= read -r uuid; do
     continue
   fi
 
-  location="${locations[$uuid]:-}"
-  version="${versions[$uuid]:-}"
   if [[ "$location" == /usr/share/* ]]; then
     printf 'MISS(system): %s — install via Fedora package manager.\n' "$uuid"
     missing=$((missing + 1))
-  elif install_ego "$uuid" "$version"; then
+  elif install_ego "$uuid" "$archive_version"; then
     printf 'DONE: %s\n' "$uuid"
   else
     printf 'MISS(user): %s\n' "$uuid"
@@ -118,5 +163,5 @@ if (( missing > 0 )); then
   exit 1
 fi
 
-echo "All required GNOME extensions are present and user-extension schemas are compiled."
-echo "Log out and back in before enabling newly installed extensions."
+echo "All required GNOME extensions are present at the accepted runtime pins and user-extension schemas are compiled."
+echo "Log out and back in before enabling newly installed or replaced extensions."
