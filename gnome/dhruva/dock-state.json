@@ -1,0 +1,23 @@
+{
+  "order": [
+    "brave-origin.desktop",
+    "org.gnome.Calendar.desktop",
+    "org.gnome.Nautilus.desktop",
+    "org.gnome.Software.desktop",
+    "org.gnome.TextEditor.desktop",
+    "org.gnome.Calculator.desktop",
+    "gns3.desktop",
+    "com.mattjakeman.ExtensionManager.desktop",
+    "folder:software-folder"
+  ],
+  "folders": [
+    {
+      "id": "software-folder",
+      "name": "Nowy folder",
+      "icon": "folder-symbolic",
+      "apps": [
+        "org.gnome.Software.desktop"
+      ]
+    }
+  ]
+}

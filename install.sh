@@ -25,6 +25,7 @@ stages=(
   scripts/install-dhruva-localization.sh
   scripts/install-launchers.sh
   scripts/restore-gnome.sh
+  scripts/install-dhruva-config.sh
   network/wifi-power-save.sh
   network/firewall-zone.sh
   security/disable-llmnr.sh

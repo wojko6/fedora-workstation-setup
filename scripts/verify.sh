@@ -452,6 +452,43 @@ else
 fi
 
 echo
+echo "=== DHRUVA DOCK STATE ==="
+
+DHRUVA_DESIRED="$ROOT_DIR/gnome/dhruva/dock-state.json"
+DHRUVA_STATE="$HOME/.config/dhruva@narkagni/dhruva-dock-items.json"
+
+if [[ ! -f "$DHRUVA_DESIRED" ]]; then
+  bad "Dhruva repository dock state missing"
+elif [[ ! -f "$DHRUVA_STATE" ]]; then
+  bad "Dhruva live dock state missing"
+elif ! command -v python3 >/dev/null 2>&1; then
+  bad "Dhruva dock state: python3 unavailable"
+elif python3 - "$DHRUVA_DESIRED" "$DHRUVA_STATE" <<'PYVERIFY'
+import json
+import sys
+from pathlib import Path
+
+desired = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+actual = json.loads(Path(sys.argv[2]).read_text(encoding="utf-8"))
+
+if not isinstance(desired, dict) or not isinstance(actual, dict):
+    raise SystemExit(1)
+
+if actual.get("order") != desired.get("order"):
+    raise SystemExit(1)
+
+if actual.get("folders") != desired.get("folders"):
+    raise SystemExit(1)
+
+raise SystemExit(0)
+PYVERIFY
+then
+  ok "Dhruva dock state matches repository"
+else
+  bad "Dhruva dock state differs from repository"
+fi
+
+echo
 echo "=== EXTENSION VERSIONS ==="
 EXT_INVENTORY="$ROOT_DIR/gnome/extensions-inventory.tsv"
 if [[ -f "$EXT_INVENTORY" ]]; then
