@@ -1,0 +1,36 @@
+# Polish completion for Just Perfection v37 strings absent from the stale upstream POT.
+# This file is distributed under the same license as the Just Perfection package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Just Perfection 37 additions\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2026-09-17 00:00+0200\n"
+"Last-Translator: Fedora Workstation Setup contributors\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+msgid "Changelog"
+msgstr "Lista zmian"
+
+msgid "Backlight Toggle Button"
+msgstr "Przycisk podświetlenia klawiatury"
+
+msgid "Backlight Toggle Button in Quick settings menu"
+msgstr "Przycisk podświetlenia klawiatury w menu szybkich ustawień"
+
+msgid "Do Not Disturb Toggle Button"
+msgstr "Przycisk Nie przeszkadzać"
+
+msgid "Do Not Disturb Button in Quick setttings menu"
+msgstr "Przycisk Nie przeszkadzać w menu szybkich ustawień"
+
+msgid "Window Menu"
+msgstr "Menu okna"
+
+msgid "Window menu when you right click in title bar"
+msgstr "Menu okna wyświetlane po kliknięciu prawym przyciskiem myszy paska tytułu"
