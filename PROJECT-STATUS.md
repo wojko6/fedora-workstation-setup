@@ -22,14 +22,14 @@ All required GNOME extensions were installed and reported `ACTIVE` at runtime. T
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After post-restore maintenance, the 2026-09-16 workstation security validation, Secure Boot enablement, and the 2026-09-17 GNOME extension compatibility refresh, the current desired state was verified on the physical Fedora workstation:
+After post-restore maintenance, the 2026-09-16 workstation security validation, Secure Boot enablement, the 2026-09-17 GNOME extension compatibility refresh, and completion of the accepted Polish localization overlays, the current desired state was verified on the physical Fedora workstation:
 
 ```text
-PASS=217 WARN=0 FAIL=0 SKIP=0
+PASS=219 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-The physical-host validation includes Brave Origin, Tailscale package/service state, Wi-Fi firewall-zone policy, disabled LLMNR, disabled GNOME/GVfs WS-Discovery, workstation kernel hardening, Secure Boot, signed NVIDIA kernel-module verification, reproducible DDC/CI support for external-monitor brightness control, and the accepted GNOME extension runtime state. Authentication, network identities, credentials, private signing material, and other private state remain intentionally outside Git.
+The physical-host validation includes Brave Origin, Tailscale package/service state, Wi-Fi firewall-zone policy, disabled LLMNR, disabled GNOME/GVfs WS-Discovery, workstation kernel hardening, Secure Boot, signed NVIDIA kernel-module verification, reproducible DDC/CI support for external-monitor brightness control, the accepted GNOME extension runtime state, and dedicated verification of the GSConnect and Tiling Shell Polish localization completions. Authentication, network identities, credentials, private signing material, and other private state remain intentionally outside Git.
 
 ## GNOME extension compatibility refresh — 2026-09-17
 
@@ -62,10 +62,10 @@ Validated and applied controls:
 
 The update policy was exercised with a material graphics-stack update. NVIDIA/akmods was upgraded from 610.57.04 to 615.71.09. The kmod for kernel `7.2.5-200.fc44.x86_64` was built successfully, its module was signed, the machine rebooted successfully, and the RTX 3060 was operational on driver 615.71.09 afterward. Secure Boot was subsequently enabled after MOK enrollment; NVIDIA 615.71.09 remained operational and the system reported zero failed services.
 
-The latest physical verifier run, after the extension compatibility refresh and cleanup, returned:
+The latest physical verifier run, after extension cleanup and the completed localization work, returned:
 
 ```text
-PASS=217 WARN=0 FAIL=0 SKIP=0
+PASS=219 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
@@ -97,6 +97,8 @@ Testing on a pristine system and subsequent physical-host verification exposed s
 18. Dhruva maintains its own dock-order and application-folder state independently of GNOME `favorite-apps`. A stale Dhruva order could therefore survive even when the GNOME favorites matched the repository. The restore applies a sanitized, deterministic Dhruva dock state after GNOME restoration, and the verifier checks both the dock order and application-folder definitions.
 19. A broad extension refresh can introduce components that are installed but not suitable for the accepted baseline. The runtime audit now separates candidate testing from desired-state promotion; incompatible or conflicting extensions remain outside `enabled-extensions.txt` and are removed before the accepted inventory is regenerated.
 20. Extension inventory generation initially exposed an absolute home path. The generator now normalizes user locations to `~`, resolves duplicate UUIDs deterministically, and emits stable sorted output.
+21. GSConnect v72 shipped a valid Polish catalog but omitted the metadata `gettext-domain` required by GNOME Shell for its Quick Settings strings. The repository now applies the domain fix reproducibly and verifies both the merged catalog and metadata state.
+22. Tiling Shell v76 / 17.3 shipped 15 untranslated Polish strings. The repository now carries a minimal completion overlay pinned to that tested version and verifies that the merged catalog has zero untranslated and zero fuzzy entries.
 
 ## Reproducible Polish GNOME localization
 
@@ -114,9 +116,13 @@ The Dhruva GNOME extension is the most extensive localization case. The accepted
 
 Dhruva's accepted desired state also includes a sanitized reproducible dock layout. The implementation was tested by first confirming that the verifier detected deliberate live-state drift, then applying the repository state and confirming successful restoration. After a GNOME sign-out/sign-in, the restored dock was also checked visually.
 
-Before acceptance, all 20 Dhruva patches were applied against a clean upstream source tree with `--fuzz=0`; all 20 applied successfully without offset or fuzz. Dhruva v17 remained compatible with the repository-managed Polish localization during the 2026-09-17 refresh. The resulting physical-workstation verification completed with `PASS=217 WARN=0 FAIL=0 SKIP=0`.
+Before acceptance, all 20 Dhruva patches were applied against a clean upstream source tree with `--fuzz=0`; all 20 applied successfully without offset or fuzz. Dhruva v17 remained compatible with the repository-managed Polish localization during the 2026-09-17 refresh.
 
-The localization is maintained as source material rather than as opaque modified extension archives. This keeps the customization reviewable and reproducible while allowing the original extension to remain separately identifiable.
+GSConnect v72 was audited separately. Its upstream Polish catalog had 11 untranslated entries and no fuzzy entries. The repository carries only those missing translations as a merge overlay. Runtime testing also identified the missing Shell gettext-domain metadata; after the domain fix, the Quick Settings strings were confirmed in Polish on the physical host.
+
+Tiling Shell v76 / 17.3 was also audited against the exact installed version. Its upstream Polish catalog had 15 untranslated entries and no fuzzy entries. A minimal completion overlay was installed and verified, and the affected preferences were visually checked on the physical host. Both GSConnect and Tiling Shell dedicated verifiers are integrated into the main repository verifier.
+
+The localization is maintained as source material rather than as opaque modified extension archives. This keeps the customization reviewable and reproducible while allowing the original extensions to remain separately identifiable.
 
 ## Third-party extension attribution
 
@@ -124,7 +130,7 @@ The GNOME Shell extensions integrated by this repository remain third-party soft
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for the tested Fedora 44 / GNOME 50.4 baseline and a zero-warning, zero-failure desired-state verification on the physical workstation after security hardening, a material NVIDIA/graphics-stack update, Secure Boot activation, DDC/CI integration, and the GNOME extension compatibility refresh. Package installation, repositories, Flatpaks, pinned GNOME extensions, extension schemas, curated GNOME settings, desktop launcher restoration, reproducible Polish GNOME extension localizations including the Dhruva gettext/CLDR integration, network/security controls, Tailscale package/service state, Secure Boot state, NVIDIA module signing, DDC/CI support, and verification logic have been exercised across these validation stages.
+The repository has passed a clean-room functional restore test for the tested Fedora 44 / GNOME 50.4 baseline and a zero-warning, zero-failure desired-state verification on the physical workstation after security hardening, a material NVIDIA/graphics-stack update, Secure Boot activation, DDC/CI integration, the GNOME extension compatibility refresh, and the completed GSConnect/Tiling Shell localization validation. Package installation, repositories, Flatpaks, pinned GNOME extensions, extension schemas, curated GNOME settings, desktop launcher restoration, reproducible Polish GNOME extension localizations including Dhruva, GSConnect, and Tiling Shell, network/security controls, Tailscale package/service state, Secure Boot state, NVIDIA module signing, DDC/CI support, and verification logic have been exercised across these validation stages.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, VPN authentication state, Tailscale node identity, private signing keys, and other private state remain intentionally outside Git and must be restored separately.
 
@@ -156,4 +162,4 @@ The tested baseline is considered accepted when:
 - private data is not required from the public repository;
 - `scripts/verify.sh` reports zero `WARN` and zero `FAIL` on the validated target, with only documented environment-specific `SKIP` results where applicable.
 
-**Current result: ACCEPTED (`PASS=217 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`).**
+**Current result: ACCEPTED (`PASS=219 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`).**
