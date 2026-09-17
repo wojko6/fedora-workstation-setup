@@ -1,0 +1,1377 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the advanced-media-controller package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: advanced-media-controller 6.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-19 11:47+0200\n"
+"PO-Revision-Date: 2026-09-17 20:45+0200\n"
+"Last-Translator: Wojciech / repository-managed translation\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: prefs.js:22 ui/aboutPage.js:134 ui/aboutPage.js:167
+msgid "Advanced Media Controller"
+msgstr "Zaawansowany kontroler multimediów"
+
+#: prefs.js:37
+msgid "Vinyl Apps"
+msgstr "Aplikacje winylowe"
+
+#: prefs.js:72
+msgid "Player Filter"
+msgstr "Filtr odtwarzaczy"
+
+#: prefs.js:82
+msgid "Lyrics"
+msgstr "Teksty piosenek"
+
+#: prefs.js:106
+msgid "No instances saved yet"
+msgstr "Brak zapisanych instancji"
+
+#: prefs.js:108
+msgid ""
+"Double-click the album art in the popup while music is playing to save an "
+"instance here."
+msgstr ""
+"Kliknij dwukrotnie okładkę albumu w wyskakującym oknie podczas odtwarzania muzyki, aby zapisać tutaj instancję."
+
+#: prefs.js:207
+#, javascript-format
+msgid "%s via %s"
+msgstr "%s przez %s"
+
+#: prefs.js:216 prefs.js:665
+msgid "renamed from"
+msgstr "poprzednia nazwa"
+
+#: prefs.js:239
+#, javascript-format
+msgid "Rename “%s”"
+msgstr "Zmień nazwę „%s”"
+
+#: prefs.js:263
+#, javascript-format
+msgid "Remove %s from saved instances"
+msgstr "Usuń %s z zapisanych instancji"
+
+#: prefs.js:280
+msgid "Rename Instance"
+msgstr "Zmień nazwę instancji"
+
+#: prefs.js:282
+#, javascript-format
+msgid ""
+"Enter a custom display name for \"%s\".\n"
+"Leave blank to reset to the default."
+msgstr ""
+"Wprowadź własną nazwę wyświetlaną dla „%s”.\n"
+"Pozostaw puste, aby przywrócić domyślną nazwę."
+
+#: prefs.js:288 ui/aboutPage.js:117 ui/appearancePage.js:497
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: prefs.js:289
+msgid "Rename"
+msgstr "Zmień nazwę"
+
+#: prefs.js:307
+msgid "Display name"
+msgstr "Nazwa wyświetlana"
+
+#: prefs.js:636
+msgid "Saved Instances"
+msgstr "Zapisane instancje"
+
+#: prefs.js:657
+#, javascript-format
+msgid "Browser: %s · Source: %s"
+msgstr "Przeglądarka: %s · Źródło: %s"
+
+#: prefs.js:708
+msgid "Other Apps"
+msgstr "Inne aplikacje"
+
+#: prefs.js:779
+msgid "No matching apps found"
+msgstr "Nie znaleziono pasujących aplikacji"
+
+#: ui/aboutPage.js:81
+msgid "About"
+msgstr "O rozszerzeniu"
+
+#: ui/aboutPage.js:91
+msgid "Danger Zone"
+msgstr "Strefa niebezpieczna"
+
+#: ui/aboutPage.js:92
+msgid "Reset extension settings to their default values"
+msgstr "Przywróć domyślne wartości ustawień rozszerzenia"
+
+#: ui/aboutPage.js:96
+msgid "Reset All Settings"
+msgstr "Zresetuj wszystkie ustawienia"
+
+#: ui/aboutPage.js:97
+msgid "This action cannot be undone"
+msgstr "Tej operacji nie można cofnąć"
+
+#: ui/aboutPage.js:105 ui/aboutPage.js:118 ui/appearancePage.js:475
+#: ui/appearancePage.js:498
+msgid "Reset"
+msgstr "Resetuj"
+
+#: ui/aboutPage.js:110
+msgid "Reset Settings?"
+msgstr "Zresetować ustawienia?"
+
+#: ui/aboutPage.js:112
+msgid "Are you sure you want to restore all settings to their default values?"
+msgstr "Czy na pewno chcesz przywrócić wszystkie ustawienia do wartości domyślnych?"
+
+#: ui/aboutPage.js:136
+msgid "Beautiful and modern media controls with multi-instance support"
+msgstr "Piękne i nowoczesne sterowanie multimediami z obsługą wielu instancji"
+
+#: ui/aboutPage.js:174
+msgid "Version 6.5"
+msgstr "Wersja 6.5"
+
+#: ui/aboutPage.js:181
+msgid "Modern media controls with native GNOME design"
+msgstr "Nowoczesne sterowanie multimediami w natywnym stylu GNOME"
+
+#: ui/aboutPage.js:195
+msgid "Extension Links"
+msgstr "Łącza rozszerzenia"
+
+#: ui/aboutPage.js:196 ui/aboutPage.js:201
+msgid "Source code, issues, and contributions"
+msgstr "Kod źródłowy, zgłoszenia błędów i współtworzenie"
+
+#: ui/aboutPage.js:200
+msgid "View on codeberg"
+msgstr "Otwórz w Codeberg"
+
+#: ui/aboutPage.js:219
+msgid "Ko-fi"
+msgstr "Ko-fi"
+
+#: ui/aboutPage.js:220
+msgid "Support development with Ko-fi"
+msgstr "Wesprzyj rozwój przez Ko-fi"
+
+#: ui/aboutPage.js:224
+msgid "☕ Support via Ko-fi – scan the QR code!"
+msgstr "☕ Wesprzyj przez Ko-fi — zeskanuj kod QR!"
+
+#: ui/aboutPage.js:225
+msgid "Scan QR code to open Ko-fi"
+msgstr "Zeskanuj kod QR, aby otworzyć Ko-fi"
+
+#: ui/aboutPage.js:228
+msgid "Liberapay"
+msgstr "Liberapay"
+
+#: ui/aboutPage.js:229
+msgid "Support via Liberapay — recurring donations"
+msgstr "Wesprzyj przez Liberapay — darowizny cykliczne"
+
+#: ui/aboutPage.js:233
+msgid "♥ Support via Liberapay – scan the QR code!"
+msgstr "♥ Wesprzyj przez Liberapay — zeskanuj kod QR!"
+
+#: ui/aboutPage.js:234
+msgid "Scan QR code to open Liberapay"
+msgstr "Zeskanuj kod QR, aby otworzyć Liberapay"
+
+#: ui/aboutPage.js:237
+msgid "Buy Me a Coffee"
+msgstr "Buy Me a Coffee"
+
+#: ui/aboutPage.js:238
+msgid "Support development with a small donation"
+msgstr "Wesprzyj rozwój niewielką darowizną"
+
+#: ui/aboutPage.js:242
+msgid "☕ Support via Buy Me a Coffee – scan the QR code!"
+msgstr "☕ Wesprzyj przez Buy Me a Coffee — zeskanuj kod QR!"
+
+#: ui/aboutPage.js:243
+msgid "Scan QR code to open Buy Me a Coffee"
+msgstr "Zeskanuj kod QR, aby otworzyć Buy Me a Coffee"
+
+#: ui/aboutPage.js:263
+msgid "Donation Platform"
+msgstr "Platforma darowizn"
+
+#: ui/aboutPage.js:264
+msgid "Switch to see the QR code for each platform"
+msgstr "Przełączaj, aby wyświetlić kod QR dla każdej platformy"
+
+#: ui/aboutPage.js:302
+msgid "Donation Address"
+msgstr "Adres darowizny"
+
+#: ui/aboutPage.js:316
+msgid "Donation address"
+msgstr "Adres darowizny"
+
+#: ui/aboutPage.js:349
+msgid "Support Development"
+msgstr "Wesprzyj rozwój"
+
+#: ui/aboutPage.js:350
+msgid "Choose your preferred donation platform"
+msgstr "Wybierz preferowaną platformę darowizn"
+
+#: ui/aboutPage.js:402
+msgid "License & Credits"
+msgstr "Licencja i podziękowania"
+
+#: ui/aboutPage.js:403
+msgid "Open source software information"
+msgstr "Informacje o oprogramowaniu open source"
+
+#: ui/aboutPage.js:406
+msgid "Open Source License"
+msgstr "Licencja open source"
+
+#: ui/aboutPage.js:407
+msgid "GPL-3.0 License - Free and open source software"
+msgstr "Licencja GPL-3.0 — wolne i otwarte oprogramowanie"
+
+#: ui/aboutPage.js:414
+msgid "Media Data Sources"
+msgstr "Źródła danych multimedialnych"
+
+#: ui/aboutPage.js:416
+msgid "MPRIS D-Bus interface - Standard media player remote interfacing"
+msgstr "Interfejs MPRIS D-Bus — standardowy interfejs zdalnego sterowania odtwarzaczami multimediów"
+
+#: ui/aboutPage.js:424
+msgid "Key Features"
+msgstr "Najważniejsze funkcje"
+
+#: ui/aboutPage.js:426
+msgid ""
+"• Multi-instance browser support\n"
+"• Per-app rotating vinyl record album art\n"
+"• Animated tonearm\n"
+"• Smooth animations\n"
+"• Double-click to toggle vinyl per app\n"
+"• Triple-click album art to show synced lyrics\n"
+"• Single-click lyrics panel to return to album art\n"
+"• Lyrics synced to playback via lrclib.net\n"
+"• Per-player lyrics toggle (each tab independent)\n"
+"• All seen apps remembered — re-enable any time"
+msgstr ""
+"• Obsługa wielu instancji przeglądarek\n"
+"• Osobny efekt obracającej się płyty winylowej dla każdej aplikacji\n"
+"• Animowane ramię gramofonu\n"
+"• Płynne animacje\n"
+"• Podwójne kliknięcie przełącza efekt winylu dla danej aplikacji\n"
+"• Potrójne kliknięcie okładki albumu pokazuje zsynchronizowany tekst piosenki\n"
+"• Pojedyncze kliknięcie panelu tekstu wraca do okładki albumu\n"
+"• Tekst piosenki jest synchronizowany z odtwarzaniem przez lrclib.net\n"
+"• Osobne przełączanie tekstu dla każdego odtwarzacza (każda karta niezależna)\n"
+"• Wszystkie wykryte aplikacje są zapamiętywane — można je ponownie włączyć w dowolnej chwili"
+
+#: ui/appearancePage.js:40
+msgid "When ON the colour is inherited from the Shell theme"
+msgstr "Po włączeniu kolor jest dziedziczony z motywu powłoki"
+
+#: ui/appearancePage.js:46
+msgid "Pick a custom text colour"
+msgstr "Wybierz własny kolor tekstu"
+
+#: ui/appearancePage.js:97
+msgid "Inherit"
+msgstr "Dziedzicz"
+
+#: ui/appearancePage.js:114
+#, javascript-format
+msgid "Default (%s)"
+msgstr "Domyślnie (%s)"
+
+#: ui/appearancePage.js:125
+msgid "Font Family"
+msgstr "Rodzina czcionek"
+
+#: ui/appearancePage.js:126
+msgid "Default uses the Shell / GTK theme font"
+msgstr "Domyślna używa czcionki motywu Shell / GTK"
+
+#: ui/appearancePage.js:157
+msgid "Search fonts…"
+msgstr "Szukaj czcionek…"
+
+#: ui/appearancePage.js:303
+msgid "Font Size (px)"
+msgstr "Rozmiar czcionki (px)"
+
+#: ui/appearancePage.js:317
+msgid "Bold"
+msgstr "Pogrubienie"
+
+#: ui/appearancePage.js:318
+msgid "Use bold font weight"
+msgstr "Używaj pogrubionej czcionki"
+
+#: ui/appearancePage.js:324
+msgid "Text Colour"
+msgstr "Kolor tekstu"
+
+#: ui/appearancePage.js:325
+msgid "\"Inherit\" uses the Shell theme colour"
+msgstr "„Dziedzicz” używa koloru z motywu powłoki"
+
+#: ui/appearancePage.js:335
+msgid "Appearance"
+msgstr "Wygląd"
+
+#: ui/appearancePage.js:341
+msgid "Panel Label – Font Family"
+msgstr "Etykieta panelu — rodzina czcionek"
+
+#: ui/appearancePage.js:343
+msgid ""
+"Font used for the track / artist text shown in the top panel bar. Changes "
+"apply immediately."
+msgstr "Czcionka używana dla tekstu utworu / wykonawcy w górnym panelu. Zmiany są stosowane natychmiast."
+
+#: ui/appearancePage.js:355
+msgid "Panel App Icon"
+msgstr "Ikona aplikacji w panelu"
+
+#: ui/appearancePage.js:356
+msgid "Size of the application icon displayed in the top panel."
+msgstr "Rozmiar ikony aplikacji wyświetlanej w górnym panelu."
+
+#: ui/appearancePage.js:361
+msgid "Icon Size (px)"
+msgstr "Rozmiar ikony (px)"
+
+#: ui/appearancePage.js:362
+msgid "12–32 px. Takes effect immediately."
+msgstr "12–32 px. Zmiana jest stosowana natychmiast."
+
+#: ui/appearancePage.js:374
+msgid "Popup – Track Title Font Family"
+msgstr "Okno wyskakujące — rodzina czcionek tytułu utworu"
+
+#: ui/appearancePage.js:376
+msgid "Font for the large track-title label inside the popup player."
+msgstr "Czcionka dużego tytułu utworu w odtwarzaczu wyskakującym."
+
+#: ui/appearancePage.js:388
+msgid "Popup – Artist Name Font Family"
+msgstr "Okno wyskakujące — rodzina czcionek nazwy wykonawcy"
+
+#: ui/appearancePage.js:390
+msgid "Font for the artist-name label inside the popup player."
+msgstr "Czcionka nazwy wykonawcy w odtwarzaczu wyskakującym."
+
+#: ui/appearancePage.js:401
+msgid "Player-Tab Icons"
+msgstr "Ikony kart odtwarzaczy"
+
+#: ui/appearancePage.js:403
+msgid ""
+"Icon sizes and style used in the player-switcher tabs at the top of the "
+"popup. Set sizes to 0 to follow the system / Shell-theme default. Changes "
+"apply immediately."
+msgstr ""
+"Rozmiary i styl ikon używanych na kartach przełączania odtwarzaczy u góry okna wyskakującego. Ustaw rozmiar na 0, aby używać domyślnej wartości systemu / motywu powłoki. Zmiany są stosowane natychmiast."
+
+#: ui/appearancePage.js:411
+msgid "Monochrome Icons"
+msgstr "Ikony monochromatyczne"
+
+#: ui/appearancePage.js:413
+msgid ""
+"Show app icons in monochrome (symbolic style) instead of colour. Symbolic "
+"icons match the panel text colour and adapt to light / dark themes. Apps "
+"without a symbolic variant are desaturated automatically."
+msgstr ""
+"Pokazuj ikony aplikacji monochromatycznie (styl symboliczny) zamiast w kolorze. Ikony symboliczne dopasowują się do koloru tekstu panelu i jasnego / ciemnego motywu. Aplikacje bez wariantu symbolicznego są automatycznie odbarwiane."
+
+#: ui/appearancePage.js:422
+msgid "System default sizes"
+msgstr "Domyślne rozmiary systemowe"
+
+#: ui/appearancePage.js:424
+msgid ""
+"Multi-tab icons default to 18 px; the single large icon defaults to 28 px. "
+"Setting 0 restores the system default for that slot."
+msgstr ""
+"Ikony wielu kart domyślnie mają 18 px, a pojedyncza duża ikona 28 px. Ustawienie 0 przywraca domyślny rozmiar systemowy dla danego miejsca."
+
+#: ui/appearancePage.js:437
+msgid "Multi-player Tab Icon Size (px)"
+msgstr "Rozmiar ikony karty wielu odtwarzaczy (px)"
+
+#: ui/appearancePage.js:438
+msgid "0 = system default (18 px), range 12–32 px"
+msgstr "0 = domyślnie systemowe (18 px), zakres 12–32 px"
+
+#: ui/appearancePage.js:449
+msgid "Single-player Icon Size (px)"
+msgstr "Rozmiar ikony pojedynczego odtwarzacza (px)"
+
+#: ui/appearancePage.js:450
+msgid "0 = system default (28 px), range 16–48 px"
+msgstr "0 = domyślnie systemowe (28 px), zakres 16–48 px"
+
+#: ui/appearancePage.js:461
+msgid "Reset Appearance"
+msgstr "Resetuj wygląd"
+
+#: ui/appearancePage.js:463
+msgid ""
+"To restore all appearance defaults, use the Reset All Settings button on the "
+"About page."
+msgstr ""
+"Aby przywrócić wszystkie domyślne ustawienia wyglądu, użyj przycisku „Zresetuj wszystkie ustawienia” na stronie „O rozszerzeniu”."
+
+#: ui/appearancePage.js:469
+msgid "Reset appearance defaults"
+msgstr "Przywróć domyślny wygląd"
+
+#: ui/appearancePage.js:470
+msgid "Clears all font, colour and icon-size overrides"
+msgstr "Czyści wszystkie własne ustawienia czcionek, kolorów i rozmiarów ikon"
+
+#: ui/appearancePage.js:492
+msgid "Reset Appearance?"
+msgstr "Zresetować wygląd?"
+
+#: ui/appearancePage.js:493
+msgid "Restore font, colour and icon-size settings to their defaults?"
+msgstr "Przywrócić domyślne ustawienia czcionek, kolorów i rozmiarów ikon?"
+
+#: ui/generalPage.js:14
+msgid "General"
+msgstr "Ogólne"
+
+#: ui/generalPage.js:20
+msgid "Panel Placement"
+msgstr "Położenie w panelu"
+
+#: ui/generalPage.js:21
+msgid "Where the indicator sits in the top bar"
+msgstr "Miejsce wskaźnika na górnym pasku"
+
+#: ui/generalPage.js:25
+msgid "Panel Position"
+msgstr "Pozycja w panelu"
+
+#: ui/generalPage.js:27
+msgid "Left"
+msgstr "Lewo"
+
+#: ui/generalPage.js:27
+msgid "Center"
+msgstr "Środek"
+
+#: ui/generalPage.js:27
+msgid "Right"
+msgstr "Prawo"
+
+#: ui/generalPage.js:40
+msgid "Panel Index"
+msgstr "Indeks w panelu"
+
+#: ui/generalPage.js:41
+msgid "Position within the panel area (-1 = automatic)"
+msgstr "Pozycja w obszarze panelu (-1 = automatycznie)"
+
+#: ui/generalPage.js:60
+msgid "Panel Label"
+msgstr "Etykieta panelu"
+
+#: ui/generalPage.js:61
+msgid "Track name shown in the top bar"
+msgstr "Nazwa utworu wyświetlana na górnym pasku"
+
+#: ui/generalPage.js:66
+msgid "Show Track Name"
+msgstr "Pokazuj nazwę utworu"
+
+#: ui/generalPage.js:67
+msgid "Display the current track title in the panel"
+msgstr "Wyświetlaj bieżący tytuł utworu w panelu"
+
+#: ui/generalPage.js:78
+msgid "Show Artist Name"
+msgstr "Pokazuj nazwę wykonawcy"
+
+#: ui/generalPage.js:79
+msgid "Append the artist name to the track title"
+msgstr "Dodawaj nazwę wykonawcy do tytułu utworu"
+
+#: ui/generalPage.js:90
+msgid "Title / Artist Separator"
+msgstr "Separator tytułu / wykonawcy"
+
+#: ui/generalPage.js:101
+msgid "Panel Scrolling"
+msgstr "Przewijanie w panelu"
+
+#: ui/generalPage.js:102
+msgid "Marquee scroll of the track label in the top bar"
+msgstr "Przewijanie tekstu utworu w górnym pasku"
+
+#: ui/generalPage.js:107
+msgid "Enable Panel Label Scrolling"
+msgstr "Włącz przewijanie etykiety panelu"
+
+#: ui/generalPage.js:109
+msgid ""
+"Scroll the track/artist text one full loop then pause before repeating. When "
+"off, the text is truncated with an ellipsis."
+msgstr ""
+"Przewiń tekst utworu/wykonawcy przez pełną pętlę, a następnie wstrzymaj przed powtórzeniem. Po wyłączeniu tekst jest skracany wielokropkiem."
+
+#: ui/generalPage.js:122
+msgid "Panel Scroll Speed"
+msgstr "Szybkość przewijania w panelu"
+
+#: ui/generalPage.js:123 ui/popupPage.js:74 ui/popupPage.js:115
+msgid "1 = slowest, 10 = fastest"
+msgstr "1 = najwolniej, 10 = najszybciej"
+
+#: ui/generalPage.js:141
+msgid "Panel Label Width"
+msgstr "Szerokość etykiety panelu"
+
+#: ui/generalPage.js:143
+msgid ""
+"Visible pixel width of the track label in the top bar (60 – 400 px). Takes "
+"effect immediately — no restart needed."
+msgstr ""
+"Widoczna szerokość etykiety utworu w górnym pasku (60–400 px). Zmiana jest stosowana natychmiast — bez restartu."
+
+#: ui/generalPage.js:164
+msgid "Panel Element Order"
+msgstr "Kolejność elementów panelu"
+
+#: ui/generalPage.js:166
+msgid ""
+"Drag and drop the rows to reorder the icon, label, and controls shown in the "
+"top bar. Changes take effect immediately."
+msgstr ""
+"Przeciągnij i upuść wiersze, aby zmienić kolejność ikony, etykiety i elementów sterowania na górnym pasku. Zmiany są stosowane natychmiast."
+
+#: ui/generalPage.js:173
+msgid "App Icon"
+msgstr "Ikona aplikacji"
+
+#: ui/generalPage.js:174
+msgid "Track Label"
+msgstr "Etykieta utworu"
+
+#: ui/generalPage.js:175
+msgid "Playback Controls"
+msgstr "Sterowanie odtwarzaniem"
+
+#: ui/generalPage.js:276
+msgid "Popup Player Layout"
+msgstr "Układ odtwarzacza wyskakującego"
+
+#: ui/generalPage.js:277
+msgid "How the track title and artist are aligned in the popup"
+msgstr "Sposób wyrównania tytułu utworu i wykonawcy w oknie wyskakującym"
+
+#: ui/generalPage.js:282
+msgid "Centre-align Track Info"
+msgstr "Wyśrodkuj informacje o utworze"
+
+#: ui/generalPage.js:284
+msgid ""
+"When on, the track title and artist name are centred under the album art. "
+"When off, they are left-aligned. Takes effect immediately."
+msgstr ""
+"Po włączeniu tytuł utworu i nazwa wykonawcy są wyśrodkowane pod okładką albumu. Po wyłączeniu są wyrównane do lewej. Zmiana jest stosowana natychmiast."
+
+#: ui/generalPage.js:298
+msgid "System Integration"
+msgstr "Integracja z systemem"
+
+#: ui/generalPage.js:300
+msgid "Controls how this extension interacts with other parts of GNOME Shell."
+msgstr "Steruje współpracą tego rozszerzenia z innymi elementami GNOME Shell."
+
+#: ui/generalPage.js:306
+msgid "Hide Default GNOME Media Player"
+msgstr "Ukryj domyślny odtwarzacz multimediów GNOME"
+
+#: ui/generalPage.js:308
+msgid "Remove the built-in media controls from the system date/time menu"
+msgstr "Usuń wbudowane sterowanie multimediami z systemowego menu daty/czasu"
+
+#: ui/generalPage.js:328
+msgid ""
+"When ON, the extension hides the stock GNOME media controls that\n"
+"normally appear in the calendar / notification panel (the date-time\n"
+"menu). This prevents a duplicate 'now playing' widget.\n"
+"\n"
+"The built-in controls are fully restored the moment you:\n"
+"  • Turn this switch off, or\n"
+"  • Disable or uninstall this extension."
+msgstr ""
+"Po włączeniu rozszerzenie ukrywa standardowe sterowanie multimediami GNOME, które\n"
+"zwykle pojawia się w panelu kalendarza / powiadomień (menu daty i czasu).\n"
+"Zapobiega to wyświetlaniu podwójnego widżetu „teraz odtwarzane”.\n"
+"\n"
+"Wbudowane sterowanie zostanie w pełni przywrócone, gdy:\n"
+"  • wyłączysz ten przełącznik lub\n"
+"  • wyłączysz albo odinstalujesz to rozszerzenie."
+
+#: ui/lyricsPage.js:13
+msgid "Synced Lyrics"
+msgstr "Zsynchronizowane teksty piosenek"
+
+#: ui/lyricsPage.js:15
+msgid "Time-synced lyrics fetched from lrclib.net — free, no account needed"
+msgstr "Teksty synchronizowane czasowo pobierane z lrclib.net — bezpłatnie i bez konta"
+
+#: ui/lyricsPage.js:21
+msgid "Enable Synced Lyrics"
+msgstr "Włącz zsynchronizowane teksty"
+
+#: ui/lyricsPage.js:23
+msgid ""
+"Fetch and display scrolling lyrics that follow the current playback position"
+msgstr "Pobieraj i wyświetlaj przewijany tekst piosenki dopasowany do bieżącej pozycji odtwarzania"
+
+#: ui/lyricsPage.js:37
+msgid "How to Use Lyrics"
+msgstr "Jak używać tekstów piosenek"
+
+#: ui/lyricsPage.js:39
+msgid ""
+"Lyrics are tied to each player tab independently — Spotify and Firefox each "
+"remember their own setting"
+msgstr ""
+"Teksty są przypisane niezależnie do każdej karty odtwarzacza — Spotify i Firefox zapamiętują własne ustawienia"
+
+#: ui/lyricsPage.js:50
+msgid "once"
+msgstr "raz"
+
+#: ui/lyricsPage.js:50
+msgid "twice"
+msgstr "dwa razy"
+
+#: ui/lyricsPage.js:50
+#, javascript-format
+msgid "%d times"
+msgstr "%d razy"
+
+#: ui/lyricsPage.js:55
+msgid "Start playing a song"
+msgstr "Rozpocznij odtwarzanie utworu"
+
+#: ui/lyricsPage.js:57
+msgid ""
+"Open any media player or browser tab (Spotify, YouTube Music, VLC, "
+"Rhythmbox…) and play a track so it appears in the panel."
+msgstr ""
+"Otwórz dowolny odtwarzacz lub kartę przeglądarki (Spotify, YouTube Music, VLC, Rhythmbox…) i odtwórz utwór, aby pojawił się w panelu."
+
+#: ui/lyricsPage.js:62
+msgid "Open the popup player"
+msgstr "Otwórz odtwarzacz wyskakujący"
+
+#: ui/lyricsPage.js:64
+msgid ""
+"Click the media controller icon in the top panel to open the popup. You’ll "
+"see the album art, track title, and playback controls."
+msgstr ""
+"Kliknij ikonę kontrolera multimediów w górnym panelu, aby otworzyć okno wyskakujące. Zobaczysz okładkę albumu, tytuł utworu i sterowanie odtwarzaniem."
+
+#: ui/lyricsPage.js:70
+#, javascript-format
+msgid "Click the album art %s to show lyrics"
+msgstr "Kliknij okładkę albumu %s, aby pokazać tekst"
+
+#: ui/lyricsPage.js:74
+msgid ""
+"Click the album art in quick succession. The cover image will be replaced by "
+"the lyrics panel, which scrolls automatically in time with the music."
+msgstr ""
+"Kliknij okładkę albumu szybko kilka razy. Obraz okładki zostanie zastąpiony panelem tekstu, który przewija się automatycznie w rytm muzyki."
+
+#: ui/lyricsPage.js:79
+msgid "Single-click the lyrics panel to go back"
+msgstr "Kliknij panel tekstu raz, aby wrócić"
+
+#: ui/lyricsPage.js:81
+msgid ""
+"Tap anywhere on the lyrics panel once to dismiss it and return to the album "
+"art — vinyl or normal cover, whichever that app uses."
+msgstr ""
+"Kliknij raz w dowolnym miejscu panelu tekstu, aby go zamknąć i wrócić do okładki albumu — winylowej lub zwykłej, zależnie od ustawienia aplikacji."
+
+#: ui/lyricsPage.js:86
+msgid "Click again to re-open"
+msgstr "Kliknij ponownie, aby otworzyć"
+
+#: ui/lyricsPage.js:88
+msgid ""
+"You can toggle the lyrics panel as many times as you like. Each player tab "
+"remembers independently whether lyrics are open."
+msgstr ""
+"Panel tekstu możesz przełączać dowolną liczbę razy. Każda karta odtwarzacza niezależnie pamięta, czy tekst jest otwarty."
+
+#: ui/lyricsPage.js:108
+msgid "Lyrics Behaviour"
+msgstr "Zachowanie tekstów piosenek"
+
+#: ui/lyricsPage.js:109
+msgid "What happens behind the scenes"
+msgstr "Co dzieje się w tle"
+
+#: ui/lyricsPage.js:114
+msgid "Lyrics details & edge cases"
+msgstr "Szczegóły i przypadki szczególne tekstów"
+
+#: ui/lyricsPage.js:115
+msgid "What to expect when the lyrics panel is open"
+msgstr "Czego oczekiwać, gdy panel tekstu jest otwarty"
+
+#: ui/lyricsPage.js:121
+msgid ""
+"Source\n"
+"  • Lyrics are fetched from lrclib.net — a free, open public database\n"
+"  • No account or API key is required; the request is made silently in the "
+"background\n"
+"\n"
+"Display\n"
+"  • The active lyric line is shown larger and centred in the panel\n"
+"  • The line above and below are shown at medium size; all others fade out\n"
+"  • The panel scrolls smoothly so the active line is always in view\n"
+"\n"
+"Track changes\n"
+"  • When a new song starts while the lyrics panel is open, the view clears\n"
+"    and new lyrics are fetched automatically\n"
+"  • If no lyrics are found, a “No lyrics found” message is shown\n"
+"\n"
+"Multiple players\n"
+"  • Each player tab (Spotify, YouTube, VLC…) has its own independent\n"
+"    lyrics toggle — opening lyrics for one player does not affect any other\n"
+"  • Switching tabs restores the correct view (lyrics or album art) for\n"
+"    the player you switch to\n"
+"\n"
+"Seeking\n"
+"  • When you seek forward or backward, the highlighted line jumps\n"
+"    instantly to the correct position"
+msgstr ""
+"Źródło\n"
+"  • Teksty są pobierane z lrclib.net — bezpłatnej, otwartej publicznej bazy danych\n"
+"  • Nie jest wymagane konto ani klucz API; żądanie jest wysyłane w tle\n"
+"\n"
+"Wyświetlanie\n"
+"  • Aktywny wers tekstu jest większy i wyśrodkowany w panelu\n"
+"  • Wers nad i pod nim jest wyświetlany średnim rozmiarem, pozostałe stopniowo zanikają\n"
+"  • Panel przewija się płynnie, aby aktywny wers był zawsze widoczny\n"
+"\n"
+"Zmiana utworu\n"
+"  • Gdy podczas otwartego panelu tekstu rozpocznie się nowy utwór, widok zostanie wyczyszczony,\n"
+"    a nowy tekst pobrany automatycznie\n"
+"  • Jeśli tekst nie zostanie znaleziony, pojawi się komunikat „Nie znaleziono tekstu”\n"
+"\n"
+"Wiele odtwarzaczy\n"
+"  • Każda karta odtwarzacza (Spotify, YouTube, VLC…) ma własny niezależny\n"
+"    przełącznik tekstu — otwarcie tekstu w jednym odtwarzaczu nie wpływa na inne\n"
+"  • Przełączanie kart przywraca właściwy widok (tekst lub okładkę albumu)\n"
+"    dla wybranego odtwarzacza\n"
+"\n"
+"Przewijanie pozycji\n"
+"  • Gdy przewiniesz utwór do przodu lub do tyłu, podświetlony wers natychmiast\n"
+"    przeskoczy do właściwego miejsca"
+
+#: ui/lyricsPage.js:161
+msgid "Album Art Click Actions"
+msgstr "Akcje kliknięcia okładki albumu"
+
+#: ui/lyricsPage.js:163
+msgid "Summary of what each click pattern does on the album art cover"
+msgstr "Podsumowanie działania poszczególnych sekwencji kliknięć okładki albumu"
+
+#: ui/lyricsPage.js:168
+msgid "1 click"
+msgstr "1 kliknięcie"
+
+#: ui/lyricsPage.js:168
+#, javascript-format
+msgid "%d clicks"
+msgstr "%d kliknięć"
+
+#: ui/lyricsPage.js:173
+msgid "Single click"
+msgstr "Pojedyncze kliknięcie"
+
+#: ui/lyricsPage.js:175
+msgid ""
+"When lyrics are showing: closes the lyrics panel and returns to the album art"
+msgstr "Gdy wyświetlany jest tekst: zamyka panel tekstu i wraca do okładki albumu"
+
+#: ui/lyricsPage.js:180
+#, javascript-format
+msgid "%s — toggle vinyl effect"
+msgstr "%s — przełącz efekt winylu"
+
+#: ui/lyricsPage.js:182
+msgid ""
+"Toggles the spinning vinyl record effect for that specific app (remembered "
+"independently per app)"
+msgstr ""
+"Przełącza efekt obracającej się płyty winylowej dla tej konkretnej aplikacji (zapamiętywany niezależnie dla każdej aplikacji)"
+
+#: ui/lyricsPage.js:187
+#, javascript-format
+msgid "%s — toggle lyrics"
+msgstr "%s — przełącz tekst"
+
+#: ui/lyricsPage.js:189
+msgid ""
+"Toggles the synced lyrics panel for the current player tab (remembered "
+"independently per player)"
+msgstr ""
+"Przełącza panel zsynchronizowanego tekstu dla bieżącej karty odtwarzacza (zapamiętywany niezależnie dla każdego odtwarzacza)"
+
+#: ui/lyricsPage.js:238
+msgid "Data Source"
+msgstr "Źródło danych"
+
+#: ui/lyricsPage.js:239
+msgid "Where lyrics come from"
+msgstr "Skąd pochodzą teksty"
+
+#: ui/lyricsPage.js:244
+msgid "lrclib.net"
+msgstr "lrclib.net"
+
+#: ui/lyricsPage.js:246
+msgid ""
+"Free, open-source time-synced lyrics database — no sign-up, no tracking, no "
+"ads"
+msgstr "Bezpłatna, otwarta baza zsynchronizowanych tekstów — bez rejestracji, śledzenia i reklam"
+
+#: ui/lyricsPage.js:272
+msgid "Privacy note"
+msgstr "Informacja o prywatności"
+
+#: ui/lyricsPage.js:274
+msgid ""
+"A request containing the track title, artist, album and duration is sent to "
+"lrclib.net when you open the lyrics panel. No personal data or user "
+"identifiers are included."
+msgstr ""
+"Po otwarciu panelu tekstu do lrclib.net wysyłane jest żądanie zawierające tytuł utworu, wykonawcę, album i czas trwania. Nie są dołączane dane osobowe ani identyfikatory użytkownika."
+
+#: ui/playerFilterPage.js:56 ui/playerFilterPage.js:77
+msgid "Filter Mode"
+msgstr "Tryb filtrowania"
+
+#: ui/playerFilterPage.js:58
+msgid ""
+"Choose whether the list below acts as a blacklist (block listed apps) or a "
+"whitelist (allow only listed apps). Set to Off to disable filtering entirely."
+msgstr ""
+"Wybierz, czy poniższa lista działa jako czarna lista (blokuj wymienione aplikacje), czy biała lista (zezwalaj tylko na wymienione). Ustaw „Wyłączone”, aby całkowicie wyłączyć filtrowanie."
+
+#: ui/playerFilterPage.js:66
+msgid "Off"
+msgstr "Wyłączone"
+
+#: ui/playerFilterPage.js:66
+msgid "Blacklist"
+msgstr "Czarna lista"
+
+#: ui/playerFilterPage.js:66
+msgid "Whitelist"
+msgstr "Biała lista"
+
+#: ui/playerFilterPage.js:71
+msgid "Show all media players — filtering is disabled"
+msgstr "Pokazuj wszystkie odtwarzacze multimediów — filtrowanie jest wyłączone"
+
+#: ui/playerFilterPage.js:72
+msgid "Hide only the players you add to the list below"
+msgstr "Ukrywaj tylko odtwarzacze dodane do poniższej listy"
+
+#: ui/playerFilterPage.js:73
+msgid "Show only the players you add to the list below"
+msgstr "Pokazuj tylko odtwarzacze dodane do poniższej listy"
+
+#: ui/playerFilterPage.js:102
+msgid "Saved Players"
+msgstr "Zapisane odtwarzacze"
+
+#: ui/playerFilterPage.js:104
+msgid ""
+"Each saved player can be individually enabled or disabled in the filter "
+"without removing it. The toggle controls whether the filter rule is active "
+"for that app. Use the trash button to remove it from the list entirely."
+msgstr ""
+"Każdy zapisany odtwarzacz można osobno włączyć lub wyłączyć w filtrze bez usuwania go. Przełącznik określa, czy reguła filtra jest aktywna dla danej aplikacji. Użyj przycisku kosza, aby całkowicie usunąć ją z listy."
+
+#: ui/playerFilterPage.js:122
+msgid "No players saved yet"
+msgstr "Brak zapisanych odtwarzaczy"
+
+#: ui/playerFilterPage.js:124
+msgid ""
+"Detect running players below and click “Add to Filter” to add them here."
+msgstr "Wykryj poniżej uruchomione odtwarzacze i kliknij „Dodaj do filtra”, aby dodać je tutaj."
+
+#: ui/playerFilterPage.js:175
+#, javascript-format
+msgid "Filter rule active for “%s” — click to disable"
+msgstr "Reguła filtra dla „%s” jest aktywna — kliknij, aby wyłączyć"
+
+#: ui/playerFilterPage.js:178
+#, javascript-format
+msgid "Filter rule disabled for “%s” — click to enable"
+msgstr "Reguła filtra dla „%s” jest wyłączona — kliknij, aby włączyć"
+
+#: ui/playerFilterPage.js:198
+#, javascript-format
+msgid "Remove “%s” from the filter list"
+msgstr "Usuń „%s” z listy filtra"
+
+#: ui/playerFilterPage.js:227
+msgid "Detected Players"
+msgstr "Wykryte odtwarzacze"
+
+#: ui/playerFilterPage.js:229
+msgid ""
+"Active MPRIS players found on the session D-Bus. Click “Add to Filter” to "
+"save a player to the list above."
+msgstr ""
+"Aktywne odtwarzacze MPRIS znalezione w sesyjnym D-Bus. Kliknij „Dodaj do filtra”, aby zapisać odtwarzacz na powyższej liście."
+
+#: ui/playerFilterPage.js:236
+msgid "Scan for running players"
+msgstr "Skanuj uruchomione odtwarzacze"
+
+#: ui/playerFilterPage.js:237
+msgid "Detects players currently broadcasting on MPRIS"
+msgstr "Wykrywa odtwarzacze aktualnie nadające przez MPRIS"
+
+#: ui/playerFilterPage.js:243
+msgid "Refresh the detected player list"
+msgstr "Odśwież listę wykrytych odtwarzaczy"
+
+#: ui/playerFilterPage.js:264 ui/playerFilterPage.js:350
+msgid "Saved ✓"
+msgstr "Zapisano ✓"
+
+#: ui/playerFilterPage.js:264 ui/playerFilterPage.js:350
+msgid "Add to Filter"
+msgstr "Dodaj do filtra"
+
+#: ui/playerFilterPage.js:296 ui/vinylAppsPage.js:277
+msgid "No active players detected"
+msgstr "Nie wykryto aktywnych odtwarzaczy"
+
+#: ui/playerFilterPage.js:297 ui/vinylAppsPage.js:278
+msgid "Open a music app and click Refresh"
+msgstr "Otwórz aplikację muzyczną i kliknij „Odśwież”"
+
+#: ui/playerFilterPage.js:354
+#, javascript-format
+msgid "“%s” is already in the filter list"
+msgstr "„%s” znajduje się już na liście filtra"
+
+#: ui/playerFilterPage.js:358
+#, javascript-format
+msgid "Add “%s” to the filter list (enabled by default)"
+msgstr "Dodaj „%s” do listy filtra (domyślnie włączone)"
+
+#: ui/popupPage.js:16
+msgid "Popup Player"
+msgstr "Odtwarzacz wyskakujący"
+
+#: ui/popupPage.js:22
+msgid "Popup Size"
+msgstr "Rozmiar okna wyskakującego"
+
+#: ui/popupPage.js:24
+msgid "Width of the popup media player panel (height scales with album art)"
+msgstr "Szerokość panelu odtwarzacza wyskakującego (wysokość skaluje się wraz z okładką albumu)"
+
+#: ui/popupPage.js:30
+msgid "Popup Width"
+msgstr "Szerokość okna wyskakującego"
+
+#: ui/popupPage.js:32
+msgid ""
+"Width in pixels — album art, labels and lyrics panel all scale with this "
+"value (280 – 600 px)"
+msgstr ""
+"Szerokość w pikselach — okładka albumu, etykiety i panel tekstu skalują się wraz z tą wartością (280–600 px)"
+
+#: ui/popupPage.js:52
+msgid "Title Scrolling"
+msgstr "Przewijanie tytułu"
+
+#: ui/popupPage.js:53
+msgid "Marquee behaviour for the track title inside the popup"
+msgstr "Zachowanie przewijania tytułu utworu w oknie wyskakującym"
+
+#: ui/popupPage.js:58
+msgid "Enable Title Scrolling"
+msgstr "Włącz przewijanie tytułu"
+
+#: ui/popupPage.js:60
+msgid ""
+"Scroll long track titles from start to end, pause, then repeat. When off, "
+"the text is truncated with an ellipsis."
+msgstr ""
+"Przewijaj długie tytuły od początku do końca, wstrzymaj, a następnie powtórz. Po wyłączeniu tekst jest skracany wielokropkiem."
+
+#: ui/popupPage.js:73
+msgid "Title Scroll Speed"
+msgstr "Szybkość przewijania tytułu"
+
+#: ui/popupPage.js:93
+msgid "Artist Scrolling"
+msgstr "Przewijanie wykonawcy"
+
+#: ui/popupPage.js:94
+msgid "Marquee behaviour for the artist name inside the popup"
+msgstr "Zachowanie przewijania nazwy wykonawcy w oknie wyskakującym"
+
+#: ui/popupPage.js:99
+msgid "Enable Artist Scrolling"
+msgstr "Włącz przewijanie wykonawcy"
+
+#: ui/popupPage.js:101
+msgid ""
+"Scroll long artist names from start to end, pause, then repeat. When off, "
+"the text is truncated with an ellipsis."
+msgstr ""
+"Przewijaj długie nazwy wykonawców od początku do końca, wstrzymaj, a następnie powtórz. Po wyłączeniu tekst jest skracany wielokropkiem."
+
+#: ui/popupPage.js:114
+msgid "Artist Scroll Speed"
+msgstr "Szybkość przewijania wykonawcy"
+
+#: ui/popupPage.js:134
+msgid "Album Art"
+msgstr "Okładka albumu"
+
+#: ui/popupPage.js:135
+msgid "Vinyl-record rotation animation"
+msgstr "Animacja obracającej się płyty winylowej"
+
+#: ui/popupPage.js:140
+msgid "Enable Vinyl Record Rotation (Global Default)"
+msgstr "Włącz obrót płyty winylowej (domyślne globalne)"
+
+#: ui/popupPage.js:142
+msgid ""
+"Global default when no per-app setting exists. Per-app overrides in the "
+"‘Vinyl Apps’ section take priority."
+msgstr ""
+"Globalna wartość domyślna używana, gdy nie istnieje ustawienie dla konkretnej aplikacji. Ustawienia aplikacji w sekcji „Aplikacje winylowe” mają pierwszeństwo."
+
+#: ui/popupPage.js:156
+msgid "Rotation Speed (seconds per revolution)"
+msgstr "Szybkość obrotu (sekundy na obrót)"
+
+#: ui/popupPage.js:157
+msgid "5 = fastest, 60 = slowest. Recommended: 20–30"
+msgstr "5 = najszybciej, 60 = najwolniej. Zalecane: 20–30"
+
+#: ui/popupPage.js:175
+msgid "Vinyl Effect Details"
+msgstr "Szczegóły efektu winylu"
+
+#: ui/popupPage.js:176
+msgid "How the animated vinyl record works"
+msgstr "Jak działa animowana płyta winylowa"
+
+#: ui/popupPage.js:181
+msgid ""
+"- Album cover appears on a spinning vinyl disc\n"
+"- Black vinyl grooves are visible around the edges\n"
+"- Animated tonearm moves in and out with playback state\n"
+"- Rotation pauses smoothly when music pauses\n"
+"  (disc angle is preserved and resumes from the same position)\n"
+"- Disc resets to 0° only on a genuine Stop\n"
+"- Double-click album art to toggle vinyl for THAT player’s app only\n"
+"- Per-app settings override the global default above\n"
+"- All seen apps are stored; re-enable any time from Vinyl Apps page"
+msgstr ""
+"- Okładka albumu pojawia się na obracającej płycie winylowej\n"
+"- Czarne rowki płyty są widoczne przy krawędziach\n"
+"- Animowane ramię gramofonu porusza się zgodnie ze stanem odtwarzania\n"
+"- Obrót płynnie zatrzymuje się po wstrzymaniu muzyki\n"
+"  (kąt płyty jest zachowywany i obrót wznawia się od tego samego miejsca)\n"
+"- Płyta wraca do 0° tylko po rzeczywistym zatrzymaniu\n"
+"- Podwójne kliknięcie okładki przełącza winyl tylko dla aplikacji TEGO odtwarzacza\n"
+"- Ustawienia poszczególnych aplikacji mają pierwszeństwo przed powyższym ustawieniem globalnym\n"
+"- Wszystkie wykryte aplikacje są zapisywane; można je ponownie włączyć w dowolnej chwili na stronie „Aplikacje winylowe”"
+
+#: ui/popupPage.js:206
+msgid "Tonearm Angles"
+msgstr "Kąty ramienia gramofonu"
+
+#: ui/popupPage.js:208
+msgid "Control how far the animated tonearm swings when playing or at rest"
+msgstr "Steruj zakresem ruchu animowanego ramienia podczas odtwarzania i spoczynku"
+
+#: ui/popupPage.js:214
+msgid "Parked (resting) angle"
+msgstr "Kąt zaparkowania (spoczynek)"
+
+#: ui/popupPage.js:216
+msgid ""
+"Degrees from vertical when music is paused or stopped. Higher moves the arm "
+"further from the disc (10 – 60°)"
+msgstr ""
+"Stopnie od pionu, gdy muzyka jest wstrzymana lub zatrzymana. Wyższa wartość odsuwa ramię dalej od płyty (10–60°)"
+
+#: ui/popupPage.js:235
+msgid "Playing angle"
+msgstr "Kąt odtwarzania"
+
+#: ui/popupPage.js:237
+msgid ""
+"Degrees from vertical when the stylus rests on the groove. Lower brings the "
+"arm closer to the disc centre (0 – 30°)"
+msgstr "Stopnie od pionu, gdy igła spoczywa na rowku. Niższa wartość zbliża ramię do środka płyty (0–30°)"
+
+#: ui/popupPage.js:256
+msgid "Tip: parked angle must be greater than playing angle"
+msgstr "Wskazówka: kąt zaparkowania musi być większy niż kąt odtwarzania"
+
+#: ui/popupPage.js:258
+msgid ""
+"E.g. parked = 25°, playing = 8°. If they are equal or reversed the arm will "
+"animate incorrectly."
+msgstr ""
+"Np. zaparkowany = 25°, odtwarzanie = 8°. Jeśli wartości są równe lub odwrócone, ramię będzie animowane nieprawidłowo."
+
+#: ui/popupPage.js:273
+msgid "Album Art Click Thresholds"
+msgstr "Progi kliknięć okładki albumu"
+
+#: ui/popupPage.js:274
+msgid "Set how many rapid clicks trigger each album art action"
+msgstr "Ustaw liczbę szybkich kliknięć uruchamiających każdą akcję okładki albumu"
+
+#: ui/popupPage.js:279
+msgid "Clicks to toggle vinyl effect"
+msgstr "Kliknięcia przełączające efekt winylu"
+
+#: ui/popupPage.js:281
+msgid ""
+"Rapidly click the album art this many times to enable or disable the vinyl "
+"record style for the current app"
+msgstr ""
+"Kliknij szybko okładkę albumu tyle razy, aby włączyć lub wyłączyć styl płyty winylowej dla bieżącej aplikacji"
+
+#: ui/popupPage.js:300
+msgid "Clicks to toggle lyrics view"
+msgstr "Kliknięcia przełączające widok tekstu"
+
+#: ui/popupPage.js:302
+msgid ""
+"Rapidly click the album art this many times to open or close the synced "
+"lyrics panel"
+msgstr "Kliknij szybko okładkę albumu tyle razy, aby otworzyć lub zamknąć panel zsynchronizowanego tekstu"
+
+#: ui/popupPage.js:321
+msgid "Note: thresholds must be different"
+msgstr "Uwaga: progi muszą być różne"
+
+#: ui/popupPage.js:323
+msgid ""
+"If both thresholds are set to the same number the lyrics action takes "
+"priority. Use distinct values (e.g. 2 for vinyl, 3 for lyrics) to trigger "
+"both independently."
+msgstr ""
+"Jeśli oba progi mają tę samą wartość, pierwszeństwo ma akcja tekstu. Użyj różnych wartości (np. 2 dla winylu, 3 dla tekstu), aby obie akcje działały niezależnie."
+
+#: ui/popupPage.js:339
+msgid "Control Button Order"
+msgstr "Kolejność przycisków sterowania"
+
+#: ui/popupPage.js:341
+msgid ""
+"Drag and drop the rows to reorder the playback control buttons shown in the "
+"popup player. Changes take effect immediately."
+msgstr ""
+"Przeciągnij i upuść wiersze, aby zmienić kolejność przycisków sterowania odtwarzaniem w odtwarzaczu wyskakującym. Zmiany są stosowane natychmiast."
+
+#: ui/popupPage.js:347
+msgid "Shuffle"
+msgstr "Losowo"
+
+#: ui/popupPage.js:348
+msgid "Previous"
+msgstr "Poprzedni"
+
+#: ui/popupPage.js:349
+msgid "Play / Pause"
+msgstr "Odtwórz / Wstrzymaj"
+
+#: ui/popupPage.js:350
+msgid "Next"
+msgstr "Następny"
+
+#: ui/popupPage.js:351
+msgid "Repeat"
+msgstr "Powtarzanie"
+
+#: ui/vinylAppsPage.js:54
+msgid "How to Enable Vinyl Style for an App"
+msgstr "Jak włączyć styl winylowy dla aplikacji"
+
+#: ui/vinylAppsPage.js:61
+msgid "Start playing music"
+msgstr "Rozpocznij odtwarzanie muzyki"
+
+#: ui/vinylAppsPage.js:63
+msgid ""
+"Open any media player or browser web app (YouTube, Spotify Web, SoundCloud, "
+"etc.) and play a track so it appears as a media source."
+msgstr ""
+"Otwórz dowolny odtwarzacz lub aplikację internetową w przeglądarce (YouTube, Spotify Web, SoundCloud itd.) i odtwórz utwór, aby pojawił się jako źródło multimediów."
+
+#: ui/vinylAppsPage.js:68
+msgid "Open the extension popup"
+msgstr "Otwórz okno rozszerzenia"
+
+#: ui/vinylAppsPage.js:70
+msgid "Click the media controller in the top panel to open the popup player."
+msgstr "Kliknij kontroler multimediów w górnym panelu, aby otworzyć odtwarzacz wyskakujący."
+
+#: ui/vinylAppsPage.js:75
+msgid "Double-click the album art"
+msgstr "Kliknij dwukrotnie okładkę albumu"
+
+#: ui/vinylAppsPage.js:77
+msgid ""
+"Double-click the album art image in the popup to toggle the vinyl record "
+"style for that specific app or browser source. For browsers (Chrome, "
+"Firefox, etc.) each site (YouTube, YouTube Music, Spotify Web) is stored as "
+"its own separate entry."
+msgstr ""
+"Kliknij dwukrotnie obraz okładki albumu w oknie wyskakującym, aby przełączyć styl płyty winylowej dla tej konkretnej aplikacji lub źródła przeglądarki. W przypadku przeglądarek (Chrome, Firefox itd.) każda witryna (YouTube, YouTube Music, Spotify Web) jest zapisywana jako osobny wpis."
+
+#: ui/vinylAppsPage.js:83
+msgid "Manage saved instances below"
+msgstr "Zarządzaj zapisanymi instancjami poniżej"
+
+#: ui/vinylAppsPage.js:85
+msgid ""
+"All stored instances appear in the section below. Browser web-app sources "
+"appear as e.g. “YouTube Music (Chrome)” and are tracked independently. "
+"Toggle them on/off or remove them at any time."
+msgstr ""
+"Wszystkie zapisane instancje pojawiają się w poniższej sekcji. Źródła aplikacji internetowych w przeglądarce są wyświetlane np. jako „YouTube Music (Chrome)” i śledzone niezależnie. Możesz je włączać/wyłączać lub usuwać w dowolnej chwili."
+
+#: ui/vinylAppsPage.js:107
+msgid "Saved App Instances"
+msgstr "Zapisane instancje aplikacji"
+
+#: ui/vinylAppsPage.js:109
+msgid ""
+"Instances stored by double-clicking the album art in the popup. Icons are "
+"loaded from the system .desktop database. Toggle the vinyl effect on/off or "
+"remove any entry."
+msgstr ""
+"Instancje zapisane przez podwójne kliknięcie okładki albumu w oknie wyskakującym. Ikony są ładowane z systemowej bazy plików .desktop. Możesz włączać/wyłączać efekt winylu lub usuwać dowolny wpis."
+
+#: ui/vinylAppsPage.js:124
+msgid "Add an App Manually"
+msgstr "Dodaj aplikację ręcznie"
+
+#: ui/vinylAppsPage.js:126
+msgid ""
+"Search installed apps — including browsers — to manually add a vinyl entry. "
+"Useful for browser web apps whose instance hasn’t been captured yet via "
+"double-click."
+msgstr ""
+"Wyszukaj zainstalowane aplikacje — w tym przeglądarki — aby ręcznie dodać wpis winylowy. Przydatne dla aplikacji internetowych w przeglądarce, których instancja nie została jeszcze przechwycona przez podwójne kliknięcie."
+
+#: ui/vinylAppsPage.js:134
+msgid ""
+"Browser sources tracked separately (YouTube, YouTube Music, Spotify Web)"
+msgstr "Źródła przeglądarkowe śledzone osobno (YouTube, YouTube Music, Spotify Web)"
+
+#: ui/vinylAppsPage.js:137
+msgid ""
+"For web apps, add the browser itself (e.g. Google Chrome, Firefox). Then "
+"double-click the album art when that browser is playing music — the "
+"extension will capture the exact instance automatically."
+msgstr ""
+"W przypadku aplikacji internetowych dodaj samą przeglądarkę (np. Google Chrome, Firefox). Następnie kliknij dwukrotnie okładkę albumu podczas odtwarzania muzyki przez tę przeglądarkę — rozszerzenie automatycznie przechwyci dokładną instancję."
+
+#: ui/vinylAppsPage.js:153
+msgid "Search apps"
+msgstr "Szukaj aplikacji"
+
+#: ui/vinylAppsPage.js:157
+msgid "Type an app or browser name…"
+msgstr "Wpisz nazwę aplikacji lub przeglądarki…"
+
+#: ui/vinylAppsPage.js:221
+msgid "Running Players (Live Detection)"
+msgstr "Uruchomione odtwarzacze (wykrywanie na żywo)"
+
+#: ui/vinylAppsPage.js:223
+msgid ""
+"MPRIS players active right now. Click “Use This” to immediately add the "
+"player as a vinyl-enabled instance without waiting for a double-click."
+msgstr ""
+"Odtwarzacze MPRIS aktywne w tej chwili. Kliknij „Użyj tego”, aby natychmiast dodać odtwarzacz jako instancję z włączonym winylem bez oczekiwania na podwójne kliknięcie."
+
+#: ui/vinylAppsPage.js:230
+msgid "Scan for active players"
+msgstr "Skanuj aktywne odtwarzacze"
+
+#: ui/vinylAppsPage.js:231
+msgid "Detects players currently broadcasting on the MPRIS D-Bus"
+msgstr "Wykrywa odtwarzacze aktualnie nadające przez magistralę MPRIS D-Bus"
+
+#: ui/vinylAppsPage.js:237
+msgid "Refresh"
+msgstr "Odśwież"
+
+#: ui/vinylAppsPage.js:354
+msgid "Use This"
+msgstr "Użyj tego"
+
+#: ui/vinylAppsPage.js:358
+#, javascript-format
+msgid "Add “%s” as a vinyl-enabled instance"
+msgstr "Dodaj „%s” jako instancję z włączonym winylem"
+
+#: ui/vinylAppsPage.js:400
+msgid "All running players are already saved"
+msgstr "Wszystkie uruchomione odtwarzacze są już zapisane"
+
+#: ui/vinylAppsPage.js:402
+msgid "Manage them in the Saved App Instances section above"
+msgstr "Zarządzaj nimi w powyższej sekcji „Zapisane instancje aplikacji”"
+
+#: utils/indicator.js:19
+msgid "Media Controls"
+msgstr "Sterowanie multimediami"
