@@ -7,13 +7,15 @@ Do not commit the raw `dconf dump /` output. The source inventory contains trans
 The reviewed configuration should cover, where applicable:
 
 - GNOME interface and window-manager preferences
-- favorite applications and app-grid layout
+- favorite-application membership as an audit-only set; restore does not rewrite the GNOME favorite-app order
 - enabled extension list
 - extension settings (including Space Bar custom CSS)
 - Blur My Shell settings
 - Dhruva dock settings
 - Just Perfection settings
 - relevant keybindings
+
+Dhruva is the canonical dock. Its deterministic dock order and application-folder state are restored separately by `scripts/install-dhruva-config.sh`. `org/gnome/shell/favorite-apps` remains in `settings.dconf` only as the expected membership set used by `scripts/audit-gnome.sh`; `scripts/restore-gnome.sh` deliberately filters that key out before loading dconf so a rebuild cannot reorder the user's GNOME favorites as a side effect.
 
 `enabled-extensions.txt` is the accepted extension desired state. An extension is promoted there only after physical-host runtime validation on the current Fedora/GNOME baseline.
 
