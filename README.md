@@ -34,6 +34,8 @@ The physical validation includes reproducible LLMNR disablement, kernel pointer 
 
 The desired state also includes reproducible Polish localization support for selected GNOME Shell extensions. The Dhruva integration maintains a 393-message gettext catalog, a 20-patch source localization set, and generated Polish CLDR metadata for all 1907 emoji used by the tested extension source. These artifacts are installed and checked by the repository tooling rather than stored as an opaque modified extension archive.
 
+Dhruva's dock state is also reproducible. The repository stores a sanitized desired dock order and application-folder definition in `gnome/dhruva/dock-state.json`; `scripts/install-dhruva-config.sh` restores that state after the GNOME configuration stage, and `scripts/verify.sh` detects drift. Machine-specific paths and private local folder state are intentionally excluded.
+
 See [`PROJECT-STATUS.md`](PROJECT-STATUS.md) for the current acceptance and security-validation status, [`docs/CLEAN-ROOM-RESTORE-REPORT.md`](docs/CLEAN-ROOM-RESTORE-REPORT.md) for the clean-room validation report, and [`docs/DISASTER-RECOVERY.md`](docs/DISASTER-RECOVERY.md) for the offline disaster-recovery strategy and the 2026-09-15 backup-integrity validation.
 
 ## Design
@@ -74,4 +76,4 @@ bash scripts/verify.sh
 
 ## Status
 
-**Validated for the Fedora 44 / GNOME 50.4 baseline.** The latest physical-workstation verification completed with `PASS=181 WARN=0 FAIL=0 SKIP=0`, and the curated GNOME desired-state audit completed with `PASS=78 WARN=0`. The accepted state includes Secure Boot, signed NVIDIA-module verification, DDC/CI external-monitor brightness support, and repository-managed Polish GNOME extension localizations including Dhruva. Future Fedora or GNOME upgrades should be followed by another clean-room validation before declaring the new baseline accepted.
+**Validated for the Fedora 44 / GNOME 50.4 baseline.** The latest physical-workstation verification completed with `PASS=182 WARN=0 FAIL=0 SKIP=0`, and the curated GNOME desired-state audit completed with `PASS=78 WARN=0`. The accepted state includes Secure Boot, signed NVIDIA-module verification, DDC/CI external-monitor brightness support, and repository-managed Polish GNOME extension localizations including Dhruva. Future Fedora or GNOME upgrades should be followed by another clean-room validation before declaring the new baseline accepted.

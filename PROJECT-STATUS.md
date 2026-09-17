@@ -25,7 +25,7 @@ The eight `SKIP` results are intentional environment-specific exclusions rather 
 After post-restore maintenance, the 2026-09-16 workstation security validation, Secure Boot enablement, and the latest reproducible workstation configuration updates, the current desired state was verified on the physical Fedora workstation:
 
 ```text
-PASS=181 WARN=0 FAIL=0 SKIP=0
+PASS=182 WARN=0 FAIL=0 SKIP=0
 ```
 
 The physical-host validation includes Brave Origin, Tailscale package/service state, Wi-Fi firewall-zone policy, disabled LLMNR, disabled GNOME/GVfs WS-Discovery, workstation kernel hardening, Secure Boot, signed NVIDIA kernel-module verification, and reproducible DDC/CI support for external-monitor brightness control. Authentication, network identities, credentials, private signing material, and other private state remain intentionally outside Git.
@@ -52,7 +52,7 @@ The update policy was exercised with a material graphics-stack update. NVIDIA/ak
 The latest physical verifier run, after the current desired-state updates including DDC/CI external-monitor brightness support and order-insensitive GNOME favorite-app auditing, returned:
 
 ```text
-PASS=181 WARN=0 FAIL=0 SKIP=0
+PASS=182 WARN=0 FAIL=0 SKIP=0
 ```
 
 ### Deferred security item
@@ -80,6 +80,7 @@ Testing on a pristine system and subsequent physical-host verification exposed s
 15. Secure Boot had been disabled despite the NVIDIA akmods module already being locally signed. The signing certificate was enrolled through MOK, Secure Boot was enabled, and the NVIDIA path was validated before the state was accepted.
 16. External-monitor brightness control through DDC/CI required `ddcutil` plus the packaged Fedora udev access rules. The restore now installs `ddcutil`, initializes the udev access path, and tracks the GNOME brightness extension in desired state.
 17. GNOME favorite-app ordering was producing non-actionable desired-state drift. The audit now requires the same favorite applications while intentionally allowing their icon order to vary.
+18. Dhruva maintains its own dock-order and application-folder state independently of GNOME `favorite-apps`. A stale Dhruva order could therefore survive even when the GNOME favorites matched the repository. The restore now applies a sanitized, deterministic Dhruva dock state after GNOME restoration, and the verifier checks both the dock order and application-folder definitions.
 
 ## Reproducible Polish GNOME localization
 
@@ -95,7 +96,9 @@ The Dhruva GNOME extension is the most extensive localization case. The accepted
 - an idempotent localization installer that validates prerequisites, patch applicability, gettext compilation, generated emoji data, and the final installed state;
 - verifier coverage for the installed gettext catalog, Dhruva gettext integration, generated emoji database, and expected patch-set structure.
 
-Before acceptance, all 20 Dhruva patches were applied against a clean upstream source tree with `--fuzz=0`; all 20 applied successfully without offset or fuzz. The resulting physical-workstation verification completed with `PASS=181 WARN=0 FAIL=0 SKIP=0`, while the curated GNOME desired-state audit completed with `PASS=78 WARN=0`.
+Dhruva's accepted desired state also includes a sanitized reproducible dock layout. The implementation was tested by first confirming that the verifier detected deliberate live-state drift, then applying the repository state and confirming successful restoration. After a GNOME sign-out/sign-in, the restored dock was also checked visually.
+
+Before acceptance, all 20 Dhruva patches were applied against a clean upstream source tree with `--fuzz=0`; all 20 applied successfully without offset or fuzz. The resulting physical-workstation verification completed with `PASS=182 WARN=0 FAIL=0 SKIP=0`, while the curated GNOME desired-state audit completed with `PASS=78 WARN=0`.
 
 The localization is maintained as source material rather than as opaque modified extension archives. This keeps the customization reviewable and reproducible while allowing the original extension to remain separately identifiable.
 
