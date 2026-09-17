@@ -1,0 +1,38 @@
+--- a/prefs.js
++++ b/prefs.js
+@@ -8,27 +8,28 @@
+ // Each category gets its own page tab in the sidebar covering keyboard
+ // shortcuts, appearance theme and the about section.
+ export default class SpotlightPreferences extends ExtensionPreferences {
+     fillPreferencesWindow(window) {
+         const settings = this.getSettings();
++        const _ = this.gettext.bind(this);
+ 
+         const keyboardPage = new Adw.PreferencesPage({
+-            title: 'Keyboard',
++            title: _('Keyboard'),
+             icon_name: 'input-keyboard-symbolic',
+         });
+-        keyboardPage.add(buildShortcutPage(settings));
++        keyboardPage.add(buildShortcutPage(settings, _));
+         window.add(keyboardPage);
+ 
+         const appearancePage = new Adw.PreferencesPage({
+-            title: 'Appearance',
++            title: _('Appearance'),
+             icon_name: 'applications-graphics-symbolic',
+         });
+-        appearancePage.add(buildAppearancePage(settings));
++        appearancePage.add(buildAppearancePage(settings, _));
+         window.add(appearancePage);
+ 
+         const aboutPage = new Adw.PreferencesPage({
+-            title: 'About',
++            title: _('About'),
+             icon_name: 'help-about-symbolic',
+         });
+-        aboutPage.add(buildAboutPage());
++        aboutPage.add(buildAboutPage(_));
+         window.add(aboutPage);
+ 
+         window.set_search_enabled(true);
