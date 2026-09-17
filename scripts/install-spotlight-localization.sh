@@ -99,8 +99,16 @@ done
 patch_count=0
 while IFS= read -r patch_file; do
   patch_count=$((patch_count + 1))
-  patch --batch --forward -p1 -d "$tmp_dir" < "$patch_file" >/dev/null
-  echo "Applied: $(basename "$patch_file")"
+  patch_name="$(basename "$patch_file")"
+  if ! patch --dry-run --batch --forward -p1 -d "$tmp_dir" < "$patch_file" >/dev/null; then
+    echo "FAIL: Spotlight localization patch does not apply cleanly: $patch_name" >&2
+    exit 1
+  fi
+  if ! patch --batch --forward -p1 -d "$tmp_dir" < "$patch_file" >/dev/null; then
+    echo "FAIL: Spotlight localization patch failed: $patch_name" >&2
+    exit 1
+  fi
+  echo "Applied: $patch_name"
 done < <(find "$PATCH_DIR" -maxdepth 1 -type f -name '*.patch' | sort)
 
 if [[ "$patch_count" -ne 4 ]]; then
