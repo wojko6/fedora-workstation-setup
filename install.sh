@@ -31,7 +31,6 @@ stages=(
   security/disable-llmnr.sh
   security/kernel-hardening.sh
   security/disable-wsdd.sh
-  scripts/verify.sh
 )
 
 for stage in "${stages[@]}"; do
@@ -45,3 +44,8 @@ for stage in "${stages[@]}"; do
 done
 
 log "Setup stages finished"
+printf '%s\n' \
+  "A GNOME sign-out/sign-in or reboot is required before final verification." \
+  "After starting the new graphical session, run:" \
+  "  cd $ROOT_DIR" \
+  "  bash scripts/verify.sh"
