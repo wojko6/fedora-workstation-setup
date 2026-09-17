@@ -1,0 +1,81 @@
+# Polish translation for Spotlight v14 / 2026.11.
+# This file is distributed under the same license as the Spotlight extension.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Spotlight 2026.11\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2026-09-17 00:00+0200\n"
+"Last-Translator: Fedora Workstation Setup contributors\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+msgid "Keyboard"
+msgstr "Klawiatura"
+
+msgid "Appearance"
+msgstr "Wygląd"
+
+msgid "About"
+msgstr "Informacje"
+
+msgid "Keyboard Shortcut"
+msgstr "Skrót klawiaturowy"
+
+msgid "Set the shortcut to open Spotlight"
+msgstr "Ustaw skrót otwierający Spotlight"
+
+msgid "Toggle shortcut"
+msgstr "Skrót przełączający Spotlight"
+
+msgid "Click here, then press a key combination"
+msgstr "Kliknij tutaj, a następnie naciśnij kombinację klawiszy"
+
+msgid "Press a key combination..."
+msgstr "Naciśnij kombinację klawiszy…"
+
+msgid "Reset to default"
+msgstr "Przywróć ustawienie domyślne"
+
+msgid "Set shortcut to Ctrl+Space"
+msgstr "Ustaw skrót na Ctrl+Spacja"
+
+msgid "Reset"
+msgstr "Przywróć"
+
+msgid "Not set (will default to Ctrl+Space)"
+msgstr "Nie ustawiono (domyślnie Ctrl+Spacja)"
+
+msgid "Choose the visual style"
+msgstr "Wybierz styl wyglądu"
+
+msgid "Theme"
+msgstr "Motyw"
+
+msgid "Dark, light, or follow system"
+msgstr "Ciemny, jasny lub zgodny z systemem"
+
+msgid "Default"
+msgstr "Domyślny"
+
+msgid "Dark"
+msgstr "Ciemny"
+
+msgid "Light"
+msgstr "Jasny"
+
+msgid "A compact Spotlight inspired launcher for GNOME Shell."
+msgstr "Kompaktowy program uruchamiający inspirowany Spotlight dla GNOME Shell."
+
+msgid "Version"
+msgstr "Wersja"
+
+msgid "License"
+msgstr "Licencja"
+
+msgid "A compact Spotlight-inspired launcher for GNOME Shell. Press a shortcut, type, and results appear instantly - apps, files ranked by usage, calculator with clipboard copy, system actions like lock and suspend, GNOME Settings panels, and web search from your browser when installed.\n\nOpen with Ctrl+Space (configurable in preferences). Click outside or press Esc to close."
+msgstr "Kompaktowy program uruchamiający dla GNOME Shell inspirowany Spotlight. Naciśnij skrót i zacznij pisać, aby natychmiast zobaczyć wyniki: aplikacje, pliki uporządkowane według użycia, kalkulator z kopiowaniem do schowka, działania systemowe takie jak blokada i uśpienie, panele Ustawień GNOME oraz wyszukiwanie w sieci przez przeglądarkę.\n\nOtwórz za pomocą Ctrl+Spacja (skrót można zmienić w preferencjach). Kliknij poza oknem lub naciśnij Esc, aby je zamknąć."
