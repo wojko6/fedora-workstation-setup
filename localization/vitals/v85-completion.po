@@ -1,0 +1,346 @@
+# Polish completion overlay for Vitals v85.
+# Repository-managed completion for demonstrated upstream Polish gaps.
+msgid ""
+msgstr ""
+"Project-Id-Version: Vitals v85 Polish completion\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+msgid "Far Left"
+msgstr "Skrajnie po lewej"
+
+msgid "Far Right"
+msgstr "Skrajnie po prawej"
+
+msgid "Use fixed widths"
+msgstr "Używaj stałych szerokości"
+
+msgid "Hide icons in top bar"
+msgstr "Ukryj ikony na górnym pasku"
+
+msgid "Menu always centered"
+msgstr "Menu zawsze wyśrodkowane"
+
+msgid "Monitor battery"
+msgstr "Monitoruj baterię"
+
+msgid "Measurement"
+msgstr "Jednostki"
+
+msgid "Display Battery"
+msgstr "Wyświetlana bateria"
+
+msgid "Update in minutes"
+msgstr "Aktualizacja co (minuty)"
+
+msgid "Public IP provider"
+msgstr "Dostawca publicznego adresu IP"
+
+msgid "Show country flag"
+msgstr "Pokazuj flagę kraju"
+
+msgid "Speed Unit"
+msgstr "Jednostka prędkości"
+
+msgid "Auto"
+msgstr "Automatycznie"
+
+msgid "Monitor GPU"
+msgstr "Monitoruj GPU"
+
+msgid "Include static GPU info"
+msgstr "Uwzględnij statyczne informacje o GPU"
+
+msgid "Temperature"
+msgstr "Temperatura"
+
+msgid "System"
+msgstr "System"
+
+msgid "Storage"
+msgstr "Dysk"
+
+msgid "Battery"
+msgstr "Bateria"
+
+msgid "Batteries"
+msgstr "Baterie"
+
+msgid "No Data"
+msgstr "Brak danych"
+
+msgid "memory"
+msgstr "pamięć"
+
+msgid "processor"
+msgstr "procesor"
+
+msgid "system"
+msgstr "system"
+
+msgid "storage"
+msgstr "dysk"
+
+msgid "Cached"
+msgstr "Pamięć podręczna"
+
+msgid "Swap Total"
+msgstr "Swap łącznie"
+
+msgid "Swap Free"
+msgstr "Wolny swap"
+
+msgid "Swap Used"
+msgstr "Użyty swap"
+
+msgid "Swap Usage"
+msgstr "Użycie swapu"
+
+msgid "Max frequency"
+msgstr "Maks. częstotliwość"
+
+msgid "Min frequency"
+msgstr "Min. częstotliwość"
+
+msgid "Open Files"
+msgstr "Otwarte pliki"
+
+msgid "State"
+msgstr "Stan"
+
+msgid "Cycles"
+msgstr "Cykle"
+
+msgid "Level"
+msgstr "Poziom"
+
+msgid "Energy (full)"
+msgstr "Energia (pełne naładowanie)"
+
+msgid "Energy (design)"
+msgstr "Energia (projektowa)"
+
+msgid "Capacity"
+msgstr "Pojemność"
+
+msgid "Rate"
+msgstr "Tempo"
+
+msgid "Power Rate"
+msgstr "Moc"
+
+msgid "Energy (now)"
+msgstr "Energia (obecnie)"
+
+msgid "Percentage"
+msgstr "Procent"
+
+msgid "Time left"
+msgstr "Pozostały czas"
+
+msgid "WiFi Link Quality"
+msgstr "Jakość połączenia Wi‑Fi"
+
+msgid "WiFi Signal Level"
+msgstr "Poziom sygnału Wi‑Fi"
+
+msgid "ARC Target"
+msgstr "ARC — wartość docelowa"
+
+msgid "ARC Maximum"
+msgstr "ARC — maksimum"
+
+msgid "ARC Current"
+msgstr "ARC — bieżąca wartość"
+
+msgid "Read total"
+msgstr "Odczyt łącznie"
+
+msgid "Write total"
+msgstr "Zapis łącznie"
+
+msgid "Read rate"
+msgstr "Szybkość odczytu"
+
+msgid "Write rate"
+msgstr "Szybkość zapisu"
+
+msgid "Used %"
+msgstr "Użyte %"
+
+msgid "Free %"
+msgstr "Wolne %"
+
+msgid "Vendor"
+msgstr "Producent"
+
+msgid "Bogomips"
+msgstr "BogoMIPS"
+
+msgid "Sockets"
+msgstr "Gniazda"
+
+msgid "Cache"
+msgstr "Pamięć podręczna"
+
+msgid "Kernel"
+msgstr "Jądro"
+
+msgid "Graphics"
+msgstr "Grafika"
+
+msgid "Refresh Rate"
+msgstr "Częstotliwość odświeżania"
+
+msgid "Memory Temperature"
+msgstr "Temperatura pamięci"
+
+msgid "Temperature Limit"
+msgstr "Limit temperatury"
+
+msgid "Memory Usage"
+msgstr "Użycie pamięci"
+
+msgid "Memory Total"
+msgstr "Pamięć łącznie"
+
+msgid "Memory Used"
+msgstr "Pamięć użyta"
+
+msgid "Memory Reserved"
+msgstr "Pamięć zarezerwowana"
+
+msgid "Memory Free"
+msgstr "Pamięć wolna"
+
+msgid "Memory Utilization"
+msgstr "Wykorzystanie pamięci"
+
+msgid "Utilization"
+msgstr "Wykorzystanie"
+
+msgid "Encoder Utilization"
+msgstr "Wykorzystanie enkodera"
+
+msgid "Decoder Utilization"
+msgstr "Wykorzystanie dekodera"
+
+msgid "Memory Frequency"
+msgstr "Częstotliwość pamięci"
+
+msgid "Encoder/Decoder Frequency"
+msgstr "Częstotliwość enkodera/dekodera"
+
+msgid "Power"
+msgstr "Moc"
+
+msgid "Average Power"
+msgstr "Średnia moc"
+
+msgid "Power Limit"
+msgstr "Limit mocy"
+
+msgid "Link Speed"
+msgstr "Szybkość łącza"
+
+msgid "Maximum Link Speed"
+msgstr "Maksymalna szybkość łącza"
+
+msgid "Addressing Mode"
+msgstr "Tryb adresowania"
+
+msgid "Driver Version"
+msgstr "Wersja sterownika"
+
+msgid "vBIOS Version"
+msgstr "Wersja vBIOS"
+
+msgid "Serial Number"
+msgstr "Numer seryjny"
+
+msgid "Domain Number"
+msgstr "Numer domeny"
+
+msgid "Bus Number"
+msgstr "Numer magistrali"
+
+msgid "Device Number"
+msgstr "Numer urządzenia"
+
+msgid "Device ID"
+msgstr "Identyfikator urządzenia"
+
+msgid "Sub Device ID"
+msgstr "Identyfikator podurządzenia"
+
+msgid "Binary"
+msgstr "Binarnie"
+
+msgid "Decimal"
+msgstr "Dziesiętnie"
+
+msgid "Monitor command"
+msgstr "Polecenie monitora systemu"
+
+msgid "Include static info"
+msgstr "Uwzględnij informacje statyczne"
+
+msgid "Boost"
+msgstr "Tryb turbo"
+
+msgid "Label"
+msgstr "Etykieta"
+
+msgid "Battery 1"
+msgstr "Bateria 1"
+
+msgid "Battery 2"
+msgstr "Bateria 2"
+
+msgid "Battery 3"
+msgstr "Bateria 3"
+
+msgid "Battery 4"
+msgstr "Bateria 4"
+
+msgid "Battery 5"
+msgstr "Bateria 5"
+
+msgid "Battery (hidden)"
+msgstr "Bateria (ukryta)"
+
+msgid "Monitor BAT0"
+msgstr "Monitoruj BAT0"
+
+msgid "Monitor BAT1"
+msgstr "Monitoruj BAT1"
+
+msgid "Monitor BAT2"
+msgstr "Monitoruj BAT2"
+
+msgid "Monitor CMB0"
+msgstr "Monitoruj CMB0"
+
+msgid "Monitor macsmc-battery"
+msgstr "Monitoruj macsmc-battery"
+
+msgid "Calculate Combined Values"
+msgstr "Oblicz wartości łączne"
+
+msgid "Include BAT0"
+msgstr "Uwzględnij BAT0"
+
+msgid "Include BAT1"
+msgstr "Uwzględnij BAT1"
+
+msgid "Include BAT2"
+msgstr "Uwzględnij BAT2"
+
+msgid "Include CMB0"
+msgstr "Uwzględnij CMB0"
+
+msgid "Include macsmc-battery"
+msgstr "Uwzględnij macsmc-battery"
