@@ -1,8 +1,6 @@
 --- a/prefs.js
 +++ b/prefs.js
-@@ -8,27 +8,28 @@
- // Each category gets its own page tab in the sidebar covering keyboard
- // shortcuts, appearance theme and the about section.
+@@ -11,26 +11,27 @@
  export default class SpotlightPreferences extends ExtensionPreferences {
      fillPreferencesWindow(window) {
          const settings = this.getSettings();
