@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Clean-room restore validated; physical workstation desired state accepted  
+**Status:** Clean-room restore validated; physical workstation final localization revalidation pending  
 **Baseline:** Fedora 44 · GNOME Shell 50.4 · Wayland  
 **Validation environments:** Oracle VirtualBox clean-room VM and physical Lenovo Legion 5 15ACH6H
 
@@ -20,18 +20,18 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After post-restore maintenance, security hardening, Secure Boot enablement, the 2026-09-17 GNOME extension compatibility refresh, completion of the accepted Polish localization work, removal of NordVPN from desired state, and restore-tool dependency cleanup, the current desired state was verified on the physical Fedora workstation:
+After Freon was intentionally removed from desired state, the last completed full physical-workstation verifier run before the final localization integration reported:
 
 ```text
-PASS=218 WARN=0 FAIL=0 SKIP=0
+PASS=214 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current accepted physical-host baseline.
+Since that run, Advanced Media Controller v31 / 6.5 was added to desired state and the final AppIndicator, Vitals, ddterm, and Advanced Media Controller localization checks were wired into the main restore/verification flow. A new full physical-host run is required before recording the next accepted aggregate PASS count.
 
-## Current accepted state
+## Current desired state
 
-The physical-host validation includes:
+The physical-host desired state includes:
 
 - required RPM packages and external repositories;
 - Tailscale package and `tailscaled` service state;
@@ -47,7 +47,9 @@ The physical-host validation includes:
 - repository-managed Polish localization verification;
 - extension version pinning and drift detection.
 
-NordVPN and gNordVPN-Local are intentionally absent from the accepted state. Tailscale remains the supported overlay/VPN component tracked by this repository.
+NordVPN, gNordVPN-Local, and Freon are intentionally absent from the current desired state. Tailscale remains the supported overlay/VPN component tracked by this repository.
+
+Advanced Media Controller v31 / 6.5 is now a required user extension in desired state. Its exact runtime version and complete Polish localization are version-pinned and verified by repository tooling.
 
 Authentication state, network identities, credentials, private signing material, Tailscale node identity, and other private state remain intentionally outside Git.
 
@@ -55,11 +57,13 @@ Authentication state, network identities, credentials, private signing material,
 
 A controlled extension refresh was audited on the physical Fedora 44 / GNOME 50.4 workstation before the candidate set was promoted into desired state.
 
-Seven third-party extensions passed the runtime/compatibility checks and were accepted: ArcMenu, Bluetooth Battery Meter, Caffeine, Freon, GSConnect, Tiling Shell, and User Themes. Media Controls was removed because the installed release did not declare GNOME 50 compatibility. Dash2Dock Animated was removed because Dhruva is the canonical dock and running both produced duplicate docks.
+ArcMenu, Bluetooth Battery Meter, Caffeine, GSConnect, Tiling Shell, and User Themes remain in the continuing desired state from that refresh. Freon also passed the compatibility test but was subsequently removed by design. Media Controls was removed because the installed release did not declare GNOME 50 compatibility. Dash2Dock Animated was removed because Dhruva is the canonical dock and running both produced duplicate docks.
+
+Advanced Media Controller v31 / 6.5 was added later after physical compatibility and localization testing.
 
 GSConnect validation included the shell extension runtime, user D-Bus registration and introspection, and the `kdeconnect` service in the active Wi-Fi firewalld `public` zone. Phone-side Tailscale split-tunneling policy remains intentionally outside Fedora desired state.
 
-The refresh also corrected reproducibility details discovered by physical testing: extension inventory paths are normalized to `~/.local/...`, inventory rows are deterministic and UUID-deduplicated, legitimate live-state changes were reviewed before acceptance, and extension restore now detects version drift rather than accepting any installed copy.
+The refresh also corrected reproducibility details discovered by physical testing: extension inventory paths are normalized to `~/.local/...`, inventory rows are deterministic and UUID-deduplicated, legitimate live-state changes were reviewed before acceptance, and extension restore detects version drift rather than accepting any installed copy.
 
 Full details are recorded in `docs/gnome-extension-audit-2026-09-17.md`.
 
@@ -89,7 +93,7 @@ The current Fedora system partition is Btrfs without a LUKS layer. Full-disk enc
 
 The repository carries localization only where upstream Polish support is missing, incomplete for the tested version, or user-visible strings are not exposed through a usable Polish gettext path.
 
-Accepted repository-managed targets currently include:
+Repository-managed targets currently include:
 
 - Desktop Icons NG (DING);
 - Brightness control using ddcutil;
@@ -102,7 +106,11 @@ Accepted repository-managed targets currently include:
 - Tiling Shell v76 / 17.3 completion overlay;
 - Just Perfection v37;
 - Spotlight v14 / 2026.11;
-- Space Bar v39.
+- Space Bar v39;
+- AppIndicator v64 completion;
+- Vitals v85 completion;
+- ddterm v72 completion plus metadata description localization;
+- Advanced Media Controller v31 / 6.5 full Polish catalog.
 
 Dhruva remains the largest localization case: a 393-message gettext catalog, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
@@ -114,9 +122,13 @@ Just Perfection v37 is pinned to the tested extension version and includes repos
 
 Spotlight v14 / 2026.11 does not ship a localization implementation in the audited upstream release, so the repository adds controlled gettext wiring and version-pinned source patches.
 
-Space Bar v39 also lacks a usable upstream localization path for the audited release. The repository therefore applies an exact-version controlled localization patch over the audited v39 files. Its dedicated installer/verifier covers **109 translated source patterns** across preferences, custom-style dialogs, keyboard-shortcut dialogs, and the runtime panel menu. The physical-host installer and dedicated verifier both passed, and the translated UI was confirmed working before acceptance.
+Space Bar v39 lacks a usable upstream localization path for the audited release. The repository applies an exact-version controlled localization patch covering 109 translated source patterns across preferences, custom-style dialogs, keyboard-shortcut dialogs, and the runtime panel menu.
 
-All dedicated localization checks are integrated into the main restore/verification flow only after physical validation.
+AppIndicator v64 uses a five-entry completion overlay over Fedora's packaged Polish catalog. Vitals v85 uses a version-pinned completion overlay over its incomplete upstream Polish catalog. ddterm v72 uses a one-entry gettext completion plus a localized metadata description for its About window.
+
+Advanced Media Controller v31 / 6.5 ships no Polish catalog in the tested archive. The repository carries a complete **276-entry** Polish gettext catalog generated against the exact v31 string template. Its installer/verifier checks version 31, version name 6.5, gettext domain, audited file fingerprints, translation completeness, byte-for-byte installed `.mo` equality, and a runtime gettext smoke test requiring `General` to resolve to `Ogólne`. The preferences UI was visually confirmed in Polish on the physical workstation.
+
+All version-specific localization installers are now invoked by `scripts/install-localizations.sh`. Dedicated version-pinned localization verifiers are integrated into the main `scripts/verify.sh` after physical testing.
 
 ## Important reproducibility decisions
 
@@ -143,20 +155,21 @@ bash scripts/verify.sh
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure verification on the physical workstation after the accepted security, networking, extension, and localization changes.
+The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and previously reached a zero-warning, zero-failure physical-host verification after the accepted security and networking changes. The final localization wiring is now complete in the repository, but the new desired-state aggregate must be measured with one final physical-host verifier run before the updated state is marked fully accepted.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 
 ## Remaining work
 
-The remaining work is maintenance plus one explicitly deferred security decision:
+After the final physical-host verifier run, routine maintenance remains plus one explicitly deferred security decision:
 
+- record the new zero-warning/zero-failure aggregate after the final localization verification;
 - introduce LUKS during a future controlled reinstall/restore if full-disk encryption is desired;
 - keep package and GNOME extension pins current as Fedora evolves;
 - repeat the clean-room restore test after major Fedora/GNOME changes;
 - keep private machine-specific configuration and signing material separate from the public repository;
 - rerun physical-host verification after material desired-state changes, especially kernel/NVIDIA updates;
-- continue auditing accepted extensions for upstream Polish coverage and maintain repository translations only where a demonstrated gap exists;
+- re-audit version-pinned localization whenever an extension version changes;
 - test future Fedora/GNOME 51 changes in a VM before promoting them to the physical workstation.
 
 The separate disaster-recovery layer is documented in `docs/DISASTER-RECOVERY.md`; it complements rather than replaces this repository-based rebuild path.
@@ -167,4 +180,4 @@ The tested baseline is considered accepted when required packages, repositories,
 
 `scripts/verify.sh` must report zero `WARN` and zero `FAIL` on the validated physical target.
 
-**Current result: ACCEPTED (`PASS=218 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`).**
+**Current last completed full physical result: `PASS=214 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. Final aggregate after the newly integrated localization checks is pending one rerun.**
