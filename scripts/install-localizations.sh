@@ -112,4 +112,8 @@ echo "=== POLISH LOCALIZATION: AppIndicator v64 completion ==="
 bash "$ROOT_DIR/scripts/install-appindicator-localization.sh"
 
 echo
+echo "=== POLISH LOCALIZATION: Vitals v85 completion ==="
+bash "$ROOT_DIR/scripts/install-vitals-localization.sh"
+
+echo
 echo "Custom Polish localizations complete."
