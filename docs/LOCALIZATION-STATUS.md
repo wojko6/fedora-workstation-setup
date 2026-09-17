@@ -6,7 +6,7 @@ The repository carries its own localization only when upstream Polish support is
 
 ## Repository-managed localization already accepted
 
-The existing localization work covers eight extension/integration targets through gettext sources, source patches, or controlled runtime patches:
+The existing localization work covers the established extension/integration targets through gettext sources, source patches, or controlled runtime patches:
 
 - Desktop Icons NG (DING)
 - Brightness control using ddcutil
@@ -15,7 +15,7 @@ The existing localization work covers eight extension/integration targets throug
 - Dhruva
 - Background Logo
 - Browser Switcher
-- the previously accepted localization integration set represented by the repository's localization/install tooling
+- GSConnect v72 completion and Shell gettext-domain fix
 
 Dhruva remains the largest case: 393 gettext messages, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
@@ -29,28 +29,41 @@ Seven new extensions were accepted after physical-host compatibility testing. Th
 | Bluetooth Battery Meter | Yes; upstream `po/pl.po` is current and was revised in September 2026 | No custom translation currently planned |
 | Caffeine | Yes; upstream ships `locale/pl.po` | No custom translation currently planned |
 | Freon | Yes; upstream ships a Polish `locale/pl/LC_MESSAGES` catalog | No custom translation currently planned |
-| GSConnect | Yes, but the current upstream Polish catalog still contains untranslated entries | **Yes — completion/review required** |
+| GSConnect | Yes; v72 had 11 untranslated entries and a Shell gettext-domain integration issue | **Completed and validated on the physical Fedora 44 / GNOME 50.4 host** |
 | Tiling Shell | Yes, but the current upstream Polish catalog still contains untranslated entries | **Yes — completion/review required** |
 | User Themes | Uses the GNOME `gnome-shell-extensions` localization path, which includes Polish for the GNOME 50 branch | No separate repository translation currently planned |
+
+## GSConnect v72 result
+
+The exact v72 Polish catalog audit found **11 untranslated entries and 0 fuzzy entries**. The repository now carries a minimal completion overlay rather than a duplicate full upstream catalog. The installer merges that overlay with the original upstream Polish catalog and preserves a backup.
+
+Runtime testing exposed an additional integration problem: GSConnect v72 ships the Polish catalog as `org.gnome.Shell.Extensions.GSConnect.mo`, but its extension metadata omits `gettext-domain`. GNOME Shell 50 therefore falls back to the extension UUID as the translation domain for Quick Settings, leaving strings such as `Sync between your devices` and `Mobile Settings` in English even though the same catalog works in GSConnect preferences.
+
+The repository installer now sets:
+
+```json
+"gettext-domain": "org.gnome.Shell.Extensions.GSConnect"
+```
+
+After reloading the GNOME session, the Quick Settings strings were confirmed translated on the physical workstation. The dedicated verifier checks both the merged Polish catalog and the metadata gettext domain.
 
 ## Result
 
 For the seven newly accepted extensions:
 
 - **0** require a Polish translation from scratch;
-- **2** definitely require localization follow-up to reach the repository's preferred fully-Polish UI: **GSConnect** and **Tiling Shell**;
+- **1** confirmed target is now completed: **GSConnect v72**;
+- **1** confirmed completion target remains: **Tiling Shell v76**;
 - **5** already have upstream Polish support and do not currently justify a repository-maintained duplicate translation.
-
-Therefore the 2026-09-17 extension refresh adds **2 confirmed translation-completion targets** to the localization backlog, not seven.
 
 ## Evidence from upstream catalogs
 
-The GSConnect Polish catalog is active and recently maintained, but currently contains untranslated entries such as `Links` and `Automatically open received URLs`.
+The GSConnect Polish catalog is active and maintained, but v72 contained 11 untranslated entries. Its Shell-side localization also required the metadata gettext-domain correction described above.
 
-The Tiling Shell Polish catalog is also present and compiled upstream, but contains several empty translations, including strings related to best-tile movement, smart border radius, layout synchronization, raising tiled windows together, and screen-edge window suggestions.
+The Tiling Shell Polish catalog is present and compiled upstream, but contains several empty translations, including strings related to best-tile movement, smart border radius, layout synchronization, raising tiled windows together, and screen-edge window suggestions.
 
 Bluetooth Battery Meter has a Polish catalog revised on 2026-09-15. Caffeine ships a Polish source catalog, Freon ships a Polish compiled locale, ArcMenu lists Polish among its maintained translations, and User Themes belongs to the GNOME Shell Extensions localization stream.
 
 ## Next step
 
-Before adding repository-managed patches, audit the **exact installed versions** of GSConnect v72 and Tiling Shell v76 and produce a minimal list of untranslated user-visible strings. Prefer upstream Polish translations where available; carry local patches only for demonstrated gaps in the tested workstation versions. Any new localization must be reproducible, reviewable, and covered by `scripts/verify.sh` before acceptance.
+Audit the **exact installed Tiling Shell v76** Polish catalog, extract all untranslated and fuzzy user-visible strings, and create the smallest reproducible completion necessary for the tested workstation version. Any new localization must remain reviewable and must pass dedicated verification before acceptance.
