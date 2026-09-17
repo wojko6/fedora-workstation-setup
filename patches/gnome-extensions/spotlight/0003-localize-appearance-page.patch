@@ -1,0 +1,29 @@
+--- a/prefs/appearancePage.js
++++ b/prefs/appearancePage.js
+@@ -9,25 +9,25 @@
+     { value: 'light', label: 'Light', subtitle: 'Always use light appearance' },
+ ];
+ 
+-export function buildAppearancePage(settings) {
++export function buildAppearancePage(settings, _) {
+     const group = new Adw.PreferencesGroup({
+-        title: 'Appearance',
+-        description: 'Choose the visual style',
++        title: _('Appearance'),
++        description: _('Choose the visual style'),
+     });
+ 
+     const themeRow = new Adw.ComboRow({
+-        title: 'Theme',
+-        subtitle: 'Dark, light, or follow system',
++        title: _('Theme'),
++        subtitle: _('Dark, light, or follow system'),
+     });
+ 
+     const list = new Gtk.StringList();
+     for (const t of THEMES)
+-        list.append(t.label);
++        list.append(_(t.label));
+     themeRow.set_model(list);
+ 
+     const current = settings.get_string('theme-preference');
