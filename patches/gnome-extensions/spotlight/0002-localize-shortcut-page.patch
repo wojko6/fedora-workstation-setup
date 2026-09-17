@@ -1,6 +1,6 @@
 --- a/prefs/shortcutPage.js
 +++ b/prefs/shortcutPage.js
-@@ -5,22 +5,22 @@
+@@ -5,19 +5,19 @@
  import Adw from 'gi://Adw';
  import Gdk from 'gi://Gdk';
  
@@ -26,7 +26,7 @@
          halign: Gtk.Align.END,
          valign: Gtk.Align.CENTER,
      });
-@@ -30,7 +30,7 @@
+@@ -29,7 +29,7 @@
  
      shortcutRow.connect('activated', () => {
          capturing = true;
@@ -35,7 +35,7 @@
          shortcutRow.grab_focus();
      });
  
-@@ -51,21 +51,21 @@
+@@ -50,7 +50,7 @@
          if (!binding)
              return true;
          settings.set_strv('toggle-shortcut', [binding]);
@@ -44,7 +44,7 @@
          capturing = false;
          return true;
      });
- 
+@@ -58,7 +58,7 @@
      eventController.connect('key-released', () => {
          if (capturing) {
              capturing = false;
@@ -53,7 +53,7 @@
          }
      });
  
-     shortcutRow.add_controller(eventController);
+@@ -66,16 +66,16 @@
      group.add(shortcutRow);
  
      const resetRow = new Adw.ActionRow({
@@ -74,7 +74,7 @@
      });
      resetRow.add_suffix(resetButton);
      group.add(resetRow);
-@@ -73,9 +73,9 @@
+@@ -83,9 +83,9 @@
      return group;
  }
  
