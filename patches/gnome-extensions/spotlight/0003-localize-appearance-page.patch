@@ -1,6 +1,6 @@
 --- a/prefs/appearancePage.js
 +++ b/prefs/appearancePage.js
-@@ -9,25 +9,25 @@
+@@ -10,20 +10,20 @@
      { value: 'light', label: 'Light', subtitle: 'Always use light appearance' },
  ];
  
