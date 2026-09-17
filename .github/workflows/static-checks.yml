@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: static-checks-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -21,50 +25,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gettext shellcheck
 
-      - name: Validate shell syntax
+      - name: Run repository static checks
         shell: bash
-        run: |
-          set -euo pipefail
-          while IFS= read -r -d '' file; do
-            echo "bash -n $file"
-            bash -n "$file"
-          done < <(find . -type f -name '*.sh' -print0)
-
-      - name: Run ShellCheck for error-level findings
-        shell: bash
-        run: |
-          set -euo pipefail
-          while IFS= read -r -d '' file; do
-            echo "shellcheck $file"
-            shellcheck --severity=error "$file"
-          done < <(find . -type f -name '*.sh' -print0)
-
-      - name: Validate Python syntax
-        shell: bash
-        run: |
-          set -euo pipefail
-          while IFS= read -r -d '' file; do
-            echo "py_compile $file"
-            python3 -m py_compile "$file"
-          done < <(find . -type f -name '*.py' -print0)
-
-      - name: Validate gettext catalogs
-        shell: bash
-        run: |
-          set -euo pipefail
-          while IFS= read -r -d '' file; do
-            echo "msgfmt --check $file"
-            msgfmt --check "$file" -o /dev/null
-          done < <(find localization -type f -name '*.po' -print0)
-
-      - name: Validate JSON files
-        shell: bash
-        run: |
-          set -euo pipefail
-          while IFS= read -r -d '' file; do
-            echo "json.tool $file"
-            python3 -m json.tool "$file" >/dev/null
-          done < <(find . -type f -name '*.json' -print0)
-
-      - name: Validate repository desired-state consistency
-        run: python3 scripts/validate-repository.py
+        run: bash scripts/check-static.sh
