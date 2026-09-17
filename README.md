@@ -22,14 +22,16 @@ Clean-room result:
 PASS=147 WARN=0 FAIL=0 SKIP=8
 ```
 
-The current physical workstation desired state was subsequently validated after security hardening, a controlled NVIDIA/graphics-stack update, Secure Boot enablement, DDC/CI setup, the 2026-09-17 GNOME extension compatibility refresh, and completion of the accepted Polish localization overlays:
+The current physical workstation desired state was subsequently validated after security hardening, a controlled NVIDIA/graphics-stack update, Secure Boot enablement, DDC/CI setup, the 2026-09-17 GNOME extension compatibility refresh, completion of the accepted Polish localization overlays, and explicit restore-tool dependency tracking:
 
 ```text
-PASS=219 WARN=0 FAIL=0 SKIP=0
+PASS=221 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
 All required GNOME extensions reported `ACTIVE`, the curated GNOME desired-state audit matched the accepted configuration, and the extension/runtime/localization checks completed without unresolved required-state failures. Environment-specific VM exclusions are reported explicitly as `SKIP` rather than hidden or treated as restore warnings.
+
+Repository changes are also guarded by a static validation workflow. The same `scripts/check-static.sh` entrypoint is used locally and in GitHub Actions to validate Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON files, and desired-state inventory consistency.
 
 The 2026-09-17 extension refresh added seven physically validated GNOME 50 extensions to desired state: ArcMenu, Bluetooth Battery Meter, Caffeine, Freon, GSConnect, Tiling Shell, and User Themes. Media Controls was removed because the installed release did not declare GNOME 50 compatibility, while Dash2Dock Animated was removed because Dhruva is the canonical dock and running both produced duplicate docks. See [`docs/gnome-extension-audit-2026-09-17.md`](docs/gnome-extension-audit-2026-09-17.md).
 
@@ -83,6 +85,12 @@ bash scripts/verify.sh
 
 `FAIL` indicates a required state that is not satisfied. `WARN` indicates an actionable mismatch that needs review. `SKIP` is reserved for checks that are intentionally not applicable to the detected environment, such as physical Wi-Fi or host-only driver checks inside the clean-room VM.
 
+For repository-only static validation that does not require the live Fedora desktop state:
+
+```bash
+bash scripts/check-static.sh
+```
+
 For extension-focused validation:
 
 ```bash
@@ -91,4 +99,4 @@ bash scripts/audit-extension-runtime.sh
 
 ## Status
 
-**Validated for the Fedora 44 / GNOME 50.4 baseline.** The latest physical-workstation verification completed with `PASS=219 WARN=0 FAIL=0 SKIP=0` and `VERIFY_RC=0`. The accepted state includes Secure Boot, signed NVIDIA-module verification, DDC/CI external-monitor brightness support, the validated GNOME extension refresh, GSConnect D-Bus/firewalld integration, and repository-managed Polish GNOME extension localizations including Dhruva, GSConnect v72, and Tiling Shell v76 / 17.3. Future Fedora or GNOME upgrades should be followed by another clean-room and physical-host validation before declaring the new baseline accepted.
+**Validated for the Fedora 44 / GNOME 50.4 baseline.** The latest physical-workstation verification completed with `PASS=221 WARN=0 FAIL=0 SKIP=0` and `VERIFY_RC=0`. The accepted state includes Secure Boot, signed NVIDIA-module verification, DDC/CI external-monitor brightness support, the validated GNOME extension refresh, GSConnect D-Bus/firewalld integration, repository-managed Polish GNOME extension localizations including Dhruva, GSConnect v72, and Tiling Shell v76 / 17.3, and explicit package coverage for the restore/validation tooling. Future Fedora or GNOME upgrades should be followed by another clean-room and physical-host validation before declaring the new baseline accepted.
