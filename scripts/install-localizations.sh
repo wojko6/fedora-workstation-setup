@@ -100,4 +100,8 @@ echo "=== POLISH LOCALIZATION: Just Perfection v37 ==="
 bash "$ROOT_DIR/scripts/install-just-perfection-localization.sh"
 
 echo
+echo "=== POLISH LOCALIZATION: Spotlight v14 / 2026.11 ==="
+bash "$ROOT_DIR/scripts/install-spotlight-localization.sh"
+
+echo
 echo "Custom Polish localizations complete."
