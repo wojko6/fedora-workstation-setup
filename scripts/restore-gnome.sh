@@ -16,7 +16,23 @@ if [[ ! -f "$SETTINGS" ]]; then
 fi
 
 echo "==> Restoring curated GNOME settings"
-dconf load / < "$SETTINGS"
+
+# GNOME favorite applications are audit-only. Dhruva is the canonical dock,
+# and its order/folder state is restored separately by install-dhruva-config.sh.
+# Keep favorite-apps in settings.dconf as the expected membership set for the
+# audit, but never write that key during GNOME restore so user icon ordering is
+# not changed as a side effect of a rebuild.
+tmp_settings="$(mktemp)"
+trap 'rm -f "$tmp_settings"' EXIT
+
+awk '
+  /^\[org\/gnome\/shell\]$/ { in_shell = 1; print; next }
+  /^\[/ { in_shell = 0 }
+  in_shell && /^favorite-apps=/ { next }
+  { print }
+' "$SETTINGS" > "$tmp_settings"
+
+dconf load / < "$tmp_settings"
 
 if command -v gnome-extensions >/dev/null 2>&1 && [[ -f "$EXTENSIONS" ]]; then
   echo "==> Enabling installed GNOME extensions"
