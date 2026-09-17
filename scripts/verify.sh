@@ -67,7 +67,7 @@ fi
 echo
 echo "=== EXTERNAL REPOSITORIES ==="
 repo_ids="$(dnf repolist --enabled 2>/dev/null | awk 'NR > 1 {print $1}')"
-for repo in rpmfusion-free rpmfusion-nonfree brave-browser repo.nordvpn.com_yum_nordvpn_centos_x86_64; do
+for repo in rpmfusion-free rpmfusion-nonfree brave-browser; do
   if grep -Fxq "$repo" <<<"$repo_ids"; then
     ok "repo $repo"
   else
