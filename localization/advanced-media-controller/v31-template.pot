@@ -1,0 +1,1289 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the advanced-media-controller package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: advanced-media-controller 6.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-19 11:47+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: prefs.js:22 ui/aboutPage.js:134 ui/aboutPage.js:167
+msgid "Advanced Media Controller"
+msgstr ""
+
+#: prefs.js:37
+msgid "Vinyl Apps"
+msgstr ""
+
+#: prefs.js:72
+msgid "Player Filter"
+msgstr ""
+
+#: prefs.js:82
+msgid "Lyrics"
+msgstr ""
+
+#: prefs.js:106
+msgid "No instances saved yet"
+msgstr ""
+
+#: prefs.js:108
+msgid ""
+"Double-click the album art in the popup while music is playing to save an "
+"instance here."
+msgstr ""
+
+#: prefs.js:207
+#, javascript-format
+msgid "%s via %s"
+msgstr ""
+
+#: prefs.js:216 prefs.js:665
+msgid "renamed from"
+msgstr ""
+
+#: prefs.js:239
+#, javascript-format
+msgid "Rename “%s”"
+msgstr ""
+
+#: prefs.js:263
+#, javascript-format
+msgid "Remove %s from saved instances"
+msgstr ""
+
+#: prefs.js:280
+msgid "Rename Instance"
+msgstr ""
+
+#: prefs.js:282
+#, javascript-format
+msgid ""
+"Enter a custom display name for \"%s\".\n"
+"Leave blank to reset to the default."
+msgstr ""
+
+#: prefs.js:288 ui/aboutPage.js:117 ui/appearancePage.js:497
+msgid "Cancel"
+msgstr ""
+
+#: prefs.js:289
+msgid "Rename"
+msgstr ""
+
+#: prefs.js:307
+msgid "Display name"
+msgstr ""
+
+#: prefs.js:636
+msgid "Saved Instances"
+msgstr ""
+
+#: prefs.js:657
+#, javascript-format
+msgid "Browser: %s · Source: %s"
+msgstr ""
+
+#: prefs.js:708
+msgid "Other Apps"
+msgstr ""
+
+#: prefs.js:779
+msgid "No matching apps found"
+msgstr ""
+
+#: ui/aboutPage.js:81
+msgid "About"
+msgstr ""
+
+#: ui/aboutPage.js:91
+msgid "Danger Zone"
+msgstr ""
+
+#: ui/aboutPage.js:92
+msgid "Reset extension settings to their default values"
+msgstr ""
+
+#: ui/aboutPage.js:96
+msgid "Reset All Settings"
+msgstr ""
+
+#: ui/aboutPage.js:97
+msgid "This action cannot be undone"
+msgstr ""
+
+#: ui/aboutPage.js:105 ui/aboutPage.js:118 ui/appearancePage.js:475
+#: ui/appearancePage.js:498
+msgid "Reset"
+msgstr ""
+
+#: ui/aboutPage.js:110
+msgid "Reset Settings?"
+msgstr ""
+
+#: ui/aboutPage.js:112
+msgid "Are you sure you want to restore all settings to their default values?"
+msgstr ""
+
+#: ui/aboutPage.js:136
+msgid "Beautiful and modern media controls with multi-instance support"
+msgstr ""
+
+#: ui/aboutPage.js:174
+msgid "Version 6.5"
+msgstr ""
+
+#: ui/aboutPage.js:181
+msgid "Modern media controls with native GNOME design"
+msgstr ""
+
+#: ui/aboutPage.js:195
+msgid "Extension Links"
+msgstr ""
+
+#: ui/aboutPage.js:196 ui/aboutPage.js:201
+msgid "Source code, issues, and contributions"
+msgstr ""
+
+#: ui/aboutPage.js:200
+msgid "View on codeberg"
+msgstr ""
+
+#: ui/aboutPage.js:219
+msgid "Ko-fi"
+msgstr ""
+
+#: ui/aboutPage.js:220
+msgid "Support development with Ko-fi"
+msgstr ""
+
+#: ui/aboutPage.js:224
+msgid "☕ Support via Ko-fi – scan the QR code!"
+msgstr ""
+
+#: ui/aboutPage.js:225
+msgid "Scan QR code to open Ko-fi"
+msgstr ""
+
+#: ui/aboutPage.js:228
+msgid "Liberapay"
+msgstr ""
+
+#: ui/aboutPage.js:229
+msgid "Support via Liberapay — recurring donations"
+msgstr ""
+
+#: ui/aboutPage.js:233
+msgid "♥ Support via Liberapay – scan the QR code!"
+msgstr ""
+
+#: ui/aboutPage.js:234
+msgid "Scan QR code to open Liberapay"
+msgstr ""
+
+#: ui/aboutPage.js:237
+msgid "Buy Me a Coffee"
+msgstr ""
+
+#: ui/aboutPage.js:238
+msgid "Support development with a small donation"
+msgstr ""
+
+#: ui/aboutPage.js:242
+msgid "☕ Support via Buy Me a Coffee – scan the QR code!"
+msgstr ""
+
+#: ui/aboutPage.js:243
+msgid "Scan QR code to open Buy Me a Coffee"
+msgstr ""
+
+#: ui/aboutPage.js:263
+msgid "Donation Platform"
+msgstr ""
+
+#: ui/aboutPage.js:264
+msgid "Switch to see the QR code for each platform"
+msgstr ""
+
+#: ui/aboutPage.js:270
+msgid "Donation Address"
+msgstr ""
+
+#: ui/aboutPage.js:271
+msgid "Donation address"
+msgstr ""
+
+#: ui/aboutPage.js:283
+msgid "Support Development"
+msgstr ""
+
+#: ui/aboutPage.js:284
+msgid "Choose your preferred donation platform"
+msgstr ""
+
+#: ui/aboutPage.js:306
+msgid "License & Credits"
+msgstr ""
+
+#: ui/aboutPage.js:307
+msgid "Open source software information"
+msgstr ""
+
+#: ui/aboutPage.js:311
+msgid "Open Source License"
+msgstr ""
+
+#: ui/aboutPage.js:312
+msgid "GPL-3.0 License - Free and open source software"
+msgstr ""
+
+#: ui/aboutPage.js:316
+msgid "Media Data Sources"
+msgstr ""
+
+#: ui/aboutPage.js:317
+msgid "MPRIS D-Bus interface - Standard media player remote interfacing"
+msgstr ""
+
+#: ui/aboutPage.js:321
+msgid "Key Features"
+msgstr ""
+
+#: ui/aboutPage.js:322
+msgid ""
+"• Multi-instance browser support\n"
+"• Per-app rotating vinyl record album art\n"
+"• Animated tonearm\n"
+"• Smooth animations\n"
+"• Double-click to toggle vinyl per app\n"
+"• Triple-click album art to show synced lyrics\n"
+"• Single-click lyrics panel to return to album art\n"
+"• Lyrics synced to playback via lrclib.net\n"
+"• Per-player lyrics toggle (each tab independent)\n"
+"• All seen apps remembered — re-enable any time"
+msgstr ""
+
+#: ui/appearancePage.js:82
+msgid "When ON the colour is inherited from the Shell theme"
+msgstr ""
+
+#: ui/appearancePage.js:91
+msgid "Pick a custom text colour"
+msgstr ""
+
+#: ui/appearancePage.js:96
+msgid "Inherit"
+msgstr ""
+
+#: ui/appearancePage.js:107
+#, javascript-format
+msgid "Default (%s)"
+msgstr ""
+
+#: ui/appearancePage.js:129
+msgid "Font Family"
+msgstr ""
+
+#: ui/appearancePage.js:130
+msgid "Default uses the Shell / GTK theme font"
+msgstr ""
+
+#: ui/appearancePage.js:137
+msgid "Search fonts…"
+msgstr ""
+
+#: ui/appearancePage.js:173
+msgid "Font Size (px)"
+msgstr ""
+
+#: ui/appearancePage.js:189
+msgid "Bold"
+msgstr ""
+
+#: ui/appearancePage.js:190
+msgid "Use bold font weight"
+msgstr ""
+
+#: ui/appearancePage.js:197
+msgid "Text Colour"
+msgstr ""
+
+#: ui/appearancePage.js:198
+msgid "\"Inherit\" uses the Shell theme colour"
+msgstr ""
+
+#: ui/appearancePage.js:223
+msgid "Appearance"
+msgstr ""
+
+#: ui/appearancePage.js:228
+msgid "Panel Label – Font Family"
+msgstr ""
+
+#: ui/appearancePage.js:229
+msgid ""
+"Font used for the track / artist text shown in the top panel bar. Changes "
+"apply immediately."
+msgstr ""
+
+#: ui/appearancePage.js:240
+msgid "Panel App Icon"
+msgstr ""
+
+#: ui/appearancePage.js:241
+msgid "Size of the application icon displayed in the top panel."
+msgstr ""
+
+#: ui/appearancePage.js:245
+msgid "Icon Size (px)"
+msgstr ""
+
+#: ui/appearancePage.js:260
+msgid "12–32 px. Takes effect immediately."
+msgstr ""
+
+#: ui/appearancePage.js:266
+msgid "Popup – Track Title Font Family"
+msgstr ""
+
+#: ui/appearancePage.js:267
+msgid "Font for the large track-title label inside the popup player."
+msgstr ""
+
+#: ui/appearancePage.js:274
+msgid "Popup – Artist Name Font Family"
+msgstr ""
+
+#: ui/appearancePage.js:275
+msgid "Font for the artist-name label inside the popup player."
+msgstr ""
+
+#: ui/appearancePage.js:282
+msgid "Player-Tab Icons"
+msgstr ""
+
+#: ui/appearancePage.js:283
+msgid ""
+"Icon sizes and style used in the player-switcher tabs at the top of the "
+"popup. Set sizes to 0 to follow the system / Shell-theme default. Changes "
+"apply immediately."
+msgstr ""
+
+#: ui/appearancePage.js:288
+msgid "Monochrome Icons"
+msgstr ""
+
+#: ui/appearancePage.js:289
+msgid ""
+"Show app icons in monochrome (symbolic style) instead of colour. Symbolic "
+"icons match the panel text colour and adapt to light / dark themes. Apps "
+"without a symbolic variant are desaturated automatically."
+msgstr ""
+
+#: ui/appearancePage.js:299
+msgid "System default sizes"
+msgstr ""
+
+#: ui/appearancePage.js:300
+msgid ""
+"Multi-tab icons default to 18 px; the single large icon defaults to 28 px. "
+"Setting 0 restores the system default for that slot."
+msgstr ""
+
+#: ui/appearancePage.js:304
+msgid "Multi-player Tab Icon Size (px)"
+msgstr ""
+
+#: ui/appearancePage.js:315
+msgid "0 = system default (18 px), range 12–32 px"
+msgstr ""
+
+#: ui/appearancePage.js:319
+msgid "Single-player Icon Size (px)"
+msgstr ""
+
+#: ui/appearancePage.js:330
+msgid "0 = system default (28 px), range 16–48 px"
+msgstr ""
+
+#: ui/appearancePage.js:342
+msgid "Reset Appearance"
+msgstr ""
+
+#: ui/appearancePage.js:343
+msgid ""
+"To restore all appearance defaults, use the Reset All Settings button on the "
+"About page."
+msgstr ""
+
+#: ui/appearancePage.js:470
+msgid "Reset appearance defaults"
+msgstr ""
+
+#: ui/appearancePage.js:471
+msgid "Clears all font, colour and icon-size overrides"
+msgstr ""
+
+#: ui/appearancePage.js:490
+msgid "Reset Appearance?"
+msgstr ""
+
+#: ui/appearancePage.js:492
+msgid "Restore font, colour and icon-size settings to their defaults?"
+msgstr ""
+
+#: ui/generalPage.js:57
+msgid "General"
+msgstr ""
+
+#: ui/generalPage.js:62
+msgid "Panel Placement"
+msgstr ""
+
+#: ui/generalPage.js:63
+msgid "Where the indicator sits in the top bar"
+msgstr ""
+
+#: ui/generalPage.js:68
+msgid "Panel Position"
+msgstr ""
+
+#: ui/generalPage.js:73
+msgid "Left"
+msgstr ""
+
+#: ui/generalPage.js:74
+msgid "Center"
+msgstr ""
+
+#: ui/generalPage.js:75
+msgid "Right"
+msgstr ""
+
+#: ui/generalPage.js:91
+msgid "Panel Index"
+msgstr ""
+
+#: ui/generalPage.js:92
+msgid "Position within the panel area (-1 = automatic)"
+msgstr ""
+
+#: ui/generalPage.js:103
+msgid "Panel Label"
+msgstr ""
+
+#: ui/generalPage.js:104
+msgid "Track name shown in the top bar"
+msgstr ""
+
+#: ui/generalPage.js:108
+msgid "Show Track Name"
+msgstr ""
+
+#: ui/generalPage.js:109
+msgid "Display the current track title in the panel"
+msgstr ""
+
+#: ui/generalPage.js:116
+msgid "Show Artist Name"
+msgstr ""
+
+#: ui/generalPage.js:117
+msgid "Append the artist name to the track title"
+msgstr ""
+
+#: ui/generalPage.js:124
+msgid "Title / Artist Separator"
+msgstr ""
+
+#: ui/generalPage.js:141
+msgid "Panel Scrolling"
+msgstr ""
+
+#: ui/generalPage.js:142
+msgid "Marquee scroll of the track label in the top bar"
+msgstr ""
+
+#: ui/generalPage.js:146
+msgid "Enable Panel Label Scrolling"
+msgstr ""
+
+#: ui/generalPage.js:147
+msgid ""
+"Scroll the track/artist text one full loop then pause before repeating. When "
+"off, the text is truncated with an ellipsis."
+msgstr ""
+
+#: ui/generalPage.js:154
+msgid "Panel Scroll Speed"
+msgstr ""
+
+#: ui/generalPage.js:155 ui/popupPage.js:88 ui/popupPage.js:111
+msgid "1 = slowest, 10 = fastest"
+msgstr ""
+
+#: ui/generalPage.js:173
+msgid "Panel Label Width"
+msgstr ""
+
+#: ui/generalPage.js:174
+msgid ""
+"Visible pixel width of the track label in the top bar (60 – 400 px). Takes "
+"effect immediately — no restart needed."
+msgstr ""
+
+#: ui/generalPage.js:186
+msgid "Panel Element Order"
+msgstr ""
+
+#: ui/generalPage.js:187
+msgid ""
+"Drag and drop the rows to reorder the icon, label, and controls shown in the "
+"top bar. Changes take effect immediately."
+msgstr ""
+
+#: ui/generalPage.js:202
+msgid "App Icon"
+msgstr ""
+
+#: ui/generalPage.js:203
+msgid "Track Label"
+msgstr ""
+
+#: ui/generalPage.js:204
+msgid "Playback Controls"
+msgstr ""
+
+#: ui/generalPage.js:248
+msgid "Popup Player Layout"
+msgstr ""
+
+#: ui/generalPage.js:249
+msgid "How the track title and artist are aligned in the popup"
+msgstr ""
+
+#: ui/generalPage.js:253
+msgid "Centre-align Track Info"
+msgstr ""
+
+#: ui/generalPage.js:254
+msgid ""
+"When on, the track title and artist name are centred under the album art. "
+"When off, they are left-aligned. Takes effect immediately."
+msgstr ""
+
+#: ui/generalPage.js:265
+msgid "System Integration"
+msgstr ""
+
+#: ui/generalPage.js:266
+msgid "Controls how this extension interacts with other parts of GNOME Shell."
+msgstr ""
+
+#: ui/generalPage.js:270
+msgid "Hide Default GNOME Media Player"
+msgstr ""
+
+#: ui/generalPage.js:271
+msgid "Remove the built-in media controls from the system date/time menu"
+msgstr ""
+
+#: ui/generalPage.js:272
+msgid ""
+"When ON, the extension hides the stock GNOME media controls that\n"
+"normally appear in the calendar / notification panel (the date-time\n"
+"menu). This prevents a duplicate 'now playing' widget.\n"
+"\n"
+"The built-in controls are fully restored the moment you:\n"
+"  • Turn this switch off, or\n"
+"  • Disable or uninstall this extension."
+msgstr ""
+
+#: ui/lyricsPage.js:56
+msgid "Synced Lyrics"
+msgstr ""
+
+#: ui/lyricsPage.js:57
+msgid ""
+"Time-synced lyrics fetched from lrclib.net — free, no account needed"
+msgstr ""
+
+#: ui/lyricsPage.js:61
+msgid "Enable Synced Lyrics"
+msgstr ""
+
+#: ui/lyricsPage.js:62
+msgid ""
+"Fetch and display scrolling lyrics that follow the current playback position"
+msgstr ""
+
+#: ui/lyricsPage.js:72
+msgid "How to Use Lyrics"
+msgstr ""
+
+#: ui/lyricsPage.js:73
+msgid ""
+"Lyrics are tied to each player tab independently — Spotify and Firefox each "
+"remember their own setting"
+msgstr ""
+
+#: ui/lyricsPage.js:86
+msgid "once"
+msgstr ""
+
+#: ui/lyricsPage.js:86
+msgid "twice"
+msgstr ""
+
+#: ui/lyricsPage.js:86
+#, javascript-format
+msgid "%d times"
+msgstr ""
+
+#: ui/lyricsPage.js:90
+msgid "Start playing a song"
+msgstr ""
+
+#: ui/lyricsPage.js:91
+msgid ""
+"Open any media player or browser tab (Spotify, YouTube Music, VLC, Rhythmbox…) "
+"and play a track so it appears in the panel."
+msgstr ""
+
+#: ui/lyricsPage.js:95
+msgid "Open the popup player"
+msgstr ""
+
+#: ui/lyricsPage.js:96
+msgid ""
+"Click the media controller icon in the top panel to open the popup. You’ll "
+"see the album art, track title, and playback controls."
+msgstr ""
+
+#: ui/lyricsPage.js:100
+#, javascript-format
+msgid "Click the album art %s to show lyrics"
+msgstr ""
+
+#: ui/lyricsPage.js:101
+msgid ""
+"Click the album art in quick succession. The cover image will be replaced by "
+"the lyrics panel, which scrolls automatically in time with the music."
+msgstr ""
+
+#: ui/lyricsPage.js:105
+msgid "Single-click the lyrics panel to go back"
+msgstr ""
+
+#: ui/lyricsPage.js:106
+msgid ""
+"Tap anywhere on the lyrics panel once to dismiss it and return to the album "
+"art — vinyl or normal cover, whichever that app uses."
+msgstr ""
+
+#: ui/lyricsPage.js:110
+msgid "Click again to re-open"
+msgstr ""
+
+#: ui/lyricsPage.js:111
+msgid ""
+"You can toggle the lyrics panel as many times as you like. Each player tab "
+"remembers independently whether lyrics are open."
+msgstr ""
+
+#: ui/lyricsPage.js:128
+msgid "Lyrics Behaviour"
+msgstr ""
+
+#: ui/lyricsPage.js:129
+msgid "What happens behind the scenes"
+msgstr ""
+
+#: ui/lyricsPage.js:133
+msgid "Lyrics details & edge cases"
+msgstr ""
+
+#: ui/lyricsPage.js:134
+msgid "What to expect when the lyrics panel is open"
+msgstr ""
+
+#: ui/lyricsPage.js:135
+msgid ""
+"Source\n"
+"  • Lyrics are fetched from lrclib.net — a free, open public database\n"
+"  • No account or API key is required; the request is made silently in the "
+"background\n"
+"\n"
+"Display\n"
+"  • The active lyric line is shown larger and centred in the panel\n"
+"  • The line above and below are shown at medium size; all others fade out\n"
+"  • The panel scrolls smoothly so the active line is always in view\n"
+"\n"
+"Track changes\n"
+"  • When a new song starts while the lyrics panel is open, the view clears\n"
+"    and new lyrics are fetched automatically\n"
+"  • If no lyrics are found, a “No lyrics found” message is shown\n"
+"\n"
+"Multiple players\n"
+"  • Each player tab (Spotify, YouTube, VLC…) has its own independent\n"
+"    lyrics toggle — opening lyrics for one player does not affect any other\n"
+"  • Switching tabs restores the correct view (lyrics or album art) for\n"
+"    the player you switch to\n"
+"\n"
+"Seeking\n"
+"  • When you seek forward or backward, the highlighted line jumps\n"
+"    instantly to the correct position"
+msgstr ""
+
+#: ui/lyricsPage.js:170
+msgid "Album Art Click Actions"
+msgstr ""
+
+#: ui/lyricsPage.js:171
+msgid "Summary of what each click pattern does on the album art cover"
+msgstr ""
+
+#: ui/lyricsPage.js:179
+msgid "1 click"
+msgstr ""
+
+#: ui/lyricsPage.js:179
+#, javascript-format
+msgid "%d clicks"
+msgstr ""
+
+#: ui/lyricsPage.js:183
+msgid "Single click"
+msgstr ""
+
+#: ui/lyricsPage.js:184
+msgid ""
+"When lyrics are showing: closes the lyrics panel and returns to the album art"
+msgstr ""
+
+#: ui/lyricsPage.js:188
+#, javascript-format
+msgid "%s — toggle vinyl effect"
+msgstr ""
+
+#: ui/lyricsPage.js:189
+msgid ""
+"Toggles the spinning vinyl record effect for that specific app (remembered "
+"independently per app)"
+msgstr ""
+
+#: ui/lyricsPage.js:193
+#, javascript-format
+msgid "%s — toggle lyrics"
+msgstr ""
+
+#: ui/lyricsPage.js:194
+msgid ""
+"Toggles the synced lyrics panel for the current player tab (remembered "
+"independently per player)"
+msgstr ""
+
+#: ui/lyricsPage.js:203
+msgid "Data Source"
+msgstr ""
+
+#: ui/lyricsPage.js:204
+msgid "Where lyrics come from"
+msgstr ""
+
+#: ui/lyricsPage.js:208
+msgid "lrclib.net"
+msgstr ""
+
+#: ui/lyricsPage.js:209
+msgid ""
+"Free, open-source time-synced lyrics database — no sign-up, no tracking, no "
+"ads"
+msgstr ""
+
+#: ui/lyricsPage.js:212
+msgid "Privacy note"
+msgstr ""
+
+#: ui/lyricsPage.js:213
+msgid ""
+"A request containing the track title, artist, album and duration is sent to "
+"lrclib.net when you open the lyrics panel. No personal data or user "
+"identifiers are included."
+msgstr ""
+
+#: ui/playerFilterPage.js:39
+msgid "Filter Mode"
+msgstr ""
+
+#: ui/playerFilterPage.js:40
+msgid ""
+"Choose whether the list below acts as a blacklist (block listed apps) or a "
+"whitelist (allow only listed apps). Set to Off to disable filtering entirely."
+msgstr ""
+
+#: ui/playerFilterPage.js:45
+msgid "Off"
+msgstr ""
+
+#: ui/playerFilterPage.js:46
+msgid "Blacklist"
+msgstr ""
+
+#: ui/playerFilterPage.js:47
+msgid "Whitelist"
+msgstr ""
+
+#: ui/playerFilterPage.js:65
+msgid "Show all media players — filtering is disabled"
+msgstr ""
+
+#: ui/playerFilterPage.js:65
+msgid "Hide only the players you add to the list below"
+msgstr ""
+
+#: ui/playerFilterPage.js:65
+msgid "Show only the players you add to the list below"
+msgstr ""
+
+#: ui/playerFilterPage.js:73
+msgid "Saved Players"
+msgstr ""
+
+#: ui/playerFilterPage.js:74
+msgid ""
+"Each saved player can be individually enabled or disabled in the filter "
+"without removing it. The toggle controls whether the filter rule is active "
+"for that app. Use the trash button to remove it from the list entirely."
+msgstr ""
+
+#: ui/playerFilterPage.js:92
+msgid "No players saved yet"
+msgstr ""
+
+#: ui/playerFilterPage.js:94
+msgid "Detect running players below and click “Add to Filter” to add them here."
+msgstr ""
+
+#: ui/playerFilterPage.js:122
+#, javascript-format
+msgid "Filter rule active for “%s” — click to disable"
+msgstr ""
+
+#: ui/playerFilterPage.js:123
+#, javascript-format
+msgid "Filter rule disabled for “%s” — click to enable"
+msgstr ""
+
+#: ui/playerFilterPage.js:153
+#, javascript-format
+msgid "Remove “%s” from the filter list"
+msgstr ""
+
+#: ui/playerFilterPage.js:172
+msgid "Detected Players"
+msgstr ""
+
+#: ui/playerFilterPage.js:173
+msgid ""
+"Active MPRIS players found on the session D-Bus. Click “Add to Filter” to save "
+"a player to the list above."
+msgstr ""
+
+#: ui/playerFilterPage.js:178
+msgid "Scan for running players"
+msgstr ""
+
+#: ui/playerFilterPage.js:179
+msgid "Detects players currently broadcasting on MPRIS"
+msgstr ""
+
+#: ui/playerFilterPage.js:187
+msgid "Refresh the detected player list"
+msgstr ""
+
+#: ui/playerFilterPage.js:237
+msgid "Saved ✓"
+msgstr ""
+
+#: ui/playerFilterPage.js:240
+msgid "Add to Filter"
+msgstr ""
+
+#: ui/playerFilterPage.js:257
+msgid "No active players detected"
+msgstr ""
+
+#: ui/playerFilterPage.js:259
+msgid "Open a music app and click Refresh"
+msgstr ""
+
+#: ui/playerFilterPage.js:275
+#, javascript-format
+msgid "“%s” is already in the filter list"
+msgstr ""
+
+#: ui/playerFilterPage.js:277
+#, javascript-format
+msgid "Add “%s” to the filter list (enabled by default)"
+msgstr ""
+
+#: ui/popupPage.js:56
+msgid "Popup Player"
+msgstr ""
+
+#: ui/popupPage.js:61
+msgid "Popup Size"
+msgstr ""
+
+#: ui/popupPage.js:62
+msgid "Width of the popup media player panel (height scales with album art)"
+msgstr ""
+
+#: ui/popupPage.js:66
+msgid "Popup Width"
+msgstr ""
+
+#: ui/popupPage.js:67
+msgid ""
+"Width in pixels — album art, labels and lyrics panel all scale with this "
+"value (280 – 600 px)"
+msgstr ""
+
+#: ui/popupPage.js:77
+msgid "Title Scrolling"
+msgstr ""
+
+#: ui/popupPage.js:78
+msgid "Marquee behaviour for the track title inside the popup"
+msgstr ""
+
+#: ui/popupPage.js:82
+msgid "Enable Title Scrolling"
+msgstr ""
+
+#: ui/popupPage.js:83
+msgid ""
+"Scroll long track titles from start to end, pause, then repeat. When off, the "
+"text is truncated with an ellipsis."
+msgstr ""
+
+#: ui/popupPage.js:87
+msgid "Title Scroll Speed"
+msgstr ""
+
+#: ui/popupPage.js:100
+msgid "Artist Scrolling"
+msgstr ""
+
+#: ui/popupPage.js:101
+msgid "Marquee behaviour for the artist name inside the popup"
+msgstr ""
+
+#: ui/popupPage.js:105
+msgid "Enable Artist Scrolling"
+msgstr ""
+
+#: ui/popupPage.js:106
+msgid ""
+"Scroll long artist names from start to end, pause, then repeat. When off, the "
+"text is truncated with an ellipsis."
+msgstr ""
+
+#: ui/popupPage.js:110
+msgid "Artist Scroll Speed"
+msgstr ""
+
+#: ui/popupPage.js:125
+msgid "Album Art"
+msgstr ""
+
+#: ui/popupPage.js:126
+msgid "Vinyl-record rotation animation"
+msgstr ""
+
+#: ui/popupPage.js:130
+msgid "Enable Vinyl Record Rotation (Global Default)"
+msgstr ""
+
+#: ui/popupPage.js:131
+msgid ""
+"Global default when no per-app setting exists. Per-app overrides in the ‘Vinyl "
+"Apps’ section take priority."
+msgstr ""
+
+#: ui/popupPage.js:138
+msgid "Rotation Speed (seconds per revolution)"
+msgstr ""
+
+#: ui/popupPage.js:139
+msgid "5 = fastest, 60 = slowest. Recommended: 20–30"
+msgstr ""
+
+#: ui/popupPage.js:154
+msgid "Vinyl Effect Details"
+msgstr ""
+
+#: ui/popupPage.js:155
+msgid "How the animated vinyl record works"
+msgstr ""
+
+#: ui/popupPage.js:156
+msgid ""
+"- Album cover appears on a spinning vinyl disc\n"
+"- Black vinyl grooves are visible around the edges\n"
+"- Animated tonearm moves in and out with playback state\n"
+"- Rotation pauses smoothly when music pauses\n"
+"  (disc angle is preserved and resumes from the same position)\n"
+"- Disc resets to 0° only on a genuine Stop\n"
+"- Double-click album art to toggle vinyl for THAT player’s app only\n"
+"- Per-app settings override the global default above\n"
+"- All seen apps are stored; re-enable any time from Vinyl Apps page"
+msgstr ""
+
+#: ui/popupPage.js:178
+msgid "Tonearm Angles"
+msgstr ""
+
+#: ui/popupPage.js:179
+msgid "Control how far the animated tonearm swings when playing or at rest"
+msgstr ""
+
+#: ui/popupPage.js:184
+msgid "Parked (resting) angle"
+msgstr ""
+
+#: ui/popupPage.js:185
+msgid ""
+"Degrees from vertical when music is paused or stopped. Higher moves the arm "
+"further from the disc (10 – 60°)"
+msgstr ""
+
+#: ui/popupPage.js:199
+msgid "Playing angle"
+msgstr ""
+
+#: ui/popupPage.js:200
+msgid ""
+"Degrees from vertical when the stylus rests on the groove. Lower brings the "
+"arm closer to the disc centre (0 – 30°)"
+msgstr ""
+
+#: ui/popupPage.js:213
+msgid "Tip: parked angle must be greater than playing angle"
+msgstr ""
+
+#: ui/popupPage.js:214
+msgid ""
+"E.g. parked = 25°, playing = 8°. If they are equal or reversed the arm will "
+"animate incorrectly."
+msgstr ""
+
+#: ui/popupPage.js:228
+msgid "Album Art Click Thresholds"
+msgstr ""
+
+#: ui/popupPage.js:229
+msgid "Set how many rapid clicks trigger each album art action"
+msgstr ""
+
+#: ui/popupPage.js:234
+msgid "Clicks to toggle vinyl effect"
+msgstr ""
+
+#: ui/popupPage.js:235
+msgid ""
+"Rapidly click the album art this many times to enable or disable the vinyl "
+"record style for the current app"
+msgstr ""
+
+#: ui/popupPage.js:249
+msgid "Clicks to toggle lyrics view"
+msgstr ""
+
+#: ui/popupPage.js:250
+msgid ""
+"Rapidly click the album art this many times to open or close the synced lyrics "
+"panel"
+msgstr ""
+
+#: ui/popupPage.js:264
+msgid "Note: thresholds must be different"
+msgstr ""
+
+#: ui/popupPage.js:265
+msgid ""
+"If both thresholds are set to the same number the lyrics action takes "
+"priority. Use distinct values (e.g. 2 for vinyl, 3 for lyrics) to trigger both "
+"independently."
+msgstr ""
+
+#: ui/popupPage.js:274
+msgid "Control Button Order"
+msgstr ""
+
+#: ui/popupPage.js:275
+msgid ""
+"Drag and drop the rows to reorder the playback control buttons shown in the "
+"popup player. Changes take effect immediately."
+msgstr ""
+
+#: ui/popupPage.js:289
+msgid "Shuffle"
+msgstr ""
+
+#: ui/popupPage.js:290
+msgid "Previous"
+msgstr ""
+
+#: ui/popupPage.js:291
+msgid "Play / Pause"
+msgstr ""
+
+#: ui/popupPage.js:292
+msgid "Next"
+msgstr ""
+
+#: ui/popupPage.js:293
+msgid "Repeat"
+msgstr ""
+
+#: ui/vinylAppsPage.js:56
+msgid "How to Enable Vinyl Style for an App"
+msgstr ""
+
+#: ui/vinylAppsPage.js:57
+msgid "Start playing music"
+msgstr ""
+
+#: ui/vinylAppsPage.js:58
+msgid ""
+"Open any media player or browser web app (YouTube, Spotify Web, SoundCloud, "
+"etc.) and play a track so it appears as a media source."
+msgstr ""
+
+#: ui/vinylAppsPage.js:63
+msgid "Open the extension popup"
+msgstr ""
+
+#: ui/vinylAppsPage.js:64
+msgid "Click the media controller in the top panel to open the popup player."
+msgstr ""
+
+#: ui/vinylAppsPage.js:69
+msgid "Double-click the album art"
+msgstr ""
+
+#: ui/vinylAppsPage.js:70
+msgid ""
+"Double-click the album art image in the popup to toggle the vinyl record "
+"style for that specific app or browser source. For browsers (Chrome, Firefox, "
+"etc.) each site (YouTube, YouTube Music, Spotify Web) is stored as its own "
+"separate entry."
+msgstr ""
+
+#: ui/vinylAppsPage.js:78
+msgid "Manage saved instances below"
+msgstr ""
+
+#: ui/vinylAppsPage.js:79
+msgid ""
+"All stored instances appear in the section below. Browser web-app sources "
+"appear as e.g. “YouTube Music (Chrome)” and are tracked independently. Toggle "
+"them on/off or remove them at any time."
+msgstr ""
+
+#: ui/vinylAppsPage.js:88
+msgid "Saved App Instances"
+msgstr ""
+
+#: ui/vinylAppsPage.js:89
+msgid ""
+"Instances stored by double-clicking the album art in the popup. Icons are "
+"loaded from the system .desktop database. Toggle the vinyl effect on/off or "
+"remove any entry."
+msgstr ""
+
+#: ui/vinylAppsPage.js:101
+msgid "Add an App Manually"
+msgstr ""
+
+#: ui/vinylAppsPage.js:102
+msgid ""
+"Search installed apps — including browsers — to manually add a vinyl entry. "
+"Useful for browser web apps whose instance hasn’t been captured yet via "
+"double-click."
+msgstr ""
+
+#: ui/vinylAppsPage.js:116
+msgid ""
+"Browser sources tracked separately (YouTube, YouTube Music, Spotify Web)"
+msgstr ""
+
+#: ui/vinylAppsPage.js:117
+msgid ""
+"For web apps, add the browser itself (e.g. Google Chrome, Firefox). Then "
+"double-click the album art when that browser is playing music — the extension "
+"will capture the exact instance automatically."
+msgstr ""
+
+#: ui/vinylAppsPage.js:130
+msgid "Search apps"
+msgstr ""
+
+#: ui/vinylAppsPage.js:135
+msgid "Type an app or browser name…"
+msgstr ""
+
+#: ui/vinylAppsPage.js:158
+msgid "Running Players (Live Detection)"
+msgstr ""
+
+#: ui/vinylAppsPage.js:159
+msgid ""
+"MPRIS players active right now. Click “Use This” to immediately add the player "
+"as a vinyl-enabled instance without waiting for a double-click."
+msgstr ""
+
+#: ui/vinylAppsPage.js:164
+msgid "Scan for active players"
+msgstr ""
+
+#: ui/vinylAppsPage.js:165
+msgid "Detects players currently broadcasting on the MPRIS D-Bus"
+msgstr ""
+
+#: ui/vinylAppsPage.js:173
+msgid "Refresh"
+msgstr ""
+
+#: ui/vinylAppsPage.js:214
+msgid "Use This"
+msgstr ""
+
+#: ui/vinylAppsPage.js:240
+#, javascript-format
+msgid "Add “%s” as a vinyl-enabled instance"
+msgstr ""
+
+#: ui/vinylAppsPage.js:257
+msgid "All running players are already saved"
+msgstr ""
+
+#: ui/vinylAppsPage.js:259
+msgid "Manage them in the Saved App Instances section above"
+msgstr ""
+
+#: extension.js:1617
+msgid "Media Controls"
+msgstr ""
