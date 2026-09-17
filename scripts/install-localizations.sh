@@ -88,4 +88,8 @@ install_translation \
     "monitor-smart-saver"
 
 echo
+echo "=== POLISH LOCALIZATION: GSConnect completion ==="
+bash "$ROOT_DIR/scripts/install-gsconnect-localization.sh"
+
+echo
 echo "Custom Polish localizations complete."
