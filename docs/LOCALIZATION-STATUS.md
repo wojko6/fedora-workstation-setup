@@ -16,6 +16,7 @@ The existing localization work covers the established extension/integration targ
 - Background Logo
 - Browser Switcher
 - GSConnect v72 completion and Shell gettext-domain fix
+- Tiling Shell v76 / 17.3 completion overlay
 
 Dhruva remains the largest case: 393 gettext messages, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
@@ -30,7 +31,7 @@ Seven new extensions were accepted after physical-host compatibility testing. Th
 | Caffeine | Yes; upstream ships `locale/pl.po` | No custom translation currently planned |
 | Freon | Yes; upstream ships a Polish `locale/pl/LC_MESSAGES` catalog | No custom translation currently planned |
 | GSConnect | Yes; v72 had 11 untranslated entries and a Shell gettext-domain integration issue | **Completed and validated on the physical Fedora 44 / GNOME 50.4 host** |
-| Tiling Shell | Yes; exact installed v76 / 17.3 catalog audit found 15 untranslated entries and 0 fuzzy entries | **Completion overlay prepared; physical-host validation pending** |
+| Tiling Shell | Yes; exact installed v76 / 17.3 catalog audit found 15 untranslated entries and 0 fuzzy entries | **Completed and validated on the physical Fedora 44 / GNOME 50.4 host** |
 | User Themes | Uses the GNOME `gnome-shell-extensions` localization path, which includes Polish for the GNOME 50 branch | No separate repository translation currently planned |
 
 ## GSConnect v72 result
@@ -47,11 +48,11 @@ The repository installer now sets:
 
 After reloading the GNOME session, the Quick Settings strings were confirmed translated on the physical workstation. The dedicated verifier checks both the merged Polish catalog and the metadata gettext domain.
 
-## Tiling Shell v76 / 17.3 audit
+## Tiling Shell v76 / 17.3 result
 
 The exact installed extension reports numeric version **76**, version name **17.3**, gettext domain `tilingshell`, and support for GNOME Shell 45 through 50.
 
-The upstream Polish 17.3 catalog audit found **15 untranslated entries and 0 fuzzy entries**. The missing strings cover:
+The upstream Polish 17.3 catalog audit found **15 untranslated entries and 0 fuzzy entries**. The missing strings covered:
 
 - moving a window to the best tile;
 - dynamic border-radius adaptation;
@@ -60,27 +61,26 @@ The upstream Polish 17.3 catalog audit found **15 untranslated entries and 0 fuz
 - screen-edge window suggestions;
 - the Default, Adaptive, and Granular edge-tiling modes and their descriptions.
 
-The repository now carries a minimal `localization/tiling-shell/pl.po` completion overlay. `scripts/install-tiling-shell-localization.sh` preserves the upstream Polish catalog, merges only the missing entries, and refuses to apply the overlay if the installed Tiling Shell version changes from the audited 17.3 / 76 baseline. `scripts/verify-tiling-shell-localization.sh` reconstructs the expected merged catalog and requires zero untranslated and zero fuzzy entries.
+The repository carries a minimal `localization/tiling-shell/pl.po` completion overlay. `scripts/install-tiling-shell-localization.sh` preserves the upstream Polish catalog, merges only the missing entries, and refuses to apply the overlay if the installed Tiling Shell version changes from the audited 17.3 / 76 baseline. `scripts/verify-tiling-shell-localization.sh` reconstructs the expected merged catalog and requires zero untranslated and zero fuzzy entries.
 
-Physical-host installation and UI validation are still required before this completion is marked accepted.
+The completion installer and dedicated verifier both passed on the physical Fedora 44 / GNOME 50.4 workstation, and the affected preferences were visually checked after installation. The Tiling Shell completion is therefore accepted for the tested 17.3 / 76 baseline.
 
 ## Result
 
 For the seven newly accepted extensions:
 
 - **0** require a Polish translation from scratch;
-- **1** target is completed and physically validated: **GSConnect v72**;
-- **1** target has a prepared completion awaiting physical validation: **Tiling Shell v76 / 17.3**;
+- **2** confirmed completion targets are completed and physically validated: **GSConnect v72** and **Tiling Shell v76 / 17.3**;
 - **5** already have upstream Polish support and do not currently justify a repository-maintained duplicate translation.
 
 ## Evidence from upstream catalogs
 
 The GSConnect Polish catalog is active and maintained, but v72 contained 11 untranslated entries. Its Shell-side localization also required the metadata gettext-domain correction described above.
 
-The Tiling Shell 17.3 Polish catalog is present and compiled upstream. The exact catalog used by the physical workstation contained 15 empty translations and no fuzzy entries.
+The Tiling Shell 17.3 Polish catalog is present and compiled upstream. The exact catalog used by the physical workstation contained 15 empty translations and no fuzzy entries before the repository completion overlay was applied.
 
 Bluetooth Battery Meter has a Polish catalog revised on 2026-09-15. Caffeine ships a Polish source catalog, Freon ships a Polish compiled locale, ArcMenu lists Polish among its maintained translations, and User Themes belongs to the GNOME Shell Extensions localization stream.
 
 ## Next step
 
-Install the Tiling Shell completion on the physical Fedora 44 / GNOME 50.4 workstation, run the dedicated verifier, visually confirm the affected preferences/menu strings, and then promote the result to accepted status. After that, run the full repository verification to ensure the localization change introduces no regression.
+Run the full repository verifier after integrating the dedicated GSConnect and Tiling Shell localization checks. The accepted physical baseline should continue to report zero `WARN` and zero `FAIL`; after that result is recorded, the localization refresh is closed and returns to normal maintenance mode.
