@@ -337,6 +337,32 @@ else
 fi
 
 echo
+echo "=== JUST PERFECTION POLISH LOCALIZATION ==="
+if just_perfection_verify_output="$(bash "$ROOT_DIR/scripts/verify-just-perfection-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$just_perfection_verify_output"; then
+    skip "Just Perfection Polish localization: extension not installed"
+  else
+    ok "Just Perfection v37 Polish localization matches repository"
+  fi
+else
+  printf '%s\n' "$just_perfection_verify_output"
+  bad "Just Perfection Polish localization missing, incomplete, or differs"
+fi
+
+echo
+echo "=== SPOTLIGHT POLISH LOCALIZATION ==="
+if spotlight_verify_output="$(bash "$ROOT_DIR/scripts/verify-spotlight-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$spotlight_verify_output"; then
+    skip "Spotlight Polish localization: extension not installed"
+  else
+    ok "Spotlight v14 / 2026.11 Polish localization matches repository"
+  fi
+else
+  printf '%s\n' "$spotlight_verify_output"
+  bad "Spotlight Polish localization missing, incomplete, or differs"
+fi
+
+echo
 echo "=== DHRUVA POLISH LOCALIZATION ==="
 
 DHRUVA_EXT="$HOME/.local/share/gnome-shell/extensions/dhruva@narkagni"
