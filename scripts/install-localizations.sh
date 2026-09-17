@@ -104,4 +104,8 @@ echo "=== POLISH LOCALIZATION: Spotlight v14 / 2026.11 ==="
 bash "$ROOT_DIR/scripts/install-spotlight-localization.sh"
 
 echo
+echo "=== POLISH LOCALIZATION: Space Bar v39 ==="
+bash "$ROOT_DIR/scripts/install-space-bar-localization.sh"
+
+echo
 echo "Custom Polish localizations complete."
