@@ -56,3 +56,6 @@ jobs:
             echo "json.tool $file"
             python3 -m json.tool "$file" >/dev/null
           done < <(find . -type f -name '*.json' -print0)
+
+      - name: Validate repository desired-state consistency
+        run: python3 scripts/validate-repository.py
