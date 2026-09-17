@@ -8,10 +8,11 @@ SOURCE_PO="$ROOT_DIR/localization/gsconnect/pl.po"
 EXT_DIR="$HOME/.local/share/gnome-shell/extensions/$UUID"
 TARGET_MO="$EXT_DIR/locale/pl/LC_MESSAGES/$DOMAIN.mo"
 BACKUP_MO="${TARGET_MO}.upstream.bak"
+METADATA="$EXT_DIR/metadata.json"
 
-for cmd in msgfmt msgunfmt msgcat; do
+for cmd in msgfmt msgunfmt msgcat python3; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
-        echo "FAIL: $cmd not found (install gettext)" >&2
+        echo "FAIL: $cmd not found" >&2
         exit 1
     fi
 done
@@ -36,6 +37,11 @@ if [[ ! -f "$BACKUP_MO" ]]; then
     exit 1
 fi
 
+if [[ ! -f "$METADATA" ]]; then
+    echo "FAIL: GSConnect metadata missing" >&2
+    exit 1
+fi
+
 msgfmt --check "$SOURCE_PO" -o /dev/null
 
 tmp_dir="$(mktemp -d)"
@@ -48,9 +54,24 @@ msgcat --use-first \
     -o "$tmp_dir/merged.po"
 msgfmt --check "$tmp_dir/merged.po" -o "$tmp_dir/expected.mo"
 
-if cmp -s "$tmp_dir/expected.mo" "$TARGET_MO"; then
-    echo "PASS: GSConnect Polish localization matches repository completion"
-else
+if ! cmp -s "$tmp_dir/expected.mo" "$TARGET_MO"; then
     echo "FAIL: GSConnect Polish localization differs from repository completion" >&2
     exit 1
 fi
+
+python3 - "$METADATA" "$DOMAIN" <<'PY'
+import json
+import sys
+
+path, expected = sys.argv[1:]
+with open(path, encoding="utf-8") as f:
+    data = json.load(f)
+
+actual = data.get("gettext-domain")
+if actual != expected:
+    raise SystemExit(
+        f"FAIL: GSConnect gettext-domain expected {expected!r}, got {actual!r}"
+    )
+PY
+
+echo "PASS: GSConnect Polish localization and Shell gettext domain match repository"
