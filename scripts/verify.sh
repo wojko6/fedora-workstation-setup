@@ -376,6 +376,58 @@ else
 fi
 
 echo
+echo "=== APPINDICATOR POLISH LOCALIZATION ==="
+if appindicator_verify_output="$(bash "$ROOT_DIR/scripts/verify-appindicator-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$appindicator_verify_output"; then
+    skip "AppIndicator Polish localization: package not installed"
+  else
+    ok "AppIndicator v64 Polish localization matches repository completion"
+  fi
+else
+  printf '%s\n' "$appindicator_verify_output"
+  bad "AppIndicator Polish localization missing, incomplete, or differs"
+fi
+
+echo
+echo "=== VITALS POLISH LOCALIZATION ==="
+if vitals_verify_output="$(bash "$ROOT_DIR/scripts/verify-vitals-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$vitals_verify_output"; then
+    skip "Vitals Polish localization: extension not installed"
+  else
+    ok "Vitals v85 Polish localization matches repository completion"
+  fi
+else
+  printf '%s\n' "$vitals_verify_output"
+  bad "Vitals Polish localization missing, incomplete, or differs"
+fi
+
+echo
+echo "=== DDTERM POLISH LOCALIZATION ==="
+if ddterm_verify_output="$(bash "$ROOT_DIR/scripts/verify-ddterm-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$ddterm_verify_output"; then
+    skip "ddterm Polish localization: extension not installed"
+  else
+    ok "ddterm v72 Polish localization and metadata description match repository"
+  fi
+else
+  printf '%s\n' "$ddterm_verify_output"
+  bad "ddterm Polish localization missing, incomplete, or differs"
+fi
+
+echo
+echo "=== ADVANCED MEDIA CONTROLLER POLISH LOCALIZATION ==="
+if amc_verify_output="$(bash "$ROOT_DIR/scripts/verify-advanced-media-controller-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$amc_verify_output"; then
+    skip "Advanced Media Controller Polish localization: extension not installed"
+  else
+    ok "Advanced Media Controller v31 / 6.5 Polish localization matches repository"
+  fi
+else
+  printf '%s\n' "$amc_verify_output"
+  bad "Advanced Media Controller Polish localization missing, incomplete, or differs"
+fi
+
+echo
 echo "=== DHRUVA POLISH LOCALIZATION ==="
 
 DHRUVA_EXT="$HOME/.local/share/gnome-shell/extensions/dhruva@narkagni"
