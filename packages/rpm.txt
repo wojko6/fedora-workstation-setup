@@ -29,6 +29,7 @@ dos2unix
 fastfetch
 fedora-packager
 fedpkg
+gettext
 gh
 git
 htop
@@ -46,6 +47,7 @@ smartmontools
 tcpdump
 traceroute
 tree
+unzip
 usbutils
 whois
 
