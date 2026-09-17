@@ -1,0 +1,508 @@
+# Polish translation for Just Perfection v37.
+# This file is distributed under the same license as the Just Perfection package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Just Perfection 37\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-02 13:09-0800\n"
+"PO-Revision-Date: 2026-09-17 00:00+0200\n"
+"Last-Translator: Fedora Workstation Setup contributors\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+msgid "Visibility"
+msgstr "Widoczność"
+
+msgid "Panel"
+msgstr "Panel"
+
+msgid "Panel in Overview"
+msgstr "Panel w podglądzie"
+
+msgid "Activities Button"
+msgstr "Przycisk Aktywności"
+
+msgid "Button in panel to toggle overview visibility"
+msgstr "Przycisk na panelu przełączający widoczność podglądu"
+
+msgid "Clock Menu"
+msgstr "Menu zegara"
+
+msgid "Also known as date menu shows date and time in panel"
+msgstr "Menu daty i czasu wyświetlane na panelu"
+
+msgid "Keyboard Layout"
+msgstr "Układ klawiatury"
+
+msgid "Keyboard Layout indicator button in panel"
+msgstr "Przycisk wskaźnika układu klawiatury na panelu"
+
+msgid "Accessibility Menu"
+msgstr "Menu ułatwień dostępu"
+
+msgid "Accessibility Menu indicator button in panel"
+msgstr "Przycisk wskaźnika menu ułatwień dostępu na panelu"
+
+msgid "Quick Settings"
+msgstr "Szybkie ustawienia"
+
+msgid "Quick settings menu in panel"
+msgstr "Menu szybkich ustawień na panelu"
+
+msgid "Dark Mode Toggle Button"
+msgstr "Przycisk trybu ciemnego"
+
+msgid "Dark Mode Toggle Button in Quick settings menu"
+msgstr "Przycisk trybu ciemnego w menu szybkich ustawień"
+
+msgid "Night Light Toggle Button"
+msgstr "Przycisk nocnego światła"
+
+msgid "Night Light Toggle Button in Quick settings menu"
+msgstr "Przycisk nocnego światła w menu szybkich ustawień"
+
+msgid "Airplane Mode Toggle Button"
+msgstr "Przycisk trybu samolotowego"
+
+msgid "Airplane Mode Toggle Button in Quick settings menu"
+msgstr "Przycisk trybu samolotowego w menu szybkich ustawień"
+
+msgid "Screen Sharing Indicator"
+msgstr "Wskaźnik udostępniania ekranu"
+
+msgid "Screen sharing indicator in panel"
+msgstr "Wskaźnik udostępniania ekranu na panelu"
+
+msgid "Screen Recording Indicator"
+msgstr "Wskaźnik nagrywania ekranu"
+
+msgid "Screen recording indicator in panel"
+msgstr "Wskaźnik nagrywania ekranu na panelu"
+
+msgid "World Clock"
+msgstr "Zegar światowy"
+
+msgid "World clock in clock menu"
+msgstr "Zegar światowy w menu zegara"
+
+msgid "Weather"
+msgstr "Pogoda"
+
+msgid "Weather in clock menu"
+msgstr "Pogoda w menu zegara"
+
+msgid "Calendar"
+msgstr "Kalendarz"
+
+msgid "Calendar in clock menu"
+msgstr "Kalendarz w menu zegara"
+
+msgid "Events"
+msgstr "Wydarzenia"
+
+msgid "Events button in clock menu"
+msgstr "Przycisk wydarzeń w menu zegara"
+
+msgid "Search"
+msgstr "Wyszukiwanie"
+
+msgid "Search entry in overview"
+msgstr "Pole wyszukiwania w podglądzie"
+
+msgid "Dash"
+msgstr "Pasek ulubionych"
+
+msgid "Dash holds favorite and opened applications icons"
+msgstr "Pasek zawiera ikony ulubionych i otwartych aplikacji"
+
+msgid "Dash Separator"
+msgstr "Separator paska"
+
+msgid "Dash separator line that separates pin apps from unpin apps"
+msgstr "Linia oddzielająca przypięte aplikacje od nieprzypiętych"
+
+msgid "Dash App Running Indicator"
+msgstr "Wskaźnik uruchomionej aplikacji na pasku"
+
+msgid "The dot indicator in dash that shows the app is running"
+msgstr "Kropka na pasku informująca, że aplikacja jest uruchomiona"
+
+msgid "Show Applications Button"
+msgstr "Przycisk Pokaż aplikacje"
+
+msgid "Button in dash that toggles applications list visibility"
+msgstr "Przycisk na pasku przełączający widoczność listy aplikacji"
+
+msgid "On Screen Display (OSD)"
+msgstr "Menu ekranowe (OSD)"
+
+msgid "Volume and brightness on screen display when the change happens"
+msgstr "Ekranowe wskaźniki głośności i jasności pojawiające się po zmianie wartości"
+
+msgid "Workspace Popup"
+msgstr "Okno przełączania obszarów roboczych"
+
+msgid "Popup that appears on the screen when you change the workspace"
+msgstr "Okno pojawiające się podczas zmiany obszaru roboczego"
+
+msgid "Workspace Switcher"
+msgstr "Przełącznik obszarów roboczych"
+
+msgid "Also refers to workspace thumbnails that you see in overview for selecting a workspace"
+msgstr "Dotyczy również miniaturek obszarów roboczych widocznych w podglądzie"
+
+msgid "Workspaces App Grid"
+msgstr "Obszary robocze w siatce aplikacji"
+
+msgid "Workspace boxes in app grid"
+msgstr "Pola obszarów roboczych w siatce aplikacji"
+
+msgid "Window Picker Close Button"
+msgstr "Przycisk zamykania w wyborze okien"
+
+msgid "The close button on window preview in overview"
+msgstr "Przycisk zamykania na podglądzie okna w widoku podglądu"
+
+msgid "Window Picker Caption"
+msgstr "Podpis w wyborze okien"
+
+msgid "The text under window preview in overview"
+msgstr "Tekst pod podglądem okna w widoku podglądu"
+
+msgid "Background Menu"
+msgstr "Menu tła"
+
+msgid "When you right click on desktop background"
+msgstr "Menu wyświetlane po kliknięciu prawym przyciskiem myszy na tle pulpitu"
+
+msgid "Ripple Box"
+msgstr "Efekt fali"
+
+msgid "Hot corner animation effects"
+msgstr "Efekty animacji aktywnego narożnika"
+
+msgid "Take Screenshot button in Window Menu"
+msgstr "Przycisk Zrób zrzut ekranu w menu okna"
+
+msgid "Take screenshot button in title bar right click menu"
+msgstr "Przycisk wykonywania zrzutu ekranu w menu kontekstowym paska tytułu"
+
+msgid "Icons"
+msgstr "Ikony"
+
+msgid "Panel Notification Icon"
+msgstr "Ikona powiadomień na panelu"
+
+msgid "Power Icon"
+msgstr "Ikona zasilania"
+
+msgid "Window Picker Icon"
+msgstr "Ikona w wyborze okien"
+
+msgid "The icon under window preview in overview"
+msgstr "Ikona pod podglądem okna w widoku podglądu"
+
+msgid "Behavior"
+msgstr "Zachowanie"
+
+msgid "Workspace Wraparound"
+msgstr "Cykliczne przełączanie obszarów roboczych"
+
+msgid "Next workspace will be the first workspace when you are in the last workspace. and previous workspace will be the last workspace when you are in the first workspace."
+msgstr "Po ostatnim obszarze roboczym nastąpi przejście do pierwszego, a przed pierwszym do ostatniego."
+
+msgid "Workspace Peek"
+msgstr "Podgląd sąsiednich obszarów roboczych"
+
+msgid "Whether the next and previous workspace should be visible in overview."
+msgstr "Określa, czy następny i poprzedni obszar roboczy mają być widoczne w podglądzie."
+
+msgid "Workspace Switcher Click to The Main View"
+msgstr "Kliknięcie przełącznika przechodzi do widoku głównego"
+
+msgid "Workspace switcher click always goes to the main view of the workspace."
+msgstr "Kliknięcie przełącznika obszarów roboczych zawsze przechodzi do głównego widoku obszaru."
+
+msgid "Window Demands Attention Focus"
+msgstr "Ustawianie fokusu na oknie wymagającym uwagi"
+
+msgid "Removes window is ready notification and focus on the window"
+msgstr "Usuwa powiadomienie o gotowości okna i ustawia na nim fokus"
+
+msgid "Window Maximized by Default"
+msgstr "Domyślnie maksymalizuj okna"
+
+msgid "Maximize all windows on creation"
+msgstr "Maksymalizuj wszystkie nowe okna"
+
+msgid "Type to Search"
+msgstr "Pisz, aby wyszukać"
+
+msgid "You can start search without search entry or even focusing on it in overview"
+msgstr "Pozwala rozpocząć wyszukiwanie bez wybierania pola wyszukiwania w podglądzie"
+
+msgid "Always Show Workspace Switcher"
+msgstr "Zawsze pokazuj przełącznik obszarów roboczych"
+
+msgid "Shows workspace switcher even when only one workspace used with dynamic workspaces"
+msgstr "Pokazuje przełącznik obszarów roboczych nawet wtedy, gdy używany jest tylko jeden dynamiczny obszar"
+
+msgid "Overlay Key"
+msgstr "Klawisz podglądu"
+
+msgid "Disable overlay key (super key)"
+msgstr "Wyłącz klawisz podglądu (Super)"
+
+msgid "Double Super to App Grid"
+msgstr "Podwójny Super otwiera siatkę aplikacji"
+
+msgid "Shows app grid when you double hit super key fast"
+msgstr "Pokazuje siatkę aplikacji po szybkim dwukrotnym naciśnięciu klawisza Super"
+
+msgid "Popup Delay"
+msgstr "Opóźnienie wyskakujących okien"
+
+msgid "The delay for all switcher popups like alt-tab, ctrl-alt-tab, keyboard layout, ..."
+msgstr "Opóźnienie wyskakujących przełączników, takich jak Alt+Tab, Ctrl+Alt+Tab czy układ klawiatury"
+
+msgid "Startup Status"
+msgstr "Stan po uruchomieniu"
+
+msgid "When GNOME Shell is starting up for the first time"
+msgstr "Widok wyświetlany przy uruchamianiu GNOME Shell"
+
+msgid "Desktop"
+msgstr "Pulpit"
+
+msgid "Overview"
+msgstr "Podgląd"
+
+msgid "Customize"
+msgstr "Dostosowanie"
+
+msgid "Accent Color for Icons"
+msgstr "Kolor akcentu ikon"
+
+msgid "Use accent color for all symbolic icons"
+msgstr "Używaj koloru akcentu dla wszystkich ikon symbolicznych"
+
+msgid "Invert Calendar Column Items"
+msgstr "Odwróć elementy kolumny kalendarza"
+
+msgid "Invert the positions of the calendar column items in clock menu"
+msgstr "Odwróć położenie elementów kolumny kalendarza w menu zegara"
+
+msgid "Overview Spacing Size"
+msgstr "Odstępy w podglądzie"
+
+msgid "The spacing size for controls manager in overview"
+msgstr "Rozmiar odstępów między elementami sterującymi w podglądzie"
+
+msgid "Workspace Background Corner Size"
+msgstr "Zaokrąglenie tła obszaru roboczego"
+
+msgid "Workspace background corner size in overview"
+msgstr "Rozmiar zaokrąglenia tła obszaru roboczego w podglądzie"
+
+msgid "Panel Size"
+msgstr "Rozmiar panelu"
+
+msgid "Panel Icon Size"
+msgstr "Rozmiar ikon panelu"
+
+msgid "Panel Button Padding Size"
+msgstr "Odstęp wewnętrzny przycisków panelu"
+
+msgid "Panel Indicator Padding Size"
+msgstr "Odstęp wewnętrzny wskaźników panelu"
+
+msgid "Panel Position"
+msgstr "Położenie panelu"
+
+msgid "Clock Menu Position"
+msgstr "Położenie menu zegara"
+
+msgid "Clock Menu Position Offset"
+msgstr "Przesunięcie położenia menu zegara"
+
+msgid "Workspace Switcher Size"
+msgstr "Rozmiar przełącznika obszarów roboczych"
+
+msgid "Animation"
+msgstr "Animacja"
+
+msgid "Dash Icon Size"
+msgstr "Rozmiar ikon paska"
+
+msgid "Notification Banner Position"
+msgstr "Położenie banera powiadomień"
+
+msgid "Notification popup position when notifications show up on the screen"
+msgstr "Położenie wyskakujących powiadomień na ekranie"
+
+msgid "OSD Position"
+msgstr "Położenie OSD"
+
+msgid "OSD position when on screen display shows up on the screen"
+msgstr "Położenie menu ekranowego OSD"
+
+msgid "Alt Tab Window Preview Size"
+msgstr "Rozmiar podglądu okna Alt+Tab"
+
+msgid "Alt Tab Window Preview Icon Size"
+msgstr "Rozmiar ikony w podglądzie okna Alt+Tab"
+
+msgid "Alt Tab Icon Size"
+msgstr "Rozmiar ikon Alt+Tab"
+
+msgid "Looking Glass Width"
+msgstr "Szerokość Looking Glass"
+
+msgid "Looking Glass Height"
+msgstr "Wysokość Looking Glass"
+
+msgid "Maximum Displayed Search Results"
+msgstr "Maksymalna liczba wyników wyszukiwania"
+
+msgid "The maximum displayed search result items showing up in the search page"
+msgstr "Maksymalna liczba wyników wyświetlanych na stronie wyszukiwania"
+
+msgid "Default"
+msgstr "Domyślne"
+
+msgid "By Shell Theme"
+msgstr "Według motywu powłoki"
+
+msgid "Top"
+msgstr "Góra"
+
+msgid "Bottom"
+msgstr "Dół"
+
+msgid "Center"
+msgstr "Środek"
+
+msgid "Right"
+msgstr "Prawo"
+
+msgid "Left"
+msgstr "Lewo"
+
+msgid "No Animation"
+msgstr "Bez animacji"
+
+msgid "Default Speed"
+msgstr "Domyślna szybkość"
+
+msgid "Almost None"
+msgstr "Prawie brak"
+
+msgid "Fastest"
+msgstr "Najszybciej"
+
+msgid "Faster"
+msgstr "Szybciej"
+
+msgid "Fast"
+msgstr "Szybko"
+
+msgid "Slow"
+msgstr "Wolno"
+
+msgid "Slower"
+msgstr "Wolniej"
+
+msgid "Slowest"
+msgstr "Najwolniej"
+
+msgid "Top Start"
+msgstr "Góra — początek"
+
+msgid "Top Center"
+msgstr "Góra — środek"
+
+msgid "Top End"
+msgstr "Góra — koniec"
+
+msgid "Bottom Start"
+msgstr "Dół — początek"
+
+msgid "Bottom Center"
+msgstr "Dół — środek"
+
+msgid "Bottom End"
+msgstr "Dół — koniec"
+
+msgid "Center Start"
+msgstr "Środek — początek"
+
+msgid "Center End"
+msgstr "Środek — koniec"
+
+msgid "Profile"
+msgstr "Profil"
+
+msgid "You can choose between pre-defined profiles or you can simply use your own customized settings"
+msgstr "Możesz wybrać jeden z gotowych profili albo użyć własnych ustawień"
+
+msgid "Custom"
+msgstr "Własny"
+
+msgid "Minimal"
+msgstr "Minimalny"
+
+msgid "Super Minimal"
+msgstr "Superminimalny"
+
+msgid "Override"
+msgstr "Nadpisywanie"
+
+msgid "Shell Theme"
+msgstr "Motyw powłoki"
+
+msgid "Overrides the shell theme partially to create a minimal desktop"
+msgstr "Częściowo nadpisuje motyw powłoki, aby utworzyć minimalistyczny pulpit"
+
+msgid "Support"
+msgstr "Wsparcie"
+
+msgid "Support Via Crypto"
+msgstr "Wesprzyj kryptowalutą"
+
+msgid "Preferred Method"
+msgstr "Preferowana metoda"
+
+msgid "Copy"
+msgstr "Kopiuj"
+
+msgid "Support via Buy Me a Coffee"
+msgstr "Wesprzyj przez Buy Me a Coffee"
+
+msgid "Support Notification"
+msgstr "Powiadomienie o wsparciu"
+
+msgid "Manage when the support notification shows up"
+msgstr "Określ, kiedy ma być wyświetlane powiadomienie o wsparciu"
+
+msgid "Links"
+msgstr "Odnośniki"
+
+msgid "Bug Report"
+msgstr "Zgłoszenie błędu"
+
+msgid "YouTube Channel"
+msgstr "Kanał YouTube"
+
+msgid "Never"
+msgstr "Nigdy"
+
+msgid "On New Releases"
+msgstr "Przy nowych wydaniach"
+
+msgid "Address copied to the clipboard"
+msgstr "Adres skopiowano do schowka"
