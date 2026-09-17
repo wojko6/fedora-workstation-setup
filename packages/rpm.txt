@@ -66,10 +66,6 @@ virt-viewer
 vpcs
 
 # VPN
-# setup-repositories.sh bootstraps NordVPN through the vendor's current Linux
-# installer. Keeping nordvpn-gui in the manifest makes the desired package
-# state explicit and lets the normal package stage verify/retain it.
-nordvpn-gui
 # Fedora 44 provides Tailscale directly in the Fedora updates repositories.
 # Login and node authentication are intentionally not stored or automated.
 tailscale
