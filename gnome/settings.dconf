@@ -22,7 +22,7 @@ report-technical-problems=false
 button-layout=':minimize,maximize,close'
 
 [org/gnome/mutter]
-overlay-key='Super'
+overlay-key='Super_L'
 
 [org/gnome/nautilus/preferences]
 default-folder-viewer='list-view'
@@ -80,7 +80,7 @@ check-x11wayland=true
 [org/gnome/shell/extensions/just-perfection]
 accent-color-icon=true
 animation=5
-clock-menu-position=0
+clock-menu-position=1
 clock-menu-position-offset=0
 controls-manager-spacing-size=0
 dash=true

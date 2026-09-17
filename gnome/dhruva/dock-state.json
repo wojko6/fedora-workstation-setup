@@ -8,7 +8,7 @@
     "org.gnome.Calculator.desktop",
     "gns3.desktop",
     "com.mattjakeman.ExtensionManager.desktop",
-    "folder:software-folder"
+    "org.gnome.Ptyxis.desktop"
   ],
   "folders": [
     {

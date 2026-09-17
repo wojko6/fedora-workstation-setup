@@ -18,3 +18,10 @@ apps-menu@gnome-shell-extensions.gcampax.github.com
 background-logo@fedorahosted.org
 launch-new-instance@gnome-shell-extensions.gcampax.github.com
 places-menu@gnome-shell-extensions.gcampax.github.com
+Bluetooth-Battery-Meter@maniacx.github.com
+caffeine@patapon.info
+gsconnect@andyholmes.github.io
+tilingshell@ferrarodomenico.com
+freon@UshakovVasilii_Github.yahoo.com
+arcmenu@arcmenu.com
+user-theme@gnome-shell-extensions.gcampax.github.com
