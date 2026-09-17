@@ -1,12 +1,12 @@
 # Polish localization status
 
-This document tracks Polish localization coverage for GNOME Shell extensions in the accepted Fedora 44 / GNOME 50.4 workstation baseline.
+This document tracks Polish localization coverage for GNOME Shell extensions in the Fedora 44 / GNOME 50.4 workstation baseline.
 
 The repository carries its own localization only when upstream Polish support is missing, incomplete for the tested version, or user-visible strings are not exposed through a usable upstream Polish gettext path. Existing upstream translations remain attributed to their original projects and translators.
 
-## Repository-managed localization already accepted
+## Repository-managed localization
 
-Accepted repository-managed localization/integration targets are:
+Repository-managed localization/integration currently covers:
 
 - Desktop Icons NG (DING)
 - Brightness control using ddcutil
@@ -20,28 +20,34 @@ Accepted repository-managed localization/integration targets are:
 - Just Perfection v37 full Polish localization
 - Spotlight v14 / 2026.11 Polish localization and gettext integration
 - Space Bar v39 controlled Polish localization
+- AppIndicator v64 five-entry Polish completion
+- Vitals v85 Polish completion overlay
+- ddterm v72 Polish completion plus localized metadata description
+- Advanced Media Controller v31 / 6.5 full Polish catalog
 
 Dhruva remains the largest accepted case: 393 gettext messages, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
+All version-specific localization installers are wired into `scripts/install-localizations.sh`. Dedicated verifiers for the version-pinned targets are wired into the main `scripts/verify.sh` so restore drift is detected instead of silently accepted.
+
 ## 2026-09-17 extension refresh
 
-Seven new extensions were accepted after physical-host compatibility testing. Their Polish localization status was reviewed separately from runtime compatibility.
+The GNOME 50 extension set was reviewed on the physical Fedora workstation. ArcMenu, Bluetooth Battery Meter, Caffeine, GSConnect, Tiling Shell, and User Themes remain desired-state extensions from that refresh. Freon was initially accepted during the compatibility pass but was later intentionally removed from the workstation and from desired state.
 
-| Extension | Upstream Polish support | Repository work required now |
+| Extension | Polish localization status | Repository action |
 | --- | --- | --- |
-| ArcMenu | Yes; Polish is upstream-maintained | No duplicate repository translation |
-| Bluetooth Battery Meter | Yes; upstream Polish catalog is current | No duplicate repository translation |
-| Caffeine | Yes; upstream ships Polish | No duplicate repository translation |
-| Freon | Yes; upstream ships Polish | No duplicate repository translation |
-| GSConnect | Yes; v72 had 11 untranslated entries and a Shell gettext-domain integration issue | **Completed and validated** |
-| Tiling Shell | Yes; exact v76 / 17.3 catalog had 15 untranslated entries | **Completed and validated** |
-| User Themes | Uses GNOME Shell Extensions localization with Polish support | No separate repository translation |
+| ArcMenu | Upstream Polish support | No duplicate translation |
+| Bluetooth Battery Meter | Upstream Polish support | No duplicate translation |
+| Caffeine | Upstream Polish support | No duplicate translation |
+| GSConnect v72 | 11 untranslated entries plus Shell domain issue | Completion overlay + metadata domain fix |
+| Tiling Shell v76 / 17.3 | 15 untranslated entries | Completion overlay |
+| User Themes | Shared GNOME Shell Extensions Polish support | No duplicate translation |
+| Freon | Upstream Polish support | Removed from desired state |
 
 ## GSConnect v72
 
 The exact v72 Polish catalog audit found **11 untranslated entries and 0 fuzzy entries**. The repository carries a minimal completion overlay rather than a duplicate full upstream catalog.
 
-Runtime testing exposed an additional integration problem: GSConnect v72 ships the Polish catalog as `org.gnome.Shell.Extensions.GSConnect.mo`, but its extension metadata omits `gettext-domain`. GNOME Shell 50 therefore used the wrong domain for Shell-side strings. The repository installer sets:
+Runtime testing exposed an additional integration problem: GSConnect v72 ships the Polish catalog as `org.gnome.Shell.Extensions.GSConnect.mo`, but its extension metadata omitted `gettext-domain`. GNOME Shell 50 therefore used the wrong domain for Shell-side strings. The repository installer sets:
 
 ```json
 "gettext-domain": "org.gnome.Shell.Extensions.GSConnect"
@@ -51,11 +57,11 @@ After logout/login, Quick Settings strings were confirmed translated on the phys
 
 ## Tiling Shell v76 / 17.3
 
-The exact installed extension reports numeric version **76**, version name **17.3**, gettext domain `tilingshell`, and GNOME Shell 45–50 support.
+The installed extension reports numeric version **76**, version name **17.3**, gettext domain `tilingshell`, and GNOME Shell 45–50 support.
 
-The upstream Polish 17.3 catalog audit found **15 untranslated entries and 0 fuzzy entries**. The repository carries a minimal `localization/tiling-shell/pl.po` completion overlay pinned to this tested version. The installer preserves the upstream catalog, merges only the missing entries, and refuses to apply the overlay after version drift. The dedicated verifier requires zero untranslated and zero fuzzy entries.
+The exact upstream Polish 17.3 catalog audit found **15 untranslated entries and 0 fuzzy entries**. The repository carries a minimal `localization/tiling-shell/pl.po` completion overlay pinned to this tested version. The installer preserves the upstream catalog, merges only the missing entries, and refuses to apply the overlay after version drift. The dedicated verifier requires zero untranslated and zero fuzzy entries.
 
-The completion installer and verifier both passed on the physical Fedora 44 / GNOME 50.4 workstation, and the affected preferences were visually checked.
+The completion installer and verifier passed on the physical Fedora 44 / GNOME 50.4 workstation, and the affected preferences were visually checked.
 
 ## Just Perfection v37
 
@@ -65,7 +71,7 @@ Upstream does not provide complete Polish coverage for this baseline. The reposi
 
 `scripts/install-just-perfection-localization.sh` is pinned to v37 and installs the merged catalog. `scripts/verify-just-perfection-localization.sh` checks the installed version, gettext domain, repository catalog completeness, required v37-only strings, and installed `.mo` artifact.
 
-The translation was installed and visually checked on the physical Fedora 44 / GNOME 50.4 workstation. Just Perfection v37 is accepted for the tested baseline.
+The translation was installed and visually checked on the physical workstation.
 
 ## Spotlight v14 / 2026.11
 
@@ -73,54 +79,21 @@ The physical workstation reports **Spotlight v14**, version name **2026.11**. Th
 
 The repository therefore carries a controlled exact-version localization. `localization/spotlight/pl.po` contains the audited Polish strings, four source patches expose the preferences UI through gettext, and `scripts/install-spotlight-localization.sh` adds `"gettext-domain": "spotlight"`, compiles `spotlight.mo`, and keeps a version-specific pristine backup.
 
-`scripts/verify-spotlight-localization.sh` reconstructs the expected patched source, validates the gettext domain and installed catalog, and requires **22 translated entries**.
-
-After logout/login, the preferences UI was visually checked and confirmed translated. Spotlight v14 / 2026.11 is accepted for the tested baseline.
+`scripts/verify-spotlight-localization.sh` reconstructs the expected patched source, validates the gettext domain and installed catalog, and requires **22 translated entries**. The preferences UI was visually checked after logout/login.
 
 ## Space Bar v39
 
 The physical workstation reports **Space Bar v39** (`space-bar@luchrioh`). The audited upstream v39 release supports GNOME 50 but does not provide a gettext catalog/localization tree for the user-visible strings audited in this project.
 
-Because the release has no usable upstream localization path, the repository uses a controlled exact-version source replacement strategy rather than pretending an upstream gettext implementation exists. The localization is pinned to the audited v39 package fingerprints and covers six installed JavaScript files:
+The repository uses a controlled exact-version source replacement strategy. The accepted mapping contains **109 translated source patterns** across six files covering Behavior, Appearance, Shortcuts, shortcut dialogs, Custom Styles, and the runtime panel menu.
 
-- `preferences/BehaviorPage.js`
-- `preferences/AppearancePage.js`
-- `preferences/ShortcutsPage.js`
-- `preferences/common.js`
-- `preferences/custom-styles.js`
-- `ui/WorkspacesBarMenu.js`
+`scripts/install-space-bar-localization.sh` validates the exact v39 fingerprints, creates a version-specific pristine backup, refuses to overwrite unknown same-version builds, applies the repository mapping, and verifies the installed result. `scripts/verify-space-bar-localization.sh` rebuilds the expected localized files from the pristine backup and compares every managed file byte-for-byte with the live extension.
 
-The accepted mapping contains **109 translated source patterns** covering the Behavior, Appearance, and Shortcuts preferences, keyboard-shortcut dialogs, Custom Styles UI, and the runtime panel menu.
+The translated UI was confirmed working on the physical workstation.
 
-`scripts/install-space-bar-localization.sh` validates the exact v39 metadata/file fingerprints, creates a version-specific pristine backup, refuses to overwrite unknown same-version builds, applies the repository mapping, and verifies the installed result.
+## AppIndicator v64
 
-`scripts/verify-space-bar-localization.sh` rebuilds the expected localized files from the pristine backup and compares every managed file byte-for-byte with the live extension. The dedicated verifier returned:
-
-```text
-Translated patterns: 109
-PASS: Space Bar v39 Polish localization matches repository
-VERIFY_RC=0
-```
-
-The translated UI was also confirmed working on the physical Fedora 44 / GNOME 50.4 workstation. **Space Bar v39 is accepted for the tested baseline.** Its installer is part of `scripts/install-localizations.sh`, and its dedicated verifier is integrated into the main `scripts/verify.sh`.
-
-## GNOME system-extension audit
-
-The remaining GNOME 50 system extensions were audited separately so the repository does not create unnecessary package-owned translations.
-
-### Launch New Instance
-
-`launch-new-instance@gnome-shell-extensions.gcampax.github.com` is supplied by Fedora's GNOME Shell Extensions package. The exact GNOME 50 source has only `extension.js`, `metadata.json.in`, and build metadata; it has no preferences UI. Its runtime `extension.js` only changes application-icon activation behavior and contains no user-visible runtime strings. The extension name and description are package metadata rather than an interactive extension UI. **No repository localization is required for Launch New Instance.**
-
-### Window List
-
-`window-list@gnome-shell-extensions.gcampax.github.com` uses the shared `gnome-shell-extensions` gettext domain. The GNOME 50 Polish catalog contains Polish translations for the audited Window List runtime and preferences strings, including window actions, grouping controls, monitor/workspace options, and the Window List title. **No duplicate repository localization is required for Window List.**
-
-### AppIndicator v64 — physical validation pending
-
-Fedora 44 currently packages `gnome-shell-extension-appindicator` v64 with gettext domain `AppIndicatorExtension` and a system Polish catalog. The exact upstream v64 POT is newer than its Polish PO file: the template is dated 2025-05-06 while the Polish catalog still targets the 2023 preferences layout.
-
-Comparison of the exact v64 template and Polish catalog identified **5 current preference strings missing from the Polish catalog**:
+Fedora 44 packages `gnome-shell-extension-appindicator` v64 with gettext domain `AppIndicatorExtension` and a system Polish catalog. The exact v64 template contains five current preference strings missing from the packaged Polish catalog:
 
 - `General`
 - `Add X11 legacy tray icons to the panel area`
@@ -128,18 +101,70 @@ Comparison of the exact v64 template and Polish catalog identified **5 current p
 - `Icon Size`
 - `Tray Horizontal Alignment`
 
-The repository now carries a minimal five-entry completion overlay in `localization/appindicator/pl.po`, plus version-pinned install/verification tooling for Fedora package `64-1.fc44`. The installer preserves the package Polish catalog as a version-specific backup, merges only the missing strings, and installs the deterministic merged `AppIndicatorExtension.mo`. This work remains **pending physical installation and visual validation** before it is integrated into the main verifier or counted as accepted.
+The repository carries a minimal five-entry completion overlay in `localization/appindicator/pl.po`. The installer is pinned to Fedora package `64-1.fc44`, preserves the packaged Polish catalog as a version-specific backup, merges only the missing strings, and writes a deterministic `AppIndicatorExtension.mo`. The dedicated verifier reconstructs the same merge and compares the installed catalog byte-for-byte.
 
-## Current physical-host result
+## Vitals v85
 
-After Space Bar v39 was integrated into the main verifier and NordVPN/gNordVPN-Local were removed from desired state, the full physical-host verification completed with:
+The installed physical-host extension reports **Vitals v85** and gettext domain `vitals`.
+
+The packaged upstream Polish catalog contained fuzzy or missing entries that left user-visible strings such as `Temperature`, `Storage`, `Appearance`, threshold-color controls, icon-style controls, and preference-page headings untranslated. The repository carries `localization/vitals/v85-completion.po`, currently containing the audited completion set for the tested v85 build.
+
+`scripts/install-vitals-localization.sh` is pinned to the exact v85 metadata and source fingerprints plus the original upstream Polish `.mo` fingerprint. It creates a pristine upstream backup, merges the repository completion, and installs the resulting catalog. `scripts/verify-vitals-localization.sh` reconstructs the merge and compares it with the live `.mo` byte-for-byte.
+
+The Vitals panel menu and preferences were visually checked on the physical Fedora workstation after the completion was installed.
+
+## ddterm v72
+
+The physical workstation reports **ddterm v72**, version string `63.2.3 4f64fbe89`, with gettext domain `ddterm@amezin.github.com`.
+
+The upstream Polish catalog leaves `About ddterm` fuzzy, so gettext falls back to English. In addition, the About-window description comes directly from `metadata.json` rather than from the gettext catalog. The repository therefore carries a one-entry completion overlay plus an exact-version metadata-description localization.
+
+`scripts/install-ddterm-localization.sh` validates the audited v72 fingerprints, stores pristine metadata and Polish catalog backups, merges the single gettext completion, and writes the localized description. `scripts/verify-ddterm-localization.sh` reconstructs both artifacts and compares them with the live installation.
+
+## Advanced Media Controller v31 / 6.5
+
+The workstation reports **Advanced Media Controller v31**, version name **6.5**, UUID `advanced-media-controller@sanjai.com`, and gettext domain `advanced-media-controller`. The active release supports GNOME Shell 45–50.
+
+The tested v31 archive ships compiled translations for multiple languages but no Polish catalog. The repository therefore carries a full Polish gettext catalog in `localization/advanced-media-controller/pl.po`, generated against the exact v31 string template stored in `localization/advanced-media-controller/v31.pot`.
+
+The Polish catalog contains **276 translated entries**. The installer and verifier are pinned to the physical-host v31 fingerprints:
+
+- `metadata.json`: `ed5afc509700e3f0d7a158ccc1969407b44f7cbeb8ef46366eeeec2eccaa196c`
+- `extension.js`: `2582e6c0cd90f44f7dfb9eb8313c9dfca0d718a55f59aedf0307857d3e80a275`
+- `prefs.js`: `225c05e48f57cfd9f1c8cf5573600b588179de799bbe5d359c5fb6ecfddd9d0d`
+
+`scripts/install-advanced-media-controller-localization.sh` validates version 31 / 6.5, the gettext domain, those fingerprints, the catalog against the v31 POT, and completeness before compiling `advanced-media-controller.mo`.
+
+`scripts/verify-advanced-media-controller-localization.sh` performs the same version/source checks, requires exactly 276 translated entries, compares a freshly compiled repository catalog with the live `.mo`, and performs a runtime gettext smoke test requiring `General` to resolve to `Ogólne` under Polish locale selection.
+
+The final corrected catalog was installed on the physical Fedora workstation and the Advanced Media Controller preferences were visually confirmed in Polish.
+
+## GNOME system-extension audit
+
+### Launch New Instance
+
+`launch-new-instance@gnome-shell-extensions.gcampax.github.com` is supplied by Fedora's GNOME Shell Extensions package. The exact GNOME 50 runtime has no interactive preferences UI and no user-visible runtime strings requiring a repository translation. **No repository localization is required.**
+
+### Window List
+
+`window-list@gnome-shell-extensions.gcampax.github.com` uses the shared `gnome-shell-extensions` gettext domain. The GNOME 50 Polish catalog contains Polish translations for the audited Window List runtime and preferences strings. **No duplicate repository localization is required.**
+
+## Physical verification state
+
+After Freon was removed from desired state, the last completed full physical-host verifier run before the final Advanced Media Controller promotion reported:
 
 ```text
-PASS=218 WARN=0 FAIL=0 SKIP=0
+PASS=214 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current accepted aggregate. AppIndicator completion is not included in that aggregate yet. The lower absolute PASS count compared with older documentation is expected because NordVPN-related desired-state checks were removed; the accepted result is defined by zero warnings and zero failures for the current desired state, not by preserving an obsolete absolute check count.
+Since that run, Advanced Media Controller v31 was added to desired state and the AppIndicator, Vitals, ddterm, and Advanced Media Controller dedicated localization verifiers were integrated into the main verifier. A new full physical-host run is therefore required before recording the next aggregate PASS count. The acceptance criterion remains **zero WARN and zero FAIL**, not preservation of an obsolete absolute PASS number.
+
+The historical clean-room VM result remains unchanged:
+
+```text
+PASS=147 WARN=0 FAIL=0 SKIP=8
+```
 
 ## Maintenance policy
 
