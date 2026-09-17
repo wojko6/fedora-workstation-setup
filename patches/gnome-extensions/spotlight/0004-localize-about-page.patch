@@ -1,0 +1,26 @@
+--- a/prefs/aboutPage.js
++++ b/prefs/aboutPage.js
+@@ -2,17 +2,17 @@
+ // SPDX-License-Identifier: GPL-3.0-or-later
+ import Adw from 'gi://Adw';
+ 
+-export function buildAboutPage() {
+-    const group = new Adw.PreferencesGroup({title: 'About'});
++export function buildAboutPage(_) {
++    const group = new Adw.PreferencesGroup({title: _('About')});
+     group.add(new Adw.ActionRow({
+         title: 'Spotlight',
+-        subtitle: 'A compact Spotlight inspired launcher for GNOME Shell.',
++        subtitle: _('A compact Spotlight inspired launcher for GNOME Shell.'),
+     }));
+     group.add(new Adw.ActionRow({
+-        title: 'Version',
++        title: _('Version'),
+         subtitle: '2026.11',
+     }));
+     group.add(new Adw.ActionRow({
+-        title: 'License',
++        title: _('License'),
+         subtitle: 'GPL-3.0-or-later',
+     }));
+     return group;
