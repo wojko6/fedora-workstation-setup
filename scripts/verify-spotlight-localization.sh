@@ -69,7 +69,7 @@ PY
 }
 
 msgfmt --check "$SOURCE_PO" -o /dev/null
-translated="$({ python3 - "$SOURCE_PO" <<'PY'
+translated="$(python3 - "$SOURCE_PO" <<'PY'
 import ast
 import sys
 from pathlib import Path
@@ -112,7 +112,7 @@ if missing:
     raise SystemExit(1)
 print(sum(1 for e in entries if e["msgid"]))
 PY
-} )"
+)"
 
 [[ "$translated" == "$EXPECTED_TRANSLATED" ]] || {
   echo "FAIL: expected $EXPECTED_TRANSLATED translated Spotlight strings, found $translated" >&2
