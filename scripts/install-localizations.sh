@@ -96,4 +96,8 @@ echo "=== POLISH LOCALIZATION: Tiling Shell completion ==="
 bash "$ROOT_DIR/scripts/install-tiling-shell-localization.sh"
 
 echo
+echo "=== POLISH LOCALIZATION: Just Perfection v37 ==="
+bash "$ROOT_DIR/scripts/install-just-perfection-localization.sh"
+
+echo
 echo "Custom Polish localizations complete."
