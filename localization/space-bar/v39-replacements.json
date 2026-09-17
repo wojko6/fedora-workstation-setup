@@ -1,0 +1,146 @@
+{
+  "uuid": "space-bar@luchrioh",
+  "version": 39,
+  "metadata_sha256": "b8640b15f8050b0804f2b8f80081e5b44a2e7e4ccff3641b1aa4b08314203a7b",
+  "files": {
+    "preferences/BehaviorPage.js": {
+      "sha256": "012d407a3b4c887e020ba9c7f5208c6fd41c485efa36f219e6eed022de338dd1",
+      "replacements": [
+        {"source": "'Current workspace'", "target": "'Bieżący obszar roboczy'"},
+        {"source": "'Workspaces bar'", "target": "'Pasek obszarów roboczych'"},
+        {"source": "'Over top panel'", "target": "'Nad górnym panelem'"},
+        {"source": "'Over indicator'", "target": "'Nad wskaźnikiem'"},
+        {"source": "'Disabled'", "target": "'Wyłączone'"},
+        {"source": "'Normal'", "target": "'Normalne'"},
+        {"source": "'Inverted'", "target": "'Odwrócone'"},
+        {"source": "'Left'", "target": "'Lewo'"},
+        {"source": "'Center'", "target": "'Środek'"},
+        {"source": "'Right'", "target": "'Prawo'"},
+        {"source": "'_Behavior'", "target": "'_Zachowanie'"},
+        {"source": "'General'", "target": "'Ogólne'"},
+        {"source": "'Indicator style'", "target": "'Styl wskaźnika'"},
+        {"source": "'Custom label text'", "target": "'Własny tekst etykiety'"},
+        {"source": "Custom labels to use for workspace names in the top panel. The following placeholders will be replaced with their respective value:", "target": "Własne etykiety używane jako nazwy obszarów roboczych na górnym panelu. Poniższe symbole zastępcze zostaną zastąpione odpowiednimi wartościami:"},
+        {"source": "{{name}}: The current workspace name", "target": "{{name}}: Nazwa bieżącego obszaru roboczego"},
+        {"source": "{{number}}: The current workspace number", "target": "{{number}}: Numer bieżącego obszaru roboczego"},
+        {"source": "{{total}}: The number of total workspaces", "target": "{{total}}: Łączna liczba obszarów roboczych"},
+        {"source": "{{Total}}: The number of total workspaces, also counting the spare dynamic workspace", "target": "{{Total}}: Łączna liczba obszarów roboczych, wliczając dodatkowy dynamiczny obszar roboczy"},
+        {"source": "'Use custom label text'", "target": "'Używaj własnego tekstu etykiety'"},
+        {"source": "'Also use custom label text in menu'", "target": "'Używaj własnego tekstu etykiety także w menu'"},
+        {"source": "'Custom label for named workspaces'", "target": "'Własna etykieta nazwanych obszarów roboczych'"},
+        {"source": "'Custom label for unnamed workspaces'", "target": "'Własna etykieta nienazwanych obszarów roboczych'"},
+        {"source": "'Position in top panel'", "target": "'Pozycja na górnym panelu'"},
+        {"source": "'Position in Top Panel'", "target": "'Pozycja na górnym panelu'"},
+        {"source": "'Keep system workspace indicator'", "target": "'Zachowaj systemowy wskaźnik obszarów roboczych'"},
+        {"source": "'Position index'", "target": "'Indeks pozycji'"},
+        {"source": "'Order relative to other elements'", "target": "'Kolejność względem innych elementów'"},
+        {"source": "'Switch workspaces with scroll wheel'", "target": "'Przełączaj obszary robocze kółkiem myszy'"},
+        {"source": "'Switch Workspaces With Scroll Wheel'", "target": "'Przełączaj obszary robocze kółkiem myszy'"},
+        {"source": "'Debounce scroll events'", "target": "'Filtruj szybkie zdarzenia przewijania'"},
+        {"source": "'Debounce time (ms)'", "target": "'Czas filtrowania (ms)'"},
+        {"source": "'Vertical scrolling'", "target": "'Przewijanie pionowe'"},
+        {"source": "'Horizontal scrolling'", "target": "'Przewijanie poziome'"},
+        {"source": "'Wrap around'", "target": "'Zawijaj na końcach'"},
+        {"source": "'Always show workspace numbers'", "target": "'Zawsze pokazuj numery obszarów roboczych'"},
+        {"source": "'Show empty workspaces'", "target": "'Pokazuj puste obszary robocze'"},
+        {"source": "'Also affects switching with scroll wheel'", "target": "'Wpływa także na przełączanie kółkiem myszy'"},
+        {"source": "'Toggle overview'", "target": "'Przełącz podgląd'"},
+        {"source": "'When clicking on the active or an empty workspace'", "target": "'Po kliknięciu aktywnego lub pustego obszaru roboczego'"},
+        {"source": "'Smart Workspace Names'", "target": "'Inteligentne nazwy obszarów roboczych'"},
+        {"source": "Remembers open applications when renaming a workspace and automatically assigns workspace names based on the first application started on a new workspace.", "target": "Zapamiętuje otwarte aplikacje podczas zmiany nazwy obszaru roboczego i automatycznie przypisuje nazwy na podstawie pierwszej aplikacji uruchomionej na nowym obszarze roboczym."},
+        {"source": "'Enable smart workspace names'", "target": "'Włącz inteligentne nazwy obszarów roboczych'"},
+        {"source": "'Re-evaluate names'", "target": "'Ponownie ustalaj nazwy'"},
+        {"source": "Removes workspace names when windows by which the name was assigned move away or close.", "target": "Usuwa nazwy obszarów roboczych, gdy okna, na podstawie których przypisano nazwę, zostaną przeniesione lub zamknięte."},
+        {"source": "Please leave feedback how you like the feature using the button below.", "target": "Przekaż opinię o tej funkcji za pomocą przycisku poniżej."},
+        {"source": "'Re-evaluate smart workspace names'", "target": "'Ponownie ustalaj inteligentne nazwy'"},
+        {"source": "'Leave feedback'", "target": "'Przekaż opinię'"}
+      ]
+    },
+    "preferences/AppearancePage.js": {
+      "sha256": "8294768dd53e90294ea3a7c00e6917b62afddb53d4da093fb875dd1efa1fb30c",
+      "replacements": [
+        {"source": "'Thin'", "target": "'Cienka'"},
+        {"source": "'Extra Light'", "target": "'Bardzo lekka'"},
+        {"source": "'Light'", "target": "'Lekka'"},
+        {"source": "'Normal'", "target": "'Normalna'"},
+        {"source": "'Medium'", "target": "'Średnia'"},
+        {"source": "'Semi Bold'", "target": "'Półgruba'"},
+        {"source": "'Bold'", "target": "'Pogrubiona'"},
+        {"source": "'Extra Bold'", "target": "'Bardzo pogrubiona'"},
+        {"source": "'Black'", "target": "'Czarna'"},
+        {"source": "'_Appearance'", "target": "'_Wygląd'"},
+        {"source": "Appearance preferences currently support the indicator style \"Workspaces bar\" only.", "target": "Ustawienia wyglądu obsługują obecnie tylko styl wskaźnika „Pasek obszarów roboczych”."},
+        {"source": "'General'", "target": "'Ogólne'"},
+        {"source": "'Workspaces-bar padding'", "target": "'Dopełnienie paska obszarów roboczych'"},
+        {"source": "'Workspace margin'", "target": "'Margines obszaru roboczego'"},
+        {"source": "'Active Workspace'", "target": "'Aktywny obszar roboczy'"},
+        {"source": "'Background color'", "target": "'Kolor tła'"},
+        {"source": "'Text color'", "target": "'Kolor tekstu'"},
+        {"source": "'Border color'", "target": "'Kolor obramowania'"},
+        {"source": "'Font size'", "target": "'Rozmiar czcionki'"},
+        {"source": "'Font weight'", "target": "'Grubość czcionki'"},
+        {"source": "'Border radius'", "target": "'Promień zaokrąglenia'"},
+        {"source": "'Border width'", "target": "'Szerokość obramowania'"},
+        {"source": "'Horizontal padding'", "target": "'Dopełnienie poziome'"},
+        {"source": "'Vertical padding'", "target": "'Dopełnienie pionowe'"},
+        {"source": "'Inactive Workspace'", "target": "'Nieaktywny obszar roboczy'"},
+        {"source": "'Empty Workspace'", "target": "'Pusty obszar roboczy'"},
+        {"source": "'Custom Styles'", "target": "'Własne style'"}
+      ]
+    },
+    "preferences/ShortcutsPage.js": {
+      "sha256": "95b5a09c1826b553ec699dacf5a80fea2b954ce2b219004b6b4cd6346de0ff89",
+      "replacements": [
+        {"source": "'_Shortcuts'", "target": "'_Skróty'"},
+        {"source": "'Shortcuts might not work if they are already bound elsewhere.'", "target": "'Skróty mogą nie działać, jeśli są już przypisane gdzie indziej.'"},
+        {"source": "'Switch to workspace'", "target": "'Przełącz na obszar roboczy'"},
+        {"source": "'Switch To Workspace'", "target": "'Przełącz na obszar roboczy'"},
+        {"source": "'Back and forth'", "target": "'Przełączanie tam i z powrotem'"},
+        {"source": "Switch to the previous workspace by activating the shortcut for the current workspace again.", "target": "Przełącz na poprzedni obszar roboczy, ponownie używając skrótu bieżącego obszaru roboczego."},
+        {"source": "Switch off \"Toggle overview\" in behavior settings to also enable this behavior when clicking the workspace using the mouse.", "target": "Wyłącz „Przełącz podgląd” w ustawieniach zachowania, aby ta funkcja działała także po kliknięciu obszaru roboczego myszą."},
+        {"source": "'Move to workspace'", "target": "'Przenieś na obszar roboczy'"},
+        {"source": "'With the current window'", "target": "'Razem z bieżącym oknem'"},
+        {"source": "'Move current workspace left'", "target": "'Przenieś bieżący obszar roboczy w lewo'"},
+        {"source": "'Move current workspace right'", "target": "'Przenieś bieżący obszar roboczy w prawo'"},
+        {"source": "'Switch to previous workspace'", "target": "'Przełącz na poprzedni obszar roboczy'"},
+        {"source": "'Switch to empty workspace'", "target": "'Przełącz na pusty obszar roboczy'"},
+        {"source": "'Adds new workspace if needed'", "target": "'W razie potrzeby dodaje nowy obszar roboczy'"},
+        {"source": "'Open menu'", "target": "'Otwórz menu'"}
+      ]
+    },
+    "preferences/common.js": {
+      "sha256": "1f8c526ccc2bb6bcf6eccc7913004ccf427e781fcc9cad5d2f98287be6e4f900",
+      "replacements": [
+        {"source": "'Disabled'", "target": "'Wyłączone'"},
+        {"source": "'Set Shortcut'", "target": "'Ustaw skrót'"},
+        {"source": "'Enter new shortcut to change <b>'", "target": "'Wprowadź nowy skrót dla <b>'"},
+        {"source": "'Press Esc to cancel or Backspace to disable the keyboard shortcut.'", "target": "'Naciśnij Esc, aby anulować, lub Backspace, aby wyłączyć skrót klawiaturowy.'"}
+      ]
+    },
+    "preferences/custom-styles.js": {
+      "sha256": "4207ab0651f41edf1a49a22f51771ebcc8f597c5730ea42a18e8ebfc2e59f420",
+      "replacements": [
+        {"source": "'Custom styles'", "target": "'Własne style'"},
+        {"source": "'On'", "target": "'Włączone'"},
+        {"source": "'Off'", "target": "'Wyłączone'"},
+        {"source": "'Custom Styles'", "target": "'Własne style'"},
+        {"source": "'Failed to load styles. Custom styles have been disabled.'", "target": "'Nie udało się wczytać stylów. Własne style zostały wyłączone.'"},
+        {"source": "'Application Styles'", "target": "'Style aplikacji'"},
+        {"source": "'Apply'", "target": "'Zastosuj'"},
+        {"source": "The application styles that are generated based on the extension's appearance preferences.", "target": "Style aplikacji generowane na podstawie ustawień wyglądu rozszerzenia."},
+        {"source": "You cannot change these styles here, but you can override them with custom styles.", "target": "Nie można ich zmienić w tym miejscu, ale można je nadpisać własnymi stylami."},
+        {"source": "'Add any custom styles to override application styles.'", "target": "'Dodaj własne style, aby nadpisać style aplikacji.'"}
+      ]
+    },
+    "ui/WorkspacesBarMenu.js": {
+      "sha256": "49987a6ed162a0d6daaade16fd7dfe9143d6472d241b781e5387a046872d52d0",
+      "replacements": [
+        {"source": "'Rename current workspace'", "target": "'Zmień nazwę bieżącego obszaru roboczego'"},
+        {"source": "`${this._extension.metadata.name} settings`", "target": "`${this._extension.metadata.name} — ustawienia`"},
+        {"source": "'Other workspaces'", "target": "'Inne obszary robocze'"},
+        {"source": "'Add new workspace'", "target": "'Dodaj nowy obszar roboczy'"},
+        {"source": "'Remove current workspace'", "target": "'Usuń bieżący obszar roboczy'"}
+      ]
+    }
+  }
+}
