@@ -116,4 +116,12 @@ echo "=== POLISH LOCALIZATION: Vitals v85 completion ==="
 bash "$ROOT_DIR/scripts/install-vitals-localization.sh"
 
 echo
+echo "=== POLISH LOCALIZATION: ddterm v72 completion ==="
+bash "$ROOT_DIR/scripts/install-ddterm-localization.sh"
+
+echo
+echo "=== POLISH LOCALIZATION: Advanced Media Controller v31 / 6.5 ==="
+bash "$ROOT_DIR/scripts/install-advanced-media-controller-localization.sh"
+
+echo
 echo "Custom Polish localizations complete."
