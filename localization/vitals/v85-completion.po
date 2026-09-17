@@ -24,6 +24,27 @@ msgstr "Ukryj ikony na górnym pasku"
 msgid "Menu always centered"
 msgstr "Menu zawsze wyśrodkowane"
 
+msgid "Appearance"
+msgstr "Wygląd"
+
+msgid "Icon style"
+msgstr "Styl ikon"
+
+msgid "Preferences"
+msgstr "— ustawienia"
+
+msgid "Threshold Colors"
+msgstr "Kolory progowe"
+
+msgid "Add Color Scale"
+msgstr "Dodaj skalę kolorów"
+
+msgid "All sensors"
+msgstr "Wszystkie czujniki"
+
+msgid "Add"
+msgstr "Dodaj"
+
 msgid "Monitor battery"
 msgstr "Monitoruj baterię"
 
