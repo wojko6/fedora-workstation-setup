@@ -5,6 +5,8 @@ gnome-extensions-app
 gnome-tweaks
 mediawriter
 ptyxis
+papirus-icon-theme
+papirus-icon-theme-dark
 
 # System GNOME extensions
 gnome-shell-extension-apps-menu
@@ -36,6 +38,7 @@ net-tools
 nmap-ncat
 openssh-clients
 openssh-server
+pipx
 podman
 rsync
 ShellCheck
@@ -45,6 +48,10 @@ traceroute
 tree
 usbutils
 whois
+
+# Hardware monitoring
+lm_sensors
+hddtemp
 
 # Lab / virtualization
 dnsmasq
