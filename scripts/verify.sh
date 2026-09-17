@@ -363,6 +363,19 @@ else
 fi
 
 echo
+echo "=== SPACE BAR POLISH LOCALIZATION ==="
+if space_bar_verify_output="$(bash "$ROOT_DIR/scripts/verify-space-bar-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$space_bar_verify_output"; then
+    skip "Space Bar Polish localization: extension not installed"
+  else
+    ok "Space Bar v39 Polish localization matches repository"
+  fi
+else
+  printf '%s\n' "$space_bar_verify_output"
+  bad "Space Bar Polish localization missing, incomplete, or differs"
+fi
+
+echo
 echo "=== DHRUVA POLISH LOCALIZATION ==="
 
 DHRUVA_EXT="$HOME/.local/share/gnome-shell/extensions/dhruva@narkagni"
