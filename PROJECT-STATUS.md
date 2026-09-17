@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Clean-room restore validated; physical workstation final localization revalidation pending  
+**Status:** Clean-room restore validated; physical workstation accepted after final localization verification  
 **Baseline:** Fedora 44 · GNOME Shell 50.4 · Wayland  
 **Validation environments:** Oracle VirtualBox clean-room VM and physical Lenovo Legion 5 15ACH6H
 
@@ -20,14 +20,14 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After Freon was intentionally removed from desired state, the last completed full physical-workstation verifier run before the final localization integration reported:
+After Freon was intentionally removed, Advanced Media Controller v31 / 6.5 was added to desired state, and the final AppIndicator, Vitals, ddterm, and Advanced Media Controller localization checks were wired into the main restore/verification flow, the final physical-workstation verifier run completed with:
 
 ```text
-PASS=214 WARN=0 FAIL=0 SKIP=0
+PASS=222 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-Since that run, Advanced Media Controller v31 / 6.5 was added to desired state and the final AppIndicator, Vitals, ddterm, and Advanced Media Controller localization checks were wired into the main restore/verification flow. A new full physical-host run is required before recording the next accepted aggregate PASS count.
+This is the current accepted physical-host aggregate for the Fedora 44 / GNOME 50.4 desired state.
 
 ## Current desired state
 
@@ -128,7 +128,7 @@ AppIndicator v64 uses a five-entry completion overlay over Fedora's packaged Pol
 
 Advanced Media Controller v31 / 6.5 ships no Polish catalog in the tested archive. The repository carries a complete **276-entry** Polish gettext catalog generated against the exact v31 string template. Its installer/verifier checks version 31, version name 6.5, gettext domain, audited file fingerprints, translation completeness, byte-for-byte installed `.mo` equality, and a runtime gettext smoke test requiring `General` to resolve to `Ogólne`. The preferences UI was visually confirmed in Polish on the physical workstation.
 
-All version-specific localization installers are now invoked by `scripts/install-localizations.sh`. Dedicated version-pinned localization verifiers are integrated into the main `scripts/verify.sh` after physical testing.
+All version-specific localization installers are invoked by `scripts/install-localizations.sh`. Dedicated version-pinned localization verifiers are integrated into the main `scripts/verify.sh`, and the complete localization set passed the final physical-host verifier with zero warnings and zero failures.
 
 ## Important reproducibility decisions
 
@@ -155,15 +155,14 @@ bash scripts/verify.sh
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and previously reached a zero-warning, zero-failure physical-host verification after the accepted security and networking changes. The final localization wiring is now complete in the repository, but the new desired-state aggregate must be measured with one final physical-host verifier run before the updated state is marked fully accepted.
+The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification after the accepted security, networking, extension, and localization changes. The current physical desired state is fully accepted at `PASS=222 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 
 ## Remaining work
 
-After the final physical-host verifier run, routine maintenance remains plus one explicitly deferred security decision:
+Routine maintenance remains plus one explicitly deferred security decision:
 
-- record the new zero-warning/zero-failure aggregate after the final localization verification;
 - introduce LUKS during a future controlled reinstall/restore if full-disk encryption is desired;
 - keep package and GNOME extension pins current as Fedora evolves;
 - repeat the clean-room restore test after major Fedora/GNOME changes;
@@ -180,4 +179,4 @@ The tested baseline is considered accepted when required packages, repositories,
 
 `scripts/verify.sh` must report zero `WARN` and zero `FAIL` on the validated physical target.
 
-**Current last completed full physical result: `PASS=214 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. Final aggregate after the newly integrated localization checks is pending one rerun.**
+**Current accepted physical result: `PASS=222 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
