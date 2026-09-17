@@ -21,6 +21,5 @@ Bluetooth-Battery-Meter@maniacx.github.com
 caffeine@patapon.info
 gsconnect@andyholmes.github.io
 tilingshell@ferrarodomenico.com
-freon@UshakovVasilii_Github.yahoo.com
 arcmenu@arcmenu.com
 user-theme@gnome-shell-extensions.gcampax.github.com
