@@ -21,9 +21,9 @@ PASS=32 WARN=1 FAIL=0 INFO=5
 
 The only remaining warning was Media Controls, which reported `OUT OF DATE` and did not declare GNOME 50 compatibility.
 
-## Accepted extensions
+## Accepted extensions at audit close
 
-The following extensions were active on the physical Fedora workstation, declared GNOME 50 compatibility, and were promoted into `gnome/enabled-extensions.txt`:
+The following extensions were active on the physical Fedora workstation, declared GNOME 50 compatibility, and were promoted into `gnome/enabled-extensions.txt` at the close of this audit:
 
 - ArcMenu (`arcmenu@arcmenu.com`)
 - Bluetooth Battery Meter (`Bluetooth-Battery-Meter@maniacx.github.com`)
@@ -79,7 +79,7 @@ The first post-refresh inventory generation exposed the concrete local home path
 
 The inventory was regenerated after Media Controls and Dash2Dock Animated were removed and then committed as the accepted physical-host extension inventory.
 
-## Final verification
+## Final verification of the refresh
 
 After promotion of the seven accepted extensions, desired-state updates, removal of the rejected extensions, and inventory regeneration, the full physical-workstation verifier completed with:
 
@@ -88,8 +88,24 @@ PASS=217 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the accepted Fedora 44 / GNOME 50.4 physical-host result for the 2026-09-17 extension refresh.
+This is the historical accepted Fedora 44 / GNOME 50.4 physical-host result for the extension-refresh checkpoint itself.
+
+## Subsequent same-day desired-state changes
+
+After this audit was closed, two deliberate changes were made:
+
+1. **Freon was removed** from the workstation and from `gnome/enabled-extensions.txt` / `gnome/extensions-inventory.tsv`. Its earlier acceptance above remains part of the historical audit record, but it is no longer in current desired state.
+2. **Advanced Media Controller v31 / 6.5** (`advanced-media-controller@sanjai.com`) was physically tested, added to desired state, and given a complete repository-managed Polish gettext catalog for its exact tested build.
+
+The last completed full physical verifier after Freon removal but before the final Advanced Media Controller/localization wiring reported:
+
+```text
+PASS=214 WARN=0 FAIL=0 SKIP=0
+VERIFY_RC=0
+```
+
+A newer aggregate must be recorded after the final localization-integrated verifier run; see `PROJECT-STATUS.md` and `docs/LOCALIZATION-STATUS.md` for the current state.
 
 ## Status
 
-**CLOSED / ACCEPTED.** The candidate queue is historical. Future extension additions or GNOME upgrades must repeat compatibility/runtime validation before changing `gnome/enabled-extensions.txt`.
+**CLOSED / HISTORICAL CHECKPOINT.** The candidate queue is historical. Current desired state is defined by `gnome/enabled-extensions.txt`, `gnome/extensions-inventory.tsv`, and the live verifier rather than by freezing the extension list at this audit checkpoint. Future extension additions or GNOME upgrades must repeat compatibility/runtime validation before changing desired state.
