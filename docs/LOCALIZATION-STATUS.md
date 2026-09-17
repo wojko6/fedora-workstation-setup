@@ -104,6 +104,32 @@ VERIFY_RC=0
 
 The translated UI was also confirmed working on the physical Fedora 44 / GNOME 50.4 workstation. **Space Bar v39 is accepted for the tested baseline.** Its installer is part of `scripts/install-localizations.sh`, and its dedicated verifier is integrated into the main `scripts/verify.sh`.
 
+## GNOME system-extension audit
+
+The remaining GNOME 50 system extensions were audited separately so the repository does not create unnecessary package-owned translations.
+
+### Launch New Instance
+
+`launch-new-instance@gnome-shell-extensions.gcampax.github.com` is supplied by Fedora's GNOME Shell Extensions package. The exact GNOME 50 source has only `extension.js`, `metadata.json.in`, and build metadata; it has no preferences UI. Its runtime `extension.js` only changes application-icon activation behavior and contains no user-visible runtime strings. The extension name and description are package metadata rather than an interactive extension UI. **No repository localization is required for Launch New Instance.**
+
+### Window List
+
+`window-list@gnome-shell-extensions.gcampax.github.com` uses the shared `gnome-shell-extensions` gettext domain. The GNOME 50 Polish catalog contains Polish translations for the audited Window List runtime and preferences strings, including window actions, grouping controls, monitor/workspace options, and the Window List title. **No duplicate repository localization is required for Window List.**
+
+### AppIndicator v64 — physical validation pending
+
+Fedora 44 currently packages `gnome-shell-extension-appindicator` v64 with gettext domain `AppIndicatorExtension` and a system Polish catalog. The exact upstream v64 POT is newer than its Polish PO file: the template is dated 2025-05-06 while the Polish catalog still targets the 2023 preferences layout.
+
+Comparison of the exact v64 template and Polish catalog identified **5 current preference strings missing from the Polish catalog**:
+
+- `General`
+- `Add X11 legacy tray icons to the panel area`
+- `Desaturation`
+- `Icon Size`
+- `Tray Horizontal Alignment`
+
+The repository now carries a minimal five-entry completion overlay in `localization/appindicator/pl.po`, plus version-pinned install/verification tooling for Fedora package `64-1.fc44`. The installer preserves the package Polish catalog as a version-specific backup, merges only the missing strings, and installs the deterministic merged `AppIndicatorExtension.mo`. This work remains **pending physical installation and visual validation** before it is integrated into the main verifier or counted as accepted.
+
 ## Current physical-host result
 
 After Space Bar v39 was integrated into the main verifier and NordVPN/gNordVPN-Local were removed from desired state, the full physical-host verification completed with:
@@ -113,7 +139,7 @@ PASS=218 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current accepted aggregate. The lower absolute PASS count compared with older documentation is expected because NordVPN-related desired-state checks were removed; the accepted result is defined by zero warnings and zero failures for the current desired state, not by preserving an obsolete absolute check count.
+This is the current accepted aggregate. AppIndicator completion is not included in that aggregate yet. The lower absolute PASS count compared with older documentation is expected because NordVPN-related desired-state checks were removed; the accepted result is defined by zero warnings and zero failures for the current desired state, not by preserving an obsolete absolute check count.
 
 ## Maintenance policy
 
