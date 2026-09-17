@@ -92,4 +92,8 @@ echo "=== POLISH LOCALIZATION: GSConnect completion ==="
 bash "$ROOT_DIR/scripts/install-gsconnect-localization.sh"
 
 echo
+echo "=== POLISH LOCALIZATION: Tiling Shell completion ==="
+bash "$ROOT_DIR/scripts/install-tiling-shell-localization.sh"
+
+echo
 echo "Custom Polish localizations complete."

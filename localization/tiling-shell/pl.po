@@ -1,0 +1,81 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Tiling Shell 17.3 local completion\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-25 18:00+0100\n"
+"PO-Revision-Date: 2026-09-17 14:30+0200\n"
+"Last-Translator: Local repository completion\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: dist/components/window_menu/overriddenWindowMenu.js:117
+msgid "Move to best tile"
+msgstr "Przenieś do najlepszego kafelka"
+
+#: dist/prefs.js:133
+msgid "Dynamically adapt to the window's actual border radius"
+msgstr "Dynamicznie dopasowuj do rzeczywistego promienia obramowania okna"
+
+#: dist/prefs.js:201
+msgid "Sync layout when tiling with Snap Assistant"
+msgstr "Synchronizuj układ podczas układania za pomocą Asystenta przyciągania"
+
+#: dist/prefs.js:203
+msgid ""
+"Change the active layout to match the layout used when tiling a window with "
+"Snap Assistant"
+msgstr ""
+"Zmieniaj aktywny układ tak, aby odpowiadał układowi użytemu podczas układania "
+"okna za pomocą Asystenta przyciągania"
+
+#: dist/prefs.js:281
+msgid "Raise tiled windows together"
+msgstr "Przenoś ułożone okna razem na pierwszy plan"
+
+#: dist/prefs.js:283
+msgid ""
+"When one tiled window is raised, raise all tiled windows into the foreground "
+"together"
+msgstr ""
+"Gdy jedno ułożone okno jest przenoszone na pierwszy plan, przenoś razem na "
+"pierwszy plan wszystkie ułożone okna"
+
+#: dist/prefs.js:376
+msgid "Enable window suggestions for screen edge tiling"
+msgstr "Włącz sugestie okien podczas układania przy krawędziach ekranu"
+
+#: dist/prefs.js:378
+msgid "Suggests windows to occupy empty tiles when tiling to screen edges"
+msgstr "Sugeruje okna do zajęcia pustych kafelków podczas układania przy krawędziach ekranu"
+
+#: dist/prefs.js:999
+msgid "Choose how windows snap to screen edges"
+msgstr "Wybierz sposób przyciągania okien do krawędzi ekranu"
+
+#: dist/prefs.js:1014
+msgid "Default"
+msgstr "Domyślny"
+
+#: dist/prefs.js:1015
+msgid "Follow quarters or screen halves"
+msgstr "Uwzględniaj ćwiartki lub połowy ekranu"
+
+#: dist/prefs.js:1020
+msgid "Adaptive"
+msgstr "Adaptacyjny"
+
+#: dist/prefs.js:1021
+msgid "Follow corners of selected layout or screen halves"
+msgstr "Uwzględniaj narożniki wybranego układu lub połowy ekranu"
+
+#: dist/prefs.js:1026
+msgid "Granular"
+msgstr "Szczegółowy"
+
+#: dist/prefs.js:1027
+msgid "Follow currently selected layout"
+msgstr "Uwzględniaj aktualnie wybrany układ"
