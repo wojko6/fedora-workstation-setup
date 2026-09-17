@@ -73,6 +73,13 @@ For the seven newly accepted extensions:
 - **2** confirmed completion targets are completed and physically validated: **GSConnect v72** and **Tiling Shell v76 / 17.3**;
 - **5** already have upstream Polish support and do not currently justify a repository-maintained duplicate translation.
 
+The dedicated GSConnect and Tiling Shell checks are integrated into the main repository verifier. The final physical-host run after both localization completions returned:
+
+```text
+PASS=219 WARN=0 FAIL=0 SKIP=0
+VERIFY_RC=0
+```
+
 ## Evidence from upstream catalogs
 
 The GSConnect Polish catalog is active and maintained, but v72 contained 11 untranslated entries. Its Shell-side localization also required the metadata gettext-domain correction described above.
@@ -81,6 +88,6 @@ The Tiling Shell 17.3 Polish catalog is present and compiled upstream. The exact
 
 Bluetooth Battery Meter has a Polish catalog revised on 2026-09-15. Caffeine ships a Polish source catalog, Freon ships a Polish compiled locale, ArcMenu lists Polish among its maintained translations, and User Themes belongs to the GNOME Shell Extensions localization stream.
 
-## Next step
+## Maintenance mode
 
-Run the full repository verifier after integrating the dedicated GSConnect and Tiling Shell localization checks. The accepted physical baseline should continue to report zero `WARN` and zero `FAIL`; after that result is recorded, the localization refresh is closed and returns to normal maintenance mode.
+The 2026-09-17 localization refresh is closed. Future work is maintenance-only: re-audit upstream Polish coverage when accepted extension versions change, keep local overlays limited to demonstrated gaps, and repeat the dedicated plus full repository verification after any localization or extension-version update.
