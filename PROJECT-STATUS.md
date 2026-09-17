@@ -22,14 +22,16 @@ All required GNOME extensions were installed and reported `ACTIVE` at runtime. T
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After post-restore maintenance, the 2026-09-16 workstation security validation, Secure Boot enablement, the 2026-09-17 GNOME extension compatibility refresh, and completion of the accepted Polish localization overlays, the current desired state was verified on the physical Fedora workstation:
+After post-restore maintenance, the 2026-09-16 workstation security validation, Secure Boot enablement, the 2026-09-17 GNOME extension compatibility refresh, completion of the accepted Polish localization overlays, and explicit restore-tool dependency tracking, the current desired state was verified on the physical Fedora workstation:
 
 ```text
-PASS=219 WARN=0 FAIL=0 SKIP=0
+PASS=221 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-The physical-host validation includes Brave Origin, Tailscale package/service state, Wi-Fi firewall-zone policy, disabled LLMNR, disabled GNOME/GVfs WS-Discovery, workstation kernel hardening, Secure Boot, signed NVIDIA kernel-module verification, reproducible DDC/CI support for external-monitor brightness control, the accepted GNOME extension runtime state, and dedicated verification of the GSConnect and Tiling Shell Polish localization completions. Authentication, network identities, credentials, private signing material, and other private state remain intentionally outside Git.
+The physical-host validation includes Brave Origin, Tailscale package/service state, Wi-Fi firewall-zone policy, disabled LLMNR, disabled GNOME/GVfs WS-Discovery, workstation kernel hardening, Secure Boot, signed NVIDIA kernel-module verification, reproducible DDC/CI support for external-monitor brightness control, the accepted GNOME extension runtime state, dedicated verification of the GSConnect and Tiling Shell Polish localization completions, and the package prerequisites used by the restore/validation tooling. Authentication, network identities, credentials, private signing material, and other private state remain intentionally outside Git.
+
+Repository-only validation is also automated. `scripts/check-static.sh` is the shared local/CI entrypoint for Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON files, and desired-state inventory consistency. GitHub Actions invokes the same script on pushes to `main` and on pull requests.
 
 ## GNOME extension compatibility refresh — 2026-09-17
 
@@ -62,10 +64,10 @@ Validated and applied controls:
 
 The update policy was exercised with a material graphics-stack update. NVIDIA/akmods was upgraded from 610.57.04 to 615.71.09. The kmod for kernel `7.2.5-200.fc44.x86_64` was built successfully, its module was signed, the machine rebooted successfully, and the RTX 3060 was operational on driver 615.71.09 afterward. Secure Boot was subsequently enabled after MOK enrollment; NVIDIA 615.71.09 remained operational and the system reported zero failed services.
 
-The latest physical verifier run, after extension cleanup and the completed localization work, returned:
+The latest physical verifier run, after extension cleanup, completed localization work, and restore-tool dependency updates, returned:
 
 ```text
-PASS=219 WARN=0 FAIL=0 SKIP=0
+PASS=221 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
@@ -99,6 +101,10 @@ Testing on a pristine system and subsequent physical-host verification exposed s
 20. Extension inventory generation initially exposed an absolute home path. The generator now normalizes user locations to `~`, resolves duplicate UUIDs deterministically, and emits stable sorted output.
 21. GSConnect v72 shipped a valid Polish catalog but omitted the metadata `gettext-domain` required by GNOME Shell for its Quick Settings strings. The repository now applies the domain fix reproducibly and verifies both the merged catalog and metadata state.
 22. Tiling Shell v76 / 17.3 shipped 15 untranslated Polish strings. The repository now carries a minimal completion overlay pinned to that tested version and verifies that the merged catalog has zero untranslated and zero fuzzy entries.
+23. GNOME `favorite-apps` was still present in the curated dconf snapshot even though Dhruva is the canonical dock. Restore now keeps that key audit-only and does not rewrite the user's GNOME favorite-app ordering.
+24. Extension restore previously treated any installed user extension as acceptable regardless of version drift. It now compares runtime versions with the accepted inventory and reinstalls the pinned archive when required, including the documented Dhruva runtime/EGO version mapping.
+25. `gettext` and `unzip` were used directly by restore/localization tooling but were not explicit package-manifest dependencies. Both are now tracked in the RPM desired state and verified on the physical workstation.
+26. Repository checks previously depended mainly on manual execution. Static validation is now consolidated in `scripts/check-static.sh` and exercised automatically by GitHub Actions using the same checks as local validation.
 
 ## Reproducible Polish GNOME localization
 
@@ -130,7 +136,7 @@ The GNOME Shell extensions integrated by this repository remain third-party soft
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for the tested Fedora 44 / GNOME 50.4 baseline and a zero-warning, zero-failure desired-state verification on the physical workstation after security hardening, a material NVIDIA/graphics-stack update, Secure Boot activation, DDC/CI integration, the GNOME extension compatibility refresh, and the completed GSConnect/Tiling Shell localization validation. Package installation, repositories, Flatpaks, pinned GNOME extensions, extension schemas, curated GNOME settings, desktop launcher restoration, reproducible Polish GNOME extension localizations including Dhruva, GSConnect, and Tiling Shell, network/security controls, Tailscale package/service state, Secure Boot state, NVIDIA module signing, DDC/CI support, and verification logic have been exercised across these validation stages.
+The repository has passed a clean-room functional restore test for the tested Fedora 44 / GNOME 50.4 baseline and a zero-warning, zero-failure desired-state verification on the physical workstation after security hardening, a material NVIDIA/graphics-stack update, Secure Boot activation, DDC/CI integration, the GNOME extension compatibility refresh, completed GSConnect/Tiling Shell localization validation, and explicit restore-tool dependency coverage. Package installation, repositories, Flatpaks, pinned GNOME extensions, extension schemas, curated GNOME settings, desktop launcher restoration, reproducible Polish GNOME extension localizations including Dhruva, GSConnect, and Tiling Shell, network/security controls, Tailscale package/service state, Secure Boot state, NVIDIA module signing, DDC/CI support, and verification logic have been exercised across these validation stages. Static repository validation is additionally exercised by GitHub Actions on the same shared check entrypoint used locally.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, VPN authentication state, Tailscale node identity, private signing keys, and other private state remain intentionally outside Git and must be restored separately.
 
@@ -162,4 +168,4 @@ The tested baseline is considered accepted when:
 - private data is not required from the public repository;
 - `scripts/verify.sh` reports zero `WARN` and zero `FAIL` on the validated target, with only documented environment-specific `SKIP` results where applicable.
 
-**Current result: ACCEPTED (`PASS=219 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`).**
+**Current result: ACCEPTED (`PASS=221 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`).**
