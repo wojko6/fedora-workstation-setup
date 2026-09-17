@@ -22,13 +22,26 @@ All required GNOME extensions were installed and reported `ACTIVE` at runtime. T
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After post-restore maintenance, the 2026-09-16 workstation security validation, Secure Boot enablement, and the latest reproducible workstation configuration updates, the current desired state was verified on the physical Fedora workstation:
+After post-restore maintenance, the 2026-09-16 workstation security validation, Secure Boot enablement, and the 2026-09-17 GNOME extension compatibility refresh, the current desired state was verified on the physical Fedora workstation:
 
 ```text
-PASS=182 WARN=0 FAIL=0 SKIP=0
+PASS=217 WARN=0 FAIL=0 SKIP=0
+VERIFY_RC=0
 ```
 
-The physical-host validation includes Brave Origin, Tailscale package/service state, Wi-Fi firewall-zone policy, disabled LLMNR, disabled GNOME/GVfs WS-Discovery, workstation kernel hardening, Secure Boot, signed NVIDIA kernel-module verification, and reproducible DDC/CI support for external-monitor brightness control. Authentication, network identities, credentials, private signing material, and other private state remain intentionally outside Git.
+The physical-host validation includes Brave Origin, Tailscale package/service state, Wi-Fi firewall-zone policy, disabled LLMNR, disabled GNOME/GVfs WS-Discovery, workstation kernel hardening, Secure Boot, signed NVIDIA kernel-module verification, reproducible DDC/CI support for external-monitor brightness control, and the accepted GNOME extension runtime state. Authentication, network identities, credentials, private signing material, and other private state remain intentionally outside Git.
+
+## GNOME extension compatibility refresh — 2026-09-17
+
+A controlled extension refresh was audited on the physical Fedora 44 / GNOME 50.4 workstation before the candidate set was promoted into desired state.
+
+Seven third-party extensions passed the runtime/compatibility checks and were accepted: ArcMenu, Bluetooth Battery Meter, Caffeine, Freon, GSConnect, Tiling Shell, and User Themes. Media Controls was rejected and removed because the installed release reported `OUT OF DATE` and did not declare GNOME 50 compatibility. Dash2Dock Animated declared GNOME 50 compatibility but was removed because Dhruva is the canonical dock and running both produced duplicate docks.
+
+GSConnect validation included the shell extension runtime, user D-Bus registration and introspection, and the `kdeconnect` service in the active Wi-Fi firewalld `public` zone. Phone-side Tailscale split-tunneling policy remains intentionally outside Fedora desired state.
+
+The refresh also corrected reproducibility details discovered by physical testing: extension inventory paths are normalized to `~/.local/...`, inventory rows are deterministic and UUID-deduplicated, and legitimate live-state changes to the Mutter overlay key, Just Perfection clock position, and Dhruva dock contents were reviewed before being accepted.
+
+The final extension inventory was regenerated only after the rejected extensions were uninstalled. Full details are recorded in `docs/gnome-extension-audit-2026-09-17.md`.
 
 ## Security validation — 2026-09-16
 
@@ -49,10 +62,11 @@ Validated and applied controls:
 
 The update policy was exercised with a material graphics-stack update. NVIDIA/akmods was upgraded from 610.57.04 to 615.71.09. The kmod for kernel `7.2.5-200.fc44.x86_64` was built successfully, its module was signed, the machine rebooted successfully, and the RTX 3060 was operational on driver 615.71.09 afterward. Secure Boot was subsequently enabled after MOK enrollment; NVIDIA 615.71.09 remained operational and the system reported zero failed services.
 
-The latest physical verifier run, after the current desired-state updates including DDC/CI external-monitor brightness support and order-insensitive GNOME favorite-app auditing, returned:
+The latest physical verifier run, after the extension compatibility refresh and cleanup, returned:
 
 ```text
-PASS=182 WARN=0 FAIL=0 SKIP=0
+PASS=217 WARN=0 FAIL=0 SKIP=0
+VERIFY_RC=0
 ```
 
 ### Deferred security item
@@ -80,7 +94,9 @@ Testing on a pristine system and subsequent physical-host verification exposed s
 15. Secure Boot had been disabled despite the NVIDIA akmods module already being locally signed. The signing certificate was enrolled through MOK, Secure Boot was enabled, and the NVIDIA path was validated before the state was accepted.
 16. External-monitor brightness control through DDC/CI required `ddcutil` plus the packaged Fedora udev access rules. The restore now installs `ddcutil`, initializes the udev access path, and tracks the GNOME brightness extension in desired state.
 17. GNOME favorite-app ordering was producing non-actionable desired-state drift. The audit now requires the same favorite applications while intentionally allowing their icon order to vary.
-18. Dhruva maintains its own dock-order and application-folder state independently of GNOME `favorite-apps`. A stale Dhruva order could therefore survive even when the GNOME favorites matched the repository. The restore now applies a sanitized, deterministic Dhruva dock state after GNOME restoration, and the verifier checks both the dock order and application-folder definitions.
+18. Dhruva maintains its own dock-order and application-folder state independently of GNOME `favorite-apps`. A stale Dhruva order could therefore survive even when the GNOME favorites matched the repository. The restore applies a sanitized, deterministic Dhruva dock state after GNOME restoration, and the verifier checks both the dock order and application-folder definitions.
+19. A broad extension refresh can introduce components that are installed but not suitable for the accepted baseline. The runtime audit now separates candidate testing from desired-state promotion; incompatible or conflicting extensions remain outside `enabled-extensions.txt` and are removed before the accepted inventory is regenerated.
+20. Extension inventory generation initially exposed an absolute home path. The generator now normalizes user locations to `~`, resolves duplicate UUIDs deterministically, and emits stable sorted output.
 
 ## Reproducible Polish GNOME localization
 
@@ -98,13 +114,17 @@ The Dhruva GNOME extension is the most extensive localization case. The accepted
 
 Dhruva's accepted desired state also includes a sanitized reproducible dock layout. The implementation was tested by first confirming that the verifier detected deliberate live-state drift, then applying the repository state and confirming successful restoration. After a GNOME sign-out/sign-in, the restored dock was also checked visually.
 
-Before acceptance, all 20 Dhruva patches were applied against a clean upstream source tree with `--fuzz=0`; all 20 applied successfully without offset or fuzz. The resulting physical-workstation verification completed with `PASS=182 WARN=0 FAIL=0 SKIP=0`, while the curated GNOME desired-state audit completed with `PASS=78 WARN=0`.
+Before acceptance, all 20 Dhruva patches were applied against a clean upstream source tree with `--fuzz=0`; all 20 applied successfully without offset or fuzz. Dhruva v17 remained compatible with the repository-managed Polish localization during the 2026-09-17 refresh. The resulting physical-workstation verification completed with `PASS=217 WARN=0 FAIL=0 SKIP=0`.
 
 The localization is maintained as source material rather than as opaque modified extension archives. This keeps the customization reviewable and reproducible while allowing the original extension to remain separately identifiable.
 
+## Third-party extension attribution
+
+The GNOME Shell extensions integrated by this repository remain third-party software authored and licensed by their respective upstream projects. This repository does not claim authorship of those extensions. Its work is the reproducible integration layer: package/version tracking, installation and restore logic, configuration, compatibility/runtime audits, conflict handling, selected localization changes, security integration, and verification/documentation.
+
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for the tested Fedora 44 / GNOME 50.4 baseline and a zero-warning, zero-failure desired-state verification on the physical workstation after security hardening, a material NVIDIA/graphics-stack update, Secure Boot activation, and the latest workstation desired-state updates. Package installation, repositories, Flatpaks, pinned GNOME extensions, extension schemas, curated GNOME settings, desktop launcher restoration, reproducible Polish GNOME extension localizations including the Dhruva gettext/CLDR integration, network/security controls, Tailscale package/service state, Secure Boot state, NVIDIA module signing, DDC/CI support, and verification logic have been exercised across these validation stages.
+The repository has passed a clean-room functional restore test for the tested Fedora 44 / GNOME 50.4 baseline and a zero-warning, zero-failure desired-state verification on the physical workstation after security hardening, a material NVIDIA/graphics-stack update, Secure Boot activation, DDC/CI integration, and the GNOME extension compatibility refresh. Package installation, repositories, Flatpaks, pinned GNOME extensions, extension schemas, curated GNOME settings, desktop launcher restoration, reproducible Polish GNOME extension localizations including the Dhruva gettext/CLDR integration, network/security controls, Tailscale package/service state, Secure Boot state, NVIDIA module signing, DDC/CI support, and verification logic have been exercised across these validation stages.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, VPN authentication state, Tailscale node identity, private signing keys, and other private state remain intentionally outside Git and must be restored separately.
 
@@ -116,7 +136,8 @@ The remaining work is maintenance plus one explicitly deferred security decision
 - keep package and GNOME extension pins current as Fedora evolves;
 - periodically repeat the clean-room restore test after major Fedora/GNOME changes;
 - keep private machine-specific configuration and signing material separate from the public repository;
-- periodically re-run physical-host verification after material desired-state changes, especially kernel/NVIDIA updates.
+- periodically re-run physical-host verification after material desired-state changes, especially kernel/NVIDIA updates;
+- periodically audit upstream Polish localization coverage for accepted third-party extensions and carry repository-managed translations only where there is a demonstrated gap.
 
 The separate disaster-recovery layer is documented in `docs/DISASTER-RECOVERY.md`; it complements rather than replaces this repository-based rebuild path.
 
@@ -135,4 +156,4 @@ The tested baseline is considered accepted when:
 - private data is not required from the public repository;
 - `scripts/verify.sh` reports zero `WARN` and zero `FAIL` on the validated target, with only documented environment-specific `SKIP` results where applicable.
 
-**Current result: ACCEPTED.**
+**Current result: ACCEPTED (`PASS=217 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`).**
