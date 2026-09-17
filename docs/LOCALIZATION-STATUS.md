@@ -151,14 +151,14 @@ The final corrected catalog was installed on the physical Fedora workstation and
 
 ## Physical verification state
 
-After Freon was removed from desired state, the last completed full physical-host verifier run before the final Advanced Media Controller promotion reported:
+After all current repository-managed localization targets were installed and the final dedicated AppIndicator, Vitals, ddterm, and Advanced Media Controller verifiers were integrated into the main verifier, the physical Fedora 44 / GNOME 50.4 workstation completed the final acceptance run with:
 
 ```text
-PASS=214 WARN=0 FAIL=0 SKIP=0
+PASS=222 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-Since that run, Advanced Media Controller v31 was added to desired state and the AppIndicator, Vitals, ddterm, and Advanced Media Controller dedicated localization verifiers were integrated into the main verifier. A new full physical-host run is therefore required before recording the next aggregate PASS count. The acceptance criterion remains **zero WARN and zero FAIL**, not preservation of an obsolete absolute PASS number.
+This is the current accepted physical-host localization baseline. The complete repository-managed localization set is installed, version-scoped where required, and verified with zero warnings and zero failures.
 
 The historical clean-room VM result remains unchanged:
 
