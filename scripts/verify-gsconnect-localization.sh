@@ -4,6 +4,7 @@ set -Eeuo pipefail
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 UUID="gsconnect@andyholmes.github.io"
 DOMAIN="org.gnome.Shell.Extensions.GSConnect"
+EXPECTED_VERSION="72"
 SOURCE_PO="$ROOT_DIR/localization/gsconnect/pl.po"
 EXT_DIR="$HOME/.local/share/gnome-shell/extensions/$UUID"
 TARGET_MO="$EXT_DIR/locale/pl/LC_MESSAGES/$DOMAIN.mo"
@@ -42,6 +43,28 @@ if [[ ! -f "$METADATA" ]]; then
     exit 1
 fi
 
+python3 - "$METADATA" "$EXPECTED_VERSION" "$DOMAIN" <<'PY'
+import json
+import sys
+
+path, expected_version, expected_domain = sys.argv[1:]
+with open(path, encoding="utf-8") as f:
+    data = json.load(f)
+
+actual_version = str(data.get("version", ""))
+if actual_version != expected_version:
+    raise SystemExit(
+        "FAIL: GSConnect version changed; localization requires re-audit "
+        f"(expected {expected_version}, got {actual_version or '?'})"
+    )
+
+actual_domain = data.get("gettext-domain")
+if actual_domain != expected_domain:
+    raise SystemExit(
+        f"FAIL: GSConnect gettext-domain expected {expected_domain!r}, got {actual_domain!r}"
+    )
+PY
+
 msgfmt --check "$SOURCE_PO" -o /dev/null
 
 tmp_dir="$(mktemp -d)"
@@ -59,19 +82,4 @@ if ! cmp -s "$tmp_dir/expected.mo" "$TARGET_MO"; then
     exit 1
 fi
 
-python3 - "$METADATA" "$DOMAIN" <<'PY'
-import json
-import sys
-
-path, expected = sys.argv[1:]
-with open(path, encoding="utf-8") as f:
-    data = json.load(f)
-
-actual = data.get("gettext-domain")
-if actual != expected:
-    raise SystemExit(
-        f"FAIL: GSConnect gettext-domain expected {expected!r}, got {actual!r}"
-    )
-PY
-
-echo "PASS: GSConnect Polish localization and Shell gettext domain match repository"
+echo "PASS: GSConnect v72 Polish localization and Shell gettext domain match repository"
