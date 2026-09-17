@@ -311,6 +311,32 @@ verify_translation \
   "monitor-smart-saver"
 
 echo
+echo "=== GSCONNECT POLISH LOCALIZATION ==="
+if gsconnect_verify_output="$(bash "$ROOT_DIR/scripts/verify-gsconnect-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$gsconnect_verify_output"; then
+    skip "GSConnect Polish localization: extension not installed"
+  else
+    ok "GSConnect Polish localization and Shell gettext domain match repository"
+  fi
+else
+  printf '%s\n' "$gsconnect_verify_output"
+  bad "GSConnect Polish localization missing, incomplete, or differs"
+fi
+
+echo
+echo "=== TILING SHELL POLISH LOCALIZATION ==="
+if tiling_verify_output="$(bash "$ROOT_DIR/scripts/verify-tiling-shell-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$tiling_verify_output"; then
+    skip "Tiling Shell Polish localization: extension not installed"
+  else
+    ok "Tiling Shell 17.3 Polish localization matches repository completion"
+  fi
+else
+  printf '%s\n' "$tiling_verify_output"
+  bad "Tiling Shell Polish localization missing, incomplete, or differs"
+fi
+
+echo
 echo "=== DHRUVA POLISH LOCALIZATION ==="
 
 DHRUVA_EXT="$HOME/.local/share/gnome-shell/extensions/dhruva@narkagni"
