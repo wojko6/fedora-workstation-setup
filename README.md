@@ -22,14 +22,14 @@ Clean-room result:
 PASS=147 WARN=0 FAIL=0 SKIP=8
 ```
 
-The current physical workstation desired state was subsequently validated after security hardening, a controlled NVIDIA/graphics-stack update, Secure Boot enablement, DDC/CI setup, and the 2026-09-17 GNOME extension compatibility refresh:
+The current physical workstation desired state was subsequently validated after security hardening, a controlled NVIDIA/graphics-stack update, Secure Boot enablement, DDC/CI setup, the 2026-09-17 GNOME extension compatibility refresh, and completion of the accepted Polish localization overlays:
 
 ```text
-PASS=217 WARN=0 FAIL=0 SKIP=0
+PASS=219 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-All required GNOME extensions reported `ACTIVE`, the curated GNOME desired-state audit matched the accepted configuration, and the extension runtime audit completed without unresolved required-state failures. Environment-specific VM exclusions are reported explicitly as `SKIP` rather than hidden or treated as restore warnings.
+All required GNOME extensions reported `ACTIVE`, the curated GNOME desired-state audit matched the accepted configuration, and the extension/runtime/localization checks completed without unresolved required-state failures. Environment-specific VM exclusions are reported explicitly as `SKIP` rather than hidden or treated as restore warnings.
 
 The 2026-09-17 extension refresh added seven physically validated GNOME 50 extensions to desired state: ArcMenu, Bluetooth Battery Meter, Caffeine, Freon, GSConnect, Tiling Shell, and User Themes. Media Controls was removed because the installed release did not declare GNOME 50 compatibility, while Dash2Dock Animated was removed because Dhruva is the canonical dock and running both produced duplicate docks. See [`docs/gnome-extension-audit-2026-09-17.md`](docs/gnome-extension-audit-2026-09-17.md).
 
@@ -37,7 +37,7 @@ GSConnect was validated beyond shell-extension state: its user D-Bus service was
 
 The physical validation also includes reproducible LLMNR disablement, kernel pointer hardening, disabled GNOME/GVfs WS-Discovery, persistent Wi-Fi assignment to firewalld's `public` zone, successful operation after the NVIDIA 615.71.09 update, an active Secure Boot path with a signed NVIDIA kernel module, and reproducible DDC/CI support for external-monitor brightness control. LUKS remains explicitly deferred; the repository does not claim full-disk encryption for the current installation.
 
-The desired state includes reproducible Polish localization support for selected GNOME Shell extensions. The Dhruva integration maintains a 393-message gettext catalog, a 20-patch source localization set, and generated Polish CLDR metadata for all 1907 emoji used by the tested extension source. These artifacts are installed and checked by the repository tooling rather than stored as an opaque modified extension archive. The current localization backlog and upstream Polish-coverage review are tracked in [`docs/LOCALIZATION-STATUS.md`](docs/LOCALIZATION-STATUS.md).
+The desired state includes reproducible Polish localization support for selected GNOME Shell extensions. The Dhruva integration maintains a 393-message gettext catalog, a 20-patch source localization set, and generated Polish CLDR metadata for all 1907 emoji used by the tested extension source. GSConnect v72 and Tiling Shell v76 / 17.3 also have minimal repository-managed completion overlays for demonstrated upstream gaps; both were installed, verified, and visually checked on the physical workstation. These artifacts are installed and checked by the repository tooling rather than stored as opaque modified extension archives. Localization status is tracked in [`docs/LOCALIZATION-STATUS.md`](docs/LOCALIZATION-STATUS.md).
 
 Dhruva's dock state is also reproducible. The repository stores a sanitized desired dock order and application-folder definition in `gnome/dhruva/dock-state.json`; `scripts/install-dhruva-config.sh` restores that state after the GNOME configuration stage, and `scripts/verify.sh` detects drift. Machine-specific paths and private local folder state are intentionally excluded.
 
@@ -91,4 +91,4 @@ bash scripts/audit-extension-runtime.sh
 
 ## Status
 
-**Validated for the Fedora 44 / GNOME 50.4 baseline.** The latest physical-workstation verification completed with `PASS=217 WARN=0 FAIL=0 SKIP=0` and `VERIFY_RC=0`. The accepted state includes Secure Boot, signed NVIDIA-module verification, DDC/CI external-monitor brightness support, the validated GNOME extension refresh, GSConnect D-Bus/firewalld integration, and repository-managed Polish GNOME extension localizations including Dhruva. Future Fedora or GNOME upgrades should be followed by another clean-room and physical-host validation before declaring the new baseline accepted.
+**Validated for the Fedora 44 / GNOME 50.4 baseline.** The latest physical-workstation verification completed with `PASS=219 WARN=0 FAIL=0 SKIP=0` and `VERIFY_RC=0`. The accepted state includes Secure Boot, signed NVIDIA-module verification, DDC/CI external-monitor brightness support, the validated GNOME extension refresh, GSConnect D-Bus/firewalld integration, and repository-managed Polish GNOME extension localizations including Dhruva, GSConnect v72, and Tiling Shell v76 / 17.3. Future Fedora or GNOME upgrades should be followed by another clean-room and physical-host validation before declaring the new baseline accepted.
