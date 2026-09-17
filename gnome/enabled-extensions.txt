@@ -5,7 +5,6 @@ drive-menu@gnome-shell-extensions.gcampax.github.com
 just-another-search-bar@xelad0m
 blur-my-shell@aunetx
 ddterm@amezin.github.com
-gnordvpn-local@isopolito
 space-bar@luchrioh
 add-to-desktop@tommimon.github.com
 monitorSmartSaver@pic16f877ccs.github.com
