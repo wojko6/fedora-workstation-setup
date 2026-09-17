@@ -1,6 +1,6 @@
 --- a/prefs/aboutPage.js
 +++ b/prefs/aboutPage.js
-@@ -2,17 +2,17 @@
+@@ -2,18 +2,18 @@
  // SPDX-License-Identifier: GPL-3.0-or-later
  import Adw from 'gi://Adw';
  
