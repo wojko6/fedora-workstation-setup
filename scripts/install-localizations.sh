@@ -108,4 +108,8 @@ echo "=== POLISH LOCALIZATION: Space Bar v39 ==="
 bash "$ROOT_DIR/scripts/install-space-bar-localization.sh"
 
 echo
+echo "=== POLISH LOCALIZATION: AppIndicator v64 completion ==="
+bash "$ROOT_DIR/scripts/install-appindicator-localization.sh"
+
+echo
 echo "Custom Polish localizations complete."
