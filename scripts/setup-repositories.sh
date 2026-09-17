@@ -33,25 +33,6 @@ fi
 # Tailscale repository is required. Authentication remains private state and is
 # deliberately not automated by this repository.
 
-# NordVPN's current Linux instructions install the GUI through the vendor's
-# official installer. This avoids depending on the legacy nordvpn-release RPM,
-# which fresh Fedora/DNF versions may reject during package verification.
-# The installer contains no user credentials or Nord Account token.
-if rpm -q nordvpn-gui >/dev/null 2>&1; then
-  echo "OK: NordVPN GUI already installed"
-elif repo_enabled repo.nordvpn.com_yum_nordvpn_centos_x86_64; then
-  echo "OK: NordVPN repository already enabled"
-else
-  echo "==> Installing NordVPN GUI using the official Linux installer"
-  tmp_nordvpn_installer="$(mktemp)"
-  trap 'rm -f "$tmp_nordvpn_installer"' EXIT
-  curl -fsSL https://downloads.nordcdn.com/apps/linux/install.sh \
-    -o "$tmp_nordvpn_installer"
-  sh "$tmp_nordvpn_installer" -p nordvpn-gui
-  rm -f "$tmp_nordvpn_installer"
-  trap - EXIT
-fi
-
 # VPCS is part of the reviewed GNS3 restore manifest. The source workstation
 # obtains it from the tgerov/vpcs COPR, so bootstrap the same source before
 # packages/rpm.txt is installed.
