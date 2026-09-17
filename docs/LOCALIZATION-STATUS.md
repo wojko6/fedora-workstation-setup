@@ -17,6 +17,7 @@ The existing localization work covers the established extension/integration targ
 - Browser Switcher
 - GSConnect v72 completion and Shell gettext-domain fix
 - Tiling Shell v76 / 17.3 completion overlay
+- Just Perfection v37 full Polish localization
 
 Dhruva remains the largest accepted case: 393 gettext messages, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
@@ -65,19 +66,15 @@ The repository carries a minimal `localization/tiling-shell/pl.po` completion ov
 
 The completion installer and dedicated verifier both passed on the physical Fedora 44 / GNOME 50.4 workstation, and the affected preferences were visually checked after installation. The Tiling Shell completion is therefore accepted for the tested 17.3 / 76 baseline.
 
-## Just Perfection v37 audit
+## Just Perfection v37 result
 
-The next localization target is **Just Perfection v37**, matching the installed Fedora 44 / GNOME 50.4 baseline. Upstream metadata reports version `37`, GNOME Shell support through version 51, and gettext domain `just-perfection`.
+The installed physical-host extension reports **Just Perfection v37**, gettext domain `just-perfection`, and GNOME Shell 50 compatibility.
 
-Unlike GSConnect and Tiling Shell, the upstream v37 source currently does **not** contain `po/pl.po`. This means there is no upstream Polish catalog to complete or merge: Just Perfection requires a **full Polish translation from the upstream `po/main.pot` template**.
+Upstream does not ship a Polish catalog for this baseline, so the repository now carries a full `localization/just-perfection/pl.po` translation plus a small `v37-additions.po` completion catalog for strings that are present in the actual v37 UI but absent from the stale upstream `po/main.pot` template. Physical visual testing exposed this template drift through untranslated Backlight and Do Not Disturb controls; the missing v37 strings were then added explicitly.
 
-The repository will therefore treat Just Perfection as a from-scratch localization target pinned to v37. The planned integration is:
+`scripts/install-just-perfection-localization.sh` is pinned to v37, compiles and installs the merged Polish catalog, and refuses to apply it after an extension-version change until the translation is re-audited. `scripts/verify-just-perfection-localization.sh` checks the installed version, gettext domain, repository catalog completeness, the required v37 completion strings, and the installed `.mo` artifact.
 
-- create a complete `localization/just-perfection/pl.po` from the exact v37 template;
-- compile it as `just-perfection.mo` under the extension's Polish locale path;
-- refuse automatic installation if the installed Just Perfection version changes from v37 until the catalog is re-audited;
-- add a dedicated verifier and integrate it into `scripts/verify.sh`;
-- visually validate the preferences UI on the physical GNOME 50.4 workstation before marking it accepted.
+The translation was installed on the physical Fedora 44 / GNOME 50.4 workstation and visually checked in the Just Perfection preferences UI. The previously English Backlight and Do Not Disturb rows are now translated, so **Just Perfection v37 is accepted for the tested baseline**. The restore localization stage now invokes its dedicated installer automatically.
 
 ## Result
 
@@ -87,14 +84,16 @@ For the seven extensions from the 2026-09-17 compatibility refresh:
 - **2** confirmed completion targets are completed and physically validated: **GSConnect v72** and **Tiling Shell v76 / 17.3**;
 - **5** already have upstream Polish support and do not currently justify a repository-maintained duplicate translation.
 
-A separate second localization pass is now open for older accepted extensions that still expose English UI. **Just Perfection v37 is the first confirmed from-scratch target in that pass.**
+The separate follow-up localization pass for older accepted extensions has now completed its first from-scratch target: **Just Perfection v37**.
 
-The dedicated GSConnect and Tiling Shell checks are integrated into the main repository verifier. The latest physical-host run after repository validation/dependency cleanup returned:
+The latest full physical-host repository verifier result recorded before adding the dedicated Just Perfection check remains:
 
 ```text
 PASS=221 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
+
+That aggregate number should only be updated after the Just Perfection verifier is integrated into `scripts/verify.sh` and the full physical verifier is run again.
 
 ## Evidence from upstream catalogs
 
@@ -104,8 +103,8 @@ The Tiling Shell 17.3 Polish catalog is present and compiled upstream. The exact
 
 Bluetooth Battery Meter has a Polish catalog revised on 2026-09-15. Caffeine ships a Polish source catalog, Freon ships a Polish compiled locale, ArcMenu lists Polish among its maintained translations, and User Themes belongs to the GNOME Shell Extensions localization stream.
 
-Just Perfection v37 declares gettext domain `just-perfection` and ships a `po/main.pot` template, but no upstream `po/pl.po` file is present in the v37 source baseline. The repository translation must therefore cover the full template rather than only a demonstrated completion gap.
+Just Perfection v37 declares gettext domain `just-perfection` but its upstream Polish catalog is absent. Its upstream POT is also stale relative to the actual v37 preferences UI, so the repository keeps the main full translation and the audited v37-only completion strings separately reviewable.
 
 ## Maintenance and active localization work
 
-The 2026-09-17 seven-extension localization refresh is closed and remains in maintenance mode. A separate follow-up localization pass is active for accepted extensions that still lack Polish coverage, beginning with Just Perfection v37. Upstream Polish coverage must be re-audited whenever an accepted extension version changes, and repository-managed translations remain limited to demonstrated gaps or absent upstream catalogs.
+The 2026-09-17 seven-extension localization refresh is closed and remains in maintenance mode. The follow-up pass for accepted extensions that still lack Polish coverage remains active after completing Just Perfection v37. Upstream Polish coverage must be re-audited whenever an accepted extension version changes, and repository-managed translations remain limited to demonstrated gaps or absent upstream catalogs.
