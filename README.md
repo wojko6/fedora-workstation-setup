@@ -132,33 +132,6 @@ The current workstation baseline has been validated using:
 - Oracle VirtualBox clean-room restore testing
 - Physical workstation verification
 
-Current accepted result:
-
-```text
-PASS=226
-WARN=0
-FAIL=0
-SKIP=0
-
-The final state is tracked by:
-scripts/verify.sh
-
-install.sh
-|
-├── Package installation
-├── External repositories
-├── Flatpak applications
-├── GNOME extensions
-├── GNOME configuration restore
-├── Localization pipeline
-├── Desktop launchers
-├── Network configuration
-├── Firewall configuration
-└── Security hardening
-
-After installation, the system is validated by:
-scripts/verify.sh
-
 GNOME extension management
 
 GNOME extensions are managed as controlled components.
