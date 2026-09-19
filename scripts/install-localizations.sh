@@ -120,8 +120,8 @@ echo "=== POLISH LOCALIZATION: Space Bar v39 ==="
 bash "$ROOT_DIR/scripts/install-space-bar-localization.sh"
 
 echo
-echo "=== POLISH LOCALIZATION: AppIndicator v64 completion ==="
-bash "$ROOT_DIR/scripts/install-appindicator-localization.sh"
+echo "=== POLISH LOCALIZATION: ArcMenu v73 / 69.2 ==="
+bash "$ROOT_DIR/scripts/install-arcmenu-localization.sh"
 
 echo
 echo "=== POLISH LOCALIZATION: Vitals v85 completion ==="

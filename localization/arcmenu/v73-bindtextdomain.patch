@@ -1,0 +1,16 @@
+--- a/constants.js
++++ b/constants.js
+@@ -1,4 +1,12 @@
+-import {domain} from 'gettext';
++import Gio from 'gi://Gio';
++import {bindtextdomain, domain} from 'gettext';
++
++const ARCMENU_LOCALE_DIR = Gio.File.new_for_uri(import.meta.url)
++    .get_parent()
++    .get_child('locale')
++    .get_path();
++
++bindtextdomain('arcmenu', ARCMENU_LOCALE_DIR);
+ const {gettext: _} = domain('arcmenu');
+ 
+ export const DASH_TO_PANEL_UUID = 'dash-to-panel@jderose9.github.com';

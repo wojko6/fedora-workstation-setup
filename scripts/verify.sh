@@ -390,16 +390,16 @@ else
 fi
 
 echo
-echo "=== APPINDICATOR POLISH LOCALIZATION ==="
-if appindicator_verify_output="$(bash "$ROOT_DIR/scripts/verify-appindicator-localization.sh" 2>&1)"; then
-  if grep -q '^SKIP:' <<<"$appindicator_verify_output"; then
-    skip "AppIndicator Polish localization: package not installed"
+echo "=== ARCMENU POLISH LOCALIZATION ==="
+if arcmenu_verify_output="$(bash "$ROOT_DIR/scripts/verify-arcmenu-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$arcmenu_verify_output"; then
+    skip "ArcMenu Polish localization: extension not installed"
   else
-    ok "AppIndicator v64 Polish localization matches repository completion"
+    ok "ArcMenu v73 / 69.2 Polish gettext binding fix matches repository"
   fi
 else
-  printf '%s\n' "$appindicator_verify_output"
-  bad "AppIndicator Polish localization missing, incomplete, or differs"
+  printf '%s\n' "$arcmenu_verify_output"
+  bad "ArcMenu Polish localization missing, incomplete, or differs"
 fi
 
 echo

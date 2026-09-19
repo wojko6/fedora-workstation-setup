@@ -20,7 +20,6 @@ Repository-managed localization/integration currently covers:
 - Just Perfection v37 full Polish localization
 - Spotlight v15 / 2026.15 Polish localization and gettext integration
 - Space Bar v39 controlled Polish localization
-- AppIndicator v64 five-entry Polish completion
 - Vitals v85 Polish completion overlay
 - ddterm v72 Polish completion plus localized metadata description
 - Advanced Media Controller v31 / 6.5 full Polish catalog
@@ -91,18 +90,6 @@ The repository uses a controlled exact-version source replacement strategy. The 
 
 The translated UI was confirmed working on the physical workstation.
 
-## AppIndicator v64
-
-Fedora 44 packages `gnome-shell-extension-appindicator` v64 with gettext domain `AppIndicatorExtension` and a system Polish catalog. The exact v64 template contains five current preference strings missing from the packaged Polish catalog:
-
-- `General`
-- `Add X11 legacy tray icons to the panel area`
-- `Desaturation`
-- `Icon Size`
-- `Tray Horizontal Alignment`
-
-The repository carries a minimal five-entry completion overlay in `localization/appindicator/pl.po`. The installer is pinned to Fedora package `64-1.fc44`, preserves the packaged Polish catalog as a version-specific backup, merges only the missing strings, and writes a deterministic `AppIndicatorExtension.mo`. The dedicated verifier reconstructs the same merge and compares the installed catalog byte-for-byte.
-
 ## Vitals v85
 
 The installed physical-host extension reports **Vitals v85** and gettext domain `vitals`.
@@ -148,10 +135,10 @@ The final corrected catalog was installed on the physical Fedora workstation and
 
 ## Physical verification state
 
-After all current repository-managed localization targets were installed and the final dedicated AppIndicator, Vitals, ddterm, and Advanced Media Controller verifiers were integrated into the main verifier, the physical Fedora 44 / GNOME 50.4 workstation completed the final acceptance run with:
+After all current repository-managed localization targets were installed and the final dedicated Vitals, ddterm, and Advanced Media Controller verifiers were integrated into the main verifier, the physical Fedora 44 / GNOME 50.4 workstation completed the final acceptance run with:
 
 ```text
-PASS=222 WARN=0 FAIL=0 SKIP=0
+PASS=225 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 

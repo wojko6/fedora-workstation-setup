@@ -24,7 +24,7 @@ The top-level `install.sh` orchestrates these stages. Individual stages should r
 
 ## Localization
 
-`install-localizations.sh` is the single localization pipeline. It invokes all 12 version-specific localization installers plus the simpler catalog installs managed directly from `localization/`.
+`install-localizations.sh` is the single localization pipeline. It invokes all 11 version-specific localization installers plus the simpler catalog installs managed directly from `localization/`.
 
 Dedicated `verify-*-localization.sh` scripts validate exact-version or completion-overlay targets and are wired into `verify.sh`.
 

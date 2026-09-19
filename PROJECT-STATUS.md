@@ -20,7 +20,7 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After Freon was intentionally removed, Advanced Media Controller v31 / 6.5 was added to desired state, and the final AppIndicator, Vitals, ddterm, and Advanced Media Controller localization checks were wired into the main restore/verification flow, the final physical-workstation verifier run completed with:
+After Freon was intentionally removed, Advanced Media Controller v31 / 6.5 was added to desired state, and the final Vitals, ddterm, and Advanced Media Controller localization checks were wired into the main restore/verification flow, the final physical-workstation verifier run completed with:
 
 ```text
 PASS=225 WARN=0 FAIL=0 SKIP=0
@@ -42,7 +42,7 @@ The physical-host desired state includes:
 - required GNOME extensions installed and `ACTIVE`;
 - compiled extension schemas where required;
 - curated GNOME desired state and Dhruva dock state;
-- Wi-Fi persisted to firewalld's `public` zone and the active interface attached to the same zone;
+- Wi-Fi persisted to the dedicated firewalld `workstation-kdeconnect` zone and the active interface attached to the same zone;
 - GSConnect D-Bus integration and KDE Connect firewalld service;
 - repository-managed Polish localization verification;
 - extension version pinning and drift detection.
@@ -76,7 +76,7 @@ The physical workstation security review established and validated the following
 - systemd-resolved LLMNR disabled globally;
 - GNOME/GVfs WS-Discovery disabled while required mDNS remains available;
 - `kernel.kptr_restrict=1` persistent and active;
-- Wi-Fi persistently assigned to firewalld's `public` zone;
+- Wi-Fi persistently assigned to the dedicated firewalld `workstation-kdeconnect` zone;
 - SSH server disabled/inactive;
 - SELinux enforcing;
 - Secure Boot enabled;
@@ -109,7 +109,6 @@ Repository-managed targets currently include:
 - Just Perfection v37;
 - Spotlight v15 / 2026.15;
 - Space Bar v39;
-- AppIndicator v64 completion;
 - Vitals v85 completion;
 - ddterm v72 completion plus metadata description localization;
 - Advanced Media Controller v31 / 6.5 full Polish catalog.
@@ -126,11 +125,11 @@ Spotlight v15 / 2026.15 does not ship a localization implementation in the audit
 
 Space Bar v39 lacks a usable upstream localization path for the audited release. The repository applies an exact-version controlled localization patch covering 109 translated source patterns across preferences, custom-style dialogs, keyboard-shortcut dialogs, and the runtime panel menu.
 
-AppIndicator v64 uses a five-entry completion overlay over Fedora's packaged Polish catalog. Vitals v85 uses a version-pinned completion overlay over its incomplete upstream Polish catalog. ddterm v72 uses a one-entry gettext completion plus a localized metadata description for its About window.
+Vitals v85 uses a version-pinned completion overlay over its incomplete upstream Polish catalog. ddterm v72 uses a one-entry gettext completion plus a localized metadata description for its About window.
 
 Advanced Media Controller v31 / 6.5 ships no Polish catalog in the tested archive. The repository carries a complete **276-entry** Polish gettext catalog generated against the exact v31 string template. Its installer/verifier checks version 31, version name 6.5, gettext domain, audited file fingerprints, translation completeness, byte-for-byte installed `.mo` equality, and a runtime gettext smoke test requiring `General` to resolve to `Ogólne`. The preferences UI was visually confirmed in Polish on the physical workstation.
 
-All 12 version-specific localization installers are invoked by `scripts/install-localizations.sh`. Dedicated version-pinned localization verifiers are integrated into the main `scripts/verify.sh`, and the complete localization set passed the final physical-host verifier with zero warnings and zero failures.
+All 11 version-specific localization installers are invoked by `scripts/install-localizations.sh`. Dedicated version-pinned localization verifiers are integrated into the main `scripts/verify.sh`, and the complete localization set passed the final physical-host verifier with zero warnings and zero failures.
 
 ## Important reproducibility decisions
 
@@ -145,7 +144,7 @@ All 12 version-specific localization installers are invoked by `scripts/install-
 
 ## End-of-day stability closure — 2026-09-19
 
-The 2026-09-19 Recovery and Stability Gates were completed without unresolved warnings or failures. Recovery pipeline review found that Background Logo, Browser Switcher, and Dhruva installers existed but were not connected to the main localization pipeline; all three were added, bringing the pipeline to 12/12 localization installers. Repository consistency passed with 26 enabled extensions and 27 inventory rows. The final physical-host verifier completed with `PASS=225 WARN=0 FAIL=0 SKIP=0`. GNOME Keyring i18n verification completed with `PASS=7 WARN=0 FAIL=0`. Final `git diff --check` was clean and the repository was synchronized with `origin/main`.
+The 2026-09-19 Recovery and Stability Gates were completed without unresolved warnings or failures. Recovery pipeline review found that Background Logo, Browser Switcher, and Dhruva installers existed but were not connected to the main localization pipeline; all three were added, all three were added to the localization pipeline. After the later cleanup, the current pipeline contains 11 version-specific localization installers. Repository consistency passes with 26 enabled extensions and 26 inventory rows. The final physical-host verifier completed with `PASS=225 WARN=0 FAIL=0 SKIP=0`. GNOME Keyring i18n verification completed with `PASS=7 WARN=0 FAIL=0`. Final `git diff --check` was clean and the repository was synchronized with `origin/main`.
 
 ## Repository validation
 

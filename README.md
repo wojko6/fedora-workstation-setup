@@ -22,7 +22,7 @@ Clean-room result:
 PASS=147 WARN=0 FAIL=0 SKIP=8
 ```
 
-After Freon was intentionally removed, Advanced Media Controller v31 / 6.5 was added to desired state, and the final AppIndicator, Vitals, ddterm, and Advanced Media Controller localization checks were integrated into the main verifier, the physical workstation completed the final acceptance run with:
+After Freon was intentionally removed, Advanced Media Controller v31 / 6.5 was added to desired state, and the final Vitals, ddterm, and Advanced Media Controller localization checks were integrated into the main verifier, the physical workstation completed the final acceptance run with:
 
 ```text
 PASS=225 WARN=0 FAIL=0 SKIP=0
@@ -35,9 +35,9 @@ Repository changes are guarded by a static validation workflow. The same `script
 
 The 2026-09-17 extension compatibility refresh accepted ArcMenu, Bluetooth Battery Meter, Caffeine, GSConnect, Tiling Shell, and User Themes into the continuing desired state. Freon also passed compatibility testing at that time but was later deliberately removed. Media Controls was removed because the installed release did not declare GNOME 50 compatibility, while Dash2Dock Animated was removed because Dhruva is the canonical dock and running both produced duplicate docks. Advanced Media Controller v31 / 6.5 was subsequently added after physical-host testing. See [`docs/gnome-extension-audit-2026-09-17.md`](docs/gnome-extension-audit-2026-09-17.md).
 
-GSConnect was validated beyond shell-extension state: its user D-Bus service was registered and responsive, and the `kdeconnect` firewalld service was confirmed in the active Wi-Fi `public` zone. Phone-side Tailscale split-tunneling policy is intentionally outside Fedora desired state.
+GSConnect was validated beyond shell-extension state: its user D-Bus service was registered and responsive, and the `kdeconnect` firewalld service was confirmed in the dedicated active Wi-Fi `workstation-kdeconnect` zone. Phone-side Tailscale split-tunneling policy is intentionally outside Fedora desired state.
 
-The physical validation also includes reproducible LLMNR disablement, kernel pointer hardening, disabled GNOME/GVfs WS-Discovery, persistent Wi-Fi assignment to firewalld's `public` zone, successful operation after the NVIDIA 615.71.09 update, an active Secure Boot path with a signed NVIDIA kernel module, and reproducible DDC/CI support for external-monitor brightness control. LUKS remains explicitly deferred; the repository does not claim full-disk encryption for the current installation.
+The physical validation also includes reproducible LLMNR disablement, kernel pointer hardening, disabled GNOME/GVfs WS-Discovery, persistent Wi-Fi assignment to the dedicated firewalld `workstation-kdeconnect` zone, successful operation after the NVIDIA 615.71.09 update, an active Secure Boot path with a signed NVIDIA kernel module, and reproducible DDC/CI support for external-monitor brightness control. LUKS remains explicitly deferred; the repository does not claim full-disk encryption for the current installation.
 
 NordVPN, gNordVPN-Local, and Freon are intentionally absent from the current workstation desired state. Tailscale remains the supported overlay/VPN component tracked by the repository.
 
@@ -45,9 +45,9 @@ NordVPN, gNordVPN-Local, and Freon are intentionally absent from the current wor
 
 The desired state includes reproducible Polish localization support for selected GNOME Shell extensions. The Dhruva integration maintains a 393-message gettext catalog, a 20-patch source localization set, and generated Polish CLDR metadata for all 1907 emoji used by the tested extension source. GSConnect v72 and Tiling Shell v76 / 17.3 have minimal repository-managed completion overlays for demonstrated upstream gaps.
 
-The repository also manages localization for Just Perfection v37, Spotlight v15 / 2026.15, Space Bar v39, AppIndicator v64, Vitals v85, ddterm v72, and Advanced Media Controller v31 / 6.5. Space Bar uses an exact-version controlled source localization because its audited release has no usable gettext path. Advanced Media Controller uses a complete 276-entry Polish gettext catalog pinned to the exact v31 / 6.5 build and verified with a runtime gettext smoke test. Vitals, AppIndicator, and ddterm use minimal completion strategies over demonstrated upstream gaps.
+The repository also manages localization for Just Perfection v37, Spotlight v15 / 2026.15, Space Bar v39, Vitals v85, ddterm v72, and Advanced Media Controller v31 / 6.5. Space Bar uses an exact-version controlled source localization because its audited release has no usable gettext path. Advanced Media Controller uses a complete 276-entry Polish gettext catalog pinned to the exact v31 / 6.5 build and verified with a runtime gettext smoke test. Vitals and ddterm use minimal completion strategies over demonstrated upstream gaps.
 
-All 12 version-specific localization installers are invoked by `scripts/install-localizations.sh`, and their dedicated checks are integrated into the main `scripts/verify.sh`. The complete localization set has passed the final physical-host verifier with zero warnings and zero failures. Full details are tracked in [`docs/LOCALIZATION-STATUS.md`](docs/LOCALIZATION-STATUS.md).
+All 11 version-specific localization installers are invoked by `scripts/install-localizations.sh`, and their dedicated checks are integrated into the main `scripts/verify.sh`. The complete localization set has passed the final physical-host verifier with zero warnings and zero failures. Full details are tracked in [`docs/LOCALIZATION-STATUS.md`](docs/LOCALIZATION-STATUS.md).
 
 Dhruva's dock state is also reproducible. The repository stores a sanitized desired dock order and application-folder definition in `gnome/dhruva/dock-state.json`; `scripts/install-dhruva-config.sh` restores that state after the GNOME configuration stage, and `scripts/verify.sh` detects drift. Machine-specific paths and private local folder state are intentionally excluded.
 
@@ -107,4 +107,4 @@ bash scripts/audit-extension-runtime.sh
 
 ## Status
 
-**Validated and accepted for the Fedora 44 / GNOME 50.4 baseline.** The current physical-workstation verification completed with `PASS=225 WARN=0 FAIL=0 SKIP=0` and `VERIFY_RC=0`. The accepted state includes Advanced Media Controller v31 / 6.5 plus the completed AppIndicator, Vitals, ddterm, and Advanced Media Controller Polish localization checks integrated into the normal restore and verification flow. Future Fedora or GNOME upgrades should be followed by another clean-room and physical-host validation before declaring the new baseline accepted.
+**Validated and accepted for the Fedora 44 / GNOME 50.4 baseline.** The current physical-workstation verification completed with `PASS=225 WARN=0 FAIL=0 SKIP=0` and `VERIFY_RC=0`. The accepted state includes Advanced Media Controller v31 / 6.5 plus the completed Vitals, ddterm, and Advanced Media Controller Polish localization checks integrated into the normal restore and verification flow. Future Fedora or GNOME upgrades should be followed by another clean-room and physical-host validation before declaring the new baseline accepted.
