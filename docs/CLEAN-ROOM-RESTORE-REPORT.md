@@ -43,9 +43,9 @@ Several user extensions extracted successfully but entered GNOME Shell runtime `
 
 Checking only whether an extension is installed is insufficient. The verifier now requires each desired extension to report `ACTIVE` and also checks `gschemas.compiled` when schema XML exists.
 
-### Dhruva version semantics
+### Dhruva source pinning
 
-Dhruva's EGO package pin and internal metadata version use different numbering. Verification now validates the known EGO v16 archive against the expected internal metadata rather than reporting a false mismatch.
+Follow-up validation established that Dhruva runtime version 17 / 2.0 is not the EGO v16 package. The reproducible source for the accepted workstation state is upstream GitHub commit `f8121f68fcef48c0324e8cd87fd30bf9a2131962`. The restore path therefore uses an explicit source lock instead of mapping runtime version 17 to the older EGO v16 archive.
 
 ### GNOME wallpaper
 

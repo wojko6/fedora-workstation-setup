@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import csv
+import re
 import sys
 from collections import Counter
 from pathlib import Path
@@ -9,8 +10,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ENABLED = ROOT / "gnome" / "enabled-extensions.txt"
 INVENTORY = ROOT / "gnome" / "extensions-inventory.tsv"
+LOCK = ROOT / "gnome" / "extensions-lock.tsv"
 
 EXPECTED_HEADER = ["uuid", "name", "version", "shell_versions", "url", "location"]
+EXPECTED_LOCK_HEADER = ["uuid", "runtime_version", "source", "source_ref"]
 REJECTED_EXTENSIONS = {
     "mediacontrols@cliffniff.github.com": "rejected for the GNOME 50 baseline",
     "dash2dock-lite@icedman.github.com": "conflicts with the canonical Dhruva dock",
@@ -51,11 +54,27 @@ def load_inventory() -> tuple[list[str], list[dict[str, str]]]:
     return header, rows
 
 
+def load_lock() -> tuple[list[str], list[dict[str, str]]]:
+    if not LOCK.is_file():
+        fail(f"missing {LOCK.relative_to(ROOT)}")
+        return [], []
+
+    with LOCK.open(encoding="utf-8", newline="") as fh:
+        reader = csv.DictReader(fh, delimiter="\t")
+        header = reader.fieldnames or []
+        rows = [dict(row) for row in reader]
+    return header, rows
+
+
 enabled = load_enabled()
 header, rows = load_inventory()
+lock_header, lock_rows = load_lock()
 
 if header and header != EXPECTED_HEADER:
     fail(f"unexpected inventory header: {header!r}")
+
+if lock_header and lock_header != EXPECTED_LOCK_HEADER:
+    fail(f"unexpected extension lock header: {lock_header!r}")
 
 for uuid, count in Counter(enabled).items():
     if count != 1:
@@ -73,6 +92,56 @@ for uuid, count in Counter(inventory_uuids).items():
         fail(f"duplicate inventory UUID: {uuid} ({count} rows)")
 
 inventory_by_uuid = {row.get("uuid", "").strip(): row for row in rows if row.get("uuid", "").strip()}
+
+lock_uuids = [row.get("uuid", "").strip() for row in lock_rows]
+
+for uuid, count in Counter(lock_uuids).items():
+    if not uuid:
+        fail("extension lock contains an empty UUID")
+    elif count != 1:
+        fail(f"duplicate extension lock UUID: {uuid} ({count} rows)")
+
+for row in lock_rows:
+    uuid = row.get("uuid", "").strip()
+    runtime_version = row.get("runtime_version", "").strip()
+    source = row.get("source", "").strip()
+    source_ref = row.get("source_ref", "").strip()
+
+    if not uuid:
+        continue
+
+    inventory_row = inventory_by_uuid.get(uuid)
+
+    if inventory_row is None:
+        fail(f"extension lock UUID missing from inventory: {uuid}")
+        continue
+
+    if uuid not in enabled:
+        fail(f"extension lock UUID is not in enabled desired state: {uuid}")
+
+    inventory_version = inventory_row.get("version", "").strip()
+    if runtime_version != inventory_version:
+        fail(
+            f"extension lock runtime mismatch: {uuid}: "
+            f"lock={runtime_version!r} inventory={inventory_version!r}"
+        )
+
+    location = inventory_row.get("location", "").strip()
+    if not location.startswith(USER_PREFIX):
+        fail(f"extension lock must target a user extension: {uuid}")
+
+    if source == "github-commit":
+        if not re.fullmatch(r"[0-9a-fA-F]{40}", source_ref):
+            fail(f"invalid GitHub commit pin: {uuid}: {source_ref!r}")
+
+        url = inventory_row.get("url", "").strip()
+        if not url.startswith("https://github.com/"):
+            fail(f"GitHub commit source requires GitHub inventory URL: {uuid}: {url!r}")
+    elif source == "ego":
+        if source_ref:
+            fail(f"EGO lock source_ref must be empty: {uuid}: {source_ref!r}")
+    else:
+        fail(f"unsupported extension lock source: {uuid}: {source!r}")
 
 for uuid in enabled:
     if uuid not in inventory_by_uuid:
@@ -123,6 +192,8 @@ if errors:
 print("=== REPOSITORY CONSISTENCY: PASS ===")
 print(f"enabled_extensions={len(enabled)}")
 print(f"inventory_rows={len(rows)}")
+print(f"extension_lock_rows={len(lock_rows)}")
 print("PASS: enabled extension list and inventory are internally consistent")
+print("PASS: extension source locks are internally consistent")
 print("PASS: rejected/conflicting extensions are absent from desired state")
 print("PASS: user extension pins and portable inventory paths are valid")

@@ -646,14 +646,13 @@ if [[ -f "$EXT_INVENTORY" ]]; then
     ext_dir="$HOME/.local/share/gnome-shell/extensions/$uuid"; metadata="$ext_dir/metadata.json"
     if [[ ! -f "$metadata" ]]; then bad "required extension metadata missing: $uuid"; continue; fi
     current="$(gnome-extensions info "$uuid" 2>/dev/null | sed -nE 's/^[[:space:]]*(Version|Wersja):[[:space:]]*//p' | head -n 1)"
-    case "$uuid:$expected_version" in
-      dhruva@narkagni:16)
-        metadata_version="$(sed -nE 's/^[[:space:]]*"version"[[:space:]]*:[[:space:]]*([0-9]+),?[[:space:]]*$/\1/p' "$metadata" | head -n 1)"
-        metadata_name="$(sed -nE 's/^[[:space:]]*"version-name"[[:space:]]*:[[:space:]]*"([^"]+)"[,]?[[:space:]]*$/\1/p' "$metadata" | head -n 1)"
-        if [[ "$metadata_version" == "17" && "$metadata_name" == "2.0" ]]; then ok "extension archive $uuid = EGO v16 (metadata 2.0/17)"; else bad "extension archive $uuid: expected EGO v16 metadata 2.0/17, found ${metadata_name:-?}/${metadata_version:-?}"; fi ;;
-      *)
-        if [[ -z "$current" ]]; then bad "required extension version unavailable: $uuid"; elif [[ "$current" == "$expected_version" || "$current" =~ \("$expected_version"\)$ ]]; then ok "extension version $uuid = $expected_version"; else bad "extension version $uuid: expected $expected_version, found $current"; fi ;;
-    esac
+    if [[ -z "$current" ]]; then
+      bad "required extension version unavailable: $uuid"
+    elif [[ "$current" == "$expected_version" || "$current" =~ \("$expected_version"\)$ ]]; then
+      ok "extension version $uuid = $expected_version"
+    else
+      bad "extension version $uuid: expected $expected_version, found $current"
+    fi
   done < "$EXT_INVENTORY"
 else bad "extension inventory missing"; fi
 echo
