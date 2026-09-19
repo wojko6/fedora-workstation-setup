@@ -87,6 +87,7 @@ Final physical-host verification:
 
 ```text
 PASS=226 WARN=0 FAIL=0 SKIP=0
+```
 
 ## Security validation
 
