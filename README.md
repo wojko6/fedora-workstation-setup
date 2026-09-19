@@ -25,7 +25,7 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 After Freon was intentionally removed, Advanced Media Controller v31 / 6.5 was added to desired state, and the final AppIndicator, Vitals, ddterm, and Advanced Media Controller localization checks were integrated into the main verifier, the physical workstation completed the final acceptance run with:
 
 ```text
-PASS=222 WARN=0 FAIL=0 SKIP=0
+PASS=225 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
@@ -47,11 +47,11 @@ The desired state includes reproducible Polish localization support for selected
 
 The repository also manages localization for Just Perfection v37, Spotlight v15 / 2026.15, Space Bar v39, AppIndicator v64, Vitals v85, ddterm v72, and Advanced Media Controller v31 / 6.5. Space Bar uses an exact-version controlled source localization because its audited release has no usable gettext path. Advanced Media Controller uses a complete 276-entry Polish gettext catalog pinned to the exact v31 / 6.5 build and verified with a runtime gettext smoke test. Vitals, AppIndicator, and ddterm use minimal completion strategies over demonstrated upstream gaps.
 
-All version-specific localization installers are invoked by `scripts/install-localizations.sh`, and their dedicated checks are integrated into the main `scripts/verify.sh`. The complete localization set has passed the final physical-host verifier with zero warnings and zero failures. Full details are tracked in [`docs/LOCALIZATION-STATUS.md`](docs/LOCALIZATION-STATUS.md).
+All 12 version-specific localization installers are invoked by `scripts/install-localizations.sh`, and their dedicated checks are integrated into the main `scripts/verify.sh`. The complete localization set has passed the final physical-host verifier with zero warnings and zero failures. Full details are tracked in [`docs/LOCALIZATION-STATUS.md`](docs/LOCALIZATION-STATUS.md).
 
 Dhruva's dock state is also reproducible. The repository stores a sanitized desired dock order and application-folder definition in `gnome/dhruva/dock-state.json`; `scripts/install-dhruva-config.sh` restores that state after the GNOME configuration stage, and `scripts/verify.sh` detects drift. Machine-specific paths and private local folder state are intentionally excluded.
 
-See [`PROJECT-STATUS.md`](PROJECT-STATUS.md) for the current acceptance and security-validation status, [`docs/CLEAN-ROOM-RESTORE-REPORT.md`](docs/CLEAN-ROOM-RESTORE-REPORT.md) for the clean-room validation report, [`docs/gnome-extension-audit-2026-09-17.md`](docs/gnome-extension-audit-2026-09-17.md) for the GNOME extension refresh, [`docs/LOCALIZATION-STATUS.md`](docs/LOCALIZATION-STATUS.md) for Polish localization coverage, and [`docs/DISASTER-RECOVERY.md`](docs/DISASTER-RECOVERY.md) for the offline disaster-recovery strategy.
+See [`PROJECT-STATUS.md`](PROJECT-STATUS.md) for the current acceptance and security-validation status, [`docs/README.md`](docs/README.md) for the documentation index, [`docs/CLEAN-ROOM-RESTORE-REPORT.md`](docs/CLEAN-ROOM-RESTORE-REPORT.md) for the clean-room validation report, [`docs/gnome-extension-audit-2026-09-17.md`](docs/gnome-extension-audit-2026-09-17.md) for the GNOME extension refresh, [`docs/LOCALIZATION-STATUS.md`](docs/LOCALIZATION-STATUS.md) for Polish localization coverage, and [`docs/DISASTER-RECOVERY.md`](docs/DISASTER-RECOVERY.md) for the offline disaster-recovery strategy.
 
 ## Third-party components and project scope
 
@@ -82,6 +82,7 @@ cd fedora-workstation-setup
 - `patches/` — local changes that cannot be expressed as normal settings
 - `scripts/` — installation and verification stages
 - `docs/` — restore, validation, recovery, and maintenance documentation
+- `daily/` — dated end-of-day worklogs and accepted daily checkpoints
 
 ## Verification
 
@@ -107,4 +108,4 @@ bash scripts/audit-extension-runtime.sh
 
 ## Status
 
-**Validated and accepted for the Fedora 44 / GNOME 50.4 baseline.** The current physical-workstation verification completed with `PASS=222 WARN=0 FAIL=0 SKIP=0` and `VERIFY_RC=0`. The accepted state includes Advanced Media Controller v31 / 6.5 plus the completed AppIndicator, Vitals, ddterm, and Advanced Media Controller Polish localization checks integrated into the normal restore and verification flow. Future Fedora or GNOME upgrades should be followed by another clean-room and physical-host validation before declaring the new baseline accepted.
+**Validated and accepted for the Fedora 44 / GNOME 50.4 baseline.** The current physical-workstation verification completed with `PASS=225 WARN=0 FAIL=0 SKIP=0` and `VERIFY_RC=0`. The accepted state includes Advanced Media Controller v31 / 6.5 plus the completed AppIndicator, Vitals, ddterm, and Advanced Media Controller Polish localization checks integrated into the normal restore and verification flow. Future Fedora or GNOME upgrades should be followed by another clean-room and physical-host validation before declaring the new baseline accepted.
