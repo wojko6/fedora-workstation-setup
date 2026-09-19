@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Clean-room restore validated; physical workstation accepted after final localization verification  
+**Status:** Day closed 2026-09-19; Recovery and Stability Gates passed; physical workstation accepted after final localization verification  
 **Baseline:** Fedora 44 · GNOME Shell 50.4 · Wayland  
 **Validation environments:** Oracle VirtualBox clean-room VM and physical Lenovo Legion 5 15ACH6H
 
@@ -23,7 +23,7 @@ The eight `SKIP` results are intentional environment-specific exclusions rather 
 After Freon was intentionally removed, Advanced Media Controller v31 / 6.5 was added to desired state, and the final AppIndicator, Vitals, ddterm, and Advanced Media Controller localization checks were wired into the main restore/verification flow, the final physical-workstation verifier run completed with:
 
 ```text
-PASS=222 WARN=0 FAIL=0 SKIP=0
+PASS=225 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
@@ -50,6 +50,8 @@ The physical-host desired state includes:
 NordVPN, gNordVPN-Local, and Freon are intentionally absent from the current desired state. Tailscale remains the supported overlay/VPN component tracked by this repository.
 
 Advanced Media Controller v31 / 6.5 is now a required user extension in desired state. Its exact runtime version and complete Polish localization are version-pinned and verified by repository tooling.
+
+Window List was removed from desired state on 2026-09-19 after the Fedora package was removed. gNordVPN-Local is intentionally out of scope because NordVPN is not installed; Tailscale remains the supported overlay/VPN component tracked by this repository.
 
 Authentication state, network identities, credentials, private signing material, Tailscale node identity, and other private state remain intentionally outside Git.
 
@@ -128,7 +130,7 @@ AppIndicator v64 uses a five-entry completion overlay over Fedora's packaged Pol
 
 Advanced Media Controller v31 / 6.5 ships no Polish catalog in the tested archive. The repository carries a complete **276-entry** Polish gettext catalog generated against the exact v31 string template. Its installer/verifier checks version 31, version name 6.5, gettext domain, audited file fingerprints, translation completeness, byte-for-byte installed `.mo` equality, and a runtime gettext smoke test requiring `General` to resolve to `Ogólne`. The preferences UI was visually confirmed in Polish on the physical workstation.
 
-All version-specific localization installers are invoked by `scripts/install-localizations.sh`. Dedicated version-pinned localization verifiers are integrated into the main `scripts/verify.sh`, and the complete localization set passed the final physical-host verifier with zero warnings and zero failures.
+All 12 version-specific localization installers are invoked by `scripts/install-localizations.sh`. Dedicated version-pinned localization verifiers are integrated into the main `scripts/verify.sh`, and the complete localization set passed the final physical-host verifier with zero warnings and zero failures.
 
 ## Important reproducibility decisions
 
@@ -140,6 +142,12 @@ All version-specific localization installers are invoked by `scripts/install-loc
 - Firewalld policy follows the active/default-route network interface instead of blindly assuming the global default zone.
 - Android-side Tailscale/KDE Connect split-tunneling is documented but not managed by Fedora automation.
 - Third-party extensions remain authored and licensed by their upstream projects; this repository owns only the integration, configuration, localization overlays, validation, and documentation it adds.
+
+## End-of-day stability closure — 2026-09-19
+
+The 2026-09-19 Recovery and Stability Gates were completed without unresolved warnings or failures. Recovery pipeline review found that Background Logo, Browser Switcher, and Dhruva installers existed but were not connected to the main localization pipeline; all three were added, bringing the pipeline to 12/12 localization installers. Repository consistency passed with 26 enabled extensions and 27 inventory rows. The final physical-host verifier completed with `PASS=225 WARN=0 FAIL=0 SKIP=0`. GNOME Keyring i18n verification completed with `PASS=7 WARN=0 FAIL=0`. Final `git diff --check` was clean and the repository was synchronized with `origin/main`.
+
+The detailed daily record is `daily/2026/09/2026-09-19.md`.
 
 ## Repository validation
 
@@ -155,7 +163,7 @@ bash scripts/verify.sh
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification after the accepted security, networking, extension, and localization changes. The current physical desired state is fully accepted at `PASS=222 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
+The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification after the accepted security, networking, extension, and localization changes. The current physical desired state is fully accepted at `PASS=225 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 
@@ -179,4 +187,4 @@ The tested baseline is considered accepted when required packages, repositories,
 
 `scripts/verify.sh` must report zero `WARN` and zero `FAIL` on the validated physical target.
 
-**Current accepted physical result: `PASS=222 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
+**Current accepted physical result: `PASS=225 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
