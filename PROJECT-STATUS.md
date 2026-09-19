@@ -23,7 +23,7 @@ The eight `SKIP` results are intentional environment-specific exclusions rather 
 After Freon was intentionally removed, Advanced Media Controller v31 / 6.5 was added to desired state, and the final Vitals, ddterm, and Advanced Media Controller localization checks were wired into the main restore/verification flow, the final physical-workstation verifier run completed with:
 
 ```text
-PASS=225 WARN=0 FAIL=0 SKIP=0
+PASS=226 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
@@ -163,7 +163,7 @@ All 11 version-specific localization installers are invoked by `scripts/install-
 
 ## End-of-day stability closure — 2026-09-19
 
-The 2026-09-19 Recovery and Stability Gates were completed without unresolved warnings or failures. Recovery pipeline review found that Background Logo, Browser Switcher, and Dhruva installers existed but were not connected to the main localization pipeline; all three were added, to the localization pipeline. After the later cleanup, the current pipeline contains 11 version-specific localization installers. Repository consistency passes with 26 enabled extensions and 26 inventory rows. The final physical-host verifier completed with `PASS=225 WARN=0 FAIL=0 SKIP=0`. GNOME Keyring i18n verification completed with `PASS=7 WARN=0 FAIL=0`. Final `git diff --check` was clean and the repository was synchronized with `origin/main`.
+The 2026-09-19 Recovery and Stability Gates were completed without unresolved warnings or failures. Recovery pipeline review found that Background Logo, Browser Switcher, and Dhruva installers existed but were not connected to the main localization pipeline; all three were added, to the localization pipeline. After the later cleanup, the current pipeline contains 11 version-specific localization installers. Repository consistency passes with 26 enabled extensions and 26 inventory rows. The final physical-host verifier completed with `PASS=226 WARN=0 FAIL=0 SKIP=0`. GNOME Keyring i18n verification completed with `PASS=7 WARN=0 FAIL=0`. Final `git diff --check` was clean and the repository was synchronized with `origin/main`.
 
 ## Repository validation
 
@@ -179,7 +179,7 @@ bash scripts/verify.sh
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification after the accepted security, networking, extension, and localization changes. The current physical desired state is fully accepted at `PASS=225 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
+The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification after the accepted security, networking, extension, and localization changes. The current physical desired state is fully accepted at `PASS=226 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 

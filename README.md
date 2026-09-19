@@ -25,7 +25,7 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 After Freon was intentionally removed, Advanced Media Controller v31 / 6.5 was added to desired state, and the final Vitals, ddterm, and Advanced Media Controller localization checks were integrated into the main verifier, the physical workstation completed the final acceptance run with:
 
 ```text
-PASS=225 WARN=0 FAIL=0 SKIP=0
+PASS=226 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
