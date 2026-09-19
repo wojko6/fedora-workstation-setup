@@ -145,9 +145,6 @@ The final corrected catalog was installed on the physical Fedora workstation and
 
 `launch-new-instance@gnome-shell-extensions.gcampax.github.com` is supplied by Fedora's GNOME Shell Extensions package. The exact GNOME 50 runtime has no interactive preferences UI and no user-visible runtime strings requiring a repository translation. **No repository localization is required.**
 
-### Window List
-
-`window-list@gnome-shell-extensions.gcampax.github.com` uses the shared `gnome-shell-extensions` gettext domain. The GNOME 50 Polish catalog contains Polish translations for the audited Window List runtime and preferences strings. **No duplicate repository localization is required.**
 
 ## Physical verification state
 

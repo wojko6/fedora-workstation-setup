@@ -26,4 +26,3 @@ space-bar@luchrioh	Space Bar	39	50	https://github.com/christopher-l/space-bar	~/
 spotlight@nin	Spotlight	15	45,46,47,48,49,50,51	https://github.com/itsnin/spotlight	~/.local/share/gnome-shell/extensions/spotlight@nin
 tilingshell@ferrarodomenico.com	Tiling Shell	76	45,46,47,48,49,50	https://github.com/domferr/tilingshell	~/.local/share/gnome-shell/extensions/tilingshell@ferrarodomenico.com
 user-theme@gnome-shell-extensions.gcampax.github.com	User Themes	79	50	https://gitlab.gnome.org/GNOME/gnome-shell-extensions	~/.local/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com
-window-list@gnome-shell-extensions.gcampax.github.com	Window List		50	https://gitlab.gnome.org/GNOME/gnome-shell-extensions	/usr/share/gnome-shell/extensions/window-list@gnome-shell-extensions.gcampax.github.com
