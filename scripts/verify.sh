@@ -642,10 +642,20 @@ if [[ -f "$EXT_INVENTORY" ]]; then
     esac
   done < "$EXT_INVENTORY"
 else bad "extension inventory missing"; fi
+echo
+echo "=== GNOME KEYRING I18N ==="
 
+KEYRING_VERIFY="$ROOT_DIR/scripts/verify-gnome-keyring-i18n.sh"
+
+if [[ ! -x "$KEYRING_VERIFY" ]]; then
+  bad "GNOME Keyring i18n verifier missing or not executable"
+elif "$KEYRING_VERIFY"; then
+  ok "GNOME Keyring i18n verification passed"
+else
+  bad "GNOME Keyring i18n verification failed"
+fi
 echo
 echo "=== RECOVERY READINESS ==="
-
 if [[ -d "$ROOT_DIR/docs" ]]; then
   ok "documentation directory available"
 else
