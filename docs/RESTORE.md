@@ -13,7 +13,7 @@ The repository must not contain passwords, Wi-Fi PSKs, private SSH keys, authent
 1. Install Fedora and fully update the base system.
 2. Clone this repository.
 3. Review the manifests and machine-specific variables.
-4. Run `./install.sh` once the repository status marks all required stages as ready.
+4. Run `./install.sh`.
 5. Restore private user data from a separate encrypted backup.
 6. Reboot or sign out/in when GNOME changes require it.
 7. Run `scripts/verify.sh` and compare the result with the documented baseline.
@@ -22,6 +22,8 @@ The repository must not contain passwords, Wi-Fi PSKs, private SSH keys, authent
 
 Expected source workstation characteristics include Fedora 44, GNOME 50.4, Wayland, and Wi-Fi power saving disabled for the selected NetworkManager Wi-Fi profile.
 
-## Important
+## Acceptance and verification
 
-This repository is under construction. A successful script exit does not yet mean the workstation has been completely reproduced. The README tracks the current implementation status.
+The Fedora 44 / GNOME 50.4 restore path has passed clean-room validation and physical-host verification. `install.sh` restores the reviewed desired state, including the centralized localization pipeline. A successful installer exit is not the final acceptance signal: after the required GNOME session restart, run `bash scripts/verify.sh` and require zero `WARN` and zero `FAIL` for the validated physical target.
+
+Private user data, credentials, browser profiles, password-manager data, Tailscale node identity, and other secrets remain outside this repository and must be restored separately.
