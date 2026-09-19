@@ -644,6 +644,26 @@ if [[ -f "$EXT_INVENTORY" ]]; then
 else bad "extension inventory missing"; fi
 
 echo
+echo "=== RECOVERY READINESS ==="
+
+if [[ -d "$ROOT_DIR/docs" ]]; then
+  ok "documentation directory available"
+else
+  bad "documentation directory missing"
+fi
+
+if git -C "$ROOT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  ok "repository integrity available"
+else
+  bad "repository metadata unavailable"
+fi
+
+if [[ -f "$ROOT_DIR/PROJECT-STATUS.md" ]]; then
+  ok "project status documentation available"
+else
+  warn "PROJECT-STATUS.md missing"
+fi
+echo
 echo "=== SUMMARY ==="
 printf 'PASS=%d WARN=%d FAIL=%d SKIP=%d\n' "$pass" "$warn" "$fail" "$skip"
 (( fail == 0 ))
