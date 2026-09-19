@@ -20,9 +20,6 @@ stages=(
   scripts/install-extensions.sh
   scripts/setup-ddcutil.sh
   scripts/install-localizations.sh
-  scripts/install-background-logo-localization.sh
-  scripts/install-browser-switcher-localization.sh
-  scripts/install-dhruva-localization.sh
   scripts/install-launchers.sh
   scripts/restore-gnome.sh
   scripts/install-dhruva-config.sh
