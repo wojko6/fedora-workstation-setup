@@ -10,8 +10,38 @@ if [[ ! -r /etc/fedora-release ]]; then
   exit 1
 fi
 
+EXPECTED_FEDORA="44"
+EXPECTED_GNOME_MAJOR="50"
+
+fedora_version="$(rpm -E %fedora)"
+if [[ "$fedora_version" != "$EXPECTED_FEDORA" ]]; then
+  echo "ERROR: supported Fedora version is $EXPECTED_FEDORA, found $fedora_version." >&2
+  exit 1
+fi
+
+if ! command -v gnome-shell >/dev/null 2>&1; then
+  echo "ERROR: gnome-shell is required." >&2
+  exit 1
+fi
+
+gnome_version="$(gnome-shell --version 2>/dev/null)"
+
+if [[ "$gnome_version" =~ ([0-9]+)(\.[0-9]+)* ]]; then
+  gnome_major="${BASH_REMATCH[1]}"
+else
+  echo "ERROR: unable to determine GNOME Shell version from: $gnome_version" >&2
+  exit 1
+fi
+
+if [[ "$gnome_major" != "$EXPECTED_GNOME_MAJOR" ]]; then
+  echo "ERROR: supported GNOME major is $EXPECTED_GNOME_MAJOR, found ${gnome_major:-unknown}." >&2
+  exit 1
+fi
+
 log "Fedora workstation setup"
 cat /etc/fedora-release
+printf 'Validated baseline: Fedora %s / GNOME %s\n' \
+  "$fedora_version" "$gnome_version"
 
 stages=(
   scripts/setup-repositories.sh
