@@ -105,7 +105,7 @@ Repository-managed targets currently include:
 - GSConnect v72 completion plus Shell gettext-domain fix;
 - Tiling Shell v76 / 17.3 completion overlay;
 - Just Perfection v37;
-- Spotlight v14 / 2026.11;
+- Spotlight v15 / 2026.15;
 - Space Bar v39;
 - AppIndicator v64 completion;
 - Vitals v85 completion;
@@ -120,7 +120,7 @@ Tiling Shell v76 / 17.3 was audited against the exact installed version. Fifteen
 
 Just Perfection v37 is pinned to the tested extension version and includes repository translation coverage for strings missing from the stale upstream template.
 
-Spotlight v14 / 2026.11 does not ship a localization implementation in the audited upstream release, so the repository adds controlled gettext wiring and version-pinned source patches.
+Spotlight v15 / 2026.15 does not ship a localization implementation in the audited upstream release, so the repository adds controlled gettext wiring and version-pinned source patches.
 
 Space Bar v39 lacks a usable upstream localization path for the audited release. The repository applies an exact-version controlled localization patch covering 109 translated source patterns across preferences, custom-style dialogs, keyboard-shortcut dialogs, and the runtime panel menu.
 

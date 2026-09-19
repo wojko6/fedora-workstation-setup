@@ -18,7 +18,7 @@ Repository-managed localization/integration currently covers:
 - GSConnect v72 completion and Shell gettext-domain fix
 - Tiling Shell v76 / 17.3 completion overlay
 - Just Perfection v37 full Polish localization
-- Spotlight v14 / 2026.11 Polish localization and gettext integration
+- Spotlight v15 / 2026.15 Polish localization and gettext integration
 - Space Bar v39 controlled Polish localization
 - AppIndicator v64 five-entry Polish completion
 - Vitals v85 Polish completion overlay
@@ -73,9 +73,9 @@ Upstream does not provide complete Polish coverage for this baseline. The reposi
 
 The translation was installed and visually checked on the physical workstation.
 
-## Spotlight v14 / 2026.11
+## Spotlight v15 / 2026.15
 
-The physical workstation reports **Spotlight v14**, version name **2026.11**. The audited upstream source does not provide a locale tree, Polish catalog, or `gettext-domain`; preferences strings are embedded directly in source.
+The physical workstation reports **Spotlight v15**, version name **2026.15**. The audited upstream source does not provide a locale tree, Polish catalog, or `gettext-domain`; preferences strings are embedded directly in source.
 
 The repository therefore carries a controlled exact-version localization. `localization/spotlight/pl.po` contains the audited Polish strings, four source patches expose the preferences UI through gettext, and `scripts/install-spotlight-localization.sh` adds `"gettext-domain": "spotlight"`, compiles `spotlight.mo`, and keeps a version-specific pristine backup.
 

@@ -16,7 +16,7 @@
      group.add(new Adw.ActionRow({
 -        title: 'Version',
 +        title: _('Version'),
-         subtitle: '2026.11',
+         subtitle: '2026.15',
      }));
      group.add(new Adw.ActionRow({
 -        title: 'License',

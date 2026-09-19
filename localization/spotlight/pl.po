@@ -1,9 +1,9 @@
-# Polish translation for Spotlight v14 / 2026.11.
+# Polish translation for Spotlight v15 / 2026.15.
 # This file is distributed under the same license as the Spotlight extension.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Spotlight 2026.11\n"
+"Project-Id-Version: Spotlight 2026.15\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2026-09-17 00:00+0200\n"
 "Last-Translator: Fedora Workstation Setup contributors\n"

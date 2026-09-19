@@ -23,7 +23,7 @@ launch-new-instance@gnome-shell-extensions.gcampax.github.com	Launch New Instanc
 monitorSmartSaver@pic16f877ccs.github.com	Monitor Smart Saver	3	47,48,49,50	https://github.com/pic16f877ccs/Monitor-smart-saver	~/.local/share/gnome-shell/extensions/monitorSmartSaver@pic16f877ccs.github.com
 places-menu@gnome-shell-extensions.gcampax.github.com	Places Status Indicator		50	https://gitlab.gnome.org/GNOME/gnome-shell-extensions	/usr/share/gnome-shell/extensions/places-menu@gnome-shell-extensions.gcampax.github.com
 space-bar@luchrioh	Space Bar	39	50	https://github.com/christopher-l/space-bar	~/.local/share/gnome-shell/extensions/space-bar@luchrioh
-spotlight@nin	Spotlight	14	45,46,47,48,49,50,51	https://github.com/itsnin/spotlight	~/.local/share/gnome-shell/extensions/spotlight@nin
+spotlight@nin	Spotlight	15	45,46,47,48,49,50,51	https://github.com/itsnin/spotlight	~/.local/share/gnome-shell/extensions/spotlight@nin
 tilingshell@ferrarodomenico.com	Tiling Shell	76	45,46,47,48,49,50	https://github.com/domferr/tilingshell	~/.local/share/gnome-shell/extensions/tilingshell@ferrarodomenico.com
 user-theme@gnome-shell-extensions.gcampax.github.com	User Themes	79	50	https://gitlab.gnome.org/GNOME/gnome-shell-extensions	~/.local/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com
 window-list@gnome-shell-extensions.gcampax.github.com	Window List		50	https://gitlab.gnome.org/GNOME/gnome-shell-extensions	/usr/share/gnome-shell/extensions/window-list@gnome-shell-extensions.gcampax.github.com

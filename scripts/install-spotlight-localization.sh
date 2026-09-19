@@ -4,15 +4,15 @@ set -Eeuo pipefail
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 UUID="spotlight@nin"
 DOMAIN="spotlight"
-EXPECTED_VERSION="14"
-EXPECTED_VERSION_NAME="2026.11"
+EXPECTED_VERSION="15"
+EXPECTED_VERSION_NAME="2026.15"
 SOURCE_PO="$ROOT_DIR/localization/spotlight/pl.po"
 PATCH_DIR="$ROOT_DIR/patches/gnome-extensions/spotlight"
 EXT_DIR="$HOME/.local/share/gnome-shell/extensions/$UUID"
 METADATA="$EXT_DIR/metadata.json"
 LOCALE_DIR="$EXT_DIR/locale/pl/LC_MESSAGES"
 TARGET_MO="$LOCALE_DIR/$DOMAIN.mo"
-BACKUP_DIR="$EXT_DIR/.localization-backup-v14-2026.11"
+BACKUP_DIR="$EXT_DIR/.localization-backup-v15-2026.15"
 
 for cmd in python3 msgfmt patch; do
   command -v "$cmd" >/dev/null 2>&1 || {
@@ -55,7 +55,7 @@ files=(
 
 for rel in "${files[@]}"; do
   [[ -f "$EXT_DIR/$rel" ]] || {
-    echo "FAIL: Spotlight v14 source file missing: $rel" >&2
+    echo "FAIL: Spotlight v15 source file missing: $rel" >&2
     exit 1
   }
 done
@@ -85,7 +85,7 @@ print(data.get("version", ""), data.get("version-name", ""))
 PY
 )
 if [[ "$backup_version" != "$EXPECTED_VERSION" || "$backup_version_name" != "$EXPECTED_VERSION_NAME" ]]; then
-  echo "FAIL: Spotlight localization backup does not match audited v14 / 2026.11" >&2
+  echo "FAIL: Spotlight localization backup does not match audited v15 / 2026.15" >&2
   exit 1
 fi
 
@@ -154,5 +154,5 @@ cmp -s "$tmp_dir/$DOMAIN.mo" "$TARGET_MO" || {
   exit 1
 }
 
-echo "PASS: Spotlight v14 / 2026.11 Polish localization installed"
+echo "PASS: Spotlight v15 / 2026.15 Polish localization installed"
 echo "Log out and back in before visually validating Spotlight preferences."

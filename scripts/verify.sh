@@ -355,7 +355,7 @@ if spotlight_verify_output="$(bash "$ROOT_DIR/scripts/verify-spotlight-localizat
   if grep -q '^SKIP:' <<<"$spotlight_verify_output"; then
     skip "Spotlight Polish localization: extension not installed"
   else
-    ok "Spotlight v14 / 2026.11 Polish localization matches repository"
+    ok "Spotlight v15 / 2026.15 Polish localization matches repository"
   fi
 else
   printf '%s\n' "$spotlight_verify_output"

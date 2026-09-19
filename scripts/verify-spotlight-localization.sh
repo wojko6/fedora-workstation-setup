@@ -4,15 +4,15 @@ set -Eeuo pipefail
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 UUID="spotlight@nin"
 DOMAIN="spotlight"
-EXPECTED_VERSION="14"
-EXPECTED_VERSION_NAME="2026.11"
+EXPECTED_VERSION="15"
+EXPECTED_VERSION_NAME="2026.15"
 EXPECTED_TRANSLATED="22"
 SOURCE_PO="$ROOT_DIR/localization/spotlight/pl.po"
 PATCH_DIR="$ROOT_DIR/patches/gnome-extensions/spotlight"
 EXT_DIR="$HOME/.local/share/gnome-shell/extensions/$UUID"
 METADATA="$EXT_DIR/metadata.json"
 TARGET_MO="$EXT_DIR/locale/pl/LC_MESSAGES/$DOMAIN.mo"
-BACKUP_DIR="$EXT_DIR/.localization-backup-v14-2026.11"
+BACKUP_DIR="$EXT_DIR/.localization-backup-v15-2026.15"
 
 if [[ ! -d "$EXT_DIR" ]]; then
   echo "SKIP: Spotlight is not installed: $UUID"
@@ -64,7 +64,7 @@ print(data.get("version", ""), data.get("version-name", ""))
 PY
 )
 [[ "$backup_version" == "$EXPECTED_VERSION" && "$backup_version_name" == "$EXPECTED_VERSION_NAME" ]] || {
-  echo "FAIL: Spotlight pristine backup does not match v14 / 2026.11" >&2
+  echo "FAIL: Spotlight pristine backup does not match v15 / 2026.15" >&2
   exit 1
 }
 
@@ -172,4 +172,4 @@ cmp -s "$tmp_dir/$DOMAIN.mo" "$TARGET_MO" || {
 }
 
 echo "Translated entries: $translated"
-echo "PASS: Spotlight v14 / 2026.11 Polish localization matches repository"
+echo "PASS: Spotlight v15 / 2026.15 Polish localization matches repository"
