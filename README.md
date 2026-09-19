@@ -82,7 +82,6 @@ cd fedora-workstation-setup
 - [`patches/`](patches/README.md) — local changes that cannot be expressed as normal settings
 - [`scripts/`](scripts/README.md) — installation, audit, and verification stages
 - [`docs/`](docs/README.md) — restore, validation, recovery, and maintenance documentation
-- [`daily/`](daily/README.md) — dated end-of-day worklogs and accepted daily checkpoints
 
 ## Verification
 
