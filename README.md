@@ -83,204 +83,39 @@ cd fedora-workstation-setup
 - [`scripts/`](scripts/README.md) — installation, audit, and verification stages
 - [`docs/`](docs/README.md) — restore, validation, recovery, and maintenance documentation
 
-```markdown
 ## Verification
 
 After restore and the required GNOME session restart:
 
 ```bash
-scripts/verify.sh
-The final physical workstation verification completed with:
+bash scripts/verify.sh
+```
 
-PASS=226
-WARN=0
-FAIL=0
-SKIP=0
+Current accepted physical-workstation result:
 
-## Overview
+```text
+PASS=226 WARN=0 FAIL=0 SKIP=0
+VERIFY_RC=0
+```
 
-This repository defines a declarative workstation rebuild process.
+Repository-only validation can be run with:
 
-The goal is to recreate a validated Fedora workstation after a clean installation without restoring an opaque system image.
+```bash
+bash scripts/check-static.sh
+python3 scripts/validate-repository.py
+```
 
-The pipeline manages:
+The historical clean-room result and environment-specific SKIP interpretation are documented in [`docs/CLEAN-ROOM-RESTORE-REPORT.md`](docs/CLEAN-ROOM-RESTORE-REPORT.md).
 
-- package installation,
-- external repositories,
-- Flatpak applications,
-- GNOME configuration,
-- GNOME extensions,
-- Polish localization fixes,
-- desktop launchers,
-- network configuration,
-- firewall configuration,
-- security hardening,
-- automated verification.
+## Limitations
 
-## Current baseline
+This repository is a reproducible rebuild definition, not a full-disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, and private signing material remain outside Git.
 
-- Fedora 44
-- GNOME Shell 50.4
-- Wayland session
-- Tested on Lenovo Legion 5 15ACH6H
-- Wi-Fi adapter: Realtek RTL8852AE
+## Maintenance
 
-## Validation status
+After material Fedora, GNOME, kernel/NVIDIA, extension, localization, restore, or security-policy changes:
 
-The current workstation baseline has been validated using:
-
-- Oracle VirtualBox clean-room restore testing
-- Physical workstation verification
-
-GNOME extension management
-
-GNOME extensions are managed as controlled components.
-
-The repository tracks:
-
-extension inventory,
-version compatibility,
-installation state,
-runtime validation,
-configuration restore.
-
-Validated components include:
-
-ArcMenu
-Dhruva
-GSConnect
-Tiling Shell
-Just Perfection
-Spotlight
-Space Bar
-Vitals
-ddterm
-Advanced Media Controller
-
-Extension versions are pinned where required to maintain reproducibility.
-
-Localization engineering
-
-The repository provides version-specific Polish localization fixes where upstream support is incomplete or unavailable.
-
-Implemented solutions include:
-
-gettext catalog corrections,
-gettext domain fixes,
-metadata localization,
-deterministic .mo generation,
-automated verification.
-
-Validated localization targets include:
-
-ArcMenu
-Dhruva
-GSConnect
-Tiling Shell
-Just Perfection
-Spotlight
-Space Bar
-Vitals
-ddterm
-Advanced Media Controller
-
-All localization installers are integrated into:
-scripts/install-localizations.sh
-
-Verification is performed by:
-scripts/verify.sh
-
-Security hardening
-
-Implemented security controls include:
-
-LLMNR disabled,
-WSD discovery disabled,
-kernel hardening settings,
-dedicated KDE Connect firewall zone,
-Secure Boot validation,
-NVIDIA signed module verification.
-
-The project keeps security changes reproducible and validated.
-
-Network configuration
-
-Network changes are applied through controlled scripts.
-
-Implemented:
-
-deterministic Wi-Fi power-save configuration,
-firewall zone assignment,
-KDE Connect isolation.
-
-VPN / overlay networking:
-
-Tailscale is the supported overlay component tracked by this repository.
-
-NordVPN, gNordVPN-Local, and Freon are outside the current desired workstation state.
-
-Recovery and validation model
-
-The repository does not rely on manual confirmation only.
-
-Every important configuration change follows the workflow:
-
-Configuration change
-        |
-        v
-Automated verification
-        |
-        v
-Accepted desired state
-
-Validation checks include:
-
-installed packages,
-repositories,
-GNOME extensions,
-localization state,
-GNOME configuration,
-firewall configuration,
-security settings,
-recovery readiness.
-Engineering principles
-
-Key principles:
-
-configuration should be reproducible,
-every change should have validation,
-dependencies should be pinned where possible,
-documentation is part of infrastructure quality.
-Project status
-
-Version:
-v1.0-fedora44-gnome50-stable
-
-Current state:
-
-Validated Fedora Workstation baseline.
-
-The repository is ready for reproducible rebuild testing and further controlled improvements.
-
-Limitations
-
-This repository is not a full disk backup.
-
-The following remain outside Git:
-
-personal files,
-credentials,
-SSH private keys,
-Wi-Fi secrets,
-browser profiles,
-password manager data,
-Tailscale node identity,
-private signing material.
-Future work
-
-Planned maintenance:
-
-keep package and extension pins current,
-repeat clean-room restore tests after major Fedora/GNOME changes,
-maintain localization verification after extension updates,
-evaluate full-disk encryption during a future controlled reinstall.
+1. run repository static validation;
+2. run the full physical-host verifier;
+3. repeat clean-room restore testing when the restore path or supported baseline changes;
+4. update the documented accepted baseline only after those checks pass.
