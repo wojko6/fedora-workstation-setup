@@ -208,18 +208,32 @@ if [[ -n "${iface:-}" ]]; then
   if [[ -n "$wifi_profile" && "$wifi_profile" != "--" ]]; then
     saved_zone="$(nmcli -g connection.zone connection show "$wifi_profile" 2>/dev/null || true)"
 
-    if [[ "$saved_zone" == "public" ]]; then
-      ok "Wi-Fi NetworkManager profile uses firewalld zone public"
+    expected_zone="workstation-kdeconnect"
+
+    if [[ "$saved_zone" == "$expected_zone" ]]; then
+      ok "Wi-Fi NetworkManager profile uses dedicated firewalld zone $expected_zone"
     else
-      bad "Wi-Fi NetworkManager profile firewalld zone is not public"
+      bad "Wi-Fi NetworkManager profile firewalld zone: expected $expected_zone, found ${saved_zone:-none}"
     fi
 
     active_zone="$(firewall-cmd --get-zone-of-interface="$iface" 2>/dev/null || true)"
 
-    if [[ "$active_zone" == "public" ]]; then
-      ok "active Wi-Fi interface uses firewalld zone public"
+    if [[ "$active_zone" == "$expected_zone" ]]; then
+      ok "active Wi-Fi interface uses dedicated firewalld zone $expected_zone"
     else
-      bad "active Wi-Fi interface firewalld zone is not public"
+      bad "active Wi-Fi interface firewalld zone: expected $expected_zone, found ${active_zone:-none}"
+    fi
+
+    if firewall-cmd --zone="$expected_zone" --query-service=kdeconnect >/dev/null 2>&1; then
+      ok "KDE Connect enabled in dedicated firewalld zone $expected_zone"
+    else
+      bad "KDE Connect missing from dedicated firewalld zone $expected_zone"
+    fi
+
+    if firewall-cmd --zone=public --query-service=kdeconnect >/dev/null 2>&1; then
+      bad "KDE Connect remains enabled in shared firewalld zone public"
+    else
+      ok "KDE Connect absent from shared firewalld zone public"
     fi
   else
     warn "Active Wi-Fi NetworkManager profile unavailable"
