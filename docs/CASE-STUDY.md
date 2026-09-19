@@ -35,8 +35,8 @@ The project solves this by introducing a declarative restore pipeline with autom
 # Architecture
 
 The setup pipeline is divided into independent stages:
+```text
 install.sh
-
 ├── Package installation
 ├── External repositories
 ├── Flatpak applications
@@ -47,6 +47,7 @@ install.sh
 ├── Network configuration
 ├── Firewall configuration
 └── Security hardening
+```
 
 After installation, the system is validated by:
 scripts/verify.sh
