@@ -83,15 +83,19 @@ cd fedora-workstation-setup
 - [`scripts/`](scripts/README.md) — installation, audit, and verification stages
 - [`docs/`](docs/README.md) — restore, validation, recovery, and maintenance documentation
 
+```markdown
 ## Verification
 
 After restore and the required GNOME session restart:
 
 ```bash
-bash scripts/verify.sh
-# Fedora Workstation Setup
+scripts/verify.sh
+The final physical workstation verification completed with:
 
-Reproducible setup and validation pipeline for Fedora Workstation.
+PASS=226
+WARN=0
+FAIL=0
+SKIP=0
 
 ## Overview
 
@@ -307,5 +311,3 @@ keep package and extension pins current,
 repeat clean-room restore tests after major Fedora/GNOME changes,
 maintain localization verification after extension updates,
 evaluate full-disk encryption during a future controlled reinstall.
-
-```bash
