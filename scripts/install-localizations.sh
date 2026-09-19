@@ -88,6 +88,18 @@ install_translation \
     "monitor-smart-saver"
 
 echo
+echo "=== POLISH LOCALIZATION: Background Logo ==="
+bash "$ROOT_DIR/scripts/install-background-logo-localization.sh"
+
+echo
+echo "=== POLISH LOCALIZATION: Browser Switcher ==="
+bash "$ROOT_DIR/scripts/install-browser-switcher-localization.sh"
+
+echo
+echo "=== POLISH LOCALIZATION: Dhruva ==="
+bash "$ROOT_DIR/scripts/install-dhruva-localization.sh"
+
+echo
 echo "=== POLISH LOCALIZATION: GSConnect completion ==="
 bash "$ROOT_DIR/scripts/install-gsconnect-localization.sh"
 
