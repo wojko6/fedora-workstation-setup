@@ -147,8 +147,6 @@ All 12 version-specific localization installers are invoked by `scripts/install-
 
 The 2026-09-19 Recovery and Stability Gates were completed without unresolved warnings or failures. Recovery pipeline review found that Background Logo, Browser Switcher, and Dhruva installers existed but were not connected to the main localization pipeline; all three were added, bringing the pipeline to 12/12 localization installers. Repository consistency passed with 26 enabled extensions and 27 inventory rows. The final physical-host verifier completed with `PASS=225 WARN=0 FAIL=0 SKIP=0`. GNOME Keyring i18n verification completed with `PASS=7 WARN=0 FAIL=0`. Final `git diff --check` was clean and the repository was synchronized with `origin/main`.
 
-The detailed daily record is `daily/2026/09/2026-09-19.md`.
-
 ## Repository validation
 
 Repository-only validation is automated through `scripts/check-static.sh`, which is used both locally and by GitHub Actions. It covers Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON validation, and desired-state inventory consistency.
