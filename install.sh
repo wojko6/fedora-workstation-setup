@@ -62,12 +62,17 @@ stages=(
 
 for stage in "${stages[@]}"; do
   path="$ROOT_DIR/$stage"
-  if [[ -f "$path" ]]; then
-    log "Running $stage"
-    bash "$path"
-  else
-    printf 'SKIP: %s is not implemented yet.\n' "$stage"
+
+  if [[ ! -f "$path" || ! -r "$path" ]]; then
+    echo "ERROR: required setup stage is missing or unreadable: $stage" >&2
+    exit 1
   fi
+done
+
+for stage in "${stages[@]}"; do
+  path="$ROOT_DIR/$stage"
+  log "Running $stage"
+  bash "$path"
 done
 
 log "Setup stages finished"
