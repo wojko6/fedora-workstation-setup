@@ -75,14 +75,14 @@ cd fedora-workstation-setup
 
 - `packages/` — RPM and Flatpak package manifests
 - `gnome/` — GNOME and extension configuration
-- `localization/` — repository-managed translation sources
+- [`localization/`](localization/README.md) — repository-managed translation sources
 - `network/` — reproducible network fixes
 - `security/` — selected reproducible workstation hardening
 - `desktop/` — user launchers and desktop configuration
-- `patches/` — local changes that cannot be expressed as normal settings
-- `scripts/` — installation and verification stages
-- `docs/` — restore, validation, recovery, and maintenance documentation
-- `daily/` — dated end-of-day worklogs and accepted daily checkpoints
+- [`patches/`](patches/README.md) — local changes that cannot be expressed as normal settings
+- [`scripts/`](scripts/README.md) — installation, audit, and verification stages
+- [`docs/`](docs/README.md) — restore, validation, recovery, and maintenance documentation
+- [`daily/`](daily/README.md) — dated end-of-day worklogs and accepted daily checkpoints
 
 ## Verification
 
