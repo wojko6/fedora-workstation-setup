@@ -12,5 +12,5 @@
 +
 +bindtextdomain('arcmenu', ARCMENU_LOCALE_DIR);
  const {gettext: _} = domain('arcmenu');
- 
+
  export const DASH_TO_PANEL_UUID = 'dash-to-panel@jderose9.github.com';
