@@ -1,0 +1,43 @@
+# Scripts index
+
+The scripts directory contains the operational entrypoints used to build, restore, audit, and verify the Fedora workstation desired state.
+
+## Primary entrypoints
+
+- `check-static.sh` — repository-only validation used locally and by GitHub Actions.
+- `verify.sh` — full live-system verifier after restore and GNOME session restart.
+- `restore-gnome.sh` — restore the reviewed GNOME dconf state.
+- `audit-extension-runtime.sh` — extension-focused runtime audit.
+
+## Install and setup stages
+
+- `setup-repositories.sh`
+- `install-packages.sh`
+- `install-flatpaks.sh`
+- `install-extensions.sh`
+- `setup-ddcutil.sh`
+- `install-localizations.sh`
+- `install-launchers.sh`
+- `install-dhruva-config.sh`
+
+The top-level `install.sh` orchestrates these stages. Individual stages should remain safe to inspect and, where practical, safe to rerun.
+
+## Localization
+
+`install-localizations.sh` is the single localization pipeline. It invokes all 12 version-specific localization installers plus the simpler catalog installs managed directly from `localization/`.
+
+Dedicated `verify-*-localization.sh` scripts validate exact-version or completion-overlay targets and are wired into `verify.sh`.
+
+## GNOME Keyring i18n
+
+- `build-gnome-keyring-i18n-backport.sh` — reproducible Fedora 44 / GNOME Keyring 50.0 gettext backport build.
+- `verify-gnome-keyring-i18n.sh` — runtime/package/catalog verification.
+
+## Generators and helpers
+
+- `apply-space-bar-localization.py`
+- `generate-dhruva-emoji-pl.py`
+- `inventory-extensions.sh`
+- `validate-repository.py`
+
+Do not add ad-hoc one-off scripts unless they are part of the documented restore, audit, or validation workflow.
