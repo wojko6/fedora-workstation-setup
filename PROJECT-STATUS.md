@@ -69,6 +69,25 @@ The refresh also corrected reproducibility details discovered by physical testin
 
 Full details are recorded in `docs/gnome-extension-audit-2026-09-17.md`.
 
+## Recovery Hardening Gate
+
+The Recovery Hardening Gate has been completed.
+
+Completed validation improvements:
+
+- Fedora 44 version preflight validation before system changes
+- GNOME Shell 50 major version validation before system changes
+- required setup stage fail-closed validation
+- deterministic Wi-Fi power-save handling with automatic profile detection
+- explicit virtualization handling for environments without physical Wi-Fi devices
+
+The setup pipeline now validates the supported baseline before executing changes and refuses to continue when required stages are missing or unreadable.
+
+Final physical-host verification:
+
+```text
+PASS=226 WARN=0 FAIL=0 SKIP=0
+
 ## Security validation
 
 The physical workstation security review established and validated the following controls:
@@ -144,7 +163,7 @@ All 11 version-specific localization installers are invoked by `scripts/install-
 
 ## End-of-day stability closure — 2026-09-19
 
-The 2026-09-19 Recovery and Stability Gates were completed without unresolved warnings or failures. Recovery pipeline review found that Background Logo, Browser Switcher, and Dhruva installers existed but were not connected to the main localization pipeline; all three were added, all three were added to the localization pipeline. After the later cleanup, the current pipeline contains 11 version-specific localization installers. Repository consistency passes with 26 enabled extensions and 26 inventory rows. The final physical-host verifier completed with `PASS=225 WARN=0 FAIL=0 SKIP=0`. GNOME Keyring i18n verification completed with `PASS=7 WARN=0 FAIL=0`. Final `git diff --check` was clean and the repository was synchronized with `origin/main`.
+The 2026-09-19 Recovery and Stability Gates were completed without unresolved warnings or failures. Recovery pipeline review found that Background Logo, Browser Switcher, and Dhruva installers existed but were not connected to the main localization pipeline; all three were added, to the localization pipeline. After the later cleanup, the current pipeline contains 11 version-specific localization installers. Repository consistency passes with 26 enabled extensions and 26 inventory rows. The final physical-host verifier completed with `PASS=225 WARN=0 FAIL=0 SKIP=0`. GNOME Keyring i18n verification completed with `PASS=7 WARN=0 FAIL=0`. Final `git diff --check` was clean and the repository was synchronized with `origin/main`.
 
 ## Repository validation
 
@@ -184,4 +203,4 @@ The tested baseline is considered accepted when required packages, repositories,
 
 `scripts/verify.sh` must report zero `WARN` and zero `FAIL` on the validated physical target.
 
-**Current accepted physical result: `PASS=225 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
+**Current accepted physical result: `PASS=226 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
