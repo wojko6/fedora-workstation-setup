@@ -49,8 +49,7 @@ install.sh
 └── Security hardening
 ```
 
-After installation, the system is validated by:
-scripts/verify.sh
+After installation, the system is validated by `scripts/verify.sh`.
 
 ---
 
@@ -180,9 +179,7 @@ The project does not rely on manual confirmation only.
 Every important configuration change is followed by automated validation.
 
 Validation entry point:
-
 ```text
-
 Repository validation pipeline
 ├── scripts/verify.sh
 │   ├── package validation
@@ -192,18 +189,14 @@ Repository validation pipeline
 │   ├── security settings verification
 │   ├── firewall configuration checks
 │   └── recovery readiness checks
-
 ```
 
 The final physical workstation verification completed with:
-
 ```text
-
 PASS=226
 WARN=0
 FAIL=0
 SKIP=0
-
 ```
 
 
@@ -218,9 +211,7 @@ The verification pipeline checks:
 - recovery and reproducibility requirements.
 
 Key engineering principle:
-
 ```text
-
 Configuration change
         |
         v
@@ -228,9 +219,6 @@ Automated verification
         |
         v
 Accepted desired state
-
 ```
 
 This makes the workstation rebuild process reproducible instead of dependent on manual setup history.
-
-```
