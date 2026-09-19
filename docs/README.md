@@ -14,11 +14,9 @@ This directory contains the reviewed operational and validation documentation fo
 - [gnome-extension-audit-2026-09-17.md](gnome-extension-audit-2026-09-17.md) — accepted GNOME extension compatibility refresh for Fedora 44 / GNOME 50.4.
 - [../gnome/README.md](../gnome/README.md) — GNOME desired-state policy, extension inventory, and Dhruva handling.
 
-## Project status and worklogs
+## Project status
 
 - [../PROJECT-STATUS.md](../PROJECT-STATUS.md) — current accepted physical-host baseline and remaining work.
-- [../daily/README.md](../daily/README.md) — daily worklog convention.
-- [../daily/2026/09/2026-09-19.md](../daily/2026/09/2026-09-19.md) — latest completed daily worklog.
 
 ## Verification entrypoints
 
