@@ -15,7 +15,7 @@ The repository adds localization only when upstream Polish support is missing, i
 - Bluetooth Battery Meter v46/v49 uses a minimal completion overlay for the 16 untranslated messages on the BudsLink Companion preferences page.
 - Papers / Nautilus uses a minimal completion overlay merged into Fedora's installed `papers.mo` for the audited Papers 49.8 build, covering confirmed gaps in document properties, the annotations sidebar, and the empty start page.
 - Plymouth keeps Fedora's upstream Polish translations and makes the early-boot/offline-update locale reproducible by installing the required Polish locale data and gettext catalog into initramfs through dracut.
-- Ptyxis 50.1 uses a minimal Polish main-domain catalog because Fedora's package does not ship `pl/LC_MESSAGES/ptyxis.mo`; activating the main domain allows GLib/libadwaita to use their existing Polish About-dialog translations without modifying `libadwaita.mo`.
+- Ptyxis 50.1 uses a version-pinned Polish main-domain completion because Fedora's package does not ship `pl/LC_MESSAGES/ptyxis.mo`; it covers the audited main-window/menu strings and also activates libadwaita's existing Polish About-dialog translations without modifying `libadwaita.mo`.
 
 All localization installation is centralized through `scripts/install-localizations.sh`, including the system-level Papers, Plymouth, and Ptyxis targets. Verification is integrated into `scripts/verify.sh`.
 
