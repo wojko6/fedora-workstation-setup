@@ -611,9 +611,9 @@ PTYXIS_VERIFY="$ROOT_DIR/scripts/verify-ptyxis-localization.sh"
 if [[ ! -f "$PTYXIS_VERIFY" ]]; then
   bad "Ptyxis localization verifier missing"
 elif bash "$PTYXIS_VERIFY"; then
-  ok "Ptyxis 50.1 Polish localization bridge matches repository"
+  ok "Ptyxis 50.1 Polish main-window localization matches repository"
 else
-  bad "Ptyxis 50.1 Polish localization bridge missing or differs"
+  bad "Ptyxis 50.1 Polish main-window localization missing or differs"
 fi
 
 echo
@@ -642,7 +642,11 @@ if [[ -f "$ASUS_CONF" ]]; then
   fi
 else
   skip "private ASUS launcher configuration intentionally absent"
-  if [[ -f "$HOME/Pulpit/asus-router.desktop" ]]; then warn "ASUS launcher exists without repository private configuration"; else skip "ASUS launcher not expected without private configuration"; fi
+  if [[ -f "$HOME/Pulpit/asus-router.desktop" ]]; then
+    skip "local-only ASUS launcher exists but is intentionally outside repository verification"
+  else
+    skip "ASUS launcher not expected without private configuration"
+  fi
 fi
 
 echo
