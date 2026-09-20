@@ -593,6 +593,17 @@ else
 fi
 
 echo
+echo "=== PTYXIS POLISH LOCALIZATION ==="
+PTYXIS_VERIFY="$ROOT_DIR/scripts/verify-ptyxis-localization.sh"
+if [[ ! -f "$PTYXIS_VERIFY" ]]; then
+  bad "Ptyxis localization verifier missing"
+elif bash "$PTYXIS_VERIFY"; then
+  ok "Ptyxis 50.1 Polish localization bridge matches repository"
+else
+  bad "Ptyxis 50.1 Polish localization bridge missing or differs"
+fi
+
+echo
 echo "=== DESKTOP LAUNCHERS ==="
 if [[ -f "$HOME/Pulpit/Counter-Strike 2.desktop" ]]; then ok "desktop launcher: Counter-Strike 2.desktop"; else warn "desktop launcher missing: Counter-Strike 2.desktop"; fi
 ASUS_CONF="$ROOT_DIR/desktop/launchers/asus-router.conf"
