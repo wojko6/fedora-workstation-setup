@@ -7,14 +7,14 @@ The goal of this repository is to rebuild the workstation after a clean Fedora i
 ## Current baseline
 
 - Fedora 44
-- GNOME 50.4
+- GNOME 50.5
 - Wayland
 - Lenovo Legion 5 15ACH6H
 - Wi-Fi: Realtek RTL8852AE (`rtw89_8852ae`)
 
 ## Validation status
 
-The Fedora 44 / GNOME 50.4 baseline has been validated with a clean-room restore in an Oracle VirtualBox VM.
+The historical Fedora 44 / GNOME 50.4 baseline was validated with a clean-room restore in an Oracle VirtualBox VM. The current physical workstation has since advanced to GNOME Shell 50.5.
 
 Clean-room result:
 
@@ -22,14 +22,14 @@ Clean-room result:
 PASS=147 WARN=0 FAIL=0 SKIP=8
 ```
 
-After Freon was intentionally removed, Advanced Media Controller v31 / 6.5 was added to desired state, and the final Vitals, ddterm, and Advanced Media Controller localization checks were integrated into the main verifier, the physical workstation completed the final acceptance run with:
+After the 2026-09-20 system-localization work for Papers 49.8, Plymouth offline updates, and Ptyxis 50.1 was integrated, and the physical host had advanced to GNOME Shell 50.5, the workstation completed the current acceptance run with:
 
 ```text
-PASS=226 WARN=0 FAIL=0 SKIP=0
+PASS=231 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current accepted physical-host aggregate for Fedora 44 / GNOME 50.4. The localization restore and verification flow is fully integrated and the current desired state has zero warnings and zero failures.
+This is the current accepted physical-host aggregate for Fedora 44 / GNOME 50.5. The localization restore and verification flow is fully integrated and the current desired state has zero warnings and zero failures.
 
 Repository changes are guarded by a static validation workflow. The same `scripts/check-static.sh` entrypoint is used locally and in GitHub Actions to validate Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON files, and desired-state inventory consistency.
 
@@ -45,9 +45,9 @@ NordVPN, gNordVPN-Local, and Freon are intentionally absent from the current wor
 
 The desired state includes reproducible Polish localization support for selected GNOME Shell extensions. The Dhruva integration maintains a 393-message gettext catalog, a 20-patch source localization set, and generated Polish CLDR metadata for all 1907 emoji used by the tested extension source. GSConnect v72 and Tiling Shell v76 / 17.3 have minimal repository-managed completion overlays for demonstrated upstream gaps.
 
-The repository also manages localization for Just Perfection v37, Spotlight v15 / 2026.15, Space Bar v39, Vitals v85, ddterm v72, and Advanced Media Controller v31 / 6.5. Space Bar uses an exact-version controlled source localization because its audited release has no usable gettext path. Advanced Media Controller uses a complete 276-entry Polish gettext catalog pinned to the exact v31 / 6.5 build and verified with a runtime gettext smoke test. Vitals and ddterm use minimal completion strategies over demonstrated upstream gaps.
+The repository also manages localization for Just Perfection v37, Spotlight v15 / 2026.15, Space Bar v39, Vitals v85, ddterm v72, Advanced Media Controller v31 / 6.5, Papers 49.8 / Nautilus document properties, Plymouth offline updates, and Ptyxis 50.1. Space Bar uses an exact-version controlled source localization because its audited release has no usable gettext path. Advanced Media Controller uses a complete 276-entry Polish gettext catalog pinned to the exact v31 / 6.5 build and verified with a runtime gettext smoke test. Vitals and ddterm use minimal completion strategies over demonstrated upstream gaps. Papers uses a minimal merged gettext overlay, Plymouth persists Fedora's existing Polish catalog and locale data into initramfs, and Ptyxis uses a minimal main-domain bridge so libadwaita's existing Polish About-dialog strings are activated.
 
-All 11 version-specific localization installers are invoked by `scripts/install-localizations.sh`, and their dedicated checks are integrated into the main `scripts/verify.sh`. The complete localization set has passed the final physical-host verifier with zero warnings and zero failures. Full details are tracked in [`docs/LOCALIZATION-STATUS.md`](docs/LOCALIZATION-STATUS.md).
+All 11 version-specific GNOME-extension localization installers, plus the system-level Papers, Plymouth, and Ptyxis stages, are invoked by `scripts/install-localizations.sh`; their dedicated checks are integrated into the main `scripts/verify.sh`. The complete localization set has passed the current physical-host verifier with zero warnings and zero failures. Full details are tracked in [`docs/LOCALIZATION-STATUS.md`](docs/LOCALIZATION-STATUS.md).
 
 Dhruva's dock state is also reproducible. The repository stores a sanitized desired dock order and application-folder definition in `gnome/dhruva/dock-state.json`; `scripts/install-dhruva-config.sh` restores that state after the GNOME configuration stage, and `scripts/verify.sh` detects drift. Machine-specific paths and private local folder state are intentionally excluded.
 
@@ -94,7 +94,7 @@ bash scripts/verify.sh
 Current accepted physical-workstation result:
 
 ```text
-PASS=226 WARN=0 FAIL=0 SKIP=0
+PASS=231 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 

@@ -1,7 +1,7 @@
 # Project Status
 
-**Status:** Day closed 2026-09-19; Recovery and Stability Gates passed; physical workstation accepted after final localization verification  
-**Baseline:** Fedora 44 · GNOME Shell 50.4 · Wayland  
+**Status:** Physical baseline refreshed 2026-09-20; Recovery and Stability Gates passed; localization baseline accepted  
+**Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland  
 **Validation environments:** Oracle VirtualBox clean-room VM and physical Lenovo Legion 5 15ACH6H
 
 ## Objective
@@ -20,14 +20,14 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After Freon was intentionally removed, Advanced Media Controller v31 / 6.5 was added to desired state, and the final Vitals, ddterm, and Advanced Media Controller localization checks were wired into the main restore/verification flow, the final physical-workstation verifier run completed with:
+After the 2026-09-20 system-localization work for Papers 49.8, Plymouth offline updates, and Ptyxis 50.1 was integrated, and the host had advanced to GNOME Shell 50.5, the current physical-workstation verifier run completed with:
 
 ```text
-PASS=226 WARN=0 FAIL=0 SKIP=0
+PASS=231 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current accepted physical-host aggregate for the Fedora 44 / GNOME 50.4 desired state.
+This is the current accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state.
 
 ## Current desired state
 
@@ -86,7 +86,7 @@ The setup pipeline now validates the supported baseline before executing changes
 Final physical-host verification:
 
 ```text
-PASS=226 WARN=0 FAIL=0 SKIP=0
+PASS=231 WARN=0 FAIL=0 SKIP=0
 ```
 
 ## Security validation
@@ -131,7 +131,10 @@ Repository-managed targets currently include:
 - Space Bar v39;
 - Vitals v85 completion;
 - ddterm v72 completion plus metadata description localization;
-- Advanced Media Controller v31 / 6.5 full Polish catalog.
+- Advanced Media Controller v31 / 6.5 full Polish catalog;
+- Papers 49.8 / Nautilus document-properties completion overlay;
+- Plymouth offline-update Polish locale persistence in initramfs;
+- Ptyxis 50.1 Polish main-domain bridge enabling existing libadwaita About-dialog translations.
 
 Dhruva remains the largest localization case: a 393-message gettext catalog, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
@@ -149,7 +152,7 @@ Vitals v85 uses a version-pinned completion overlay over its incomplete upstream
 
 Advanced Media Controller v31 / 6.5 ships no Polish catalog in the tested archive. The repository carries a complete **276-entry** Polish gettext catalog generated against the exact v31 string template. Its installer/verifier checks version 31, version name 6.5, gettext domain, audited file fingerprints, translation completeness, byte-for-byte installed `.mo` equality, and a runtime gettext smoke test requiring `General` to resolve to `Ogólne`. The preferences UI was visually confirmed in Polish on the physical workstation.
 
-All 11 version-specific localization installers are invoked by `scripts/install-localizations.sh`. Dedicated version-pinned localization verifiers are integrated into the main `scripts/verify.sh`, and the complete localization set passed the final physical-host verifier with zero warnings and zero failures.
+All 11 version-specific GNOME-extension localization installers, plus the system-level Papers, Plymouth, and Ptyxis stages, are invoked by `scripts/install-localizations.sh`. Dedicated localization verifiers are integrated into the main `scripts/verify.sh`, and the complete localization set passed the current physical-host verifier with zero warnings and zero failures.
 
 ## Important reproducibility decisions
 
@@ -166,6 +169,12 @@ All 11 version-specific localization installers are invoked by `scripts/install-
 
 The 2026-09-19 Recovery and Stability Gates were completed without unresolved warnings or failures. Recovery pipeline review found that Background Logo, Browser Switcher, and Dhruva installers existed but were not connected to the main localization pipeline; all three were added to the localization pipeline. After the later cleanup, the current pipeline contains 11 version-specific localization installers. Repository consistency passes with 26 enabled extensions and 26 inventory rows. The final physical-host verifier completed with `PASS=226 WARN=0 FAIL=0 SKIP=0`. GNOME Keyring i18n verification completed with `PASS=7 WARN=0 FAIL=0`. Final `git diff --check` was clean and the repository was synchronized with `origin/main`.
 
+## Physical baseline refresh — 2026-09-20
+
+System-level Polish localization was extended and made reproducible for Papers 49.8 / Nautilus document properties, Plymouth offline updates, and Ptyxis 50.1. Papers received a minimal completion overlay, Plymouth's existing Polish catalog and locale data were persisted into initramfs through dracut, and Ptyxis received a minimal main gettext-domain bridge that activates libadwaita's existing Polish About-dialog translations.
+
+The physical workstation was running GNOME Shell 50.5 during the final acceptance run. The complete live verifier finished with `PASS=231 WARN=0 FAIL=0 SKIP=0`, establishing the new current physical baseline. The historical clean-room VM result remains `PASS=147 WARN=0 FAIL=0 SKIP=8` on Fedora 44 / GNOME 50.4.
+
 ## Repository validation
 
 Repository-only validation is automated through `scripts/check-static.sh`, which is used both locally and by GitHub Actions. It covers Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON validation, and desired-state inventory consistency.
@@ -180,7 +189,7 @@ bash scripts/verify.sh
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification after the accepted security, networking, extension, and localization changes. The current physical desired state is fully accepted at `PASS=226 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
+The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the current Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, and localization changes. The current physical desired state is fully accepted at `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 
@@ -204,4 +213,4 @@ The tested baseline is considered accepted when required packages, repositories,
 
 `scripts/verify.sh` must report zero `WARN` and zero `FAIL` on the validated physical target.
 
-**Current accepted physical result: `PASS=226 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
+**Current accepted physical result: `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**

@@ -9,11 +9,11 @@ The goal was to replace manual workstation setup with a validated restore proces
 Target baseline:
 
 - Fedora 44
-- GNOME Shell 50.4
+- GNOME Shell 50.5
 - Wayland session
 
 Accepted baseline:
-PASS=226 WARN=0 FAIL=0 SKIP=0
+PASS=231 WARN=0 FAIL=0 SKIP=0
 
 
 ---
@@ -93,7 +93,10 @@ Validated components include:
 - Space Bar,
 - Vitals,
 - ddterm,
-- Advanced Media Controller.
+- Advanced Media Controller,
+- Papers / Nautilus document properties,
+- Plymouth offline updates,
+- Ptyxis / libadwaita About dialog.
 
 ## ArcMenu gettext binding fix
 
@@ -142,7 +145,7 @@ Missing or invalid required stages stop execution instead of silently continuing
 The project uses automated verification instead of manual confirmation.
 
 Current final validation:
-PASS=226 WARN=0 FAIL=0 SKIP=0
+PASS=231 WARN=0 FAIL=0 SKIP=0
 
 The verifier checks:
 
@@ -191,9 +194,9 @@ Repository validation pipeline
 │   └── recovery readiness checks
 ```
 
-The final physical workstation verification completed with:
+The final physical workstation verification completed on Fedora 44 / GNOME Shell 50.5 with:
 ```text
-PASS=226
+PASS=231
 WARN=0
 FAIL=0
 SKIP=0

@@ -1,6 +1,6 @@
 # Polish localization status
 
-This document tracks Polish localization coverage for GNOME Shell extensions in the Fedora 44 / GNOME 50.4 workstation baseline.
+This document tracks Polish localization coverage for GNOME Shell extensions and selected system UI components in the current Fedora 44 / GNOME 50.5 physical-workstation baseline.
 
 The repository carries its own localization only when upstream Polish support is missing, incomplete for the tested version, or user-visible strings are not exposed through a usable upstream Polish gettext path. Existing upstream translations remain attributed to their original projects and translators.
 
@@ -166,14 +166,14 @@ The rebuilt physical-host initramfs grew only from about 156 MiB to 157 MiB, boo
 
 ## Physical verification state
 
-Before the Ptyxis bridge was integrated, the physical Fedora 44 / GNOME 50.4 workstation completed the latest full-system acceptance run with:
+After the Papers, Plymouth, and Ptyxis localization stages were integrated and the physical host had advanced to GNOME Shell 50.5, the full `scripts/verify.sh` acceptance run completed with:
 
 ```text
-PASS=230 WARN=0 FAIL=0 SKIP=0
+PASS=231 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-The Ptyxis runtime fix was then visually validated on the same workstation. A new full `scripts/verify.sh` run is required after pulling this integration before the accepted full-system counter is advanced beyond 230.
+This is the current accepted physical-host localization baseline. The Ptyxis About dialog was visually confirmed in Polish, the Papers / Nautilus document-properties UI was visually confirmed in Polish, and Plymouth's initramfs state is technically verified; final visual confirmation of the Plymouth offline-update screen remains pending until a real offline update occurs.
 
 The historical clean-room VM result remains unchanged:
 
