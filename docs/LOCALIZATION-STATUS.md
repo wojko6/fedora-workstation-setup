@@ -25,6 +25,7 @@ Repository-managed localization/integration currently covers:
 - Advanced Media Controller v31 / 6.5 full Polish catalog
 - Papers 49.8 / Nautilus document-properties completion overlay
 - Plymouth offline-update Polish locale persistence in initramfs
+- Ptyxis 50.1 Polish main-domain bridge for libadwaita About-dialog localization
 
 Dhruva remains the largest accepted case: 393 gettext messages, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
@@ -130,6 +131,16 @@ The final corrected catalog was installed on the physical Fedora workstation and
 
 ## System UI localization added on 2026-09-20
 
+### Ptyxis 50.1 / libadwaita About dialog
+
+The Fedora 44 workstation uses `ptyxis-50.1-2.fc44` with `libadwaita-1.9.4-1.fc44`. The installed Polish `libadwaita.mo` already contains correct translations for `_Website`, `_Report an Issue`, `_Troubleshooting`, `_Credits`, and `_Legal`, but the Fedora Ptyxis package does not ship `/usr/share/locale/pl/LC_MESSAGES/ptyxis.mo`.
+
+Runtime testing confirmed that creating a minimal Polish catalog for the main `ptyxis` gettext domain immediately allows the libadwaita About dialog to use those existing Polish translations. The repository therefore carries `localization/ptyxis/pl.po` as a small compatibility bridge instead of modifying `libadwaita.mo`.
+
+`scripts/install-ptyxis-localization.sh` is pinned to Ptyxis 50.1, installs the repository catalog, preserves any pre-existing catalog as an upstream backup, restores SELinux context when available, and performs a gettext smoke test. `scripts/verify-ptyxis-localization.sh` checks the exact package version, byte-for-byte repository catalog state, the active Polish Ptyxis domain, and the five required libadwaita About-dialog translations.
+
+The physical workstation visually confirmed the corrected About dialog: `Strona programu`, `Zgłoś błąd`, `Rozwiązywanie problemów`, `Zasługi`, and `Kwestie prawne`.
+
 ### Papers 49.8 / Nautilus document properties
 
 The Fedora 44 workstation uses `papers-nautilus 49.8-1.fc44` for the document-properties page exposed inside Nautilus. Runtime inspection confirmed that `libpapers-document-properties.so` uses `g_dgettext` with the `papers` domain, while the installed Polish `papers.mo` lacked the affected labels.
@@ -155,14 +166,14 @@ The rebuilt physical-host initramfs grew only from about 156 MiB to 157 MiB, boo
 
 ## Physical verification state
 
-After all current repository-managed localization targets were installed and the final dedicated Vitals, ddterm, and Advanced Media Controller verifiers were integrated into the main verifier, the physical Fedora 44 / GNOME 50.4 workstation completed the final acceptance run with:
+Before the Ptyxis bridge was integrated, the physical Fedora 44 / GNOME 50.4 workstation completed the latest full-system acceptance run with:
 
 ```text
-PASS=226 WARN=0 FAIL=0 SKIP=0
+PASS=230 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current accepted physical-host localization baseline. The complete repository-managed localization set is installed, version-scoped where required, and verified with zero warnings and zero failures.
+The Ptyxis runtime fix was then visually validated on the same workstation. A new full `scripts/verify.sh` run is required after pulling this integration before the accepted full-system counter is advanced beyond 230.
 
 The historical clean-room VM result remains unchanged:
 
