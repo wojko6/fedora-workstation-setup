@@ -18,7 +18,9 @@ The scripts directory contains the operational entrypoints used to build, restor
 - `setup-ddcutil.sh`
 - `install-localizations.sh`
 - `install-launchers.sh`
+- `install-weather-locations.sh` — restores reviewed custom GNOME Weather locations in the user session.
 - `install-dhruva-config.sh`
+- `manage-weather-locations.py` — libgweather-backed installer/verifier for reviewed custom GNOME Weather locations.
 
 The top-level `install.sh` orchestrates these stages. Individual stages should remain safe to inspect and, where practical, safe to rerun.
 

@@ -33,3 +33,7 @@ packages/rpm-userinstalled-full.txt
 # Python bytecode/cache
 __pycache__/
 *.pyc
+
+# Private GNOME Weather locations
+# May reveal home/regular locations; keep only in the local checkout/private backup.
+gnome/weather-locations.local.tsv

@@ -52,6 +52,7 @@ stages=(
   scripts/install-localizations.sh
   scripts/install-launchers.sh
   scripts/restore-gnome.sh
+  scripts/install-weather-locations.sh
   scripts/install-dhruva-config.sh
   network/wifi-power-save.sh
   network/firewall-zone.sh

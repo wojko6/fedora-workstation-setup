@@ -260,6 +260,22 @@ if [[ -x "$ROOT_DIR/scripts/audit-gnome.sh" || -f "$ROOT_DIR/scripts/audit-gnome
 else warn "scripts/audit-gnome.sh missing"; fi
 
 echo
+echo "=== GNOME WEATHER CUSTOM LOCATIONS ==="
+WEATHER_MANAGER="$ROOT_DIR/scripts/manage-weather-locations.py"
+WEATHER_CONFIG="$ROOT_DIR/gnome/weather-locations.local.tsv"
+if [[ ! -f "$WEATHER_MANAGER" ]]; then
+  bad "GNOME Weather location manager missing"
+elif [[ ! -f "$WEATHER_CONFIG" ]]; then
+  printf 'INFO: private GNOME Weather location config not present; no private location check requested\n'
+elif weather_verify_output="$(python3 "$WEATHER_MANAGER" --config "$WEATHER_CONFIG" --verify 2>&1)"; then
+  printf '%s\n' "$weather_verify_output"
+  ok "GNOME Weather private custom locations match local desired state"
+else
+  printf '%s\n' "$weather_verify_output"
+  bad "GNOME Weather private custom locations missing or drifted"
+fi
+
+echo
 echo "=== POLISH LOCALIZATIONS ==="
 
 verify_translation() {

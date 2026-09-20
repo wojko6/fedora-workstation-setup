@@ -15,11 +15,13 @@ gnome-shell-extension-places-menu
 gnome-shell-extension-background-logo
 
 # Applications
+gnome-weather
 brave-origin
 papers-nautilus
 poedit
 
 # Administration / development
+python3-gobject
 7zip-standalone
 bind-utils
 btop

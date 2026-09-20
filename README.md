@@ -22,14 +22,14 @@ Clean-room result:
 PASS=147 WARN=0 FAIL=0 SKIP=8
 ```
 
-After the 2026-09-20 system-localization work for Papers 49.8, Plymouth offline updates, and Ptyxis 50.1 was integrated, and the physical host had advanced to GNOME Shell 50.5, the workstation completed the current acceptance run with:
+After the 2026-09-20 Ptyxis completion, Bluetooth Battery Meter v49 restore-pin promotion, ASUS private-launcher verifier-scope cleanup, and GNOME Weather custom-location integration, the physical workstation completed the current accepted run with:
 
 ```text
 PASS=231 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current accepted physical-host aggregate for Fedora 44 / GNOME 50.5. The localization restore and verification flow is fully integrated and the current desired state has zero warnings and zero failures.
+This is the current complete accepted physical-host aggregate for Fedora 44 / GNOME 50.5. A private GNOME Weather custom location is part of the validated physical desired state, while its identifying name and coordinates are intentionally excluded from the public repository.
 
 Repository changes are guarded by a static validation workflow. The same `scripts/check-static.sh` entrypoint is used locally and in GitHub Actions to validate Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON files, and desired-state inventory consistency.
 
@@ -47,9 +47,12 @@ The desired state includes reproducible Polish localization support for selected
 
 The repository also manages localization for Just Perfection v37, Spotlight v15 / 2026.15, Space Bar v39, Vitals v85, ddterm v72, Advanced Media Controller v31 / 6.5, Papers 49.8 / Nautilus document properties, Plymouth offline updates, and Ptyxis 50.1. Space Bar uses an exact-version controlled source localization because its audited release has no usable gettext path. Advanced Media Controller uses a complete 276-entry Polish gettext catalog pinned to the exact v31 / 6.5 build and verified with a runtime gettext smoke test. Vitals and ddterm use minimal completion strategies over demonstrated upstream gaps. Papers uses a minimal merged gettext overlay, Plymouth persists Fedora's existing Polish catalog and locale data into initramfs, and Ptyxis uses a minimal main-domain bridge so libadwaita's existing Polish About-dialog strings are activated.
 
-All 11 version-specific GNOME-extension localization installers, plus the system-level Papers, Plymouth, and Ptyxis stages, are invoked by `scripts/install-localizations.sh`; their dedicated checks are integrated into the main `scripts/verify.sh`. The complete localization set has passed the current physical-host verifier with zero warnings and zero failures. Full details are tracked in [`docs/LOCALIZATION-STATUS.md`](docs/LOCALIZATION-STATUS.md).
+All 12 version-specific GNOME-extension localization installers, plus the system-level Papers, Plymouth, and Ptyxis stages, are invoked by `scripts/install-localizations.sh`; their dedicated checks are integrated into the main `scripts/verify.sh`. The complete localization set has passed the current physical-host verifier with zero warnings and zero failures. Full details are tracked in [`docs/LOCALIZATION-STATUS.md`](docs/LOCALIZATION-STATUS.md).
 
 Dhruva's dock state is also reproducible. The repository stores a sanitized desired dock order and application-folder definition in `gnome/dhruva/dock-state.json`; `scripts/install-dhruva-config.sh` restores that state after the GNOME configuration stage, and `scripts/verify.sh` detects drift. Machine-specific paths and private local folder state are intentionally excluded.
+
+
+GNOME Weather custom locations are reproducible without publishing private location data or storing opaque dconf state. The public repository contains only `gnome/weather-locations.example.tsv`; real names and WGS84 coordinates belong in the gitignored `gnome/weather-locations.local.tsv`. `scripts/manage-weather-locations.py` uses libgweather serialization to install and verify exactly one matching private location, and the restore stage runs after the curated GNOME dconf restore so it is not overwritten.
 
 See [`PROJECT-STATUS.md`](PROJECT-STATUS.md) for the current acceptance and security-validation status, [`docs/README.md`](docs/README.md) for the documentation index, [`docs/CLEAN-ROOM-RESTORE-REPORT.md`](docs/CLEAN-ROOM-RESTORE-REPORT.md) for the clean-room validation report, [`docs/gnome-extension-audit-2026-09-17.md`](docs/gnome-extension-audit-2026-09-17.md) for the GNOME extension refresh, [`docs/LOCALIZATION-STATUS.md`](docs/LOCALIZATION-STATUS.md) for Polish localization coverage, and [`docs/DISASTER-RECOVERY.md`](docs/DISASTER-RECOVERY.md) for the offline disaster-recovery strategy.
 
@@ -59,7 +62,7 @@ GNOME Shell extensions integrated by this repository remain the work of their re
 
 ## Design
 
-The repository stores the desired configuration, not private user data. Secrets, Wi-Fi credentials, SSH private keys, browser profiles, password-manager vaults, raw shell history, VPN authentication state, and other sensitive state must never be committed.
+The repository stores the desired configuration, not private user data. Secrets, Wi-Fi credentials, SSH private keys, browser profiles, password-manager vaults, raw shell history, VPN authentication state, private/precise location data, and other sensitive state must never be committed.
 
 ## Restore flow
 

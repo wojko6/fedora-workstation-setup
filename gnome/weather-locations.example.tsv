@@ -1,0 +1,4 @@
+# Copy to weather-locations.local.tsv and replace the placeholder values.
+# The .local file is intentionally gitignored because location data may be personal.
+# name	latitude_deg	longitude_deg
+PRIVATE_LOCATION	0.000000	0.000000

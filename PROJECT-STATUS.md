@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Physical baseline accepted 2026-09-20; Recovery and Stability Gates passed; Ptyxis main-menu localization visually accepted; Bluetooth Battery Meter v49 restore pin accepted; full physical verifier clean
+**Status:** Physical baseline accepted 2026-09-20; Recovery and Stability Gates passed; Ptyxis, Bluetooth Battery Meter v49, and private GNOME Weather custom-location integration accepted; full physical verifier clean
 
 **Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
 
@@ -22,14 +22,14 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After the 2026-09-20 Ptyxis main-window completion, Bluetooth Battery Meter v49 restore-pin promotion, and verifier cleanup for the intentionally private ASUS launcher, the physical-workstation verifier completed with:
+After the 2026-09-20 GNOME Weather custom-location integration and geographic-equivalence verifier fix, the physical-workstation verifier completed with:
 
 ```text
-PASS=228 WARN=0 FAIL=0 SKIP=0
+PASS=231 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. Ptyxis 50.1 is installed and visually confirmed in Polish, Bluetooth Battery Meter v49 is now both the active runtime and the reproducible restore pin, and no warnings, failures, or environment skips remain in the physical acceptance run. The absolute PASS count is not directly comparable with earlier runs because intentionally private ASUS-launcher checks were removed from acceptance counters rather than treated as warning/skip results.
+This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. Ptyxis 50.1 is visually confirmed in Polish, Bluetooth Battery Meter v49 is both the active runtime and the reproducible restore pin, and a private GNOME Weather custom location is reproducibly restored and verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
 
 ## Current desired state
 
@@ -44,6 +44,7 @@ The physical-host desired state includes:
 - required GNOME extensions installed and `ACTIVE`;
 - compiled extension schemas where required;
 - curated GNOME desired state and Dhruva dock state;
+- reviewed GNOME Weather custom-location state restored through libgweather serialization;
 - Wi-Fi persisted to the dedicated firewalld `workstation-kdeconnect` zone and the active interface attached to the same zone;
 - GSConnect D-Bus integration and KDE Connect firewalld service;
 - repository-managed Polish localization verification;
@@ -90,7 +91,7 @@ The setup pipeline now validates the supported baseline before executing changes
 Final physical-host verification:
 
 ```text
-PASS=228 WARN=0 FAIL=0 SKIP=0
+PASS=231 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
@@ -201,6 +202,28 @@ A direct gettext smoke test resolved `Enable BudsLink integration` to `Włącz i
 
 The localization implementation and runtime result are accepted. The exact EGO v49 archive was validated as UUID `Bluetooth-Battery-Meter@maniacx.github.com`, runtime version 49, and pinned with SHA-256 `53efe7719a55376ba7fdcaf5a837ec3567804489d39446f26bec881e85dd5afc`. The inventory and restore lock now match the physical v49 state.
 
+## GNOME Weather private custom location — 2026-09-20
+
+GNOME Weather 50.0 did not expose one reviewed private location reliably through its normal search, so the project gained a reproducible custom-location mechanism without keeping the real place name or coordinates in public Git.
+
+The public repository contains only `gnome/weather-locations.example.tsv`. Real location data belongs in the gitignored `gnome/weather-locations.local.tsv` and must be restored separately from a private backup.
+
+Physical testing exposed two useful failure modes before promotion: an incorrect coordinate-unit conversion produced implausible temperatures, and a later correction could coexist with an older same-name entry. Both issues were fixed. The manager normalizes reviewed entries by name, installs one detached libgweather location using decimal-degree coordinates, and verifies geographical equivalence through the public libgweather API instead of comparing private serialized bytes.
+
+The integration is part of normal restore and verification when the local private file is present:
+
+```text
+install.sh
+  -> scripts/restore-gnome.sh
+  -> scripts/install-weather-locations.sh
+  -> scripts/manage-weather-locations.py --config gnome/weather-locations.local.tsv --apply
+
+scripts/verify.sh
+  -> scripts/manage-weather-locations.py --config gnome/weather-locations.local.tsv --verify
+```
+
+`gnome-weather` and `python3-gobject` are explicit RPM desired-state dependencies. Repository consistency validation checks the anonymized public example, while the real location remains outside Git. The full physical-host verifier completed successfully with `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0` while the private location file was present.
+
 ## Extension supply-chain hardening — 2026-09-20
 
 H3 and L2 have been implemented and locally validated.
@@ -248,7 +271,7 @@ bash scripts/verify.sh
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, and system-localization changes. The current complete physical-host aggregate is `PASS=228 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. Ptyxis 50.1 is visually accepted in Polish, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the physical host matches the recorded desired state.
+The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, system-localization, and GNOME Weather custom-location changes. The current complete physical-host aggregate is `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. Ptyxis 50.1 is visually accepted in Polish, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the private Weather location is part of the verified local desired state without publishing its identifying data.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 
@@ -272,4 +295,4 @@ The tested baseline is considered accepted when required packages, repositories,
 
 `scripts/verify.sh` must report zero `WARN` and zero `FAIL` on the validated physical target.
 
-**Last complete accepted physical aggregate: `PASS=228 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
+**Last complete accepted physical aggregate: `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**

@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ENABLED = ROOT / "gnome" / "enabled-extensions.txt"
 INVENTORY = ROOT / "gnome" / "extensions-inventory.tsv"
 LOCK = ROOT / "gnome" / "extensions-lock.tsv"
+WEATHER_LOCATIONS_EXAMPLE = ROOT / "gnome" / "weather-locations.example.tsv"
 
 EXPECTED_HEADER = ["uuid", "name", "version", "shell_versions", "url", "location"]
 EXPECTED_LOCK_HEADER = [
@@ -72,9 +73,68 @@ def load_lock() -> tuple[list[str], list[dict[str, str]]]:
     return header, rows
 
 
+def validate_weather_locations() -> None:
+    if not WEATHER_LOCATIONS_EXAMPLE.is_file():
+        fail(f"missing {WEATHER_LOCATIONS_EXAMPLE.relative_to(ROOT)}")
+        return
+
+    seen_names: set[str] = set()
+
+    with WEATHER_LOCATIONS_EXAMPLE.open(encoding="utf-8", newline="") as fh:
+        reader = csv.reader(fh, delimiter="\t")
+        for lineno, row in enumerate(reader, start=1):
+            if not row or not row[0].strip() or row[0].lstrip().startswith("#"):
+                continue
+
+            if len(row) != 3:
+                fail(
+                    f"{WEATHER_LOCATIONS_EXAMPLE.relative_to(ROOT)}:{lineno}: "
+                    "expected name, latitude, longitude"
+                )
+                continue
+
+            name = row[0].strip()
+            if not name:
+                fail(
+                    f"{WEATHER_LOCATIONS_EXAMPLE.relative_to(ROOT)}:{lineno}: "
+                    "location name is empty"
+                )
+                continue
+
+            if name in seen_names:
+                fail(
+                    f"{WEATHER_LOCATIONS_EXAMPLE.relative_to(ROOT)}:{lineno}: "
+                    f"duplicate weather location name: {name}"
+                )
+            seen_names.add(name)
+
+            try:
+                latitude = float(row[1])
+                longitude = float(row[2])
+            except ValueError:
+                fail(
+                    f"{WEATHER_LOCATIONS_EXAMPLE.relative_to(ROOT)}:{lineno}: "
+                    "latitude/longitude must be decimal numbers"
+                )
+                continue
+
+            if not -90.0 <= latitude <= 90.0:
+                fail(
+                    f"{WEATHER_LOCATIONS_EXAMPLE.relative_to(ROOT)}:{lineno}: "
+                    f"latitude out of range: {latitude}"
+                )
+
+            if not -180.0 <= longitude <= 180.0:
+                fail(
+                    f"{WEATHER_LOCATIONS_EXAMPLE.relative_to(ROOT)}:{lineno}: "
+                    f"longitude out of range: {longitude}"
+                )
+
+
 enabled = load_enabled()
 header, rows = load_inventory()
 lock_header, lock_rows = load_lock()
+validate_weather_locations()
 
 if header and header != EXPECTED_HEADER:
     fail(f"unexpected inventory header: {header!r}")
@@ -238,3 +298,4 @@ print("PASS: enabled extension list and inventory are internally consistent")
 print("PASS: extension source locks are internally consistent")
 print("PASS: rejected/conflicting extensions are absent from desired state")
 print("PASS: user extension pins and portable inventory paths are valid")
+print("PASS: public GNOME Weather location example is structurally valid")
