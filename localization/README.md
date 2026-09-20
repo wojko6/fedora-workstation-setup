@@ -12,7 +12,9 @@ The repository adds localization only when upstream Polish support is missing, i
 - Spotlight v15 / 2026.15 uses gettext wiring plus source patches.
 - Dhruva combines a gettext catalog, source patches, and generated Polish CLDR emoji metadata.
 - Advanced Media Controller v31 / 6.5 carries a complete Polish catalog pinned to the audited release.
+- Papers / Nautilus uses a minimal completion overlay merged into Fedora's installed `papers.mo` for the audited Papers 49.8 build.
+- Plymouth keeps Fedora's upstream Polish translations and makes the early-boot/offline-update locale reproducible by installing the required Polish locale data and gettext catalog into initramfs through dracut.
 
-All version-specific installation is centralized through `scripts/install-localizations.sh`. Verification is integrated into `scripts/verify.sh`.
+All localization installation is centralized through `scripts/install-localizations.sh`, including the system-level Papers and Plymouth targets. Verification is integrated into `scripts/verify.sh`.
 
 See [../docs/LOCALIZATION-STATUS.md](../docs/LOCALIZATION-STATUS.md) for the accepted versions, coverage, and runtime validation details.

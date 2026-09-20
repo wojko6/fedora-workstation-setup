@@ -24,9 +24,13 @@ The top-level `install.sh` orchestrates these stages. Individual stages should r
 
 ## Localization
 
-`install-localizations.sh` is the single localization pipeline. It invokes all 11 version-specific localization installers plus the simpler catalog installs managed directly from `localization/`.
+`install-localizations.sh` is the single localization pipeline. It invokes all 11 version-specific GNOME-extension localization installers, the simpler catalog installs managed directly from `localization/`, and the system-level Papers/Nautilus and Plymouth localization stages.
 
-Dedicated `verify-*-localization.sh` scripts validate exact-version or completion-overlay targets and are wired into `verify.sh`.
+Dedicated `verify-*-localization.sh` scripts validate exact-version, completion-overlay, and system-localization targets and are wired into `verify.sh`.
+
+System localization helpers:
+- `install-papers-localization.sh` / `verify-papers-localization.sh` — Papers 49.8 / Nautilus document-properties Polish completion.
+- `install-plymouth-localization.sh` / `verify-plymouth-localization.sh` — Fedora 44 Plymouth offline-update Polish locale persistence through dracut.
 
 ## GNOME Keyring i18n
 

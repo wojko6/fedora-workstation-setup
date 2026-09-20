@@ -16,6 +16,7 @@ gnome-shell-extension-background-logo
 
 # Applications
 brave-origin
+papers-nautilus
 poedit
 
 # Administration / development
@@ -103,6 +104,7 @@ libavcodec-freeworld
 libheif-freeworld
 
 # Language / office
+glibc-langpack-pl
 langpacks-pl
 libreoffice-calc
 libreoffice-impress

@@ -23,6 +23,8 @@ Repository-managed localization/integration currently covers:
 - Vitals v85 Polish completion overlay
 - ddterm v72 Polish completion plus localized metadata description
 - Advanced Media Controller v31 / 6.5 full Polish catalog
+- Papers 49.8 / Nautilus document-properties completion overlay
+- Plymouth offline-update Polish locale persistence in initramfs
 
 Dhruva remains the largest accepted case: 393 gettext messages, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
@@ -125,6 +127,24 @@ The Polish catalog contains **276 translated entries**. The installer and verifi
 `scripts/verify-advanced-media-controller-localization.sh` performs the same version/source checks, requires exactly 276 translated entries, compares a freshly compiled repository catalog with the live `.mo`, and performs a runtime gettext smoke test requiring `General` to resolve to `Ogólne` under Polish locale selection.
 
 The final corrected catalog was installed on the physical Fedora workstation and the Advanced Media Controller preferences were visually confirmed in Polish.
+
+## System UI localization added on 2026-09-20
+
+### Papers 49.8 / Nautilus document properties
+
+The Fedora 44 workstation uses `papers-nautilus 49.8-1.fc44` for the document-properties page exposed inside Nautilus. Runtime inspection confirmed that `libpapers-document-properties.so` uses `g_dgettext` with the `papers` domain, while the installed Polish `papers.mo` lacked the affected labels.
+
+The repository carries a minimal completion overlay in `localization/papers/pl-overlay.po`. The installer is pinned to Papers 49.8, preserves the existing Fedora catalog, merges the reviewed missing entries, and installs the rebuilt `papers.mo`. The dedicated verifier checks the package version, repository overlay, and exact translated values in the live catalog.
+
+The physical workstation visually confirmed the completed document-properties UI, including `Właściwości dokumentu`, `Lokalizacja`, `Twórca`, `Liczba stron`, and the remaining audited labels.
+
+### Plymouth offline updates
+
+Fedora's installed Plymouth catalog already contains correct Polish translations for `Installing Updates...`, `Do not turn off your computer`, and `%d%% complete`. The untranslated offline-update screen was traced to the initramfs: Plymouth, `two-step.so`, and the `bgrt` theme were present, while the Polish locale data, `/etc/locale.conf`, and `plymouth.mo` were absent.
+
+The repository therefore does not duplicate Plymouth translations. Instead, `localization/plymouth/55-polish-plymouth.conf` records the tested dracut `install_items` set. `scripts/install-plymouth-localization.sh` installs that persistent dracut configuration, rebuilds the current initramfs when required, and validates the required locale and gettext artifacts. `glibc-langpack-pl` is an explicit RPM dependency so the small per-language locale tree is used instead of embedding the 223 MiB global locale archive.
+
+The rebuilt physical-host initramfs grew only from about 156 MiB to 157 MiB, booted successfully on kernel `7.2.5-200.fc44.x86_64`, and `systemctl --failed` reported zero failed units. Final visual confirmation of the translated offline-update screen remains pending until the next real offline update.
 
 ## GNOME system-extension audit
 

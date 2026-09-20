@@ -571,6 +571,28 @@ else
 fi
 
 echo
+echo "=== PAPERS / NAUTILUS POLISH LOCALIZATION ==="
+PAPERS_VERIFY="$ROOT_DIR/scripts/verify-papers-localization.sh"
+if [[ ! -x "$PAPERS_VERIFY" ]]; then
+  bad "Papers localization verifier missing or not executable"
+elif "$PAPERS_VERIFY"; then
+  ok "Papers / Nautilus document-properties localization matches repository"
+else
+  bad "Papers / Nautilus document-properties localization missing or differs"
+fi
+
+echo
+echo "=== PLYMOUTH POLISH LOCALIZATION ==="
+PLYMOUTH_VERIFY="$ROOT_DIR/scripts/verify-plymouth-localization.sh"
+if [[ ! -x "$PLYMOUTH_VERIFY" ]]; then
+  bad "Plymouth localization verifier missing or not executable"
+elif "$PLYMOUTH_VERIFY"; then
+  ok "Plymouth Polish offline-update localization state matches repository"
+else
+  bad "Plymouth Polish offline-update localization state missing or differs"
+fi
+
+echo
 echo "=== DESKTOP LAUNCHERS ==="
 if [[ -f "$HOME/Pulpit/Counter-Strike 2.desktop" ]]; then ok "desktop launcher: Counter-Strike 2.desktop"; else warn "desktop launcher missing: Counter-Strike 2.desktop"; fi
 ASUS_CONF="$ROOT_DIR/desktop/launchers/asus-router.conf"

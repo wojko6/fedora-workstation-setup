@@ -136,4 +136,12 @@ echo "=== POLISH LOCALIZATION: Advanced Media Controller v31 / 6.5 ==="
 bash "$ROOT_DIR/scripts/install-advanced-media-controller-localization.sh"
 
 echo
+echo "=== POLISH LOCALIZATION: Papers / Nautilus document properties ==="
+bash "$ROOT_DIR/scripts/install-papers-localization.sh"
+
+echo
+echo "=== POLISH LOCALIZATION: Plymouth offline updates ==="
+bash "$ROOT_DIR/scripts/install-plymouth-localization.sh"
+
+echo
 echo "Custom Polish localizations complete."
