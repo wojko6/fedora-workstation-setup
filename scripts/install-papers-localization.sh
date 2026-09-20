@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
-PACKAGE="papers-nautilus"
+PACKAGES=(papers papers-nautilus)
 EXPECTED_VERSION="49.8"
 OVERLAY="$ROOT_DIR/localization/papers/pl-overlay.po"
 TARGET_MO="/usr/share/locale/pl/LC_MESSAGES/papers.mo"
@@ -15,16 +15,18 @@ for cmd in rpm msgfmt msgunfmt msgcat cmp python3 sudo; do
     fi
 done
 
-if ! rpm -q "$PACKAGE" >/dev/null 2>&1; then
-    echo "FAIL: required package not installed: $PACKAGE" >&2
-    exit 1
-fi
+for package in "${PACKAGES[@]}"; do
+    if ! rpm -q "$package" >/dev/null 2>&1; then
+        echo "FAIL: required package not installed: $package" >&2
+        exit 1
+    fi
 
-version="$(rpm -q --qf '%{VERSION}\n' "$PACKAGE")"
-if [[ "$version" != "$EXPECTED_VERSION" ]]; then
-    echo "FAIL: Papers version drift: expected $EXPECTED_VERSION, found $version" >&2
-    exit 1
-fi
+    version="$(rpm -q --qf '%{VERSION}\n' "$package")"
+    if [[ "$version" != "$EXPECTED_VERSION" ]]; then
+        echo "FAIL: $package version drift: expected $EXPECTED_VERSION, found $version" >&2
+        exit 1
+    fi
+done
 
 for path in "$OVERLAY" "$TARGET_MO"; do
     if [[ ! -f "$path" ]]; then
@@ -55,6 +57,7 @@ expected = {
     "Paper Size": "Rozmiar papieru",
     "Contains Javascript": "Zawiera JavaScript",
     "Size": "Rozmiar",
+    "No Annotations": "Brak przypisów",
 }
 
 with open(sys.argv[1], "rb") as fh:
@@ -109,4 +112,4 @@ if command -v nautilus >/dev/null 2>&1; then
     nautilus -q >/dev/null 2>&1 || true
 fi
 
-echo "PASS: Papers / Nautilus document-properties Polish localization installed"
+echo "PASS: Papers / Nautilus Polish localization completion installed"

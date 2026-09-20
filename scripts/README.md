@@ -29,7 +29,7 @@ The top-level `install.sh` orchestrates these stages. Individual stages should r
 Dedicated `verify-*-localization.sh` scripts validate exact-version, completion-overlay, and system-localization targets and are wired into `verify.sh`.
 
 System localization helpers:
-- `install-papers-localization.sh` / `verify-papers-localization.sh` — Papers 49.8 / Nautilus document-properties Polish completion.
+- `install-papers-localization.sh` / `verify-papers-localization.sh` — Papers 49.8 / Nautilus Polish completion for confirmed document-properties and annotations-sidebar gaps.
 - `install-plymouth-localization.sh` / `verify-plymouth-localization.sh` — Fedora 44 Plymouth offline-update Polish locale persistence through dracut.
 - `install-ptyxis-localization.sh` / `verify-ptyxis-localization.sh` — Ptyxis 50.1 Polish main-domain bridge enabling existing libadwaita About-dialog translations.
 

@@ -51,3 +51,6 @@ msgstr "Zawiera JavaScript"
 
 msgid "Size"
 msgstr "Rozmiar"
+
+msgid "No Annotations"
+msgstr "Brak przypisów"

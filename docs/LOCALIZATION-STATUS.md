@@ -141,11 +141,11 @@ Runtime testing confirmed that creating a minimal Polish catalog for the main `p
 
 The physical workstation visually confirmed the corrected About dialog: `Strona programu`, `Zgłoś błąd`, `Rozwiązywanie problemów`, `Zasługi`, and `Kwestie prawne`.
 
-### Papers 49.8 / Nautilus document properties
+### Papers 49.8 / Nautilus completion overlay
 
-The Fedora 44 workstation uses `papers-nautilus 49.8-1.fc44` for the document-properties page exposed inside Nautilus. Runtime inspection confirmed that `libpapers-document-properties.so` uses `g_dgettext` with the `papers` domain, while the installed Polish `papers.mo` lacked the affected labels.
+The Fedora 44 workstation uses Papers 49.8 and `papers-nautilus 49.8-1.fc44`. Runtime inspection confirmed that the Nautilus document-properties extension uses the `papers` gettext domain, while source inspection of the exact Papers 49.8 tag confirmed that the viewer's `No Annotations` status-page title uses the same domain without a message context. The installed Polish `papers.mo` lacked these affected labels.
 
-The repository carries a minimal completion overlay in `localization/papers/pl-overlay.po`. The installer is pinned to Papers 49.8, preserves the existing Fedora catalog, merges the reviewed missing entries, and installs the rebuilt `papers.mo`. The dedicated verifier checks the package version, repository overlay, and exact translated values in the live catalog.
+The repository carries a minimal completion overlay in `localization/papers/pl-overlay.po`. It uses `Brak przypisów` for `No Annotations`, matching the existing Polish terminology for `Annotations`, `Annotation Properties`, and `Remove Annotation`. The installer is pinned to both the Papers and papers-nautilus 49.8 packages, preserves the existing Fedora catalog, merges the reviewed missing entries, and installs the rebuilt `papers.mo`. The dedicated verifier checks package versions, the repository overlay, and exact translated values in the live catalog.
 
 The physical workstation visually confirmed the completed document-properties UI, including `Właściwości dokumentu`, `Lokalizacja`, `Twórca`, `Liczba stron`, and the remaining audited labels.
 
