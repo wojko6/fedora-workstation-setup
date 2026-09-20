@@ -42,8 +42,12 @@ if [[ -f "$TARGET_MO" ]] && cmp -s "$tmp_mo" "$TARGET_MO"; then
 fi
 
 if [[ -f "$TARGET_MO" && ! -f "$BACKUP_MO" ]]; then
-    sudo cp -a "$TARGET_MO" "$BACKUP_MO"
-    echo "Backup: $BACKUP_MO"
+    if rpm -qf "$TARGET_MO" >/dev/null 2>&1; then
+        sudo cp -a "$TARGET_MO" "$BACKUP_MO"
+        echo "Backup: $BACKUP_MO"
+    else
+        echo "INFO: replacing unowned/local Ptyxis catalog without creating an upstream backup"
+    fi
 fi
 
 sudo install -D -m 0644 "$tmp_mo" "$TARGET_MO"
