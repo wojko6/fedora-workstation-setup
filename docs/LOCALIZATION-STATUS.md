@@ -26,7 +26,7 @@ Repository-managed localization/integration currently covers:
 - Advanced Media Controller v31 / 6.5 full Polish catalog
 - Papers 49.8 / Nautilus document-properties completion overlay
 - Plymouth offline-update Polish locale persistence in initramfs
-- Ptyxis 50.1 Polish main-domain bridge for libadwaita About-dialog localization
+- Ptyxis 50.1 Polish main-window/menu completion plus libadwaita About-dialog localization
 
 Dhruva remains the largest accepted case: 393 gettext messages, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
@@ -140,15 +140,15 @@ The final corrected catalog was installed on the physical Fedora workstation and
 
 ## System UI localization added on 2026-09-20
 
-### Ptyxis 50.1 / libadwaita About dialog
+### Ptyxis 50.1 main window/menu + libadwaita About dialog
 
 The Fedora 44 workstation uses `ptyxis-50.1-2.fc44` with `libadwaita-1.9.4-1.fc44`. The installed Polish `libadwaita.mo` already contains correct translations for `_Website`, `_Report an Issue`, `_Troubleshooting`, `_Credits`, and `_Legal`, but the Fedora Ptyxis package does not ship `/usr/share/locale/pl/LC_MESSAGES/ptyxis.mo`.
 
-Runtime testing confirmed that creating a minimal Polish catalog for the main `ptyxis` gettext domain immediately allows the libadwaita About dialog to use those existing Polish translations. The repository therefore carries `localization/ptyxis/pl.po` as a small compatibility bridge instead of modifying `libadwaita.mo`.
+The first repository bridge activated the main `ptyxis` gettext domain and fixed the libadwaita About dialog, but a subsequent physical UI audit showed that the primary Ptyxis menu still fell back to English for entries such as `New Tab`, `New Window`, `Show Open Tabs`, `Fullscreen`, `Preferences`, and `Keyboard Shortcuts`. The repository catalog has therefore been expanded into a version-pinned main-window/menu completion while retaining the existing libadwaita integration.
 
-`scripts/install-ptyxis-localization.sh` is pinned to Ptyxis 50.1, installs the repository catalog, preserves a pre-existing package-owned catalog as an upstream backup, replaces unowned/local test catalogs without mislabeling them as upstream, restores SELinux context when available, and performs a gettext smoke test. `scripts/verify-ptyxis-localization.sh` checks the exact package version, byte-for-byte repository catalog state, the active Polish Ptyxis domain, and the five required libadwaita About-dialog translations.
+`scripts/install-ptyxis-localization.sh` remains pinned to Ptyxis 50.1, installs the repository catalog, preserves a pre-existing package-owned catalog as an upstream backup, replaces unowned/local test catalogs without mislabeling them as upstream, restores SELinux context when available, and now smoke-tests the audited primary-menu translations. `scripts/verify-ptyxis-localization.sh` checks the exact package version, byte-for-byte repository catalog state, the required Ptyxis menu translations, and the five required libadwaita About-dialog translations.
 
-The physical workstation visually confirmed the corrected About dialog: `Strona programu`, `Zgłoś błąd`, `Rozwiązywanie problemów`, `Zasługi`, and `Kwestie prawne`.
+The earlier About-dialog fix was visually confirmed on the physical workstation. Visual acceptance of the expanded main-window/menu completion is pending installation of the updated catalog and restart of Ptyxis.
 
 ### Papers 49.8 / Nautilus completion overlay
 
@@ -182,7 +182,7 @@ PASS=231 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current accepted physical-host localization baseline. The Ptyxis About dialog was visually confirmed in Polish, the Papers / Nautilus document-properties UI was visually confirmed in Polish, and Plymouth's initramfs state is technically verified; final visual confirmation of the Plymouth offline-update screen remains pending until a real offline update occurs.
+This remains the last complete accepted physical-host localization baseline, recorded before the expanded Ptyxis main-window/menu completion. The earlier Ptyxis About dialog was visually confirmed in Polish, the Papers / Nautilus document-properties UI was visually confirmed in Polish, and Plymouth's initramfs state is technically verified. The expanded Ptyxis menu completion now requires installation, a new Ptyxis process, visual confirmation, and a fresh full verifier run; final visual confirmation of the Plymouth offline-update screen also remains pending until a real offline update occurs.
 
 The historical clean-room VM result remains unchanged:
 
