@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Physical baseline refreshed 2026-09-20; Recovery and Stability Gates passed; Ptyxis main-menu localization visually accepted; Bluetooth Battery Meter v49 source pin promoted; full physical verifier rerun pending
+**Status:** Physical baseline accepted 2026-09-20; Recovery and Stability Gates passed; Ptyxis main-menu localization visually accepted; Bluetooth Battery Meter v49 restore pin accepted; full physical verifier clean
 
 **Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
 
@@ -22,14 +22,14 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After the 2026-09-20 system-localization work for Papers 49.8, Plymouth offline updates, and Ptyxis 50.1 was integrated, and the host had advanced to GNOME Shell 50.5, the current physical-workstation verifier run completed with:
+After the 2026-09-20 Ptyxis main-window completion, Bluetooth Battery Meter v49 restore-pin promotion, and verifier cleanup for the intentionally private ASUS launcher, the physical-workstation verifier completed with:
 
 ```text
-PASS=231 WARN=0 FAIL=0 SKIP=0
+PASS=228 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the last complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. Later Bluetooth Battery Meter v49 localization work passed its dedicated verifier and visual acceptance test but has not yet been followed by another complete physical-host verifier run. The subsequently expanded Ptyxis 50.1 main-window/menu catalog has now been installed, passed its dedicated verifier, and was visually confirmed in Polish on the physical workstation; it is not yet covered by a fresh complete aggregate.
+This is the current accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. Ptyxis 50.1 is installed and visually confirmed in Polish, Bluetooth Battery Meter v49 is now both the active runtime and the reproducible restore pin, and no warnings, failures, or environment skips remain in the physical acceptance run. The absolute PASS count is not directly comparable with earlier runs because intentionally private ASUS-launcher checks were removed from acceptance counters rather than treated as warning/skip results.
 
 ## Current desired state
 
@@ -90,7 +90,8 @@ The setup pipeline now validates the supported baseline before executing changes
 Final physical-host verification:
 
 ```text
-PASS=231 WARN=0 FAIL=0 SKIP=0
+PASS=228 WARN=0 FAIL=0 SKIP=0
+VERIFY_RC=0
 ```
 
 ## Security validation
@@ -161,7 +162,7 @@ Advanced Media Controller v31 / 6.5 ships no Polish catalog in the tested archiv
 
 Papers 49.8 uses a minimal completion overlay for the Nautilus document-properties provider, the `No Annotations` status page, and the empty start page. The completed catalog was installed and matched the repository-managed overlay, and all three affected UI areas were visually confirmed in Polish.
 
-All 12 version-specific GNOME-extension localization installers, plus the system-level Papers, Plymouth, and Ptyxis stages, are invoked by `scripts/install-localizations.sh`. Dedicated localization verifiers are integrated into the main `scripts/verify.sh`. The last complete physical-host verifier remains the accepted `PASS=231 WARN=0 FAIL=0 SKIP=0` aggregate; the later Bluetooth Battery Meter v49 completion passed its dedicated verifier and visual acceptance test.
+All 12 version-specific GNOME-extension localization installers, plus the system-level Papers, Plymouth, and Ptyxis stages, are invoked by `scripts/install-localizations.sh`. Dedicated localization verifiers are integrated into the main `scripts/verify.sh`. The current complete physical-host verifier is accepted at `PASS=228 WARN=0 FAIL=0 SKIP=0`, with Ptyxis 50.1 and Bluetooth Battery Meter v49 included in the verified desired state.
 
 ## Important reproducibility decisions
 
@@ -182,7 +183,7 @@ The 2026-09-19 Recovery and Stability Gates were completed without unresolved wa
 
 System-level Polish localization was extended and made reproducible for Papers 49.8 / Nautilus document properties, Papers annotations and empty start page, Plymouth offline updates, and Ptyxis 50.1. Papers received a minimal completion overlay, Plymouth's existing Polish catalog and locale data were persisted into initramfs through dracut, and Ptyxis initially received a minimal main gettext-domain bridge that activated libadwaita's existing Polish About-dialog translations. A later physical UI audit found the primary Ptyxis menu still falling back to English, so the repository catalog was expanded to cover the audited main-window/menu messages. The expanded catalog was installed, the dedicated verifier passed, and the restarted Ptyxis menu was visually confirmed in Polish on the physical workstation.
 
-The physical workstation was running GNOME Shell 50.5 during the final acceptance run. The complete live verifier finished with `PASS=231 WARN=0 FAIL=0 SKIP=0`, establishing the new current physical baseline. The historical clean-room VM result remains `PASS=147 WARN=0 FAIL=0 SKIP=8` on Fedora 44 / GNOME 50.4.
+The physical workstation was running GNOME Shell 50.5 during the final acceptance run. After the final Ptyxis and Bluetooth Battery Meter v49 updates, the complete live verifier finished with `PASS=228 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`, establishing the current physical baseline. The historical clean-room VM result remains `PASS=147 WARN=0 FAIL=0 SKIP=8` on Fedora 44 / GNOME 50.4.
 
 ## Bluetooth Battery Meter BudsLink localization — 2026-09-20
 
@@ -247,7 +248,7 @@ bash scripts/verify.sh
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, and system-localization changes. The last complete accepted physical-host aggregate remains `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. Bluetooth Battery Meter v49 localization passed its dedicated verifier and visual acceptance test, and the repository now restores the exact pinned v49 EGO archive. A fresh full physical-host verifier run is still pending after the later Ptyxis and v49 lock changes.
+The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, and system-localization changes. The current complete physical-host aggregate is `PASS=228 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. Ptyxis 50.1 is visually accepted in Polish, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the physical host matches the recorded desired state.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 
@@ -260,7 +261,6 @@ Routine maintenance remains plus one explicitly deferred security decision:
 - repeat the clean-room restore test after major Fedora/GNOME changes;
 - keep private machine-specific configuration and signing material separate from the public repository;
 - rerun physical-host verification after material desired-state changes, especially kernel/NVIDIA updates;
-- rerun the full physical-host verifier after the accepted Ptyxis 50.1 main-window/menu localization change;
 - re-audit version-pinned localization whenever an extension version changes;
 - test future Fedora/GNOME 51 changes in a VM before promoting them to the physical workstation.
 
@@ -272,4 +272,4 @@ The tested baseline is considered accepted when required packages, repositories,
 
 `scripts/verify.sh` must report zero `WARN` and zero `FAIL` on the validated physical target.
 
-**Last complete accepted physical aggregate: `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
+**Last complete accepted physical aggregate: `PASS=228 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
