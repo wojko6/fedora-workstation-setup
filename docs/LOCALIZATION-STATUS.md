@@ -175,14 +175,14 @@ The rebuilt physical-host initramfs grew only from about 156 MiB to 157 MiB, boo
 
 ## Physical verification state
 
-After the Papers, Plymouth, and Ptyxis localization stages were integrated and the physical host had advanced to GNOME Shell 50.5, the full `scripts/verify.sh` acceptance run completed with:
+After the expanded Ptyxis main-window/menu completion and Bluetooth Battery Meter v49 restore-pin promotion were integrated, the physical Fedora 44 / GNOME Shell 50.5 workstation completed a fresh full `scripts/verify.sh` acceptance run with:
 
 ```text
-PASS=231 WARN=0 FAIL=0 SKIP=0
+PASS=228 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This remains the last complete accepted physical-host localization baseline, recorded before the expanded Ptyxis main-window/menu completion. The earlier Ptyxis About dialog was visually confirmed in Polish, the expanded Ptyxis menu completion has now been installed, passed its dedicated verifier, and was visually confirmed after restarting Ptyxis. The Papers / Nautilus document-properties UI was also visually confirmed in Polish, and Plymouth's initramfs state is technically verified. A fresh full verifier run is still required to roll the accepted Ptyxis change into the complete physical-host aggregate; final visual confirmation of the Plymouth offline-update screen also remains pending until a real offline update occurs.
+This is the current accepted physical-host localization baseline. The Ptyxis About dialog and main menu were visually confirmed in Polish, Bluetooth Battery Meter v49 passed its dedicated localization verifier and visual acceptance, the Papers / Nautilus document-properties UI was visually confirmed in Polish, and Plymouth's initramfs state is technically verified. Final visual confirmation of the Plymouth offline-update screen remains pending until a real offline update occurs. The PASS total is lower than some earlier aggregates because the intentionally private ASUS launcher was removed from acceptance counters; this is verifier-scope cleanup rather than a localization regression.
 
 The historical clean-room VM result remains unchanged:
 
