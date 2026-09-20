@@ -42,14 +42,24 @@ if ! cmp -s "$tmp_mo" "$TARGET_MO"; then
     exit 1
 fi
 
-actual="$(
-    LANGUAGE=pl LANG=pl_PL.UTF-8 LC_ALL=pl_PL.UTF-8 \
-        gettext -d ptyxis '_About'
-)"
-if [[ "$actual" != "_O programie" ]]; then
-    echo "FAIL: Ptyxis gettext domain is not active in Polish: found '$actual'" >&2
-    exit 1
-fi
+while IFS='|' read -r source expected; do
+    actual="$(
+        LANGUAGE=pl LANG=pl_PL.UTF-8 LC_ALL=pl_PL.UTF-8 \
+            gettext -d ptyxis "$source"
+    )"
+    if [[ "$actual" != "$expected" ]]; then
+        echo "FAIL: Ptyxis Polish string $source: expected '$expected', found '$actual'" >&2
+        exit 1
+    fi
+done <<'EOF'
+New _Tab|Nowa _karta
+New _Window|Nowe _okno
+Show Open Tabs|Pokaż otwarte karty
+Fullscreen|Pełny ekran
+_Preferences|_Preferencje
+_Keyboard Shortcuts|_Skróty klawiszowe
+_About|_O programie
+EOF
 
 while IFS='|' read -r source expected; do
     actual="$(
@@ -68,4 +78,4 @@ _Credits|_Zasługi
 _Legal|_Kwestie prawne
 EOF
 
-echo "PASS: Ptyxis 50.1 main gettext domain and libadwaita Polish About-dialog strings are present"
+echo "PASS: Ptyxis 50.1 Polish main-window catalog and libadwaita About-dialog strings are present"
