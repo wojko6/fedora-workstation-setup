@@ -5,6 +5,8 @@ ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 LIST="$ROOT_DIR/gnome/enabled-extensions.txt"
 INVENTORY="$ROOT_DIR/gnome/extensions-inventory.tsv"
 LOCK="$ROOT_DIR/gnome/extensions-lock.tsv"
+EGO_VERIFIER="$ROOT_DIR/scripts/verify_ego_extension.py"
+GITHUB_METADATA_PREPARER="$ROOT_DIR/scripts/prepare_github_extension_metadata.py"
 
 command -v gnome-extensions >/dev/null 2>&1 || {
   echo "ERROR: gnome-extensions command is unavailable." >&2
@@ -19,6 +21,14 @@ command -v python3 >/dev/null 2>&1 || { echo "ERROR: python3 is required." >&2; 
 [[ -f "$LIST" ]] || { echo "ERROR: missing $LIST" >&2; exit 1; }
 [[ -f "$INVENTORY" ]] || { echo "ERROR: missing $INVENTORY" >&2; exit 1; }
 [[ -f "$LOCK" ]] || { echo "ERROR: missing $LOCK" >&2; exit 1; }
+[[ -f "$EGO_VERIFIER" ]] || {
+  echo "ERROR: missing $EGO_VERIFIER" >&2
+  exit 1
+}
+[[ -f "$GITHUB_METADATA_PREPARER" ]] || {
+  echo "ERROR: missing $GITHUB_METADATA_PREPARER" >&2
+  exit 1
+}
 
 shell_major="$(gnome-shell --version | grep -oE '[0-9]+' | head -1)"
 tmp="$(mktemp -d)"
@@ -66,10 +76,15 @@ ego_archive_version() {
 # Dots in the UUID are preserved. Replacing both '@' and '.' with underscores
 # produced invalid URLs and caused clean restores to receive HTTP 404.
 install_ego() {
-  local uuid="$1" archive_version="$2"
-  local dest zip url archive_uuid stage metadata_uuid parent backup
+  local uuid="$1" archive_version="$2" expected_sha256="$3"
+  local dest zip url archive_uuid stage parent backup
 
   [[ -n "$archive_version" ]] || return 2
+
+  if [[ ! "$expected_sha256" =~ ^[0-9a-f]{64}$ ]]; then
+    echo "ERROR: missing or invalid SHA-256 lock for $uuid." >&2
+    return 1
+  fi
 
   dest="$HOME/.local/share/gnome-shell/extensions/$uuid"
   parent="$(dirname "$dest")"
@@ -87,8 +102,13 @@ install_ego() {
     return 1
   fi
 
-  if ! unzip -tq "$zip" >/dev/null 2>&1; then
-    echo "WARN: downloaded archive is invalid for $uuid EGO v$archive_version." >&2
+  if ! python3 "$EGO_VERIFIER" \
+      --archive "$zip" \
+      --sha256 "$expected_sha256" \
+      --uuid "$uuid" \
+      --version "$archive_version" \
+      --shell-major "$shell_major"; then
+    echo "WARN: security verification failed for $uuid EGO v$archive_version." >&2
     return 1
   fi
 
@@ -100,28 +120,6 @@ install_ego() {
     echo "WARN: failed to extract $uuid EGO v$archive_version." >&2
     rm -rf "$stage"
     return 1
-  fi
-
-  if [[ ! -f "$stage/metadata.json" ]]; then
-    echo "WARN: $uuid EGO v$archive_version archive has no metadata.json." >&2
-    rm -rf "$stage"
-    return 1
-  fi
-
-  metadata_uuid="$(
-    sed -n 's/.*"uuid"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' \
-      "$stage/metadata.json" | head -n1
-  )"
-
-  if [[ "$metadata_uuid" != "$uuid" ]]; then
-    printf 'WARN: archive UUID mismatch: expected %s, found %s.\n' \
-      "$uuid" "${metadata_uuid:-unknown}" >&2
-    rm -rf "$stage"
-    return 1
-  fi
-
-  if ! grep -q "\"$shell_major\"" "$stage/metadata.json" 2>/dev/null; then
-    echo "WARN: $uuid EGO v$archive_version does not declare GNOME $shell_major compatibility." >&2
   fi
 
   if ! compile_extension_schemas "$uuid" "$stage"; then
@@ -142,19 +140,20 @@ install_ego() {
   else
     echo "WARN: failed to install $uuid EGO v$archive_version; restoring previous installation." >&2
     rm -rf "$dest"
+
     if [[ -e "$backup" ]]; then
       mv "$backup" "$dest"
     fi
+
     return 1
   fi
 
   return 0
 }
 
-
 install_github_commit() {
   local uuid="$1" runtime_version="$2" repo_url="$3" commit="$4"
-  local dest parent archive stage backup metadata_uuid
+  local dest parent archive stage backup
 
   [[ -n "$runtime_version" && -n "$repo_url" && -n "$commit" ]] || return 2
 
@@ -195,71 +194,12 @@ install_github_commit() {
     return 1
   fi
 
-  if [[ ! -f "$stage/metadata.json" ]]; then
-    echo "WARN: GitHub source for $uuid has no metadata.json." >&2
-    rm -rf "$stage"
-    return 1
-  fi
-
-  metadata_uuid="$(
-    sed -n 's/.*"uuid"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' \
-      "$stage/metadata.json" | head -n1
-  )"
-
-  if [[ "$metadata_uuid" != "$uuid" ]]; then
-    printf 'WARN: source UUID mismatch: expected %s, found %s.\n' \
-      "$uuid" "${metadata_uuid:-unknown}" >&2
-    rm -rf "$stage"
-    return 1
-  fi
-
-  if ! python3 - "$stage/metadata.json" "$runtime_version" "$uuid" <<'PYMETA'
-from pathlib import Path
-import re
-import sys
-
-path = Path(sys.argv[1])
-version = sys.argv[2]
-
-if not version.isdigit():
-    raise SystemExit("runtime version must be numeric")
-
-text = path.read_text()
-
-if re.search(r'(?m)^\s*"version"\s*:', text):
-    text = re.sub(
-        r'(?m)^(\s*)"version"\s*:\s*[^,\n]+,?',
-        rf'\1"version": {version},',
-        text,
-        count=1,
-    )
-else:
-    match = re.search(r'(?m)^(\s*)"version-name"\s*:', text)
-    if not match:
-        raise SystemExit('metadata.json has no "version-name" insertion point')
-
-    indent = match.group(1)
-    text = (
-        text[:match.start()]
-        + f'{indent}"version": {version},\n'
-        + text[match.start():]
-    )
-
-if sys.argv[3] == "dhruva@narkagni" and '"gettext-domain"' not in text:
-    stripped = text.rstrip()
-    if not stripped.endswith("}"):
-        raise SystemExit("invalid metadata.json")
-
-    body = stripped[:-1].rstrip()
-    if not body.endswith(","):
-        body += ","
-
-    text = body + '\n  "gettext-domain": "dhruva"\n}\n'
-
-path.write_text(text)
-PYMETA
-  then
-    echo "WARN: failed to set runtime version metadata for $uuid." >&2
+  if ! python3 "$GITHUB_METADATA_PREPARER" \
+      --metadata "$stage/metadata.json" \
+      --uuid "$uuid" \
+      --version "$runtime_version" \
+      --shell-major "$shell_major"; then
+    echo "WARN: strict metadata validation/preparation failed for $uuid." >&2
     rm -rf "$stage"
     return 1
   fi
@@ -270,10 +210,6 @@ PYMETA
     "$stage/Makefile" \
     "$stage/README.md" \
     "$stage/media"
-
-  if ! grep -q "\"$shell_major\"" "$stage/metadata.json" 2>/dev/null; then
-    echo "WARN: $uuid pinned source does not declare GNOME $shell_major compatibility." >&2
-  fi
 
   if ! compile_extension_schemas "$uuid" "$stage"; then
     rm -rf "$stage"
@@ -293,9 +229,11 @@ PYMETA
   else
     echo "WARN: failed to install $uuid; restoring previous installation." >&2
     rm -rf "$dest"
+
     if [[ -e "$backup" ]]; then
       mv "$backup" "$dest"
     fi
+
     return 1
   fi
 
@@ -304,8 +242,13 @@ PYMETA
 
 install_user_extension() {
   local uuid="$1" expected_version="$2"
-  local source="${lock_sources[$uuid]:-ego}"
+  local source="${lock_sources[$uuid]:-}"
   local source_ref="${lock_refs[$uuid]:-}"
+
+  if [[ -z "$source" ]]; then
+    printf 'ERROR: no source lock exists for user extension %s\n' "$uuid" >&2
+    return 1
+  fi
 
   case "$source" in
     github-commit)
@@ -322,10 +265,11 @@ install_user_extension() {
         "$source_ref"
       ;;
 
-    ego|"")
+    ego)
       install_ego \
         "$uuid" \
-        "$(ego_archive_version "$uuid" "$expected_version")"
+        "$(ego_archive_version "$uuid" "$expected_version")" \
+        "${lock_hashes[$uuid]:-}"
       ;;
 
     *)
@@ -345,8 +289,8 @@ while IFS=$'\t' read -r uuid _name version _shells url location; do
   urls["$uuid"]="$url"
 done < "$INVENTORY"
 
-declare -A lock_versions lock_sources lock_refs
-while IFS=$'\t' read -r uuid runtime_version source source_ref; do
+declare -A lock_versions lock_sources lock_refs lock_hashes
+while IFS=$'\t' read -r uuid runtime_version source source_ref sha256; do
   [[ "$uuid" == "uuid" || -z "$uuid" ]] && continue
 
   if [[ -z "${versions[$uuid]:-}" ]]; then
@@ -363,6 +307,7 @@ while IFS=$'\t' read -r uuid runtime_version source source_ref; do
   lock_versions["$uuid"]="$runtime_version"
   lock_sources["$uuid"]="$source"
   lock_refs["$uuid"]="$source_ref"
+  lock_hashes["$uuid"]="$sha256"
 done < "$LOCK"
 
 missing=0
@@ -379,7 +324,7 @@ while IFS= read -r uuid; do
        ! version_matches "$current_version" "$expected_version"; then
       printf 'DRIFT: %s expected runtime version %s, found %s\n' \
         "$uuid" "$expected_version" "${current_version:-unknown}"
-      printf 'RESTORE: reinstalling pinned source %s\n' "${lock_sources[$uuid]:-ego}"
+      printf 'RESTORE: reinstalling pinned source %s\n' "${lock_sources[$uuid]:-missing-lock}"
 
       if install_user_extension "$uuid" "$expected_version"; then
         printf 'DONE: restored %s from pinned source\n' "$uuid"

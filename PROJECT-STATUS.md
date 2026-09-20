@@ -45,7 +45,9 @@ The physical-host desired state includes:
 - Wi-Fi persisted to the dedicated firewalld `workstation-kdeconnect` zone and the active interface attached to the same zone;
 - GSConnect D-Bus integration and KDE Connect firewalld service;
 - repository-managed Polish localization verification;
-- extension version pinning and drift detection.
+- extension version pinning and drift detection;
+- fail-closed source locking for enabled user extensions, including SHA-256 pins for EGO archives and an exact GitHub commit pin for Dhruva;
+- strict JSON metadata validation for EGO and pinned GitHub extension sources.
 
 NordVPN, gNordVPN-Local, and Freon are intentionally absent from the current desired state. Tailscale remains the supported overlay/VPN component tracked by this repository.
 
@@ -175,7 +177,31 @@ System-level Polish localization was extended and made reproducible for Papers 4
 
 The physical workstation was running GNOME Shell 50.5 during the final acceptance run. The complete live verifier finished with `PASS=231 WARN=0 FAIL=0 SKIP=0`, establishing the new current physical baseline. The historical clean-room VM result remains `PASS=147 WARN=0 FAIL=0 SKIP=8` on Fedora 44 / GNOME 50.4.
 
-## Repository validation
+## Extension supply-chain hardening — 2026-09-20
+
+H3 and L2 have been implemented and locally validated.
+
+All 21 current extensions.gnome.org user-extension archives are recorded in `gnome/extensions-lock.tsv` with SHA-256 pins. The restore path verifies the digest before extraction and strictly parses `metadata.json`, rejecting checksum mismatch, malformed or duplicate-key JSON, UUID mismatch, runtime-version mismatch, and missing GNOME Shell 50 compatibility.
+
+Dhruva remains pinned to exact upstream commit:
+
+```text
+f8121f68fcef48c0324e8cd87fd30bf9a2131962
+ts GitHub metadata path now uses strict JSON validation and deterministic metadata preparation instead of grep/sed/regex parsing.
+
+Real-source local validation completed with:
+REAL_EGO_PASS=21
+REAL_EGO_FAIL=0
+REAL DHRUVA SOURCE: PASS
+Negative fixture suites also passed for invalid SHA-256, UUID mismatch, malformed JSON, duplicate JSON keys, runtime-version mismatch, invalid version type, and missing GNOME Shell compatibility.
+
+Current status:
+H3: IMPLEMENTED — LOCALLY VALIDATED
+L2: IMPLEMENTED — LOCALLY VALIDATED
+Final closure requires the committed/pushed revision to pass GitHub Actions.
+
+Repository validation
+
 
 Repository-only validation is automated through `scripts/check-static.sh`, which is used both locally and by GitHub Actions. It covers Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON validation, and desired-state inventory consistency.
 

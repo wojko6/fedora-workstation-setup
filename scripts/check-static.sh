@@ -58,4 +58,12 @@ echo "=== REPOSITORY CONSISTENCY ==="
 python3 scripts/validate-repository.py
 
 echo
+echo "=== EXTENSION SECURITY FIXTURES ==="
+python3 scripts/test_extension_security.py
+
+echo
+echo "=== GITHUB METADATA SECURITY FIXTURES ==="
+python3 scripts/test_github_metadata_security.py
+
+echo
 echo "=== STATIC CHECKS: PASS ==="

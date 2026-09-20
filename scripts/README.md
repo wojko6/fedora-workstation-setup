@@ -44,5 +44,9 @@ System localization helpers:
 - `generate-dhruva-emoji-pl.py`
 - `inventory-extensions.sh`
 - `validate-repository.py`
+- `verify_ego_extension.py` — SHA-256 and strict JSON verification for pinned EGO archives.
+- `prepare_github_extension_metadata.py` — strict JSON validation and deterministic metadata preparation for pinned GitHub extension sources.
+- `test_extension_security.py` — negative fixtures for EGO checksum, UUID, JSON, runtime-version and GNOME compatibility enforcement.
+- `test_github_metadata_security.py` — negative fixtures for pinned GitHub metadata handling.
 
 Do not add ad-hoc one-off scripts unless they are part of the documented restore, audit, or validation workflow.

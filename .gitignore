@@ -29,3 +29,7 @@ shell-history*
 
 # Local package inventory (reference only)
 packages/rpm-userinstalled-full.txt
+
+# Python bytecode/cache
+__pycache__/
+*.pyc

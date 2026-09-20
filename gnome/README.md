@@ -19,7 +19,11 @@ Dhruva is the canonical dock. Its deterministic dock order and application-folde
 
 `enabled-extensions.txt` is the accepted extension desired state. An extension is promoted there only after physical-host runtime validation on the current Fedora/GNOME baseline.
 
-`extensions-inventory.tsv` records the accepted runtime/internal extension version observed on the workstation. `scripts/install-extensions.sh` checks already-installed user extensions against those runtime pins instead of silently accepting version drift. Ordinary user extensions are restored from their pinned extensions.gnome.org archive. Extensions that require another reproducible source are recorded in `extensions-lock.tsv`. Dhruva runtime version 17 / 2.0 is pinned to upstream GitHub commit `f8121f68fcef48c0324e8cd87fd30bf9a2131962`; the older EGO v16 archive is not used for that restore.
+`extensions-inventory.tsv` records the accepted runtime/internal extension version observed on the workstation. `scripts/install-extensions.sh` checks already-installed user extensions against those runtime pins instead of silently accepting version drift.
+
+`extensions-lock.tsv` is the fail-closed source lock for every enabled user extension. The 21 current extensions.gnome.org (EGO) sources are pinned by runtime version and SHA-256. Before extraction, restore verifies the archive hash and parses `metadata.json` strictly as JSON. Checksum drift, malformed or duplicate-key JSON, UUID mismatch, runtime-version mismatch, and missing GNOME Shell compatibility are rejected.
+
+Dhruva runtime version 17 / 2.0 is pinned separately to upstream GitHub commit `f8121f68fcef48c0324e8cd87fd30bf9a2131962`. Its source metadata also uses strict JSON validation and deterministic preparation instead of grep/sed/regex parsing. The older EGO v16 archive is not used for that restore.
 
 The 2026-09-17 Lau-inspired refresh audit is closed. `extension-candidates-lau.txt` is retained as a historical decision record rather than an active candidate queue. ArcMenu, Bluetooth Battery Meter, Caffeine, GSConnect, Tiling Shell, and User Themes remain in the current desired state. Freon also passed that refresh and was temporarily promoted, but was later removed by design. Media Controls was rejected for the GNOME 50 baseline because the tested release was out of date and did not declare GNOME 50 compatibility. Dash2Dock Animated was removed because Dhruva is the canonical dock and the two docks conflict visually.
 

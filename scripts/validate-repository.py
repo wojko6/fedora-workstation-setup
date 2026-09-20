@@ -13,7 +13,13 @@ INVENTORY = ROOT / "gnome" / "extensions-inventory.tsv"
 LOCK = ROOT / "gnome" / "extensions-lock.tsv"
 
 EXPECTED_HEADER = ["uuid", "name", "version", "shell_versions", "url", "location"]
-EXPECTED_LOCK_HEADER = ["uuid", "runtime_version", "source", "source_ref"]
+EXPECTED_LOCK_HEADER = [
+    "uuid",
+    "runtime_version",
+    "source",
+    "source_ref",
+    "sha256",
+]
 REJECTED_EXTENSIONS = {
     "mediacontrols@cliffniff.github.com": "rejected for the GNOME 50 baseline",
     "dash2dock-lite@icedman.github.com": "conflicts with the canonical Dhruva dock",
@@ -106,6 +112,7 @@ for row in lock_rows:
     runtime_version = row.get("runtime_version", "").strip()
     source = row.get("source", "").strip()
     source_ref = row.get("source_ref", "").strip()
+    sha256 = row.get("sha256", "").strip()
 
     if not uuid:
         continue
@@ -136,16 +143,50 @@ for row in lock_rows:
 
         url = inventory_row.get("url", "").strip()
         if not url.startswith("https://github.com/"):
-            fail(f"GitHub commit source requires GitHub inventory URL: {uuid}: {url!r}")
+            fail(
+                f"GitHub commit source requires GitHub inventory URL: "
+                f"{uuid}: {url!r}"
+            )
+
+        if sha256 != "-":
+            fail(
+                f"GitHub commit SHA-256 field must be '-': "
+                f"{uuid}: {sha256!r}"
+            )
+
     elif source == "ego":
-        if source_ref:
-            fail(f"EGO lock source_ref must be empty: {uuid}: {source_ref!r}")
+        if source_ref != "-":
+            fail(
+                f"EGO lock source_ref must be '-': "
+                f"{uuid}: {source_ref!r}"
+            )
+
+        if not re.fullmatch(r"[0-9a-f]{64}", sha256):
+            fail(
+                f"invalid EGO SHA-256 pin: "
+                f"{uuid}: {sha256!r}"
+            )
+
     else:
-        fail(f"unsupported extension lock source: {uuid}: {source!r}")
+        fail(
+            f"unsupported extension lock source: "
+            f"{uuid}: {source!r}"
+        )
+
+lock_uuid_set = set(lock_uuids)
 
 for uuid in enabled:
     if uuid not in inventory_by_uuid:
         fail(f"enabled extension missing from inventory: {uuid}")
+        continue
+
+    inventory_row = inventory_by_uuid[uuid]
+    location = inventory_row.get("location", "").strip()
+
+    if location.startswith(USER_PREFIX) and uuid not in lock_uuid_set:
+        fail(
+            f"enabled user extension missing source lock: {uuid}"
+        )
 
 for row in rows:
     uuid = row.get("uuid", "").strip()
