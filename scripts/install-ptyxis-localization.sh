@@ -60,14 +60,24 @@ if ! cmp -s "$tmp_mo" "$TARGET_MO"; then
     exit 1
 fi
 
-actual="$(
-    LANGUAGE=pl LANG=pl_PL.UTF-8 LC_ALL=pl_PL.UTF-8 \
-        gettext -d ptyxis '_About'
-)"
-if [[ "$actual" != "_O programie" ]]; then
-    echo "FAIL: Ptyxis gettext smoke test: expected '_O programie', found '$actual'" >&2
-    exit 1
-fi
+while IFS='|' read -r source expected; do
+    actual="$(
+        LANGUAGE=pl LANG=pl_PL.UTF-8 LC_ALL=pl_PL.UTF-8 \
+            gettext -d ptyxis "$source"
+    )"
+    if [[ "$actual" != "$expected" ]]; then
+        echo "FAIL: Ptyxis gettext smoke test for '$source': expected '$expected', found '$actual'" >&2
+        exit 1
+    fi
+done <<'EOF'
+New _Tab|Nowa _karta
+New _Window|Nowe _okno
+Show Open Tabs|Pokaż otwarte karty
+Fullscreen|Pełny ekran
+_Preferences|_Preferencje
+_Keyboard Shortcuts|_Skróty klawiszowe
+_About|_O programie
+EOF
 
-echo "PASS: Ptyxis 50.1 Polish localization bridge installed"
-echo "INFO: start a new Ptyxis process to refresh libadwaita About-dialog strings"
+echo "PASS: Ptyxis 50.1 Polish main-window localization installed"
+echo "INFO: start a new Ptyxis process to refresh translated main-window and libadwaita strings"
