@@ -39,7 +39,7 @@ The GNOME 50 extension set was reviewed on the physical Fedora workstation. ArcM
 | Extension | Polish localization status | Repository action |
 | --- | --- | --- |
 | ArcMenu | Upstream Polish support | No duplicate translation |
-| Bluetooth Battery Meter v49 (v46 restore lock) | 16 untranslated BudsLink Companion entries | Completion overlay |
+| Bluetooth Battery Meter v49 | 16 untranslated BudsLink Companion entries | Completion overlay + v49 restore pin |
 | Caffeine | Upstream Polish support | No duplicate translation |
 | GSConnect v72 | 11 untranslated entries plus Shell domain issue | Completion overlay + metadata domain fix |
 | Tiling Shell v76 / 17.3 | 15 untranslated entries | Completion overlay |
@@ -48,11 +48,11 @@ The GNOME 50 extension set was reviewed on the physical Fedora workstation. ArcM
 
 ## Bluetooth Battery Meter v46/v49
 
-The physical workstation reports **Bluetooth Battery Meter v49**, UUID and gettext domain `Bluetooth-Battery-Meter@maniacx.github.com`, while the reproducible extension lock still records v46. The existing Polish catalog translates the main extension preferences, but leaves all **16 messages** on the BudsLink Companion page untranslated, including the introduction, integration controls, installation states, and documentation links.
+The physical workstation reports **Bluetooth Battery Meter v49**, UUID and gettext domain `Bluetooth-Battery-Meter@maniacx.github.com`. The reproducible extension inventory and source lock now also record v49. The existing Polish catalog translates the main extension preferences, but leaves all **16 messages** on the BudsLink Companion page untranslated, including the introduction, integration controls, installation states, and documentation links.
 
-The repository carries a minimal completion overlay in `localization/bluetooth-battery-meter/v46-budslink-completion.po`, retaining its original repository path while supporting the same audited messages in v49. `scripts/install-bluetooth-battery-meter-localization.sh` accepts the locked v46 build and the active v49 build, then validates the gettext domain and every exact BudsLink source message before preserving a version-specific copy of the prior Polish catalog and merging the reviewed entries. `scripts/verify-bluetooth-battery-meter-localization.sh` reconstructs the expected merged catalog, compares it byte-for-byte with the live installation, and checks every completed translation through gettext.
+The repository carries a minimal completion overlay in `localization/bluetooth-battery-meter/v46-budslink-completion.po`; the legacy filename is retained for history, while the same audited 16-message completion is accepted for v49. `scripts/install-bluetooth-battery-meter-localization.sh` accepts the locked v46 build and the active v49 build, then validates the gettext domain and every exact BudsLink source message before preserving a version-specific copy of the prior Polish catalog and merging the reviewed entries. `scripts/verify-bluetooth-battery-meter-localization.sh` reconstructs the expected merged catalog, compares it byte-for-byte with the live installation, and checks every completed translation through gettext.
 
-The completion is limited to the demonstrated BudsLink gap; existing upstream Polish translations elsewhere in the extension remain unchanged.
+The completion is limited to the demonstrated BudsLink gap; existing upstream Polish translations elsewhere in the extension remain unchanged. The exact EGO v49 archive is pinned with SHA-256 `53efe7719a55376ba7fdcaf5a837ec3567804489d39446f26bec881e85dd5afc`, so clean restore now reproduces the accepted v49 runtime instead of downgrading to v46.
 
 ## GSConnect v72
 
