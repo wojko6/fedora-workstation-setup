@@ -20,10 +20,10 @@ The repository must not contain passwords, Wi-Fi PSKs, private SSH keys, authent
 
 ## Current baseline checks
 
-Expected source workstation characteristics include Fedora 44, GNOME 50.4, Wayland, and Wi-Fi power saving disabled for the selected NetworkManager Wi-Fi profile.
+Expected current physical-workstation characteristics include Fedora 44, GNOME 50.5, Wayland, and Wi-Fi power saving disabled for the selected NetworkManager Wi-Fi profile.
 
 ## Acceptance and verification
 
-The Fedora 44 / GNOME 50.4 restore path has passed clean-room validation and physical-host verification. `install.sh` restores the reviewed desired state, including the centralized localization pipeline. A successful installer exit is not the final acceptance signal: after the required GNOME session restart, run `bash scripts/verify.sh` and require zero `WARN` and zero `FAIL` for the validated physical target.
+The Fedora 44 / GNOME 50.4 restore path has passed historical clean-room validation. The current Fedora 44 / GNOME 50.5 physical workstation has separately passed the full live verifier with `PASS=231 WARN=0 FAIL=0 SKIP=0`. `install.sh` restores the reviewed desired state, including the centralized localization pipeline. A successful installer exit is not the final acceptance signal: after the required GNOME session restart, run `bash scripts/verify.sh` and require zero `WARN` and zero `FAIL` for the validated physical target.
 
 Private user data, credentials, browser profiles, password-manager data, Tailscale node identity, and other secrets remain outside this repository and must be restored separately.
