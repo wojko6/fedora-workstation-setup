@@ -144,4 +144,8 @@ echo "=== POLISH LOCALIZATION: Plymouth offline updates ==="
 bash "$ROOT_DIR/scripts/install-plymouth-localization.sh"
 
 echo
+echo "=== POLISH LOCALIZATION: Ptyxis 50.1 / libadwaita About dialog ==="
+bash "$ROOT_DIR/scripts/install-ptyxis-localization.sh"
+
+echo
 echo "Custom Polish localizations complete."
