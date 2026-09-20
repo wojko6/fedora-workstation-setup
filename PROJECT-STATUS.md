@@ -131,6 +131,7 @@ Repository-managed targets currently include:
 - Just Perfection v37;
 - Spotlight v15 / 2026.15;
 - Space Bar v39;
+- Bluetooth Battery Meter v46/v49 BudsLink Companion completion overlay;
 - Vitals v85 completion;
 - ddterm v72 completion plus metadata description localization;
 - Advanced Media Controller v31 / 6.5 full Polish catalog;
@@ -150,11 +151,13 @@ Spotlight v15 / 2026.15 does not ship a localization implementation in the audit
 
 Space Bar v39 lacks a usable upstream localization path for the audited release. The repository applies an exact-version controlled localization patch covering 109 translated source patterns across preferences, custom-style dialogs, keyboard-shortcut dialogs, and the runtime panel menu.
 
+Bluetooth Battery Meter uses a minimal **16-entry** completion overlay for the BudsLink Companion preferences page. The installer and verifier support the restore-locked v46 build and the active physical-host v49 build, while requiring the audited gettext domain and exact BudsLink source messages. The v49 installation passed its dedicated verifier and gettext smoke test, and the completed preferences page was visually confirmed in Polish after terminating the resident Extension Manager and GNOME Extensions processes that had cached the previous catalog.
+
 Vitals v85 uses a version-pinned completion overlay over its incomplete upstream Polish catalog. ddterm v72 uses a one-entry gettext completion plus a localized metadata description for its About window.
 
 Advanced Media Controller v31 / 6.5 ships no Polish catalog in the tested archive. The repository carries a complete **276-entry** Polish gettext catalog generated against the exact v31 string template. Its installer/verifier checks version 31, version name 6.5, gettext domain, audited file fingerprints, translation completeness, byte-for-byte installed `.mo` equality, and a runtime gettext smoke test requiring `General` to resolve to `Ogólne`. The preferences UI was visually confirmed in Polish on the physical workstation.
 
-All 11 version-specific GNOME-extension localization installers, plus the system-level Papers, Plymouth, and Ptyxis stages, are invoked by `scripts/install-localizations.sh`. Dedicated localization verifiers are integrated into the main `scripts/verify.sh`, and the complete localization set passed the current physical-host verifier with zero warnings and zero failures.
+All 12 version-specific GNOME-extension localization installers, plus the system-level Papers, Plymouth, and Ptyxis stages, are invoked by `scripts/install-localizations.sh`. Dedicated localization verifiers are integrated into the main `scripts/verify.sh`. The last complete physical-host verifier remains the accepted `PASS=231 WARN=0 FAIL=0 SKIP=0` aggregate; the later Bluetooth Battery Meter v49 completion passed its dedicated verifier and visual acceptance test.
 
 ## Important reproducibility decisions
 
@@ -176,6 +179,22 @@ The 2026-09-19 Recovery and Stability Gates were completed without unresolved wa
 System-level Polish localization was extended and made reproducible for Papers 49.8 / Nautilus document properties, Plymouth offline updates, and Ptyxis 50.1. Papers received a minimal completion overlay, Plymouth's existing Polish catalog and locale data were persisted into initramfs through dracut, and Ptyxis received a minimal main gettext-domain bridge that activates libadwaita's existing Polish About-dialog translations.
 
 The physical workstation was running GNOME Shell 50.5 during the final acceptance run. The complete live verifier finished with `PASS=231 WARN=0 FAIL=0 SKIP=0`, establishing the new current physical baseline. The historical clean-room VM result remains `PASS=147 WARN=0 FAIL=0 SKIP=8` on Fedora 44 / GNOME 50.4.
+
+## Bluetooth Battery Meter BudsLink localization — 2026-09-20
+
+The active physical installation reports Bluetooth Battery Meter **v49**, while the reproducible extension lock and inventory still record v46. Commit `9812dd7` updated the localization tooling to support both builds without silently accepting other versions. The repository overlay completes all **16** untranslated BudsLink Companion messages and preserves a separate pre-completion catalog backup for each supported version.
+
+The physical v49 installer and dedicated verifier completed successfully:
+
+```text
+Completion entries: 16
+PASS: Bluetooth Battery Meter v49 BudsLink Polish localization matches repository completion
+PASS: Bluetooth Battery Meter v49 BudsLink Polish completion installed
+```
+
+A direct gettext smoke test resolved `Enable BudsLink integration` to `Włącz integrację z BudsLink`. The initially unchanged UI was traced to resident Extension Manager and GNOME Extensions application-service processes caching the old catalog. After those processes were terminated and the preferences were reopened, the BudsLink page was visually confirmed in Polish.
+
+The localization implementation and runtime result are accepted. Updating the extension archive pin and inventory from v46 to a validated v49 source remains a separate reproducibility task; until that is completed, the v49 host state is newer than the repository's extension-install lock.
 
 ## Extension supply-chain hardening — 2026-09-20
 
@@ -228,6 +247,7 @@ Routine maintenance remains plus one explicitly deferred security decision:
 - repeat the clean-room restore test after major Fedora/GNOME changes;
 - keep private machine-specific configuration and signing material separate from the public repository;
 - rerun physical-host verification after material desired-state changes, especially kernel/NVIDIA updates;
+- update the Bluetooth Battery Meter archive pin and inventory from v46 to the validated v49 source before declaring the v49 extension build fully reproducible;
 - re-audit version-pinned localization whenever an extension version changes;
 - test future Fedora/GNOME 51 changes in a VM before promoting them to the physical workstation.
 
