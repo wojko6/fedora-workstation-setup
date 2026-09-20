@@ -143,11 +143,11 @@ The physical workstation visually confirmed the corrected About dialog: `Strona 
 
 ### Papers 49.8 / Nautilus completion overlay
 
-The Fedora 44 workstation uses Papers 49.8 and `papers-nautilus 49.8-1.fc44`. Runtime inspection confirmed that the Nautilus document-properties extension uses the `papers` gettext domain, while source inspection of the exact Papers 49.8 tag confirmed that the viewer's `No Annotations` status-page title uses the same domain without a message context. The installed Polish `papers.mo` lacked these affected labels.
+The Fedora 44 workstation uses Papers 49.8 and `papers-nautilus 49.8-1.fc44`. Runtime inspection confirmed that the Nautilus document-properties extension uses the `papers` gettext domain, while source inspection of the exact Papers 49.8 tag confirmed that the viewer's `No Annotations` status-page title and the empty-start-page strings `Open a Document`, `Drag and drop documents here`, and `_Open…` use the same domain without message contexts. The installed Polish `papers.mo` lacked these affected labels.
 
-The repository carries a minimal completion overlay in `localization/papers/pl-overlay.po`. It uses `Brak przypisów` for `No Annotations`, matching the existing Polish terminology for `Annotations`, `Annotation Properties`, and `Remove Annotation`. The installer is pinned to both the Papers and papers-nautilus 49.8 packages, preserves the existing Fedora catalog, merges the reviewed missing entries, and installs the rebuilt `papers.mo`. The dedicated verifier checks package versions, the repository overlay, and exact translated values in the live catalog.
+The repository carries a minimal completion overlay in `localization/papers/pl-overlay.po`. It uses `Brak przypisów` for `No Annotations`, matching the existing Polish terminology for `Annotations`, `Annotation Properties`, and `Remove Annotation`, and completes the start page with `Otwórz dokument`, `Przeciągnij i upuść dokumenty tutaj`, and `_Otwórz…`. The installer is pinned to both the Papers and papers-nautilus 49.8 packages, preserves the existing Fedora catalog, merges the reviewed missing entries, and installs the rebuilt `papers.mo`. The dedicated verifier checks package versions, the repository overlay, and exact translated values in the live catalog.
 
-The physical workstation visually confirmed the completed document-properties UI, including `Właściwości dokumentu`, `Lokalizacja`, `Twórca`, `Liczba stron`, and the remaining audited labels.
+The physical workstation visually confirmed the completed document-properties UI, including `Właściwości dokumentu`, `Lokalizacja`, `Twórca`, `Liczba stron`, and the remaining audited labels, as well as `Brak przypisów` in the annotations sidebar. A subsequent screenshot identified the three missing empty-start-page translations; visual acceptance of their replacements remains pending.
 
 ### Plymouth offline updates
 

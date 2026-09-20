@@ -54,3 +54,12 @@ msgstr "Rozmiar"
 
 msgid "No Annotations"
 msgstr "Brak przypisów"
+
+msgid "Open a Document"
+msgstr "Otwórz dokument"
+
+msgid "Drag and drop documents here"
+msgstr "Przeciągnij i upuść dokumenty tutaj"
+
+msgid "_Open…"
+msgstr "_Otwórz…"

@@ -58,6 +58,9 @@ expected = {
     "Contains Javascript": "Zawiera JavaScript",
     "Size": "Rozmiar",
     "No Annotations": "Brak przypisów",
+    "Open a Document": "Otwórz dokument",
+    "Drag and drop documents here": "Przeciągnij i upuść dokumenty tutaj",
+    "_Open…": "_Otwórz…",
 }
 
 for path in sys.argv[1:]:
