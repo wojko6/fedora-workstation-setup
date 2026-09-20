@@ -137,7 +137,7 @@ The Fedora 44 workstation uses `ptyxis-50.1-2.fc44` with `libadwaita-1.9.4-1.fc4
 
 Runtime testing confirmed that creating a minimal Polish catalog for the main `ptyxis` gettext domain immediately allows the libadwaita About dialog to use those existing Polish translations. The repository therefore carries `localization/ptyxis/pl.po` as a small compatibility bridge instead of modifying `libadwaita.mo`.
 
-`scripts/install-ptyxis-localization.sh` is pinned to Ptyxis 50.1, installs the repository catalog, preserves any pre-existing catalog as an upstream backup, restores SELinux context when available, and performs a gettext smoke test. `scripts/verify-ptyxis-localization.sh` checks the exact package version, byte-for-byte repository catalog state, the active Polish Ptyxis domain, and the five required libadwaita About-dialog translations.
+`scripts/install-ptyxis-localization.sh` is pinned to Ptyxis 50.1, installs the repository catalog, preserves a pre-existing package-owned catalog as an upstream backup, replaces unowned/local test catalogs without mislabeling them as upstream, restores SELinux context when available, and performs a gettext smoke test. `scripts/verify-ptyxis-localization.sh` checks the exact package version, byte-for-byte repository catalog state, the active Polish Ptyxis domain, and the five required libadwaita About-dialog translations.
 
 The physical workstation visually confirmed the corrected About dialog: `Strona programu`, `Zgłoś błąd`, `Rozwiązywanie problemów`, `Zasługi`, and `Kwestie prawne`.
 
