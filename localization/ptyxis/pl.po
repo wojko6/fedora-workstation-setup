@@ -1,10 +1,11 @@
-# Fedora 44 / Ptyxis 50.1 Polish localization bridge.
-# The Fedora package does not ship a Polish ptyxis.mo.  A minimal main-domain
-# catalog is required so GLib/libadwaita may use their existing Polish strings.
+# Fedora 44 / Ptyxis 50.1 Polish localization completion.
+# Fedora's Ptyxis 50.1 package does not ship a Polish ptyxis.mo.
+# This version-pinned catalog covers the main window/menu strings confirmed
+# on the audited build and activates libadwaita's existing Polish About strings.
 msgid ""
 msgstr ""
-"Project-Id-Version: ptyxis 50.1 Polish bridge\n"
-"PO-Revision-Date: 2026-09-20 10:30+0200\n"
+"Project-Id-Version: ptyxis 50.1 Polish completion\n"
+"PO-Revision-Date: 2026-09-20 20:40+0200\n"
 "Last-Translator: fedora-workstation-setup project\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
@@ -13,8 +14,74 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
+msgid "New Terminal"
+msgstr "Nowy terminal"
+
+msgid "Show Profiles and Containers"
+msgstr "Pokaż profile i kontenery"
+
+msgid "Main Menu"
+msgstr "Menu główne"
+
+msgid "Show Open Tabs"
+msgstr "Pokaż otwarte karty"
+
+msgid "New _Tab"
+msgstr "Nowa _karta"
+
+msgid "New _Window"
+msgstr "Nowe _okno"
+
+msgid "Fullscreen"
+msgstr "Pełny ekran"
+
+msgid "Leave Fullscreen"
+msgstr "Opuść pełny ekran"
+
+msgid "_Preferences"
+msgstr "_Preferencje"
+
+msgid "_Keyboard Shortcuts"
+msgstr "_Skróty klawiszowe"
+
 msgid "_About"
 msgstr "_O programie"
+
+msgid "Move _Left"
+msgstr "Przenieś w _lewo"
+
+msgid "Move _Right"
+msgstr "Przenieś w p_rawo"
+
+msgid "Move to New _Window"
+msgstr "Przenieś do nowego _okna"
+
+msgid "_Pin Tab"
+msgstr "_Przypnij kartę"
+
+msgid "Un_pin Tab"
+msgstr "Ode_pnij kartę"
+
+msgid "Set Title"
+msgstr "Ustaw tytuł"
+
+msgid "Close _Other Tabs"
+msgstr "Zamknij p_ozostałe karty"
+
+msgid "_Close Tab"
+msgstr "_Zamknij kartę"
+
+msgid "_My Computer"
+msgstr "_Mój komputer"
+
+msgid "New Tab"
+msgstr "Nowa karta"
+
+msgid "New Window"
+msgstr "Nowe okno"
+
+msgid "Preferences"
+msgstr "Preferencje"
 
 msgid "translator-credits"
 msgstr "fedora-workstation-setup (lokalna warstwa zgodności)"
