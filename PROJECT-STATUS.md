@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Physical baseline refreshed 2026-09-20; Recovery and Stability Gates passed; Ptyxis main-menu localization visually accepted; full verifier rerun and Bluetooth Battery Meter v49 source-pin follow-ups open
+**Status:** Physical baseline refreshed 2026-09-20; Recovery and Stability Gates passed; Ptyxis main-menu localization visually accepted; Bluetooth Battery Meter v49 source pin promoted; full physical verifier rerun pending
 
 **Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
 
@@ -153,7 +153,7 @@ Spotlight v15 / 2026.15 does not ship a localization implementation in the audit
 
 Space Bar v39 lacks a usable upstream localization path for the audited release. The repository applies an exact-version controlled localization patch covering 109 translated source patterns across preferences, custom-style dialogs, keyboard-shortcut dialogs, and the runtime panel menu.
 
-Bluetooth Battery Meter uses a minimal **16-entry** completion overlay for the BudsLink Companion preferences page. The installer and verifier support the restore-locked v46 build and the active physical-host v49 build, while requiring the audited gettext domain and exact BudsLink source messages. The v49 installation passed its dedicated verifier and gettext smoke test, and the completed preferences page was visually confirmed in Polish after terminating the resident Extension Manager and GNOME Extensions processes that had cached the previous catalog.
+Bluetooth Battery Meter uses a minimal **16-entry** completion overlay for the BudsLink Companion preferences page. The desired-state restore lock is now v49; the localization installer and verifier retain compatibility with the previously audited v46 build while requiring the audited gettext domain and exact BudsLink source messages. The v49 installation passed its dedicated verifier and gettext smoke test, and the completed preferences page was visually confirmed in Polish after terminating the resident Extension Manager and GNOME Extensions processes that had cached the previous catalog.
 
 Vitals v85 uses a version-pinned completion overlay over its incomplete upstream Polish catalog. ddterm v72 uses a one-entry gettext completion plus a localized metadata description for its About window.
 
@@ -186,7 +186,7 @@ The physical workstation was running GNOME Shell 50.5 during the final acceptanc
 
 ## Bluetooth Battery Meter BudsLink localization — 2026-09-20
 
-The active physical installation reports Bluetooth Battery Meter **v49**, while the reproducible extension lock and inventory still record v46. Commit `9812dd7` updated the localization tooling to support both builds without silently accepting other versions. The repository overlay completes all **16** untranslated BudsLink Companion messages and preserves a separate pre-completion catalog backup for each supported version.
+The active physical installation reports Bluetooth Battery Meter **v49**, and the reproducible extension lock and inventory have now been promoted to v49. Commit `9812dd7` updated the localization tooling to support both builds without silently accepting other versions. The repository overlay completes all **16** untranslated BudsLink Companion messages and preserves a separate pre-completion catalog backup for each supported version.
 
 The physical v49 installer and dedicated verifier completed successfully:
 
@@ -198,7 +198,7 @@ PASS: Bluetooth Battery Meter v49 BudsLink Polish completion installed
 
 A direct gettext smoke test resolved `Enable BudsLink integration` to `Włącz integrację z BudsLink`. The initially unchanged UI was traced to resident Extension Manager and GNOME Extensions application-service processes caching the old catalog. After those processes were terminated and the preferences were reopened, the BudsLink page was visually confirmed in Polish.
 
-The localization implementation and runtime result are accepted. Updating the extension archive pin and inventory from v46 to a validated v49 source remains a separate reproducibility task; until that is completed, the v49 host state is newer than the repository's extension-install lock.
+The localization implementation and runtime result are accepted. The exact EGO v49 archive was validated as UUID `Bluetooth-Battery-Meter@maniacx.github.com`, runtime version 49, and pinned with SHA-256 `53efe7719a55376ba7fdcaf5a837ec3567804489d39446f26bec881e85dd5afc`. The inventory and restore lock now match the physical v49 state.
 
 ## Extension supply-chain hardening — 2026-09-20
 
@@ -247,7 +247,7 @@ bash scripts/verify.sh
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, and system-localization changes. The last complete physical-host aggregate is `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The later Bluetooth Battery Meter v49 localization passed its dedicated verifier and visual acceptance test; however, the repository still restores v46, so the active v49 extension build is not yet fully reproducible from the recorded source lock.
+The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, and system-localization changes. The last complete accepted physical-host aggregate remains `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. Bluetooth Battery Meter v49 localization passed its dedicated verifier and visual acceptance test, and the repository now restores the exact pinned v49 EGO archive. A fresh full physical-host verifier run is still pending after the later Ptyxis and v49 lock changes.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 
@@ -260,7 +260,6 @@ Routine maintenance remains plus one explicitly deferred security decision:
 - repeat the clean-room restore test after major Fedora/GNOME changes;
 - keep private machine-specific configuration and signing material separate from the public repository;
 - rerun physical-host verification after material desired-state changes, especially kernel/NVIDIA updates;
-- update the Bluetooth Battery Meter archive pin and inventory from v46 to the validated v49 source before declaring the v49 extension build fully reproducible;
 - rerun the full physical-host verifier after the accepted Ptyxis 50.1 main-window/menu localization change;
 - re-audit version-pinned localization whenever an extension version changes;
 - test future Fedora/GNOME 51 changes in a VM before promoting them to the physical workstation.
