@@ -1,5 +1,5 @@
 uuid	name	version	shell_versions	url	location
-Bluetooth-Battery-Meter@maniacx.github.com	Bluetooth Battery Meter	46	46,47,48,49,50	https://github.com/maniacx/Bluetooth-Battery-Meter	~/.local/share/gnome-shell/extensions/Bluetooth-Battery-Meter@maniacx.github.com
+Bluetooth-Battery-Meter@maniacx.github.com	Bluetooth Battery Meter	49	46,47,48,49,50,51	https://github.com/maniacx/Bluetooth-Battery-Meter	~/.local/share/gnome-shell/extensions/Bluetooth-Battery-Meter@maniacx.github.com
 Vitals@CoreCoding.com	Vitals	85	45,46,47,48,49,50,51	https://github.com/corecoding/Vitals	~/.local/share/gnome-shell/extensions/Vitals@CoreCoding.com
 add-to-desktop@tommimon.github.com	Add to Desktop	16	45,46,47,48,49,50	https://github.com/Tommimon/add-to-desktop	~/.local/share/gnome-shell/extensions/add-to-desktop@tommimon.github.com
 advanced-media-controller@sanjai.com	Advanced Media Controller	31	45,46,47,48,49,50	https://codeberg.org/sanjai-shaarugesh/Advanced-media-controller	~/.local/share/gnome-shell/extensions/advanced-media-controller@sanjai.com
