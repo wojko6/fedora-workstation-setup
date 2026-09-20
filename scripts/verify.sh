@@ -641,11 +641,11 @@ if [[ -f "$ASUS_CONF" ]]; then
     fi
   fi
 else
-  skip "private ASUS launcher configuration intentionally absent"
+  printf 'INFO: private ASUS launcher configuration intentionally absent from public repository\n'
   if [[ -f "$HOME/Pulpit/asus-router.desktop" ]]; then
-    skip "local-only ASUS launcher exists but is intentionally outside repository verification"
+    printf 'INFO: local-only ASUS launcher exists and is intentionally outside repository verification\n'
   else
-    skip "ASUS launcher not expected without private configuration"
+    printf 'INFO: ASUS launcher not managed without private configuration\n'
   fi
 fi
 
