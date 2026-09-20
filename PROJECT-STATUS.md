@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Physical baseline refreshed 2026-09-20; Recovery and Stability Gates passed; localization baseline accepted; Bluetooth Battery Meter v49 source-pin follow-up open
+**Status:** Physical baseline refreshed 2026-09-20; Recovery and Stability Gates passed; last full localization baseline accepted; Ptyxis main-menu completion and Bluetooth Battery Meter v49 source-pin follow-ups open
 
 **Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
 
@@ -29,7 +29,7 @@ PASS=231 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the last complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. Later Bluetooth Battery Meter v49 localization work passed its dedicated verifier and visual acceptance test but has not yet been followed by another complete physical-host verifier run.
+This is the last complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. Later Bluetooth Battery Meter v49 localization work passed its dedicated verifier and visual acceptance test but has not yet been followed by another complete physical-host verifier run. The subsequently expanded Ptyxis 50.1 main-window/menu catalog is also not covered by that aggregate until it is installed and revalidated on the physical workstation.
 
 ## Current desired state
 
@@ -139,7 +139,7 @@ Repository-managed targets currently include:
 - Advanced Media Controller v31 / 6.5 full Polish catalog;
 - Papers 49.8 completion overlay for Nautilus document properties, annotations, and the empty start page;
 - Plymouth offline-update Polish locale persistence in initramfs;
-- Ptyxis 50.1 Polish main-domain bridge enabling existing libadwaita About-dialog translations.
+- Ptyxis 50.1 Polish main-window/menu completion plus the existing libadwaita About-dialog integration.
 
 Dhruva remains the largest localization case: a 393-message gettext catalog, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
@@ -180,7 +180,7 @@ The 2026-09-19 Recovery and Stability Gates were completed without unresolved wa
 
 ## Physical baseline refresh — 2026-09-20
 
-System-level Polish localization was extended and made reproducible for Papers 49.8 / Nautilus document properties, Papers annotations and empty start page, Plymouth offline updates, and Ptyxis 50.1. Papers received a minimal completion overlay, Plymouth's existing Polish catalog and locale data were persisted into initramfs through dracut, and Ptyxis received a minimal main gettext-domain bridge that activates libadwaita's existing Polish About-dialog translations.
+System-level Polish localization was extended and made reproducible for Papers 49.8 / Nautilus document properties, Papers annotations and empty start page, Plymouth offline updates, and Ptyxis 50.1. Papers received a minimal completion overlay, Plymouth's existing Polish catalog and locale data were persisted into initramfs through dracut, and Ptyxis initially received a minimal main gettext-domain bridge that activated libadwaita's existing Polish About-dialog translations. A later physical UI audit found the primary Ptyxis menu still falling back to English, so the repository catalog was expanded to cover the audited main-window/menu messages; that expanded catalog is pending physical installation and visual acceptance.
 
 The physical workstation was running GNOME Shell 50.5 during the final acceptance run. The complete live verifier finished with `PASS=231 WARN=0 FAIL=0 SKIP=0`, establishing the new current physical baseline. The historical clean-room VM result remains `PASS=147 WARN=0 FAIL=0 SKIP=8` on Fedora 44 / GNOME 50.4.
 
@@ -261,6 +261,7 @@ Routine maintenance remains plus one explicitly deferred security decision:
 - keep private machine-specific configuration and signing material separate from the public repository;
 - rerun physical-host verification after material desired-state changes, especially kernel/NVIDIA updates;
 - update the Bluetooth Battery Meter archive pin and inventory from v46 to the validated v49 source before declaring the v49 extension build fully reproducible;
+- install the expanded Ptyxis 50.1 Polish main-window/menu catalog, restart Ptyxis, visually confirm the primary menu, and rerun the full physical-host verifier;
 - re-audit version-pinned localization whenever an extension version changes;
 - test future Fedora/GNOME 51 changes in a VM before promoting them to the physical workstation.
 
