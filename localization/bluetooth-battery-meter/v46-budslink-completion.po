@@ -1,8 +1,8 @@
-# Polish BudsLink Companion completion for Bluetooth Battery Meter v46.
+# Polish completion for the Bluetooth Battery Meter v46/v49 BudsLink Companion page.
 # Repository-managed completion for demonstrated upstream Polish gaps.
 msgid ""
 msgstr ""
-"Project-Id-Version: Bluetooth Battery Meter v46 BudsLink completion\n"
+"Project-Id-Version: Bluetooth Battery Meter v46/v49 BudsLink completion\n"
 "PO-Revision-Date: 2026-09-20 00:00+0000\n"
 "Last-Translator: Repository-managed localization\n"
 "Language-Team: Polish\n"

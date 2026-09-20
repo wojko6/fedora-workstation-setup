@@ -408,7 +408,7 @@ if bluetooth_battery_verify_output="$(bash "$ROOT_DIR/scripts/verify-bluetooth-b
   if grep -q '^SKIP:' <<<"$bluetooth_battery_verify_output"; then
     skip "Bluetooth Battery Meter Polish localization: extension not installed"
   else
-    ok "Bluetooth Battery Meter v46 BudsLink Polish localization matches repository completion"
+    ok "Bluetooth Battery Meter v46/v49 BudsLink Polish localization matches repository completion"
   fi
 else
   printf '%s\n' "$bluetooth_battery_verify_output"

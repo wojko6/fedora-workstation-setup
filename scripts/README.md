@@ -28,7 +28,7 @@ The top-level `install.sh` orchestrates these stages. Individual stages should r
 
 Dedicated `verify-*-localization.sh` scripts validate exact-version, completion-overlay, and system-localization targets and are wired into `verify.sh`.
 
-The Bluetooth Battery Meter helper pair installs and verifies the v46 BudsLink Companion completion overlay:
+The Bluetooth Battery Meter helper pair installs and verifies the v46/v49 BudsLink Companion completion overlay:
 
 - `install-bluetooth-battery-meter-localization.sh`
 - `verify-bluetooth-battery-meter-localization.sh`

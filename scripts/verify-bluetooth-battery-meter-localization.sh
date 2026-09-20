@@ -9,10 +9,8 @@ METADATA="$EXT_DIR/metadata.json"
 BUDSLINK_JS="$EXT_DIR/preferences/budslinkCompanion.js"
 BUDSLINK_UI="$EXT_DIR/ui/budslinkCompanion.ui"
 TARGET_MO="$EXT_DIR/locale/pl/LC_MESSAGES/$DOMAIN.mo"
-BACKUP_MO="${TARGET_MO}.pre-budslink-v46.bak"
 OVERLAY="$ROOT_DIR/localization/bluetooth-battery-meter/v46-budslink-completion.po"
 
-EXPECTED_VERSION="46"
 EXPECTED_DOMAIN="$DOMAIN"
 
 if [[ ! -d "$EXT_DIR" ]]; then
@@ -27,7 +25,7 @@ for cmd in python3 msgfmt msgcat msgunfmt cmp; do
     fi
 done
 
-for path in "$METADATA" "$BUDSLINK_JS" "$BUDSLINK_UI" "$OVERLAY" "$TARGET_MO" "$BACKUP_MO"; do
+for path in "$METADATA" "$BUDSLINK_JS" "$BUDSLINK_UI" "$OVERLAY" "$TARGET_MO"; do
     if [[ ! -f "$path" ]]; then
         echo "FAIL: required Bluetooth Battery Meter localization file missing: $path" >&2
         exit 1
@@ -48,13 +46,22 @@ PY
 version="${metadata_values[0]:-}"
 domain="${metadata_values[1]:-}"
 
-if [[ "$version" != "$EXPECTED_VERSION" ]]; then
-    echo "FAIL: Bluetooth Battery Meter version drift: expected $EXPECTED_VERSION, found ${version:-unknown}" >&2
-    exit 1
-fi
+case "$version" in
+    46|49) ;;
+    *)
+        echo "FAIL: Bluetooth Battery Meter version drift: expected 46 or 49, found ${version:-unknown}" >&2
+        exit 1
+        ;;
+esac
 
 if [[ "$domain" != "$EXPECTED_DOMAIN" ]]; then
     echo "FAIL: Bluetooth Battery Meter gettext domain drift: expected $EXPECTED_DOMAIN, found ${domain:-unknown}" >&2
+    exit 1
+fi
+
+BACKUP_MO="${TARGET_MO}.pre-budslink-v${version}.bak"
+if [[ ! -f "$BACKUP_MO" ]]; then
+    echo "FAIL: saved Bluetooth Battery Meter v${version} Polish catalog missing: $BACKUP_MO" >&2
     exit 1
 fi
 
@@ -96,7 +103,7 @@ if f'domain="{domain}"' not in ui:
     missing.append(f'UI gettext domain {domain}')
 if missing:
     for item in missing:
-        print(f'FAIL: Bluetooth Battery Meter v46 BudsLink source message missing: {item}', file=sys.stderr)
+        print(f'FAIL: Bluetooth Battery Meter BudsLink source message missing: {item}', file=sys.stderr)
     raise SystemExit(1)
 PY
 
@@ -146,4 +153,4 @@ for path in sys.argv[1:]:
 print(f'Completion entries: {len(expected)}')
 PY
 
-echo "PASS: Bluetooth Battery Meter v46 BudsLink Polish localization matches repository completion"
+echo "PASS: Bluetooth Battery Meter v${version} BudsLink Polish localization matches repository completion"

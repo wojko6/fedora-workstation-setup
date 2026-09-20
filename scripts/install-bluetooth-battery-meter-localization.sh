@@ -9,11 +9,9 @@ METADATA="$EXT_DIR/metadata.json"
 BUDSLINK_JS="$EXT_DIR/preferences/budslinkCompanion.js"
 BUDSLINK_UI="$EXT_DIR/ui/budslinkCompanion.ui"
 TARGET_MO="$EXT_DIR/locale/pl/LC_MESSAGES/$DOMAIN.mo"
-BACKUP_MO="${TARGET_MO}.pre-budslink-v46.bak"
 OVERLAY="$ROOT_DIR/localization/bluetooth-battery-meter/v46-budslink-completion.po"
 VERIFIER="$ROOT_DIR/scripts/verify-bluetooth-battery-meter-localization.sh"
 
-EXPECTED_VERSION="46"
 EXPECTED_DOMAIN="$DOMAIN"
 
 if [[ ! -d "$EXT_DIR" ]]; then
@@ -49,15 +47,20 @@ PY
 version="${metadata_values[0]:-}"
 domain="${metadata_values[1]:-}"
 
-if [[ "$version" != "$EXPECTED_VERSION" ]]; then
-    echo "FAIL: Bluetooth Battery Meter version drift: expected $EXPECTED_VERSION, found ${version:-unknown}" >&2
-    exit 1
-fi
+case "$version" in
+    46|49) ;;
+    *)
+        echo "FAIL: Bluetooth Battery Meter version drift: expected 46 or 49, found ${version:-unknown}" >&2
+        exit 1
+        ;;
+esac
 
 if [[ "$domain" != "$EXPECTED_DOMAIN" ]]; then
     echo "FAIL: Bluetooth Battery Meter gettext domain drift: expected $EXPECTED_DOMAIN, found ${domain:-unknown}" >&2
     exit 1
 fi
+
+BACKUP_MO="${TARGET_MO}.pre-budslink-v${version}.bak"
 
 python3 - "$BUDSLINK_JS" "$BUDSLINK_UI" "$EXPECTED_DOMAIN" <<'PY'
 import sys
@@ -94,7 +97,7 @@ if f'domain="{domain}"' not in ui:
     missing.append(f'UI gettext domain {domain}')
 if missing:
     for item in missing:
-        print(f'FAIL: Bluetooth Battery Meter v46 BudsLink source message missing: {item}', file=sys.stderr)
+        print(f'FAIL: Bluetooth Battery Meter BudsLink source message missing: {item}', file=sys.stderr)
     raise SystemExit(1)
 PY
 
@@ -149,5 +152,5 @@ msgfmt --check "$tmpdir/merged.po" -o "$tmpdir/$DOMAIN.mo"
 install -m 0644 "$tmpdir/$DOMAIN.mo" "$TARGET_MO"
 
 bash "$VERIFIER"
-echo "PASS: Bluetooth Battery Meter v46 BudsLink Polish completion installed"
+echo "PASS: Bluetooth Battery Meter v${version} BudsLink Polish completion installed"
 echo "Close and reopen the extension preferences to reload the translated BudsLink page."
