@@ -1,7 +1,9 @@
 # Project Status
 
-**Status:** Physical baseline refreshed 2026-09-20; Recovery and Stability Gates passed; localization baseline accepted  
-**Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland  
+**Status:** Physical baseline refreshed 2026-09-20; Recovery and Stability Gates passed; localization baseline accepted; Bluetooth Battery Meter v49 source-pin follow-up open
+
+**Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
+
 **Validation environments:** Oracle VirtualBox clean-room VM and physical Lenovo Legion 5 15ACH6H
 
 ## Objective
@@ -27,7 +29,7 @@ PASS=231 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state.
+This is the last complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. Later Bluetooth Battery Meter v49 localization work passed its dedicated verifier and visual acceptance test but has not yet been followed by another complete physical-host verifier run.
 
 ## Current desired state
 
@@ -135,7 +137,7 @@ Repository-managed targets currently include:
 - Vitals v85 completion;
 - ddterm v72 completion plus metadata description localization;
 - Advanced Media Controller v31 / 6.5 full Polish catalog;
-- Papers 49.8 / Nautilus document-properties completion overlay;
+- Papers 49.8 completion overlay for Nautilus document properties, annotations, and the empty start page;
 - Plymouth offline-update Polish locale persistence in initramfs;
 - Ptyxis 50.1 Polish main-domain bridge enabling existing libadwaita About-dialog translations.
 
@@ -157,6 +159,8 @@ Vitals v85 uses a version-pinned completion overlay over its incomplete upstream
 
 Advanced Media Controller v31 / 6.5 ships no Polish catalog in the tested archive. The repository carries a complete **276-entry** Polish gettext catalog generated against the exact v31 string template. Its installer/verifier checks version 31, version name 6.5, gettext domain, audited file fingerprints, translation completeness, byte-for-byte installed `.mo` equality, and a runtime gettext smoke test requiring `General` to resolve to `Ogólne`. The preferences UI was visually confirmed in Polish on the physical workstation.
 
+Papers 49.8 uses a minimal completion overlay for the Nautilus document-properties provider, the `No Annotations` status page, and the empty start page. The completed catalog was installed and matched the repository-managed overlay, and all three affected UI areas were visually confirmed in Polish.
+
 All 12 version-specific GNOME-extension localization installers, plus the system-level Papers, Plymouth, and Ptyxis stages, are invoked by `scripts/install-localizations.sh`. Dedicated localization verifiers are integrated into the main `scripts/verify.sh`. The last complete physical-host verifier remains the accepted `PASS=231 WARN=0 FAIL=0 SKIP=0` aggregate; the later Bluetooth Battery Meter v49 completion passed its dedicated verifier and visual acceptance test.
 
 ## Important reproducibility decisions
@@ -172,11 +176,11 @@ All 12 version-specific GNOME-extension localization installers, plus the system
 
 ## End-of-day stability closure — 2026-09-19
 
-The 2026-09-19 Recovery and Stability Gates were completed without unresolved warnings or failures. Recovery pipeline review found that Background Logo, Browser Switcher, and Dhruva installers existed but were not connected to the main localization pipeline; all three were added to the localization pipeline. After the later cleanup, the current pipeline contains 11 version-specific localization installers. Repository consistency passes with 26 enabled extensions and 26 inventory rows. The final physical-host verifier completed with `PASS=226 WARN=0 FAIL=0 SKIP=0`. GNOME Keyring i18n verification completed with `PASS=7 WARN=0 FAIL=0`. Final `git diff --check` was clean and the repository was synchronized with `origin/main`.
+The 2026-09-19 Recovery and Stability Gates were completed without unresolved warnings or failures. Recovery pipeline review found that Background Logo, Browser Switcher, and Dhruva installers existed but were not connected to the main localization pipeline; all three were added to the localization pipeline. At that checkpoint, the pipeline contained 11 version-specific localization installers. Repository consistency passed with 26 enabled extensions and 26 inventory rows. The final physical-host verifier completed with `PASS=226 WARN=0 FAIL=0 SKIP=0`. GNOME Keyring i18n verification completed with `PASS=7 WARN=0 FAIL=0`. Final `git diff --check` was clean and the repository was synchronized with `origin/main`.
 
 ## Physical baseline refresh — 2026-09-20
 
-System-level Polish localization was extended and made reproducible for Papers 49.8 / Nautilus document properties, Plymouth offline updates, and Ptyxis 50.1. Papers received a minimal completion overlay, Plymouth's existing Polish catalog and locale data were persisted into initramfs through dracut, and Ptyxis received a minimal main gettext-domain bridge that activates libadwaita's existing Polish About-dialog translations.
+System-level Polish localization was extended and made reproducible for Papers 49.8 / Nautilus document properties, Papers annotations and empty start page, Plymouth offline updates, and Ptyxis 50.1. Papers received a minimal completion overlay, Plymouth's existing Polish catalog and locale data were persisted into initramfs through dracut, and Ptyxis received a minimal main gettext-domain bridge that activates libadwaita's existing Polish About-dialog translations.
 
 The physical workstation was running GNOME Shell 50.5 during the final acceptance run. The complete live verifier finished with `PASS=231 WARN=0 FAIL=0 SKIP=0`, establishing the new current physical baseline. The historical clean-room VM result remains `PASS=147 WARN=0 FAIL=0 SKIP=8` on Fedora 44 / GNOME 50.4.
 
@@ -206,21 +210,30 @@ Dhruva remains pinned to exact upstream commit:
 
 ```text
 f8121f68fcef48c0324e8cd87fd30bf9a2131962
-ts GitHub metadata path now uses strict JSON validation and deterministic metadata preparation instead of grep/sed/regex parsing.
+```
+
+Its GitHub metadata path now uses strict JSON validation and deterministic metadata preparation instead of grep/sed/regex parsing.
 
 Real-source local validation completed with:
+
+```text
 REAL_EGO_PASS=21
 REAL_EGO_FAIL=0
 REAL DHRUVA SOURCE: PASS
+```
+
 Negative fixture suites also passed for invalid SHA-256, UUID mismatch, malformed JSON, duplicate JSON keys, runtime-version mismatch, invalid version type, and missing GNOME Shell compatibility.
 
 Current status:
+
+```text
 H3: CLOSED
 L2: CLOSED
-Final closure was confirmed after commit `9299954b0b902943df2520d03bf40a87874c7f00` passed GitHub Actions Static checks run #132.
+```
 
-Repository validation
+Implementation commit `9299954b0b902943df2520d03bf40a87874c7f00` passed GitHub Actions Static checks run #132. Documentation closure commit `85328d0f5c5614c4f9c28f880d79165b85fc3108` passed run #133.
 
+## Repository validation
 
 Repository-only validation is automated through `scripts/check-static.sh`, which is used both locally and by GitHub Actions. It covers Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON validation, and desired-state inventory consistency.
 
@@ -234,7 +247,7 @@ bash scripts/verify.sh
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the current Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, and localization changes. The current physical desired state is fully accepted at `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
+The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, and system-localization changes. The last complete physical-host aggregate is `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The later Bluetooth Battery Meter v49 localization passed its dedicated verifier and visual acceptance test; however, the repository still restores v46, so the active v49 extension build is not yet fully reproducible from the recorded source lock.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 
@@ -259,4 +272,4 @@ The tested baseline is considered accepted when required packages, repositories,
 
 `scripts/verify.sh` must report zero `WARN` and zero `FAIL` on the validated physical target.
 
-**Current accepted physical result: `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
+**Last complete accepted physical aggregate: `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
