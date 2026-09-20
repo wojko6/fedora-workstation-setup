@@ -196,9 +196,9 @@ REAL DHRUVA SOURCE: PASS
 Negative fixture suites also passed for invalid SHA-256, UUID mismatch, malformed JSON, duplicate JSON keys, runtime-version mismatch, invalid version type, and missing GNOME Shell compatibility.
 
 Current status:
-H3: IMPLEMENTED — LOCALLY VALIDATED
-L2: IMPLEMENTED — LOCALLY VALIDATED
-Final closure requires the committed/pushed revision to pass GitHub Actions.
+H3: CLOSED
+L2: CLOSED
+Final closure was confirmed after commit `9299954b0b902943df2520d03bf40a87874c7f00` passed GitHub Actions Static checks run #132.
 
 Repository validation
 
