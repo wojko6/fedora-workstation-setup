@@ -14,7 +14,8 @@ The repository adds localization only when upstream Polish support is missing, i
 - Advanced Media Controller v31 / 6.5 carries a complete Polish catalog pinned to the audited release.
 - Papers / Nautilus uses a minimal completion overlay merged into Fedora's installed `papers.mo` for the audited Papers 49.8 build.
 - Plymouth keeps Fedora's upstream Polish translations and makes the early-boot/offline-update locale reproducible by installing the required Polish locale data and gettext catalog into initramfs through dracut.
+- Ptyxis 50.1 uses a minimal Polish main-domain catalog because Fedora's package does not ship `pl/LC_MESSAGES/ptyxis.mo`; activating the main domain allows GLib/libadwaita to use their existing Polish About-dialog translations without modifying `libadwaita.mo`.
 
-All localization installation is centralized through `scripts/install-localizations.sh`, including the system-level Papers and Plymouth targets. Verification is integrated into `scripts/verify.sh`.
+All localization installation is centralized through `scripts/install-localizations.sh`, including the system-level Papers, Plymouth, and Ptyxis targets. Verification is integrated into `scripts/verify.sh`.
 
 See [../docs/LOCALIZATION-STATUS.md](../docs/LOCALIZATION-STATUS.md) for the accepted versions, coverage, and runtime validation details.
