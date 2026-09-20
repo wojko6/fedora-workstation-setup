@@ -316,6 +316,12 @@ msgstr "Usuwanie częściowego pliku „${outputFile}”"
 msgid "Rename"
 msgstr "Zmień nazwę"
 
+msgid "Rename file"
+msgstr "Zmień nazwę pliku"
+
+msgid "Rename folder"
+msgstr "Zmień nazwę folderu"
+
 msgid "Rename…"
 msgstr "Zmień nazwę…"
 
