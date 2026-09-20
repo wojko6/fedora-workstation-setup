@@ -403,6 +403,19 @@ else
 fi
 
 echo
+echo "=== BLUETOOTH BATTERY METER POLISH LOCALIZATION ==="
+if bluetooth_battery_verify_output="$(bash "$ROOT_DIR/scripts/verify-bluetooth-battery-meter-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$bluetooth_battery_verify_output"; then
+    skip "Bluetooth Battery Meter Polish localization: extension not installed"
+  else
+    ok "Bluetooth Battery Meter v46 BudsLink Polish localization matches repository completion"
+  fi
+else
+  printf '%s\n' "$bluetooth_battery_verify_output"
+  bad "Bluetooth Battery Meter BudsLink Polish localization missing, incomplete, or differs"
+fi
+
+echo
 echo "=== VITALS POLISH LOCALIZATION ==="
 if vitals_verify_output="$(bash "$ROOT_DIR/scripts/verify-vitals-localization.sh" 2>&1)"; then
   if grep -q '^SKIP:' <<<"$vitals_verify_output"; then

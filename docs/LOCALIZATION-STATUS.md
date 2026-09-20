@@ -20,6 +20,7 @@ Repository-managed localization/integration currently covers:
 - Just Perfection v37 full Polish localization
 - Spotlight v15 / 2026.15 Polish localization and gettext integration
 - Space Bar v39 controlled Polish localization
+- Bluetooth Battery Meter v46 BudsLink Companion completion overlay
 - Vitals v85 Polish completion overlay
 - ddterm v72 Polish completion plus localized metadata description
 - Advanced Media Controller v31 / 6.5 full Polish catalog
@@ -38,12 +39,20 @@ The GNOME 50 extension set was reviewed on the physical Fedora workstation. ArcM
 | Extension | Polish localization status | Repository action |
 | --- | --- | --- |
 | ArcMenu | Upstream Polish support | No duplicate translation |
-| Bluetooth Battery Meter | Upstream Polish support | No duplicate translation |
+| Bluetooth Battery Meter v46 | 16 untranslated BudsLink Companion entries | Completion overlay |
 | Caffeine | Upstream Polish support | No duplicate translation |
 | GSConnect v72 | 11 untranslated entries plus Shell domain issue | Completion overlay + metadata domain fix |
 | Tiling Shell v76 / 17.3 | 15 untranslated entries | Completion overlay |
 | User Themes | Shared GNOME Shell Extensions Polish support | No duplicate translation |
 | Freon | Upstream Polish support | Removed from desired state |
+
+## Bluetooth Battery Meter v46
+
+The physical workstation reports **Bluetooth Battery Meter v46**, UUID and gettext domain `Bluetooth-Battery-Meter@maniacx.github.com`. Its existing Polish catalog translates the main extension preferences, but leaves all **16 messages** on the BudsLink Companion page untranslated, including the introduction, integration controls, installation states, and documentation links.
+
+The repository carries a minimal completion overlay in `localization/bluetooth-battery-meter/v46-budslink-completion.po`. `scripts/install-bluetooth-battery-meter-localization.sh` validates version 46, the gettext domain, and the exact BudsLink source messages before preserving the prior Polish catalog and merging the reviewed entries. `scripts/verify-bluetooth-battery-meter-localization.sh` reconstructs the expected merged catalog, compares it byte-for-byte with the live installation, and checks every completed translation through gettext.
+
+The completion is limited to the demonstrated BudsLink gap; existing upstream Polish translations elsewhere in the extension remain unchanged.
 
 ## GSConnect v72
 

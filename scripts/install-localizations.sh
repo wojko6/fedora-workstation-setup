@@ -124,6 +124,10 @@ echo "=== POLISH LOCALIZATION: ArcMenu v73 / 69.2 ==="
 bash "$ROOT_DIR/scripts/install-arcmenu-localization.sh"
 
 echo
+echo "=== POLISH LOCALIZATION: Bluetooth Battery Meter v46 BudsLink completion ==="
+bash "$ROOT_DIR/scripts/install-bluetooth-battery-meter-localization.sh"
+
+echo
 echo "=== POLISH LOCALIZATION: Vitals v85 completion ==="
 bash "$ROOT_DIR/scripts/install-vitals-localization.sh"
 

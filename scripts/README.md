@@ -24,9 +24,14 @@ The top-level `install.sh` orchestrates these stages. Individual stages should r
 
 ## Localization
 
-`install-localizations.sh` is the single localization pipeline. It invokes all 11 version-specific GNOME-extension localization installers, the simpler catalog installs managed directly from `localization/`, and the system-level Papers/Nautilus, Plymouth, and Ptyxis localization stages.
+`install-localizations.sh` is the single localization pipeline. It invokes all 12 version-specific GNOME-extension localization installers, the simpler catalog installs managed directly from `localization/`, and the system-level Papers/Nautilus, Plymouth, and Ptyxis localization stages.
 
 Dedicated `verify-*-localization.sh` scripts validate exact-version, completion-overlay, and system-localization targets and are wired into `verify.sh`.
+
+The Bluetooth Battery Meter helper pair installs and verifies the v46 BudsLink Companion completion overlay:
+
+- `install-bluetooth-battery-meter-localization.sh`
+- `verify-bluetooth-battery-meter-localization.sh`
 
 System localization helpers:
 - `install-papers-localization.sh` / `verify-papers-localization.sh` — Papers 49.8 / Nautilus Polish completion for confirmed document-properties, annotations-sidebar, and empty-start-page gaps.

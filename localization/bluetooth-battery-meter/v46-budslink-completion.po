@@ -1,0 +1,77 @@
+# Polish BudsLink Companion completion for Bluetooth Battery Meter v46.
+# Repository-managed completion for demonstrated upstream Polish gaps.
+msgid ""
+msgstr ""
+"Project-Id-Version: Bluetooth Battery Meter v46 BudsLink completion\n"
+"PO-Revision-Date: 2026-09-20 00:00+0000\n"
+"Last-Translator: Repository-managed localization\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+#: preferences/budslinkCompanion.js
+msgid "Install BudsLink from Flathub to monitor battery levels for multiple devices and access advanced controls such as noise control, equalizer, and gestures, when supported by the device"
+msgstr "Zainstaluj BudsLink z Flathuba, aby monitorować poziom naładowania baterii wielu urządzeń i korzystać z zaawansowanych funkcji, takich jak sterowanie redukcją hałasu, korektor dźwięku i gesty — jeśli urządzenie je obsługuje"
+
+#: preferences/budslinkCompanion.js
+msgid "Currently supported earbuds and headbands are:"
+msgstr "Obecnie obsługiwane słuchawki douszne i nauszne:"
+
+#: preferences/budslinkCompanion.js
+msgid "Installed"
+msgstr "Zainstalowano"
+
+#: preferences/budslinkCompanion.js
+msgid "Update Extension"
+msgstr "Zaktualizuj rozszerzenie"
+
+#: preferences/budslinkCompanion.js
+msgid "Update BudsLink"
+msgstr "Zaktualizuj BudsLink"
+
+#: preferences/budslinkCompanion.js
+msgid "Not Installed"
+msgstr "Nie zainstalowano"
+
+#: preferences/budslinkCompanion.js
+msgid "Refresh"
+msgstr "Odśwież"
+
+#: ui/budslinkCompanion.ui
+msgid "BudsLink Companion"
+msgstr "BudsLink Companion"
+
+#: ui/budslinkCompanion.ui
+msgid "Enable BudsLink integration"
+msgstr "Włącz integrację z BudsLink"
+
+#: ui/budslinkCompanion.ui
+msgid "Acts as a Companion with the BudsLink app, which runs in the background to provide additional features for supported headphones and earbuds"
+msgstr "Współpracuje z działającą w tle aplikacją BudsLink, aby udostępniać dodatkowe funkcje obsługiwanych słuchawek dousznych i nausznych"
+
+#: ui/budslinkCompanion.ui
+msgid "Hide from Background Apps"
+msgstr "Ukryj na liście aplikacji działających w tle"
+
+#: ui/budslinkCompanion.ui
+msgid "Hide BudsLink from the GNOME Background Apps list"
+msgstr "Ukryj BudsLink na liście aplikacji GNOME działających w tle"
+
+#: ui/budslinkCompanion.ui
+msgid "Installation Status"
+msgstr "Stan instalacji"
+
+#: ui/budslinkCompanion.ui
+msgid "BudsLink Installation Status"
+msgstr "Stan instalacji BudsLink"
+
+#: ui/budslinkCompanion.ui
+msgid "BudsLink on Flathub"
+msgstr "BudsLink we Flathubie"
+
+#: ui/budslinkCompanion.ui
+msgid "BudsLink Documentation"
+msgstr "Dokumentacja BudsLink"
