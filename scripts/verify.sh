@@ -432,6 +432,19 @@ else
 fi
 
 echo
+echo "=== CLIPBOARD INDICATOR POLISH LOCALIZATION ==="
+if clipboard_verify_output="$(bash "$ROOT_DIR/scripts/verify-clipboard-indicator-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$clipboard_verify_output"; then
+    skip "Clipboard Indicator Polish localization: extension not installed"
+  else
+    ok "Clipboard Indicator v71 Polish localization matches repository completion"
+  fi
+else
+  printf '%s\n' "$clipboard_verify_output"
+  bad "Clipboard Indicator Polish localization missing, incomplete, or differs"
+fi
+
+echo
 echo "=== VITALS POLISH LOCALIZATION ==="
 if vitals_verify_output="$(bash "$ROOT_DIR/scripts/verify-vitals-localization.sh" 2>&1)"; then
   if grep -q '^SKIP:' <<<"$vitals_verify_output"; then
