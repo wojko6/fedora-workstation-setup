@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "audited_build": {
+    "package": "helium-bin",
+    "version": "0.17.2.1",
+    "release": "1.fc44",
+    "arch": "x86_64",
+    "chromium_version": "153.0.8010.52",
+    "helium_source_commit": "8c19f4c6d624e31293bca13e655f2fe542ba6fdb",
+    "upstream_pl_pak_sha256": "93b0489811a30c4005294b192b6cadbd4089ab29da9e167fa40f48a2320940a6"
+  },
+  "translations": [
+    {
+      "name": "IDS_EXTENSION_PROMPT_WARNING_SYNC_VAULT_PROVIDER",
+      "resource_id": 10178,
+      "source": "Act as a storage provider for your encrypted browser synchronization data",
+      "message": "Pełnij rolę dostawcy pamięci dla zaszyfrowanych danych synchronizacji przeglądarki"
+    },
+    {
+      "name": "IDS_SHORTCUT_COMMAND_DUPLICATE_TAB",
+      "resource_id": 9243,
+      "source": "Duplicate tab",
+      "message": "Duplikuj kartę"
+    },
+    {
+      "name": "IDS_SHORTCUT_COMMAND_SWITCH_TO_CLASSIC_LAYOUT",
+      "resource_id": 9244,
+      "source": "Switch to Classic layout",
+      "message": "Przełącz na układ klasyczny"
+    },
+    {
+      "name": "IDS_SHORTCUT_COMMAND_SWITCH_TO_COMPACT_LAYOUT",
+      "resource_id": 9245,
+      "source": "Switch to Compact layout",
+      "message": "Przełącz na układ kompaktowy"
+    },
+    {
+      "name": "IDS_SHORTCUT_COMMAND_SWITCH_TO_VERTICAL_LAYOUT",
+      "resource_id": 9246,
+      "source": "Switch to Vertical layout",
+      "message": "Przełącz na układ pionowy"
+    },
+    {
+      "name": "IDS_SHORTCUT_COMMAND_TOGGLE_PIN_TAB",
+      "resource_id": 9266,
+      "source": "Pin or unpin tab",
+      "message": "Przypnij lub odepnij kartę"
+    },
+    {
+      "name": "IDS_SHORTCUT_COMMAND_TOGGLE_MUTE_SITE",
+      "resource_id": 9267,
+      "source": "Mute or unmute site",
+      "message": "Wycisz lub przywróć dźwięk witryny"
+    },
+    {
+      "name": "IDS_SETTINGS_GLOBAL_PRIVACY_CONTROL",
+      "resource_id": 6837,
+      "source": "Global Privacy Control",
+      "message": "Globalna kontrola prywatności"
+    },
+    {
+      "name": "IDS_SETTINGS_GLOBAL_PRIVACY_CONTROL_DESCRIPTION",
+      "resource_id": 6838,
+      "source": "Tell websites to not sell or share your personal data",
+      "message": "Informuj witryny, aby nie sprzedawały ani nie udostępniały Twoich danych osobowych"
+    },
+    {
+      "name": "IDS_SETTINGS_DO_NOT_TRACK",
+      "resource_id": 6839,
+      "source": "Send a \"Do Not Track\" signal with your browsing traffic",
+      "message": "Wysyłaj sygnał „Do Not Track” wraz z ruchem przeglądania"
+    },
+    {
+      "name": "IDS_SETTINGS_DO_NOT_TRACK_DESCRIPTION",
+      "resource_id": 6840,
+      "source": "Ask sites to not track you, but they're unlikely to comply",
+      "message": "Proś witryny, aby Cię nie śledziły, choć jest mało prawdopodobne, że zastosują się do tej prośby"
+    },
+    {
+      "name": "IDS_SETTINGS_NETWORK_AND_SECURITY",
+      "resource_id": 6841,
+      "source": "Network and security",
+      "message": "Sieć i bezpieczeństwo"
+    },
+    {
+      "name": "IDS_SETTINGS_NETWORK_AND_SECURITY_DESCRIPTION",
+      "resource_id": 6842,
+      "source": "Manage how Helium connects to sites, what privacy signals are allowed, and more",
+      "message": "Zarządzaj sposobem łączenia Helium z witrynami, dozwolonymi sygnałami prywatności i innymi ustawieniami"
+    },
+    {
+      "name": "IDS_SETTINGS_PRIVACY_SIGNALS_SECTION_TITLE",
+      "resource_id": 6844,
+      "source": "Privacy signals",
+      "message": "Sygnały prywatności"
+    },
+    {
+      "name": "IDS_SETTINGS_PRIVACY_SIGNALS_DESCRIPTION",
+      "resource_id": 6845,
+      "source": "Privacy signals communicate your preferences, but do not determine how websites will act. Enabling more signals can make your browser easier to fingerprint by giving it a more unique set of characteristics. Global Privacy Control is more likely to be respected than Do Not Track.",
+      "message": "Sygnały prywatności przekazują Twoje preferencje, ale nie określają, jak zachowają się witryny. Włączenie większej liczby sygnałów może ułatwić identyfikację odcisku przeglądarki, nadając jej bardziej unikalny zestaw cech. Global Privacy Control jest częściej respektowany niż Do Not Track."
+    },
+    {
+      "name": "IDS_SETTINGS_HTTPS_FIRST_MODE_ENABLED_STRICT_LABEL",
+      "resource_id": 6901,
+      "source": "Warn about insecure public and local network sites",
+      "message": "Ostrzegaj przed niezabezpieczonymi witrynami w sieci publicznej i lokalnej"
+    },
+    {
+      "name": "IDS_SETTINGS_HTTPS_FIRST_MODE_ENABLED_BALANCED_LABEL",
+      "resource_id": 6903,
+      "source": "Warn about insecure public sites",
+      "message": "Ostrzegaj przed niezabezpieczonymi witrynami publicznymi"
+    },
+    {
+      "name": "IDS_SETTINGS_HIBERNATED_APPEARANCE_LABEL",
+      "resource_id": 6625,
+      "source": "Differentiate hibernated tabs",
+      "message": "Wyróżniaj zahibernowane karty"
+    },
+    {
+      "name": "IDS_SETTINGS_HIBERNATED_APPEARANCE_DESCRIPTION",
+      "resource_id": 6626,
+      "source": "Display hibernated tab icons in grayscale",
+      "message": "Wyświetlaj ikony zahibernowanych kart w skali szarości"
+    },
+    {
+      "name": "IDS_SETTINGS_CENTERED_LOCATION_BAR",
+      "resource_id": 6329,
+      "source": "Centered address bar",
+      "message": "Wyśrodkowany pasek adresu"
+    },
+    {
+      "name": "IDS_SETTINGS_MINIMAL_LOCATION_BAR",
+      "resource_id": 6330,
+      "source": "Minimal URL in the address bar",
+      "message": "Minimalny adres URL w pasku adresu"
+    },
+    {
+      "name": "IDS_EXTENSION_DEBUGGER_ACTIVE",
+      "resource_id": 9961,
+      "source": "Debugging started",
+      "message": "Rozpoczęto debugowanie"
+    },
+    {
+      "name": "IDS_EXTENSION_DEBUGGER_BUBBLE_MESSAGE",
+      "resource_id": 9962,
+      "source": "{NUM_EXTENSIONS, plural,\n        =1 {This extension is debugging your browser:}\n        other {These extensions are debugging your browser:}}",
+      "message": "{NUM_EXTENSIONS, plural,\n        =1 {To rozszerzenie debugguje Twoją przeglądarkę:}\n        other {Te rozszerzenia debuggują Twoją przeglądarkę:}}"
+    },
+    {
+      "name": "IDS_EXTENSION_DEBUGGER_STOP",
+      "resource_id": 9963,
+      "source": "Stop $1 from debugging your browser",
+      "message": "Zatrzymaj debugowanie przeglądarki przez $1"
+    },
+    {
+      "name": "IDS_SETTINGS_SHOW_PROGRESS_BAR",
+      "resource_id": 6331,
+      "source": "Show loading progress in the address bar",
+      "message": "Pokazuj postęp ładowania w pasku adresu"
+    },
+    {
+      "name": "IDS_HELIUM_ONBOARDING_WELCOME_BODY",
+      "resource_id": 2268,
+      "source": "Configure Helium to match your taste and import data from other browsers. Make it feel like home or jump straight to browsing.",
+      "message": "Skonfiguruj Helium według swoich upodobań i zaimportuj dane z innych przeglądarek. Dostosuj je do siebie albo od razu zacznij przeglądać internet."
+    },
+    {
+      "name": "IDS_HELIUM_ONBOARDING_WELCOME_FOOTER",
+      "resource_id": 2270,
+      "source": "If you use defaults, Helium services will be automatically enabled.",
+      "message": "Jeśli użyjesz ustawień domyślnych, usługi Helium zostaną automatycznie włączone."
+    },
+    {
+      "name": "IDS_HELIUM_ONBOARDING_FINISH_BODY",
+      "resource_id": 2272,
+      "source": "The setup is complete, thank you for choosing Helium. Time to enjoy the internet again.",
+      "message": "Konfiguracja została zakończona. Dziękujemy za wybranie Helium. Czas znów cieszyć się internetem."
+    },
+    {
+      "name": "IDS_HELIUM_ONBOARDING_SEARCH_TITLE",
+      "resource_id": 2291,
+      "source": "Choose a search engine",
+      "message": "Wybierz wyszukiwarkę"
+    },
+    {
+      "name": "IDS_HELIUM_ONBOARDING_SEARCH_SUBTITLE",
+      "resource_id": 2292,
+      "source": "You can change your choice later in Settings. Search engines are sorted by privacy.",
+      "message": "Możesz później zmienić wybór w Ustawieniach. Wyszukiwarki są uporządkowane według poziomu prywatności."
+    },
+    {
+      "name": "IDS_HELIUM_ONBOARDING_DEFAULT_BROWSER_SUBTITLE",
+      "resource_id": 2306,
+      "source": "Better privacy, speed, and comfort. All in one click. Wanna make links open in Helium by default?",
+      "message": "Lepsza prywatność, szybkość i wygoda. Wszystko jednym kliknięciem. Chcesz, aby linki domyślnie otwierały się w Helium?"
+    },
+    {
+      "name": "IDS_HELIUM_ONBOARDING_PASSWORD_SUBTITLE",
+      "resource_id": 2317,
+      "source": "Helium doesn't have a built-in password manager. Would you like to install one from the Web Store?",
+      "message": "Helium nie ma wbudowanego menedżera haseł. Czy chcesz zainstalować jeden ze sklepu Web Store?"
+    },
+    {
+      "name": "IDS_HELIUM_ONBOARDING_PASSWORD_MANAGERS_PROTON_PASS",
+      "resource_id": 2324,
+      "source": "Secure and privacy-focused password manager with open-source clients. Stores data only in Europe. Free with an optional paid plan.",
+      "message": "Bezpieczny, nastawiony na prywatność menedżer haseł z klientami open source. Przechowuje dane wyłącznie w Europie. Bezpłatny z opcjonalnym planem płatnym."
+    },
+    {
+      "name": "IDS_HELIUM_ONBOARDING_PASSWORD_MANAGERS_BITWARDEN",
+      "resource_id": 2325,
+      "source": "Secure and the most popular open-source password manager. Offers data storage in Europe or US. Free with an optional paid plan. Can be self-hosted.",
+      "message": "Bezpieczny i najpopularniejszy menedżer haseł open source. Oferuje przechowywanie danych w Europie lub USA. Bezpłatny z opcjonalnym planem płatnym. Może być hostowany samodzielnie."
+    },
+    {
+      "name": "IDS_HELIUM_ONBOARDING_PASSWORD_MANAGERS_ONE_PASSWORD",
+      "resource_id": 2326,
+      "source": "Popular, paid, and closed-source password manager. Offers data storage in Europe or US. May not work correctly with Helium without extra configuration.",
+      "message": "Popularny, płatny menedżer haseł o zamkniętym kodzie źródłowym. Oferuje przechowywanie danych w Europie lub USA. Bez dodatkowej konfiguracji może nie działać poprawnie z Helium."
+    },
+    {
+      "name": "IDS_HELIUM_ONBOARDING_PASSWORD_MANAGERS_KEE_PASS_XC",
+      "resource_id": 2329,
+      "source": "Free, local, and open-source password manager for advanced users. Requires technical knowledge to set up and use. Cannot sync without extra software.",
+      "message": "Bezpłatny, lokalny menedżer haseł open source dla zaawansowanych użytkowników. Wymaga wiedzy technicznej do konfiguracji i obsługi. Nie synchronizuje danych bez dodatkowego oprogramowania."
+    }
+  ]
+}
