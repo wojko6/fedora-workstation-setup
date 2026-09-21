@@ -32,6 +32,32 @@ Dhruva remains the largest accepted case: 393 gettext messages, 20 source patche
 
 All version-specific localization installers are wired into `scripts/install-localizations.sh`. Dedicated verifiers for the version-pinned targets are wired into the main `scripts/verify.sh` so restore drift is detected instead of silently accepted.
 
+## 2026-09-21 global physical localization audit
+
+A broader read-only audit was run against the Fedora 44 / GNOME Shell 50.5 physical workstation to compare the actual installed locale state with the repository's managed coverage.
+
+Confirmed good state:
+
+- the session locale is `pl_PL.UTF-8`;
+- `glibc-langpack-pl`, `langpacks-pl`, `libreoffice-langpack-pl`, and `gettext` are installed;
+- GNOME Shell, Control Center, Nautilus, Weather, Boxes, Tweaks, GNOME Keyring, Papers, and firewalld expose Polish catalogs on the physical host;
+- LibreOffice 26.2.6.3 has the Polish langpack and its Polish resource tree installed;
+- the repository-managed Ptyxis 50.1 catalog is installed as an intentionally unowned local file and passes its dedicated verifier.
+
+The audit also reopened localization completeness for two desired-state extensions:
+
+- **Blur my Shell v72**: multiple tested strings resolve to English on the physical host, including `Prefer closer pixels`, `Blend mode`, blend-mode names, contrast/saturation/luminosity controls, `Corner radius`, and advanced-effects labels.
+- **Clipboard Indicator v71**: multiple tested strings resolve to English on the physical host, including timer/image actions, edit/paste/delete/save/search controls, search options, menu-position options, and item-action labels.
+
+Two application-level follow-ups remain under audit:
+
+- Extension Manager 0.6.5 did not expose a Polish catalog in the base Flatpak application tree; Flatpak locale-extension/runtime state still needs to be checked before treating this as a confirmed translation gap.
+- VSCodium 1.135.06055 did not report a Polish language-pack extension or locale configuration, so Polish UI reproducibility is not currently demonstrated.
+
+The audit also exposed a verifier-design issue in the Ptyxis search-options completion: the actual embedded resource uses mnemonic-bearing msgids `Match _Case`, `Whole _Words`, and `Use _Regular Expressions`. The repository catalog and verifier have been corrected to those exact resource strings, and the verifier now checks the installed Ptyxis resource before accepting the translations.
+
+Until the newly discovered Blur my Shell / Clipboard Indicator gaps and the two application follow-ups are closed, the earlier zero-warning full-system verifier result remains valid for the checks it implements, but must not be interpreted as proof of globally complete Polish UI coverage.
+
 ## 2026-09-17 extension refresh
 
 The GNOME 50 extension set was reviewed on the physical Fedora workstation. ArcMenu, Bluetooth Battery Meter, Caffeine, GSConnect, Tiling Shell, and User Themes remain desired-state extensions from that refresh. Freon was initially accepted during the compatibility pass but was later intentionally removed from the workstation and from desired state.
