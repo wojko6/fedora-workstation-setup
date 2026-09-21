@@ -22,14 +22,14 @@ Clean-room result:
 PASS=147 WARN=0 FAIL=0 SKIP=8
 ```
 
-After the 2026-09-21 localization closure and a fresh verification from the canonical checkout, the physical workstation completed the current accepted run with:
+After the 2026-09-21 D-H2/D-H3 verifier hardening and a fresh verification from the canonical checkout, the physical workstation completed the current accepted run with:
 
 ```text
-PASS=236 WARN=0 FAIL=0 SKIP=0
+PASS=246 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current complete accepted physical-host aggregate for Fedora 44 / GNOME 50.5. It includes the repository-managed 2026-09-21 localization additions for Blur my Shell, Clipboard Indicator, Extension Manager, Helium, and GNOME Tweaks. A private GNOME Weather custom location remains part of the validated physical desired state, while its identifying name and coordinates are intentionally excluded from the public repository.
+This is the current complete accepted physical-host aggregate for Fedora 44 / GNOME 50.5. It includes the accepted localization state plus explicit live security-posture verification and fail-closed required-state enforcement. A private GNOME Weather custom location remains part of the validated physical desired state, while its identifying name and coordinates are intentionally excluded from the public repository.
 
 Repository changes are guarded by a static validation workflow. The same `scripts/check-static.sh` entrypoint is used locally and in GitHub Actions to validate Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON files, and desired-state inventory consistency.
 
@@ -37,7 +37,7 @@ The 2026-09-17 extension compatibility refresh accepted ArcMenu, Bluetooth Batte
 
 GSConnect was validated beyond shell-extension state: its user D-Bus service was registered and responsive, and the `kdeconnect` firewalld service was confirmed in the dedicated active Wi-Fi `workstation-kdeconnect` zone. Phone-side Tailscale split-tunneling policy is intentionally outside Fedora desired state.
 
-The physical validation also includes reproducible LLMNR disablement, kernel pointer hardening, disabled GNOME/GVfs WS-Discovery, and the physically accepted D-H1 trusted-Wi-Fi firewalld boundary. The active Wi-Fi profile is gated by reviewed NetworkManager UUID and uses the dedicated `workstation-kdeconnect` zone in exact state with only `dhcpv6-client`, `mdns`, and `kdeconnect`; SSH, forwarding, masquerade, explicit ports/protocols/sources and rich rules are absent, while `kdeconnect` is removed from every other permanent zone. The workstation also remained operational after the NVIDIA 615.71.09 update, with an active Secure Boot path and signed NVIDIA kernel module, plus reproducible DDC/CI support for external-monitor brightness control. LUKS remains explicitly deferred; the repository does not claim full-disk encryption for the current installation.
+The physical validation also includes reproducible LLMNR disablement, kernel pointer hardening, disabled GNOME/GVfs WS-Discovery, the physically accepted D-H1 trusted-Wi-Fi firewalld boundary, and the D-H2/D-H3 fail-closed verifier layer. The active Wi-Fi profile is gated by reviewed NetworkManager UUID and uses the dedicated `workstation-kdeconnect` zone in exact state with only `dhcpv6-client`, `mdns`, and `kdeconnect`; SSH, forwarding, masquerade, explicit ports/protocols/sources and rich rules are absent, while `kdeconnect` is removed from every other permanent zone. The verifier also checks SELinux/AVC state, disabled SSH service/socket and TCP/22 listener state, kernel lockdown, NVIDIA/MOK signing evidence, runtime/permanent firewalld exact state, required RPM/repository/Tailscale/Flatpak state, and accepts the physical target only with zero FAIL and zero WARN. The workstation also remained operational after the NVIDIA 615.71.09 update, with an active Secure Boot path and signed NVIDIA kernel module, plus reproducible DDC/CI support for external-monitor brightness control. LUKS remains explicitly deferred; the repository does not claim full-disk encryption for the current installation.
 
 NordVPN, gNordVPN-Local, and Freon are intentionally absent from the current workstation desired state. Tailscale remains the supported overlay/VPN component tracked by the repository.
 
@@ -108,7 +108,7 @@ bash scripts/verify.sh
 Current accepted physical-workstation result:
 
 ```text
-PASS=236 WARN=0 FAIL=0 SKIP=0
+PASS=246 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
