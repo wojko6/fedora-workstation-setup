@@ -135,5 +135,83 @@ msgstr "Nowe okno"
 msgid "Preferences"
 msgstr "Preferencje"
 
+msgid "Search History"
+msgstr "Szukaj w historii"
+
+msgid "Inspector"
+msgstr "Inspektor"
+
+msgid "Process"
+msgstr "Proces"
+
+msgid "Foreground Process"
+msgstr "Proces pierwszoplanowy"
+
+msgid "Window Title"
+msgstr "Tytuł okna"
+
+msgid "Current Directory"
+msgstr "Bieżący katalog"
+
+msgid "Current File"
+msgstr "Bieżący plik"
+
+msgid "Container"
+msgstr "Kontener"
+
+msgid "Runtime"
+msgstr "Środowisko uruchomieniowe"
+
+msgid "Name"
+msgstr "Nazwa"
+
+msgid "Appearance"
+msgstr "Wygląd"
+
+msgid "Grid Size"
+msgstr "Rozmiar siatki"
+
+msgid "Palette"
+msgstr "Paleta"
+
+msgid "Colors"
+msgstr "Kolory"
+
+msgid "Font"
+msgstr "Czcionka"
+
+msgid "Cell Size"
+msgstr "Rozmiar komórki"
+
+msgid "Input"
+msgstr "Wejście"
+
+msgid "Cursor"
+msgstr "Kursor"
+
+msgid "Position"
+msgstr "Pozycja"
+
+msgid "Row"
+msgstr "Wiersz"
+
+msgid "Column"
+msgstr "Kolumna"
+
+msgid "Mouse"
+msgstr "Mysz"
+
+msgid "Hyperlink"
+msgstr "Hiperłącze"
+
+msgid "unset"
+msgstr "nie ustawiono"
+
+msgid "untracked"
+msgstr "nieśledzone"
+
+msgid "Shell"
+msgstr "Powłoka"
+
 msgid "translator-credits"
 msgstr "fedora-workstation-setup (lokalna warstwa zgodności)"
