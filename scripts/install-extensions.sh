@@ -5,6 +5,8 @@ ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 LIST="$ROOT_DIR/gnome/enabled-extensions.txt"
 INVENTORY="$ROOT_DIR/gnome/extensions-inventory.tsv"
 LOCK="$ROOT_DIR/gnome/extensions-lock.tsv"
+TREE_LOCK="$ROOT_DIR/gnome/extensions-tree-lock.tsv"
+TREE_HELPER="$ROOT_DIR/scripts/extension_tree_integrity.py"
 EGO_VERIFIER="$ROOT_DIR/scripts/verify_ego_extension.py"
 GITHUB_METADATA_PREPARER="$ROOT_DIR/scripts/prepare_github_extension_metadata.py"
 
@@ -27,6 +29,10 @@ command -v python3 >/dev/null 2>&1 || { echo "ERROR: python3 is required." >&2; 
 }
 [[ -f "$GITHUB_METADATA_PREPARER" ]] || {
   echo "ERROR: missing $GITHUB_METADATA_PREPARER" >&2
+  exit 1
+}
+[[ -f "$TREE_HELPER" ]] || {
+  echo "ERROR: missing $TREE_HELPER" >&2
   exit 1
 }
 
@@ -310,6 +316,16 @@ while IFS=$'\t' read -r uuid runtime_version source source_ref sha256; do
   lock_hashes["$uuid"]="$sha256"
 done < "$LOCK"
 
+check_installed_tree_integrity() {
+  local uuid="$1"
+  local expected_version="$2"
+  local ext_dir="$HOME/.local/share/gnome-shell/extensions/$uuid"
+
+  [[ -f "$TREE_LOCK" ]] || return 2
+
+  python3 "$TREE_HELPER" check-one     --lock "$TREE_LOCK"     --uuid "$uuid"     --version "$expected_version"     --path "$ext_dir"
+}
+
 missing=0
 while IFS= read -r uuid; do
   [[ -z "$uuid" || "$uuid" == \#* ]] && continue
@@ -320,19 +336,42 @@ while IFS= read -r uuid; do
   if gnome-extensions info "$uuid" >/dev/null 2>&1; then
     current_version="$(installed_version "$uuid")"
 
-    if [[ "$location" != /usr/share/* && -n "$expected_version" ]] && \
-       ! version_matches "$current_version" "$expected_version"; then
-      printf 'DRIFT: %s expected runtime version %s, found %s\n' \
-        "$uuid" "$expected_version" "${current_version:-unknown}"
-      printf 'RESTORE: reinstalling pinned source %s\n' "${lock_sources[$uuid]:-missing-lock}"
+    if [[ "$location" != /usr/share/* && -n "$expected_version" ]]; then
+      needs_restore=0
 
-      if install_user_extension "$uuid" "$expected_version"; then
-        printf 'DONE: restored %s from pinned source\n' "$uuid"
-      else
-        printf 'MISS(user): %s\n' "$uuid"
-        missing=$((missing + 1))
+      if ! version_matches "$current_version" "$expected_version"; then
+        printf 'DRIFT: %s expected runtime version %s, found %s\n' \
+          "$uuid" "$expected_version" "${current_version:-unknown}"
+        needs_restore=1
+      elif [[ -f "$TREE_LOCK" ]]; then
+        tree_output=""
+        if tree_output="$(check_installed_tree_integrity "$uuid" "$expected_version" 2>&1)"; then
+          printf '%s\n' "$tree_output"
+        else
+          tree_rc=$?
+          printf '%s\n' "$tree_output" >&2
+
+          if (( tree_rc == 3 )); then
+            needs_restore=1
+          else
+            printf 'ERROR: extension tree integrity evaluation failed for %s\n' "$uuid" >&2
+            missing=$((missing + 1))
+            continue
+          fi
+        fi
       fi
-      continue
+
+      if (( needs_restore )); then
+        printf 'RESTORE: reinstalling pinned source %s\n' "${lock_sources[$uuid]:-missing-lock}"
+
+        if install_user_extension "$uuid" "$expected_version"; then
+          printf 'DONE: restored %s from pinned source\n' "$uuid"
+        else
+          printf 'MISS(user): %s\n' "$uuid"
+          missing=$((missing + 1))
+        fi
+        continue
+      fi
     fi
 
     printf 'OK:   %s%s\n' "$uuid" \
