@@ -16,31 +16,30 @@ For the detailed incident sequence—triage, path selection, integrity checks, s
 
 ## Validated recovery sets
 
-Two complete disaster-recovery generations are currently retained on offline external storage:
+Validated recovery generations documented by this project include:
 
 - **2026-09-15** — original validated recovery set;
-- **2026-09-17** — refreshed recovery set created after the current Fedora 44 / GNOME 50.4 workstation state reached its accepted physical verification baseline.
+- **2026-09-17** — refreshed recovery set after the earlier Fedora 44 / GNOME 50.4 accepted state;
+- **2026-09-21** — current validated recovery set created after the Fedora 44 / GNOME 50.5 physical verifier completed at `PASS=236 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
 
-The latest 2026-09-17 recovery set contains:
+The latest 2026-09-21 recovery set contains:
 
 - a read-only Btrfs snapshot stream for the root filesystem;
 - a read-only Btrfs snapshot stream for the home filesystem;
+- a separate read-only Btrfs snapshot stream for the nested `/var/lib/machines` subvolume;
 - an archive of `/boot`;
 - an archive of the EFI System Partition contents;
-- partition-table metadata;
+- GPT/partition-table metadata;
 - filesystem UUID/PARTUUID metadata;
-- the source `fstab`;
+- the source `fstab` and `crypttab` capture;
 - Btrfs subvolume and filesystem-usage metadata;
 - UEFI boot-entry metadata;
-- kernel and bootloader package information;
-- an offline restore guide;
-- a SHA-256 manifest covering the recovery artifacts.
+- package, Flatpak, kernel, mount, and baseline metadata;
+- a SHA-256 manifest covering every recovery artifact and metadata file included in the set.
 
-The Btrfs streams and the `/boot` and EFI archives were compressed with Zstandard. Compression-stream integrity was tested before finalization. The completed 2026-09-17 recovery set was then verified against its SHA-256 manifest, with every listed artifact passing verification.
+The Btrfs streams and the `/boot` and EFI archives were compressed with Zstandard. Every compressed artifact passed `zstd -t`. The completed 2026-09-21 set was then verified against a **21-entry** `SHA256SUMS` manifest; every entry passed and the verification command returned `SHA256_VERIFY_RC=0`.
 
-The refreshed set contains 15 files and occupies approximately 81 GB. The previous 2026-09-15 generation remains retained separately and was not overwritten.
-
-Temporary local Btrfs snapshots used to produce the refreshed backup were removed only after the external recovery set had passed full verification. The temporary top-level Btrfs mount used during backup creation was also unmounted after cleanup.
+The latest set occupies approximately **164 GiB** on the external recovery drive. It was created as a new dated generation rather than overwriting the documented earlier recovery generations. Backup creation and artifact integrity are validated; a full bare-metal restore onto an empty physical disk is still not claimed as exercised.
 
 ## Security and privacy boundary
 
@@ -73,9 +72,9 @@ The exact disk reconstruction procedure depends on the replacement disk and file
 
 ## Validation status
 
-**Latest offline recovery backup created and integrity-verified: PASS — 2026-09-17.**
+**Latest offline recovery backup created and integrity-verified: PASS — 2026-09-21.**
 
-The earlier **2026-09-15** generation remains retained as an independent previous recovery point.
+The earlier **2026-09-15** and **2026-09-17** generations remain documented as independent previous recovery points.
 
 This validates backup creation and artifact integrity. It does **not** claim that a full bare-metal restore from the private backup has been exercised. The repository-based clean-room restore is separately validated and documented in [`CLEAN-ROOM-RESTORE-REPORT.md`](CLEAN-ROOM-RESTORE-REPORT.md).
 
