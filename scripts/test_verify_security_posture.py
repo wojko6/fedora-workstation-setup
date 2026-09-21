@@ -27,6 +27,12 @@ if name == "systemd-detect-virt":
     print(env("SEC_TEST_VIRT", "none"))
     raise SystemExit(0)
 
+if name == "ip":
+    if args[:3] == ["route", "show", "default"]:
+        print("default via 192.0.2.1 dev wlp1s0 proto dhcp")
+        raise SystemExit(0)
+    raise SystemExit(1)
+
 if name == "getenforce":
     print(env("SEC_TEST_SELINUX", "Enforcing"))
     raise SystemExit(0)
@@ -182,6 +188,7 @@ raise SystemExit(127)
 
 COMMANDS = [
     "systemd-detect-virt",
+    "ip",
     "getenforce",
     "journalctl",
     "systemctl",
