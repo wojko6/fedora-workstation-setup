@@ -199,4 +199,34 @@ with tempfile.TemporaryDirectory(prefix="extension-tree-integrity-") as td:
         raise SystemExit("FAIL: check-one drift reason missing")
     print("PASS: single-extension integrity check reports same-version drift")
 
+install_extensions = (ROOT / "scripts" / "install-extensions.sh").read_text(
+    encoding="utf-8"
+)
+main_verify = (ROOT / "scripts" / "verify.sh").read_text(encoding="utf-8")
+
+installer_contract = [
+    'TREE_LOCK="$ROOT_DIR/gnome/extensions-tree-lock.tsv"',
+    'extension_tree_integrity.py',
+    'check-one',
+    'needs_restore=1',
+]
+for phrase in installer_contract:
+    if phrase not in install_extensions:
+        raise SystemExit(
+            f"FAIL: extension installer integrity contract missing: {phrase}"
+        )
+
+verify_contract = [
+    '=== EXTENSION TREE INTEGRITY ===',
+    'extensions-tree-lock.tsv',
+    'extension_tree_integrity.py',
+    'all required user-extension trees match accepted integrity lock',
+]
+for phrase in verify_contract:
+    if phrase not in main_verify:
+        raise SystemExit(
+            f"FAIL: main verifier integrity contract missing: {phrase}"
+        )
+
+print("PASS: installer and main verifier integrity contracts present")
 print("=== EXTENSION TREE INTEGRITY TESTS: PASS ===")
