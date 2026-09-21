@@ -29,3 +29,20 @@ jobs:
       - name: Run repository static checks
         shell: bash
         run: bash scripts/check-static.sh
+
+  validate-fedora:
+    runs-on: ubuntu-24.04
+    container:
+      image: fedora:44
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Install Fedora validation tools
+        run: |
+          dnf install -y bash python3 gettext ShellCheck git patch
+
+      - name: Run repository static checks on Fedora
+        shell: bash
+        run: bash scripts/check-static.sh
