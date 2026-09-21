@@ -1,5 +1,5 @@
---- a/src/preferences/pipelines_management/pipeline_group.js
-+++ b/src/preferences/pipelines_management/pipeline_group.js
+--- a/preferences/pipelines_management/pipeline_group.js
++++ b/preferences/pipelines_management/pipeline_group.js
 @@ -28,7 +28,13 @@
          // set the description
 -        this.set_description(_(`Pipeline id: "${pipeline_id}"`));
