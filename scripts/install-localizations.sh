@@ -128,6 +128,10 @@ echo "=== POLISH LOCALIZATION: Bluetooth Battery Meter v46/v49 BudsLink completi
 bash "$ROOT_DIR/scripts/install-bluetooth-battery-meter-localization.sh"
 
 echo
+echo "=== POLISH LOCALIZATION: Clipboard Indicator v71 completion ==="
+bash "$ROOT_DIR/scripts/install-clipboard-indicator-localization.sh"
+
+echo
 echo "=== POLISH LOCALIZATION: Vitals v85 completion ==="
 bash "$ROOT_DIR/scripts/install-vitals-localization.sh"
 
