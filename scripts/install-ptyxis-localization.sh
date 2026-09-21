@@ -77,7 +77,26 @@ Fullscreen|Pełny ekran
 _Preferences|_Preferencje
 _Keyboard Shortcuts|_Skróty klawiszowe
 _About|_O programie
+_Open Link|Otwórz _odnośnik
+_Copy Link|_Kopiuj odnośnik
+Search…|Szukaj…
+_Copy|_Kopiuj
+Copy selection from terminal to clipboard|Skopiuj zaznaczenie z terminala do schowka
+Copy as _HTML|Kopiuj jako _HTML
+Copy selection from terminal to clipboard with HTML formatting|Skopiuj zaznaczenie z terminala do schowka z formatowaniem HTML
+_Paste|_Wklej
+Paste from clipboard into the terminal|Wklej ze schowka do terminala
+Select _All|Zaznacz _wszystko
+Selection all text from terminal including scrollback|Zaznacz cały tekst terminala, w tym historię przewijania
+Select _None|Odznacz _wszystko
+Read-Only|Tylko do odczytu
+Reset|Zresetuj
+Reset and Clear|Zresetuj i wyczyść
+Set Title|Ustaw tytuł
+Change Profile|Zmień profil
+Leave Fullscreen|Opuść pełny ekran
+_Inspect Terminal|_Zbadaj terminal
 EOF
 
-echo "PASS: Ptyxis 50.1 Polish main-window localization installed"
-echo "INFO: start a new Ptyxis process to refresh translated main-window and libadwaita strings"
+echo "PASS: Ptyxis 50.1 Polish main-window and terminal-context localization installed"
+echo "INFO: start a new Ptyxis process to refresh translated main-window, context-menu, and libadwaita strings"
