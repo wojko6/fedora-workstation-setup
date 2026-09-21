@@ -111,5 +111,5 @@ fi
 
 bash "$VERIFIER"
 
-echo "PASS: GNOME Tweaks 49.0 Polish generated GSettings labels installed"
+echo "PASS: GNOME Tweaks 49.0 Polish GSettings labels and Hinting terminology installed"
 echo "Close all GNOME Tweaks windows and start the application again to reload the patched Python source and catalog."
