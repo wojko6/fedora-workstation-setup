@@ -359,8 +359,8 @@ required_contract = [
     'bad "required repo not enabled: $repo"',
     'bad "required VPCS COPR repository not enabled: tgerov/vpcs"',
     'bad "Tailscale client missing"',
-    'flatpak info "$app"',
-    'bad "required Flatpak app missing: $app"',
+    'flatpak --system info "$app"',
+    'bad "required system Flatpak app missing: $app"',
     '(( fail == 0 && warn == 0 ))',
     'verify-security-posture.sh',
 ]
