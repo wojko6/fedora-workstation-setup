@@ -61,6 +61,12 @@ while IFS= read -r -d '' file; do
 done < <(find patches -type f -name '*.patch' -print0)
 
 echo
+echo "=== HELIUM DATAPACK FIXTURES ==="
+python3 scripts/helium_datapack.py self-test
+python3 scripts/helium_datapack.py validate-overlay \
+  --overlay localization/helium/v0.17.2.1-pl-completion.json
+
+echo
 echo "=== REPOSITORY CONSISTENCY ==="
 python3 scripts/validate-repository.py
 
