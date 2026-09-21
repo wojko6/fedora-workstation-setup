@@ -28,6 +28,9 @@ iw
 libselinux-utils
 libdnf5-plugin-actions
 mokutil
+dnf-plugins-core
+distribution-gpg-keys
+distribution-gpg-keys-copr
 7zip-standalone
 bind-utils
 btop
