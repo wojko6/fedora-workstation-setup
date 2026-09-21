@@ -1,0 +1,202 @@
+# Clipboard Indicator v71 Polish completion overlay.
+# Completes untranslated and fuzzy entries from the audited v71 Polish catalog.
+msgid ""
+msgstr ""
+"Project-Id-Version: clipboard-indicator v71 Polish completion\n"
+"PO-Revision-Date: 2026-09-21 09:30+0200\n"
+"Last-Translator: fedora-workstation-setup project\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "Reset Timer"
+msgstr "Zresetuj licznik czasu"
+
+msgid "Preview Image"
+msgstr "Podgląd obrazu"
+
+msgid "Edit"
+msgstr "Edytuj"
+
+msgid "Paste"
+msgstr "Wklej"
+
+msgid "Delete pinned item?"
+msgstr "Usunąć przypięty element?"
+
+msgid "Are you sure you want to delete this pinned item?"
+msgstr "Czy na pewno usunąć ten przypięty element?"
+
+msgid "Delete"
+msgstr "Usuń"
+
+msgid "Clipboard history cleared automatically"
+msgstr "Historia schowka została wyczyszczona automatycznie"
+
+msgid "Enter tag…"
+msgstr "Wpisz tag…"
+
+msgid "Discard"
+msgstr "Odrzuć"
+
+msgid "Save"
+msgstr "Zapisz"
+
+msgid "Search"
+msgstr "Szukaj"
+
+msgid "Maximum number of entries to keep in clipboard history"
+msgstr "Maksymalna liczba wpisów przechowywanych w historii schowka"
+
+msgid "Number of characters shown per entry in the history menu"
+msgstr "Liczba znaków wyświetlanych dla każdego wpisu w menu historii"
+
+msgid "Maximum disk space used for caching clipboard data"
+msgstr "Maksymalna przestrzeń dyskowa używana do buforowania danych schowka"
+
+msgid "Length of the clipboard content preview shown in the panel"
+msgstr "Długość podglądu zawartości schowka wyświetlanego na panelu"
+
+msgid "Hide the dropdown arrow next to the clipboard indicator"
+msgstr "Ukrywaj strzałkę rozwijania obok wskaźnika schowka"
+
+msgid "Blink icon on copy"
+msgstr "Migaj ikoną po skopiowaniu"
+
+msgid "Briefly flash the indicator icon when something is copied"
+msgstr "Krótko migaj ikoną wskaźnika po skopiowaniu zawartości"
+
+msgid "Only save pinned (favorite) entries to disk"
+msgstr "Zapisuj na dysku tylko przypięte (ulubione) wpisy"
+
+msgid "Display a notification each time text is copied"
+msgstr "Wyświetlaj powiadomienie przy każdym skopiowaniu tekstu"
+
+msgid "Display a notification when cycling through entries with shortcuts"
+msgstr "Wyświetlaj powiadomienie podczas przełączania wpisów skrótami"
+
+msgid "Show notification on Clear History"
+msgstr "Pokaż powiadomienie po wyczyszczeniu historii"
+
+msgid "Display a notification when clipboard history is cleared"
+msgstr "Wyświetlaj powiadomienie po wyczyszczeniu historii schowka"
+
+msgid "Prompt for confirmation on Clear History"
+msgstr "Pytaj o potwierdzenie przed wyczyszczeniem historii"
+
+msgid "Ask before deleting all clipboard entries"
+msgstr "Pytaj przed usunięciem wszystkich wpisów schowka"
+
+msgid "Prompt before deleting pinned item"
+msgstr "Pytaj o potwierdzenie przed usunięciem przypiętego elementu"
+
+msgid "Ask for confirmation before deleting a pinned item"
+msgstr "Pytaj o potwierdzenie przed usunięciem przypiętego elementu"
+
+msgid "Strip leading and trailing whitespace from text entries on copy"
+msgstr "Usuwaj początkowe i końcowe białe znaki z kopiowanych wpisów tekstowych"
+
+msgid "When selecting an entry, bring it to the top of the history"
+msgstr "Po wybraniu wpisu przenieś go na początek historii"
+
+msgid "Move the pinned section to the bottom of the menu. Requires re-login"
+msgstr "Przenieś sekcję przypiętych elementów na dół menu. Wymaga ponownego zalogowania"
+
+msgid "Show Search Bar"
+msgstr "Pokaż pasek wyszukiwania"
+
+msgid "Display a search field at the top of the clipboard menu"
+msgstr "Wyświetlaj pole wyszukiwania u góry menu schowka"
+
+msgid "Show Private Mode"
+msgstr "Pokaż tryb prywatny"
+
+msgid "Display the private mode toggle in the clipboard menu"
+msgstr "Wyświetlaj przełącznik trybu prywatnego w menu schowka"
+
+msgid "Show Settings Button"
+msgstr "Pokaż przycisk ustawień"
+
+msgid "Display a shortcut to these settings in the clipboard menu"
+msgstr "Wyświetlaj skrót do tych ustawień w menu schowka"
+
+msgid "Show Clear History Button"
+msgstr "Pokaż przycisk czyszczenia historii"
+
+msgid "Display the clear history button in the clipboard menu"
+msgstr "Wyświetlaj przycisk czyszczenia historii w menu schowka"
+
+msgid "Delete all cached clipboard entries when the system starts"
+msgstr "Usuń wszystkie zbuforowane wpisy schowka podczas uruchamiania systemu"
+
+msgid "Automatically paste the entry into the active window when selected"
+msgstr "Automatycznie wklejaj wybrany wpis do aktywnego okna"
+
+msgid "Open menu at cursor"
+msgstr "Otwieraj menu przy kursorze"
+
+msgid "When using the keyboard shortcut, open the menu at the cursor position"
+msgstr "Podczas używania skrótu klawiszowego otwieraj menu w położeniu kursora"
+
+msgid "Show the delete button on each item"
+msgstr "Pokaż przycisk usuwania przy każdym elemencie"
+
+msgid "Tag"
+msgstr "Tag"
+
+msgid "Show the tag button on each item"
+msgstr "Pokaż przycisk tagu przy każdym elemencie"
+
+msgid "Show the paste button on each item"
+msgstr "Pokaż przycisk wklejania przy każdym elemencie"
+
+msgid "Pin"
+msgstr "Przypnij"
+
+msgid "Show the pin/favorite button on each item"
+msgstr "Pokaż przycisk przypięcia lub dodania do ulubionych przy każdym elemencie"
+
+msgid "Show the edit button on each text item"
+msgstr "Pokaż przycisk edycji przy każdym elemencie tekstowym"
+
+msgid "Preview"
+msgstr "Podgląd"
+
+msgid "Show the preview button on each image item"
+msgstr "Pokaż przycisk podglądu przy każdym obrazie"
+
+msgid "Save copied images to clipboard history"
+msgstr "Zapisuj skopiowane obrazy w historii schowka"
+
+msgid "Case-sensitive"
+msgstr "Rozróżnianie wielkości liter"
+
+msgid "Match uppercase and lowercase letters exactly when searching"
+msgstr "Podczas wyszukiwania dokładnie rozróżniaj wielkie i małe litery"
+
+msgid "Regular expressions"
+msgstr "Wyrażenia regularne"
+
+msgid "Allow regular expressions to filter clipboard entries"
+msgstr "Zezwalaj na używanie wyrażeń regularnych do filtrowania wpisów schowka"
+
+msgid "Clear clipboard history on interval"
+msgstr "Okresowo czyść historię schowka"
+
+msgid "Automatically clear clipboard history at a recurring interval"
+msgstr "Automatycznie czyść historię schowka w regularnych odstępach czasu"
+
+msgid "History clear interval (in minutes)"
+msgstr "Interwał czyszczenia historii (w minutach)"
+
+msgid "Item Actions"
+msgstr "Działania elementu"
+
+msgid "Choose from installed applications"
+msgstr "Wybierz spośród zainstalowanych aplikacji"
+
+msgid "Search applications..."
+msgstr "Szukaj aplikacji..."
