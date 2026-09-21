@@ -3,6 +3,7 @@ set -u
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 RPM_MANIFEST="$ROOT_DIR/packages/rpm.txt"
+FLATPAK_MANIFEST="$ROOT_DIR/packages/flatpak.txt"
 EXT_LIST="$ROOT_DIR/gnome/enabled-extensions.txt"
 
 pass=0
@@ -57,7 +58,7 @@ if [[ -f "$RPM_MANIFEST" ]]; then
     elif (( is_vm )) && is_vm_host_only_pkg "$pkg"; then
       skip "host-only rpm not required in VM: $pkg"
     else
-      warn "rpm missing: $pkg"
+      bad "required rpm missing: $pkg"
     fi
   done < "$RPM_MANIFEST"
 else
@@ -71,9 +72,15 @@ for repo in rpmfusion-free rpmfusion-nonfree brave-browser; do
   if grep -Fxq "$repo" <<<"$repo_ids"; then
     ok "repo $repo"
   else
-    warn "repo not enabled: $repo"
+    bad "required repo not enabled: $repo"
   fi
 done
+
+if grep -Fq 'tgerov:vpcs' <<<"$repo_ids"; then
+  ok "repo VPCS COPR (tgerov/vpcs)"
+else
+  bad "required VPCS COPR repository not enabled: tgerov/vpcs"
+fi
 
 echo
 echo "=== TAILSCALE ==="
@@ -82,15 +89,15 @@ if command -v tailscale >/dev/null 2>&1 && rpm -q tailscale >/dev/null 2>&1; the
   if systemctl is-enabled tailscaled >/dev/null 2>&1; then
     ok "tailscaled service enabled"
   else
-    warn "tailscaled service is not enabled"
+    bad "tailscaled service is not enabled"
   fi
   if systemctl is-active tailscaled >/dev/null 2>&1; then
     ok "tailscaled service active"
   else
-    warn "tailscaled service is not active"
+    bad "tailscaled service is not active"
   fi
 else
-  warn "Tailscale client missing"
+  bad "Tailscale client missing"
 fi
 
 echo
@@ -165,6 +172,22 @@ else
 fi
 
 echo
+echo "=== EXPLICIT SECURITY POSTURE ==="
+SECURITY_POSTURE_VERIFY="$ROOT_DIR/scripts/verify-security-posture.sh"
+if [[ ! -f "$SECURITY_POSTURE_VERIFY" ]]; then
+  bad "explicit security posture verifier missing"
+else
+  security_posture_output="$(bash "$SECURITY_POSTURE_VERIFY" 2>&1)"
+  security_posture_rc=$?
+  printf '%s\n' "$security_posture_output"
+  if (( security_posture_rc == 0 )); then
+    ok "explicit security posture verification passed"
+  else
+    bad "explicit security posture verification failed"
+  fi
+fi
+
+echo
 echo "=== GNOME EXTENSIONS ==="
 if command -v gnome-extensions >/dev/null 2>&1; then
   if [[ -f "$EXT_LIST" ]]; then
@@ -197,8 +220,8 @@ if [[ -n "$iface" ]]; then
   printf 'Interface: %s\n' "$iface"
   ps="$(iw dev "$iface" get power_save 2>/dev/null || true)"
   printf '%s\n' "$ps"
-  if grep -qi 'off' <<<"$ps"; then ok "Wi-Fi power save disabled"; else warn "Wi-Fi power save is not confirmed off"; fi
-elif (( is_vm )); then skip "Wi-Fi hardware check not applicable in VM"; else warn "No Wi-Fi interface detected"; fi
+  if grep -qi 'off' <<<"$ps"; then ok "Wi-Fi power save disabled"; else bad "Wi-Fi power save is not confirmed off"; fi
+elif (( is_vm )); then skip "Wi-Fi hardware check not applicable in VM"; else bad "No Wi-Fi interface detected"; fi
 
 echo
 echo "=== WIFI FIREWALL ZONE ==="
@@ -236,17 +259,36 @@ if [[ -n "${iface:-}" ]]; then
       ok "KDE Connect absent from shared firewalld zone public"
     fi
   else
-    warn "Active Wi-Fi NetworkManager profile unavailable"
+    bad "Active Wi-Fi NetworkManager profile unavailable"
   fi
 elif (( is_vm )); then
   skip "Wi-Fi firewall-zone checks not applicable in VM"
 else
-  warn "No Wi-Fi interface detected for firewall-zone checks"
+  bad "No Wi-Fi interface detected for firewall-zone checks"
 fi
 
 echo
 echo "=== FLATPAK APPS ==="
-if command -v flatpak >/dev/null 2>&1; then flatpak list --app --columns=application 2>/dev/null || true; else warn "flatpak command unavailable"; fi
+if [[ ! -f "$FLATPAK_MANIFEST" ]]; then
+  bad "missing $FLATPAK_MANIFEST"
+elif ! command -v flatpak >/dev/null 2>&1; then
+  bad "flatpak command unavailable"
+else
+  if flatpak remotes --columns=name 2>/dev/null | grep -Fxq flathub; then
+    ok "Flatpak remote flathub available"
+  else
+    bad "required Flatpak remote missing: flathub"
+  fi
+
+  while IFS= read -r app; do
+    [[ -z "$app" || "$app" == \#* ]] && continue
+    if flatpak info "$app" >/dev/null 2>&1; then
+      ok "flatpak $app"
+    else
+      bad "required Flatpak app missing: $app"
+    fi
+  done < "$FLATPAK_MANIFEST"
+fi
 
 echo
 echo "=== GNOME DESIRED STATE ==="
@@ -255,9 +297,9 @@ if [[ -x "$ROOT_DIR/scripts/audit-gnome.sh" || -f "$ROOT_DIR/scripts/audit-gnome
   gnome_summary="$(grep -Eo 'PASS=[0-9]+ WARN=[0-9]+' <<<"$gnome_audit" | tail -n 1)"
   if [[ "$gnome_summary" =~ ^PASS=([0-9]+)\ WARN=([0-9]+)$ ]]; then
     gnome_pass="${BASH_REMATCH[1]}"; gnome_warn="${BASH_REMATCH[2]}"
-    if (( gnome_warn == 0 )); then ok "GNOME desired state matches (${gnome_pass} checks)"; else warn "GNOME desired state has ${gnome_warn} mismatch(es)"; fi
-  else warn "GNOME audit summary unavailable"; fi
-else warn "scripts/audit-gnome.sh missing"; fi
+    if (( gnome_warn == 0 )); then ok "GNOME desired state matches (${gnome_pass} checks)"; else bad "GNOME desired state has ${gnome_warn} mismatch(es)"; fi
+  else bad "GNOME audit summary unavailable"; fi
+else bad "scripts/audit-gnome.sh missing"; fi
 
 echo
 echo "=== GNOME WEATHER CUSTOM LOCATIONS ==="
@@ -815,9 +857,9 @@ fi
 if [[ -f "$ROOT_DIR/PROJECT-STATUS.md" ]]; then
   ok "project status documentation available"
 else
-  warn "PROJECT-STATUS.md missing"
+  bad "PROJECT-STATUS.md missing"
 fi
 echo
 echo "=== SUMMARY ==="
 printf 'PASS=%d WARN=%d FAIL=%d SKIP=%d\n' "$pass" "$warn" "$fail" "$skip"
-(( fail == 0 ))
+(( fail == 0 && warn == 0 ))
