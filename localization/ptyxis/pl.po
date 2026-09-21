@@ -208,7 +208,7 @@ msgid "unset"
 msgstr "nie ustawiono"
 
 msgid "untracked"
-msgstr "nieśledzone"
+msgstr "nieśledzona"
 
 msgid "Shell"
 msgstr "Powłoka"
