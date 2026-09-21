@@ -70,8 +70,10 @@ fi
 
 echo
 echo "=== EXTERNAL REPOSITORIES ==="
+HELIUM_REPO_ID="copr:copr.fedorainfracloud.org:imput:helium"
+VPCS_REPO_ID="copr:copr.fedorainfracloud.org:tgerov:vpcs"
 repo_ids="$(dnf repolist --enabled 2>/dev/null | awk 'NR > 1 {print $1}')"
-for repo in rpmfusion-free rpmfusion-nonfree brave-browser; do
+for repo in rpmfusion-free rpmfusion-nonfree brave-browser "$HELIUM_REPO_ID"; do
   if grep -Fxq "$repo" <<<"$repo_ids"; then
     ok "repo $repo"
   else
@@ -79,10 +81,25 @@ for repo in rpmfusion-free rpmfusion-nonfree brave-browser; do
   fi
 done
 
-if grep -Fq 'tgerov:vpcs' <<<"$repo_ids"; then
+if grep -Fxq "$VPCS_REPO_ID" <<<"$repo_ids"; then
   ok "repo VPCS COPR (tgerov/vpcs)"
 else
   bad "required VPCS COPR repository not enabled: tgerov/vpcs"
+fi
+
+vpcs_repo_info="$(LC_ALL=C dnf repo info "$VPCS_REPO_ID" 2>/dev/null || true)"
+vpcs_includepkgs="$(
+  awk -F: '/^Include packages[[:space:]]*:/ {
+    sub(/^[[:space:]]+/, "", $2)
+    sub(/[[:space:]]+$/, "", $2)
+    print $2
+    exit
+  }' <<<"$vpcs_repo_info"
+)"
+if [[ "$vpcs_includepkgs" == "vpcs" ]]; then
+  ok "VPCS COPR restricted to includepkgs=vpcs"
+else
+  bad "VPCS COPR package scope drift: expected includepkgs=vpcs, found ${vpcs_includepkgs:-none}"
 fi
 
 echo
@@ -731,14 +748,10 @@ fi
 echo
 echo "=== HELIUM POLISH LOCALIZATION ==="
 if helium_verify_output="$(bash "$ROOT_DIR/scripts/verify-helium-localization.sh" 2>&1)"; then
-  if grep -q '^SKIP:' <<<"$helium_verify_output"; then
-    skip "Helium Polish localization: browser not installed"
-  else
-    ok "Helium 0.17.2.1 Polish localization and post-update persistence match repository"
-  fi
+  ok "Helium Polish localization matches repository"
 else
   printf '%s\n' "$helium_verify_output"
-  bad "Helium Polish localization missing, incomplete, drifted, or update persistence is unavailable"
+  bad "Helium Polish localization missing, incomplete, or differs"
 fi
 
 echo

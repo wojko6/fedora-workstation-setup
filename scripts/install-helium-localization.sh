@@ -22,8 +22,8 @@ for cmd in rpm python3 sudo install cmp; do
 done
 
 if ! rpm -q "$PACKAGE" >/dev/null 2>&1; then
-    echo "SKIP: Helium RPM is not installed"
-    exit 0
+    echo "FAIL: required Helium package is not installed: $PACKAGE" >&2
+    exit 1
 fi
 
 for path in "$PATCHER_SRC" "$HELPER_SRC" "$OVERLAY_SRC" "$ACTION_SRC"; do

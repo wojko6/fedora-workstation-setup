@@ -22,8 +22,8 @@ OVERLAY_DST="/usr/local/share/fedora-workstation-setup/helium/pl-completion.json
 ACTION_DST="/etc/dnf/libdnf5-plugins/actions.d/90-helium-localization.actions"
 
 if ! rpm -q "$PACKAGE" >/dev/null 2>&1; then
-    echo "SKIP: Helium RPM is not installed"
-    exit 0
+    echo "FAIL: required Helium package is not installed: $PACKAGE" >&2
+    exit 1
 fi
 
 for cmd in rpm python3 sha256sum cmp mktemp; do
