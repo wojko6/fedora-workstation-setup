@@ -1,0 +1,319 @@
+#!/usr/bin/env python3
+
+from __future__ import annotations
+
+import os
+import stat
+import subprocess
+import tempfile
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+TARGET = ROOT / "scripts" / "verify-security-posture.sh"
+MAIN_VERIFY = ROOT / "scripts" / "verify.sh"
+
+MOCK = r'''#!/usr/bin/env python3
+import os
+import sys
+from pathlib import Path
+
+name = Path(sys.argv[0]).name
+args = sys.argv[1:]
+
+def env(name, default=""):
+    return os.environ.get(name, default)
+
+if name == "systemd-detect-virt":
+    print(env("SEC_TEST_VIRT", "none"))
+    raise SystemExit(0)
+
+if name == "getenforce":
+    print(env("SEC_TEST_SELINUX", "Enforcing"))
+    raise SystemExit(0)
+
+if name == "journalctl":
+    if "-n" in args:
+        print("boot journal readable")
+        raise SystemExit(0)
+    count = int(env("SEC_TEST_AVC_COUNT", "0"))
+    for _ in range(count):
+        print("kernel: avc:  denied  { read } for pid=123 comm=test")
+    raise SystemExit(0)
+
+if name == "systemctl":
+    unit = args[-1] if args else ""
+    if args[:4] == ["show", "-p", "LoadState", "--value"]:
+        if unit == "sshd.service":
+            print("loaded")
+        elif unit == "sshd.socket":
+            print(env("SEC_TEST_SOCKET_LOAD", "not-found"))
+        else:
+            print("not-found")
+        raise SystemExit(0)
+    if args and args[0] == "is-active":
+        if unit == "sshd.service":
+            print(env("SEC_TEST_SSH_ACTIVE", "inactive"))
+        else:
+            print("inactive")
+        raise SystemExit(0 if env("SEC_TEST_SSH_ACTIVE", "inactive") == "active" else 3)
+    if args and args[0] == "is-enabled":
+        if unit == "sshd.service":
+            state = env("SEC_TEST_SSH_ENABLED", "disabled")
+        else:
+            state = env("SEC_TEST_SOCKET_ENABLED", "disabled")
+        print(state)
+        raise SystemExit(0 if state == "enabled" else 1)
+    raise SystemExit(1)
+
+if name == "ss":
+    if env("SEC_TEST_SSH_LISTENER", "0") == "1":
+        print("LISTEN 0 128 0.0.0.0:22 0.0.0.0:*")
+    raise SystemExit(0)
+
+if name == "rpm":
+    if args[:2] == ["-q", "akmod-nvidia"]:
+        raise SystemExit(0)
+    raise SystemExit(1)
+
+if name == "mokutil":
+    if args and args[0] == "--test-key":
+        raise SystemExit(0 if env("SEC_TEST_MOK_TEST", "1") == "1" else 1)
+    if args == ["--list-enrolled"]:
+        if env("SEC_TEST_SIGNER_ENROLLED", "1") == "1":
+            print("Subject: CN=Fedora akmods")
+        else:
+            print("Subject: CN=Different certificate")
+        raise SystemExit(0)
+    raise SystemExit(1)
+
+if name == "modinfo":
+    if args[:3] == ["-F", "signer", "nvidia"]:
+        print("Fedora akmods")
+        raise SystemExit(0)
+    if args[:3] == ["-F", "sig_hashalgo", "nvidia"]:
+        print("sha256")
+        raise SystemExit(0)
+    raise SystemExit(1)
+
+if name == "iw":
+    if args == ["dev"]:
+        print("phy#0")
+        print("\tInterface wlp1s0")
+        raise SystemExit(0)
+    raise SystemExit(1)
+
+if name == "nmcli":
+    if args[:4] == ["-g", "GENERAL.CONNECTION", "device", "show"]:
+        print("Home WiFi")
+        raise SystemExit(0)
+    if args[:4] == ["-g", "connection.zone", "connection", "show"]:
+        print(env("SEC_TEST_SAVED_ZONE", "workstation-kdeconnect"))
+        raise SystemExit(0)
+    raise SystemExit(1)
+
+if name == "firewall-cmd":
+    if args == ["--state"]:
+        print("running")
+        raise SystemExit(0)
+
+    if args and args[0].startswith("--get-zone-of-interface="):
+        print(env("SEC_TEST_ACTIVE_ZONE", "workstation-kdeconnect"))
+        raise SystemExit(0)
+
+    if args == ["--permanent", "--get-zones"]:
+        print("FedoraWorkstation workstation-kdeconnect")
+        raise SystemExit(0)
+
+    zone = None
+    for arg in args:
+        if arg.startswith("--zone="):
+            zone = arg.split("=", 1)[1]
+
+    permanent = "--permanent" in args
+
+    if "--query-service=kdeconnect" in args:
+        if zone == "workstation-kdeconnect":
+            raise SystemExit(0)
+        raise SystemExit(0 if env("SEC_TEST_CROSS_ZONE_KDE", "0") == "1" else 1)
+
+    if "--list-services" in args:
+        if env("SEC_TEST_SERVICE_DRIFT", "0") == "1" and not permanent:
+            print("dhcpv6-client kdeconnect mdns ssh")
+        else:
+            print("dhcpv6-client kdeconnect mdns")
+        raise SystemExit(0)
+
+    if "--get-target" in args:
+        print("default")
+        raise SystemExit(0)
+
+    if "--query-forward" in args:
+        raise SystemExit(0 if env("SEC_TEST_FORWARD", "0") == "1" else 1)
+
+    if "--query-masquerade" in args:
+        raise SystemExit(1)
+
+    if "--query-icmp-block-inversion" in args:
+        raise SystemExit(1)
+
+    for option in [
+        "--list-ports",
+        "--list-protocols",
+        "--list-source-ports",
+        "--list-forward-ports",
+        "--list-sources",
+        "--list-icmp-blocks",
+        "--list-rich-rules",
+    ]:
+        if option in args:
+            print("")
+            raise SystemExit(0)
+
+    raise SystemExit(1)
+
+raise SystemExit(127)
+'''
+
+COMMANDS = [
+    "systemd-detect-virt",
+    "getenforce",
+    "journalctl",
+    "systemctl",
+    "ss",
+    "rpm",
+    "mokutil",
+    "modinfo",
+    "iw",
+    "nmcli",
+    "firewall-cmd",
+]
+
+
+def write_mock_bin(root: Path) -> Path:
+    bindir = root / "bin"
+    bindir.mkdir()
+    for name in COMMANDS:
+        path = bindir / name
+        path.write_text(MOCK, encoding="utf-8")
+        path.chmod(path.stat().st_mode | stat.S_IXUSR)
+    return bindir
+
+
+def run_case(root: Path, **overrides: str):
+    bindir = write_mock_bin(root)
+    lockdown = root / "lockdown"
+    lockdown.write_text("none [integrity] confidentiality\n", encoding="utf-8")
+    cert = root / "public_key.der"
+    cert.write_bytes(b"fixture certificate")
+
+    env = os.environ.copy()
+    env["PATH"] = f"{bindir}:{env['PATH']}"
+    env["VERIFY_LOCKDOWN_FILE"] = str(lockdown)
+    env["VERIFY_AKMOD_CERT"] = str(cert)
+    env.update(overrides)
+
+    return subprocess.run(
+        ["bash", str(TARGET)],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        env=env,
+        check=False,
+    )
+
+
+def expect_pass(name: str, result):
+    if result.returncode != 0:
+        raise SystemExit(
+            f"FAIL: {name}\nstdout:\n{result.stdout}\nstderr:\n{result.stderr}"
+        )
+    print(f"PASS: {name}")
+
+
+def expect_fail(name: str, result, phrase: str):
+    combined = result.stdout + result.stderr
+    if result.returncode == 0:
+        raise SystemExit(f"FAIL: {name}: unexpectedly accepted")
+    if phrase not in combined:
+        raise SystemExit(
+            f"FAIL: {name}: missing {phrase!r}\n"
+            f"stdout:\n{result.stdout}\nstderr:\n{result.stderr}"
+        )
+    print(f"PASS: {name} rejected")
+
+
+with tempfile.TemporaryDirectory(prefix="security-posture-tests-") as td:
+    base = Path(td)
+
+    case = base / "valid"
+    case.mkdir()
+    expect_pass("valid physical security posture", run_case(case))
+
+    case = base / "permissive"
+    case.mkdir()
+    expect_fail(
+        "SELinux permissive",
+        run_case(case, SEC_TEST_SELINUX="Permissive"),
+        "SELinux state is not Enforcing",
+    )
+
+    case = base / "avc"
+    case.mkdir()
+    expect_fail(
+        "current-boot AVC denial",
+        run_case(case, SEC_TEST_AVC_COUNT="2"),
+        "WARN: SELinux AVC denials observed",
+    )
+
+    case = base / "ssh-active"
+    case.mkdir()
+    expect_fail(
+        "active SSH service",
+        run_case(case, SEC_TEST_SSH_ACTIVE="active"),
+        "sshd.service must be inactive",
+    )
+
+    case = base / "firewall-drift"
+    case.mkdir()
+    expect_fail(
+        "trusted-zone service drift",
+        run_case(case, SEC_TEST_SERVICE_DRIFT="1"),
+        "runtime firewalld services differ",
+    )
+
+    case = base / "cross-zone"
+    case.mkdir()
+    expect_fail(
+        "cross-zone KDE Connect exposure",
+        run_case(case, SEC_TEST_CROSS_ZONE_KDE="1"),
+        "kdeconnect exposed in non-trusted permanent zone",
+    )
+
+    case = base / "signer"
+    case.mkdir()
+    expect_fail(
+        "unenrolled NVIDIA signer",
+        run_case(case, SEC_TEST_SIGNER_ENROLLED="0"),
+        "NVIDIA module signer identity is not found",
+    )
+
+main_verify = MAIN_VERIFY.read_text(encoding="utf-8")
+required_contract = [
+    'bad "required rpm missing: $pkg"',
+    'bad "required repo not enabled: $repo"',
+    'bad "required VPCS COPR repository not enabled: tgerov/vpcs"',
+    'bad "Tailscale client missing"',
+    'flatpak info "$app"',
+    'bad "required Flatpak app missing: $app"',
+    '(( fail == 0 && warn == 0 ))',
+    'verify-security-posture.sh',
+]
+
+for phrase in required_contract:
+    if phrase not in main_verify:
+        raise SystemExit(
+            f"FAIL: fail-closed verifier contract missing: {phrase}"
+        )
+
+print("PASS: main verifier fail-closed contract present")
+print("=== SECURITY POSTURE TESTS: PASS ===")
