@@ -17,6 +17,7 @@ The scripts directory contains the operational entrypoints used to build, restor
 - `install-extensions.sh`
 - `setup-ddcutil.sh`
 - `install-localizations.sh`
+- `install-ding-system-monitor-menu.sh` — applies the audited DING v97 desktop-menu patch that adds `Monitor systemu` and fails closed on version/source drift.
 - `install-launchers.sh`
 - `install-weather-locations.sh` — restores reviewed custom GNOME Weather locations in the user session.
 - `install-dhruva-config.sh`
@@ -63,5 +64,7 @@ System localization helpers:
 - `prepare_github_extension_metadata.py` — strict JSON validation and deterministic metadata preparation for pinned GitHub extension sources.
 - `test_extension_security.py` — negative fixtures for EGO checksum, UUID, JSON, runtime-version and GNOME compatibility enforcement.
 - `test_github_metadata_security.py` — negative fixtures for pinned GitHub metadata handling.
+- `verify-ding-system-monitor-menu.sh` — validates the exact DING v97 System Monitor action/menu integration and required desktop file.
+- `test_ding_system_monitor_menu.py` — static fixture and integration-contract tests for the DING System Monitor customization.
 
 Do not add ad-hoc one-off scripts unless they are part of the documented restore, audit, or validation workflow.
