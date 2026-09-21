@@ -222,5 +222,14 @@ msgstr "Uwzględnij tytuł procesu"
 msgid "Append title from Shell application"
 msgstr "Dołącz tytuł z aplikacji powłoki"
 
+msgid "Match Case"
+msgstr "Rozróżniaj wielkość liter"
+
+msgid "Whole Words"
+msgstr "Całe słowa"
+
+msgid "Use Regular Expressions"
+msgstr "Używaj wyrażeń regularnych"
+
 msgid "translator-credits"
 msgstr "fedora-workstation-setup (lokalna warstwa zgodności)"
