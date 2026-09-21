@@ -61,7 +61,6 @@ echo
 echo "--- SSH SERVER ---"
 check_disabled_inactive_unit() {
   local unit="$1"
-  local required="$2"
   local load_state
   local active_state
   local enabled_state
@@ -69,11 +68,7 @@ check_disabled_inactive_unit() {
   load_state="$(systemctl show -p LoadState --value "$unit" 2>/dev/null || true)"
 
   if [[ -z "$load_state" || "$load_state" == "not-found" ]]; then
-    if [[ "$required" == "yes" ]]; then
-      bad "$unit unavailable"
-    else
-      ok "$unit absent"
-    fi
+    ok "$unit absent"
     return
   fi
 
@@ -95,9 +90,17 @@ check_disabled_inactive_unit() {
   esac
 }
 
+if ! command -v rpm >/dev/null 2>&1; then
+  bad "rpm unavailable for OpenSSH server package verification"
+elif rpm -q openssh-server >/dev/null 2>&1; then
+  bad "openssh-server package must be absent"
+else
+  ok "openssh-server package absent"
+fi
+
 if command -v systemctl >/dev/null 2>&1; then
-  check_disabled_inactive_unit sshd.service yes
-  check_disabled_inactive_unit sshd.socket no
+  check_disabled_inactive_unit sshd.service
+  check_disabled_inactive_unit sshd.socket
 else
   bad "systemctl unavailable for SSH service verification"
 fi
