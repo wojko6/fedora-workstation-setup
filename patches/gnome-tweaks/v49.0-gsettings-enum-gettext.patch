@@ -1,0 +1,12 @@
+diff --git a/gtweak/widgets.py b/gtweak/widgets.py
+--- a/gtweak/widgets.py
++++ b/gtweak/widgets.py
+@@ -498,7 +498,7 @@ def build_list_store(values):
+     return store
+ 
+ def build_gsettings_list_store(values):
+-    options = [TweakListStoreItem(value=v, title=v.replace("-", " ").title()) for v in values]
++    options = [TweakListStoreItem(value=v, title=_(v.replace("-", " ").title())) for v in values]
+     store = Gio.ListStore()
+     
+     for option in options:
