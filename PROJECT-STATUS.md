@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Physical baseline refreshed and accepted 2026-09-21; Recovery and Stability Gates passed; 2026-09-21 localization closure accepted; D-H1, D-H2/D-H3, and D-H4 High-severity audit remediation physically accepted; latest private DR generation integrity-verified; full physical verifier clean at PASS=247 WARN=0 FAIL=0 SKIP=0
+**Status:** Physical baseline refreshed and accepted 2026-09-21; Recovery and Stability Gates passed; 2026-09-21 localization closure accepted; D-H1, D-H2/D-H3, and D-H4 High-severity audit remediation physically accepted; reproducible DING System Monitor desktop-menu integration physically accepted; latest private DR generation integrity-verified; full physical verifier clean at PASS=249 WARN=0 FAIL=0 SKIP=0
 
 **Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
 
@@ -22,14 +22,14 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After the 2026-09-21 D-H4 GNOME-extension tree-integrity closure, the physical-workstation verifier was rerun from the canonical repository checkout and completed with:
+After the 2026-09-21 DING System Monitor desktop-menu integration was made reproducible and its updated DING tree hash was accepted, the physical-workstation verifier was rerun from the canonical repository checkout and completed with:
 
 ```text
-PASS=247 WARN=0 FAIL=0 SKIP=0
+PASS=249 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes the accepted localization state, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, and D-H4 deterministic whole-tree integrity verification for every enabled user GNOME extension. Ptyxis 50.1 remains repository-managed, Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
+This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes the accepted localization state, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, D-H4 deterministic whole-tree integrity verification for every enabled user GNOME extension, and the repository-managed DING System Monitor desktop-menu customization. Ptyxis 50.1 remains repository-managed, Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
 
 ## Current desired state
 
@@ -51,6 +51,8 @@ The physical-host desired state includes:
 - extension version pinning and drift detection;
 - fail-closed source locking for enabled user extensions, including SHA-256 pins for EGO archives and an exact GitHub commit pin for Dhruva;
 - deterministic whole-tree SHA-256 integrity locks for all 22 enabled user extensions, with same-version drift detection and restore enforcement;
+- a version-pinned DING v97 desktop-menu customization that adds `Monitor systemu`, launches `org.gnome.SystemMonitor.desktop`, is restored by `install.sh`, verified explicitly, and is covered by the D-H4 tree lock;
+- `gnome-system-monitor` as an explicit RPM desired-state dependency;
 - strict JSON metadata validation for EGO and pinned GitHub extension sources.
 
 NordVPN, gNordVPN-Local, and Freon are intentionally absent from the current desired state. Tailscale remains the supported overlay/VPN component tracked by this repository.
@@ -377,6 +379,32 @@ The controlled tamper test used a temporary inert file in `user-theme@gnome-shel
 D-H4 status: **CLOSED / PHYSICALLY ACCEPTED**.
 
 With D-H4 closed, all four High-severity findings from the 2026-09-21 audit remediation track are closed.
+## DING System Monitor desktop-menu integration — PHYSICALLY ACCEPTED
+
+The DING v97 desktop background context menu now contains a repository-managed `Monitor systemu` entry directly below `Otwórz w terminalu`.
+
+Implementation and acceptance details:
+
+- `patches/gnome-extensions/ding/desktopMenu-system-monitor.patch` adds the menu action and entry;
+- `scripts/install-ding-system-monitor-menu.sh` applies the patch fail-closed only to the audited DING v97 runtime;
+- `scripts/verify-ding-system-monitor-menu.sh` verifies the exact action block, menu entry, runtime version, and GNOME System Monitor desktop file;
+- `install.sh` restores the customization as part of the normal workstation rebuild;
+- `scripts/verify.sh` includes the customization in final physical acceptance;
+- `gnome-system-monitor` is an explicit RPM dependency;
+- `gnome/extensions-tree-lock.tsv` was updated only after visual confirmation and dedicated verification, so D-H4 continues to protect the customized final DING tree.
+
+Physical acceptance on 2026-09-21:
+
+```text
+DING menu visual/function test: PASS
+DING_MENU_RC=0
+DING tree hash: a1e645bf8652d3256f1bc9aa6a24a359da1bf03cd6319d43d8d0e3b0743ba487
+PASS=249 WARN=0 FAIL=0 SKIP=0
+VERIFY_RC=0
+```
+
+Status: **PHYSICALLY ACCEPTED / REPRODUCIBLE**.
+
 ## Repository validation
 
 Repository-only validation is automated through `scripts/check-static.sh`, which is used both locally and by GitHub Actions. It covers Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON validation, and desired-state inventory consistency.
@@ -391,7 +419,7 @@ bash scripts/verify.sh
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, system-localization, GNOME Weather, and 2026-09-21 localization changes. The current complete physical-host aggregate is `PASS=236 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The managed Helium and GNOME Tweaks fixes are physically accepted, the GNOME Tweaks `Hinting` override is visually confirmed, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the private Weather location remains part of the verified local desired state without publishing its identifying data.
+The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, system-localization, GNOME Weather, localization, D-H4 integrity, and DING System Monitor menu changes. The current complete physical-host aggregate is `PASS=249 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The managed Helium and GNOME Tweaks fixes are physically accepted, the GNOME Tweaks `Hinting` override is visually confirmed, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the private Weather location remains part of the verified local desired state without publishing its identifying data.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 
@@ -415,4 +443,4 @@ The tested baseline is considered accepted when required packages, repositories,
 
 `scripts/verify.sh` must report zero `WARN` and zero `FAIL` on the validated physical target.
 
-**Last complete accepted physical aggregate: `PASS=247 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
+**Last complete accepted physical aggregate: `PASS=249 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
