@@ -22,29 +22,28 @@ install_launcher "$LAUNCHERS_DIR/counter-strike-2.desktop" "Counter-Strike 2.des
 # ASUS SSH launcher is rendered only when a local, gitignored config exists.
 ASUS_CONF="$LAUNCHERS_DIR/asus-router.conf"
 ASUS_TEMPLATE="$LAUNCHERS_DIR/asus-router.desktop.template"
+ASUS_RENDERER="$ROOT_DIR/scripts/render_asus_launcher.py"
 if [[ -f "$ASUS_CONF" ]]; then
-  # shellcheck disable=SC1090
-  source "$ASUS_CONF"
-  : "${SSH_KEY:?SSH_KEY is required in $ASUS_CONF}"
-  : "${SSH_PORT:?SSH_PORT is required in $ASUS_CONF}"
-  : "${SSH_USER:?SSH_USER is required in $ASUS_CONF}"
-  : "${ROUTER_HOST:?ROUTER_HOST is required in $ASUS_CONF}"
+  command -v python3 >/dev/null 2>&1 || {
+    printf 'ERROR: python3 is required to render the ASUS launcher.\n' >&2
+    exit 1
+  }
+  [[ -f "$ASUS_RENDERER" ]] || {
+    printf 'ERROR: ASUS launcher renderer missing: %s\n' "$ASUS_RENDERER" >&2
+    exit 1
+  }
 
   DDTERM_BIN="$HOME/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/bin/com.github.amezin.ddterm"
-  if [[ ! -x "$DDTERM_BIN" ]]; then
-    printf 'ERROR: ddterm command not found or not executable: %s\n' "$DDTERM_BIN" >&2
-    exit 1
-  fi
 
   tmp="$(mktemp)"
   trap 'rm -f "$tmp"' EXIT
-  sed \
-    -e "s|__DDTERM_BIN__|$DDTERM_BIN|g" \
-    -e "s|__SSH_KEY__|$SSH_KEY|g" \
-    -e "s|__SSH_PORT__|$SSH_PORT|g" \
-    -e "s|__SSH_USER__|$SSH_USER|g" \
-    -e "s|__ROUTER_HOST__|$ROUTER_HOST|g" \
-    "$ASUS_TEMPLATE" > "$tmp"
+
+  python3 "$ASUS_RENDERER" \
+    --config "$ASUS_CONF" \
+    --template "$ASUS_TEMPLATE" \
+    --ddterm-bin "$DDTERM_BIN" \
+    --output "$tmp"
+
   install_launcher "$tmp" "asus-router.desktop"
 else
   printf 'SKIP: ASUS launcher config not found: %s\n' "$ASUS_CONF"
