@@ -91,6 +91,10 @@ echo "=== ASUS LAUNCHER CONFIG SECURITY FIXTURES ==="
 python3 scripts/test_asus_launcher_config.py
 
 echo
+echo "=== INSTALLER PREFLIGHT SECURITY FIXTURES ==="
+python3 scripts/test_install_preflight.py
+
+echo
 echo "=== GITHUB METADATA SECURITY FIXTURES ==="
 python3 scripts/test_github_metadata_security.py
 
