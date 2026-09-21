@@ -13,7 +13,7 @@ Target baseline:
 - Wayland session
 
 Accepted baseline:
-PASS=236 WARN=0 FAIL=0 SKIP=0
+PASS=246 WARN=0 FAIL=0 SKIP=0
 
 
 ---
