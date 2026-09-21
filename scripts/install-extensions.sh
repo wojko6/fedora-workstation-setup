@@ -23,6 +23,7 @@ command -v python3 >/dev/null 2>&1 || { echo "ERROR: python3 is required." >&2; 
 [[ -f "$LIST" ]] || { echo "ERROR: missing $LIST" >&2; exit 1; }
 [[ -f "$INVENTORY" ]] || { echo "ERROR: missing $INVENTORY" >&2; exit 1; }
 [[ -f "$LOCK" ]] || { echo "ERROR: missing $LOCK" >&2; exit 1; }
+[[ -f "$TREE_LOCK" ]] || { echo "ERROR: missing $TREE_LOCK" >&2; exit 1; }
 [[ -f "$EGO_VERIFIER" ]] || {
   echo "ERROR: missing $EGO_VERIFIER" >&2
   exit 1
@@ -320,8 +321,6 @@ check_installed_tree_integrity() {
   local uuid="$1"
   local expected_version="$2"
   local ext_dir="$HOME/.local/share/gnome-shell/extensions/$uuid"
-
-  [[ -f "$TREE_LOCK" ]] || return 2
 
   python3 "$TREE_HELPER" check-one     --lock "$TREE_LOCK"     --uuid "$uuid"     --version "$expected_version"     --path "$ext_dir"
 }
