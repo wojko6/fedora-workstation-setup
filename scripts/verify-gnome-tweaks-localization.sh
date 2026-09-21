@@ -7,7 +7,7 @@ PACKAGE="gnome-tweaks"
 EXPECTED_NEVRA="gnome-tweaks-49.0-2.fc44.noarch"
 EXPECTED_WIDGETS_SHA="2d1cba580bbfe37fd06244c76895f81c4358c2a2e2ece8c27a81cf0302d1ddca"
 EXPECTED_MO_SHA="b6b9ec6189ff735a635cbc31aa6a709291a90ee73046970a185f136855209b65"
-EXPECTED_OVERLAY_ENTRIES=11
+EXPECTED_OVERLAY_ENTRIES=12
 
 WIDGETS="/usr/lib/python3.14/site-packages/gtweak/widgets.py"
 TARGET_MO="/usr/share/locale/pl/LC_MESSAGES/gnome-tweaks.mo"
@@ -106,6 +106,7 @@ while IFS='|' read -r source expected; do
         exit 1
     fi
 done <<'EOF'
+Hinting|Dopasowanie do pikseli
 None|Brak
 Toggle Shade|Przełącz zwinięcie
 Toggle Maximize|Przełącz maksymalizację
@@ -128,4 +129,4 @@ if ! grep -Fq 'title=_(v.replace("-", " ").title())' "$WIDGETS"; then
 fi
 
 echo "PASS: GNOME Tweaks 49.0 generated GSettings labels use gettext"
-echo "PASS: GNOME Tweaks 49.0 Polish localization matches repository completion ($EXPECTED_OVERLAY_ENTRIES added entries)"
+echo "PASS: GNOME Tweaks 49.0 Polish localization matches repository completion ($EXPECTED_OVERLAY_ENTRIES managed overrides/completions)"
