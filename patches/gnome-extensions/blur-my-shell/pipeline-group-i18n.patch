@@ -1,0 +1,35 @@
+--- a/src/preferences/pipelines_management/pipeline_group.js
++++ b/src/preferences/pipelines_management/pipeline_group.js
+@@
+-        this.set_description(_(`Pipeline id: "${pipeline_id}"`));
++        this.set_description(_("Pipeline id:") + ` "${pipeline_id}"`);
+ 
+         // set the title and connect it to the text entry
+-        this.set_title(pipeline.name.length > 0 ? pipeline.name : " ");
+-        this._title.set_text(pipeline.name);
++        let display_name = pipeline.name;
++        if (pipeline_id == "pipeline_default" && pipeline.name == "Default")
++            display_name = _("Default");
++        else if (pipeline_id == "pipeline_default_rounded" && pipeline.name == "Default rounded")
++            display_name = _("Default rounded");
++
++        this.set_title(display_name.length > 0 ? display_name : " ");
++        this._title.set_text(display_name);
+@@
+-        if (effects.length == 0)
+-            this._effects_description_row.set_title(_("No effect"));
+-        else if (effects.length == 1)
+-            this._effects_description_row.set_title(_("1 effect"));
+-        else
+-            this._effects_description_row.set_title(_(`${effects.length} effects`));
++        if (effects.length == 0) {
++            this._effects_description_row.set_title(_("No effect"));
++        } else {
++            const count_label = GLib.dngettext(
++                "blur-my-shell@aunetx",
++                "%d effect",
++                "%d effects",
++                effects.length
++            ).replace("%d", String(effects.length));
++            this._effects_description_row.set_title(count_label);
++        }
