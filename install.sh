@@ -5,6 +5,35 @@ ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
 log() { printf '\n==> %s\n' "$*"; }
 
+if (( EUID == 0 )); then
+  echo "ERROR: run install.sh as the desktop user, not root." >&2
+  echo "Privileged stages invoke sudo explicitly where required." >&2
+  exit 1
+fi
+
+if [[ -z "${HOME:-}" || "$HOME" == "/root" ]]; then
+  echo "ERROR: invalid desktop-user HOME: ${HOME:-unset}" >&2
+  exit 1
+fi
+
+if command -v rpm-ostree >/dev/null 2>&1 &&
+   rpm-ostree status >/dev/null 2>&1; then
+  echo "ERROR: image-based Fedora (rpm-ostree) is not supported by this repository." >&2
+  echo "Use a classic DNF-managed Fedora Workstation installation." >&2
+  exit 1
+fi
+
+if [[ -z "${DBUS_SESSION_BUS_ADDRESS:-}" || -z "${XDG_RUNTIME_DIR:-}" ]]; then
+  echo "ERROR: install.sh must run from the desktop user's graphical session." >&2
+  echo "DBUS_SESSION_BUS_ADDRESS and XDG_RUNTIME_DIR are required for GNOME user-state restore." >&2
+  exit 1
+fi
+
+if [[ ! -d "$XDG_RUNTIME_DIR" || ! -O "$XDG_RUNTIME_DIR" ]]; then
+  echo "ERROR: XDG_RUNTIME_DIR is unavailable or not owned by the current user: $XDG_RUNTIME_DIR" >&2
+  exit 1
+fi
+
 if [[ ! -r /etc/fedora-release ]]; then
   echo "ERROR: This setup is intended for Fedora." >&2
   exit 1
