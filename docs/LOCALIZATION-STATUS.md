@@ -121,6 +121,24 @@ For future Helium versions, the post-transaction helper deliberately does **not*
 
 Physical installation, dedicated verification, and visual acceptance are pending.
 
+### GNOME Tweaks 49.0
+
+The physical workstation uses **gnome-tweaks-49.0-2.fc44.noarch**. Most of its interface is correctly translated upstream, but the generic `build_gsettings_list_store()` helper converts raw enum values such as `toggle-maximize`, `none`, and `zoom` into title case without passing them through gettext. This leaves generated combo-box values in English even when the Polish catalog already contains an applicable translation such as `None` → `Brak`.
+
+The audited Fedora source fingerprints are:
+
+- `gtweak/widgets.py`: `2d1cba580bbfe37fd06244c76895f81c4358c2a2e2ece8c27a81cf0302d1ddca`
+- `gtweak/tweaks/tweak_group_windows.py`: `df8810db18925c852640c4bff8885f30a71daa7561f8765b06f53f891d7e3b17`
+- upstream Polish `gnome-tweaks.mo`: `b6b9ec6189ff735a635cbc31aa6a709291a90ee73046970a185f136855209b65`
+
+The repository carries a one-line source patch that changes generated GSettings titles from plain title-cased strings to gettext lookups. The existing upstream catalog then supplies labels it already knows (`None`, `Minimize`), while `localization/gnome-tweaks/v49.0-gsettings-enums.po` adds 11 reviewed Polish labels for the remaining audited window-action and background-adjustment values.
+
+`scripts/install-gnome-tweaks-localization.sh` is pinned to the exact Fedora NEVRA, preserves pristine source and catalog backups under `/var/lib/fedora-workstation-setup/gnome-tweaks/49.0-2.fc44/`, reconstructs the patched `widgets.py` and merged catalog in a temporary directory, and only then installs both artifacts. `scripts/verify-gnome-tweaks-localization.sh` reconstructs both expected files from the pristine backups and compares them byte-for-byte with the live installation, in addition to gettext smoke tests for the generated labels.
+
+A future GNOME Tweaks package version/release is intentionally not auto-accepted: the exact-package verifier will fail until the new source and Polish catalog are re-audited.
+
+Physical installation and visual acceptance are pending.
+
 ## Bluetooth Battery Meter v46/v49
 
 The physical workstation reports **Bluetooth Battery Meter v49**, UUID and gettext domain `Bluetooth-Battery-Meter@maniacx.github.com`. The reproducible extension inventory and source lock now also record v49. The existing Polish catalog translates the main extension preferences, but leaves all **16 messages** on the BudsLink Companion page untranslated, including the introduction, integration controls, installation states, and documentation links.
