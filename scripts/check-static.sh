@@ -4,7 +4,7 @@ set -Eeuo pipefail
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-required=(bash python3 msgfmt shellcheck)
+required=(bash python3 msgfmt shellcheck git)
 for cmd in "${required[@]}"; do
   command -v "$cmd" >/dev/null 2>&1 || {
     echo "ERROR: required validation tool is missing: $cmd" >&2
@@ -52,6 +52,13 @@ while IFS= read -r -d '' file; do
   echo "json.tool $file"
   python3 -m json.tool "$file" >/dev/null
 done < <(find . -type f -name '*.json' -not -path './.git/*' -print0)
+
+echo
+echo "=== PATCH SYNTAX ==="
+while IFS= read -r -d '' file; do
+  echo "git apply --numstat $file"
+  git apply --numstat "$file" >/dev/null
+done < <(find patches -type f -name '*.patch' -print0)
 
 echo
 echo "=== REPOSITORY CONSISTENCY ==="
