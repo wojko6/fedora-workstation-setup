@@ -37,7 +37,12 @@ if [[ ! -f "$PATCH_FILE" ]]; then
     exit 1
 fi
 
-for cmd in dnf rpm rpmkeys rpmbuild sha256sum grep tr; do
+required_commands=(dnf rpm rpmkeys sha256sum grep tr awk mktemp)
+if (( ! VERIFY_ONLY )); then
+    required_commands+=(rpmbuild sed install sudo)
+fi
+
+for cmd in "${required_commands[@]}"; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "ERROR: required command not found: $cmd" >&2
         exit 1
