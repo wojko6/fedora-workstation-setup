@@ -72,6 +72,7 @@ stages=(
   scripts/install-extensions.sh
   scripts/setup-ddcutil.sh
   scripts/install-localizations.sh
+  scripts/install-ding-system-monitor-menu.sh
   scripts/install-launchers.sh
   scripts/restore-gnome.sh
   scripts/install-weather-locations.sh
