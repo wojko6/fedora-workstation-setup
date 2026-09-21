@@ -19,6 +19,7 @@ The repository adds localization only when upstream Polish support is missing, i
 - Clipboard Indicator v71 uses a 63-entry completion overlay covering all untranslated and fuzzy entries from the audited upstream Polish catalog.
 - Extension Manager 0.6.5 uses a one-entry contextual completion (`Sort search results` / `None` → `Brak`) merged into the exact audited Flatpak Locale catalog.
 - Helium 0.17.2.1 uses a 36-entry Linux-relevant JSON completion applied to Chromium DataPack v5 `pl.pak`; the patcher preserves all unmanaged resource bytes semantically, refuses changed audited strings in strict mode, and is re-run after `helium-bin` package transactions through DNF5 actions.
+- GNOME Tweaks 49.0 uses a one-line exact-version source patch so generated GSettings enum labels are passed through gettext, plus an 11-entry Polish completion for labels absent from the upstream catalog.
 - Ptyxis 50.1 uses a version-pinned Polish main-domain completion because Fedora's package does not ship `pl/LC_MESSAGES/ptyxis.mo`; it covers the audited main-window/menu strings and also activates libadwaita's existing Polish About-dialog translations without modifying `libadwaita.mo`.
 
 All localization installation is centralized through `scripts/install-localizations.sh`, including the system-level Papers, Plymouth, and Ptyxis targets. Verification is integrated into `scripts/verify.sh`.
