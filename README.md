@@ -22,14 +22,14 @@ Clean-room result:
 PASS=147 WARN=0 FAIL=0 SKIP=8
 ```
 
-After the 2026-09-20 Ptyxis completion, Bluetooth Battery Meter v49 restore-pin promotion, ASUS private-launcher verifier-scope cleanup, and GNOME Weather custom-location integration, the physical workstation completed the current accepted run with:
+After the 2026-09-21 localization closure and a fresh verification from the canonical checkout, the physical workstation completed the current accepted run with:
 
 ```text
-PASS=231 WARN=0 FAIL=0 SKIP=0
+PASS=236 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current complete accepted physical-host aggregate for Fedora 44 / GNOME 50.5. A private GNOME Weather custom location is part of the validated physical desired state, while its identifying name and coordinates are intentionally excluded from the public repository.
+This is the current complete accepted physical-host aggregate for Fedora 44 / GNOME 50.5. It includes the repository-managed 2026-09-21 localization additions for Blur my Shell, Clipboard Indicator, Extension Manager, Helium, and GNOME Tweaks. A private GNOME Weather custom location remains part of the validated physical desired state, while its identifying name and coordinates are intentionally excluded from the public repository.
 
 Repository changes are guarded by a static validation workflow. The same `scripts/check-static.sh` entrypoint is used locally and in GitHub Actions to validate Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON files, and desired-state inventory consistency.
 
@@ -47,12 +47,14 @@ The desired state includes reproducible Polish localization support for selected
 
 The repository also manages localization for Just Perfection v37, Spotlight v15 / 2026.15, Space Bar v39, Vitals v85, ddterm v72, Advanced Media Controller v31 / 6.5, Papers 49.8 / Nautilus document properties, Plymouth offline updates, and Ptyxis 50.1. Space Bar uses an exact-version controlled source localization because its audited release has no usable gettext path. Advanced Media Controller uses a complete 276-entry Polish gettext catalog pinned to the exact v31 / 6.5 build and verified with a runtime gettext smoke test. Vitals and ddterm use minimal completion strategies over demonstrated upstream gaps. Papers uses a minimal merged gettext overlay, Plymouth persists Fedora's existing Polish catalog and locale data into initramfs, and Ptyxis uses a minimal main-domain bridge so libadwaita's existing Polish About-dialog strings are activated.
 
-All 12 version-specific GNOME-extension localization installers, plus the system-level Papers, Plymouth, and Ptyxis stages, are invoked by `scripts/install-localizations.sh`; their dedicated checks are integrated into the main `scripts/verify.sh`. The currently managed localization set has passed the physical-host verifier with zero warnings and zero failures. A broader 2026-09-21 physical audit subsequently identified additional untranslated coverage in Blur my Shell v72 and Clipboard Indicator v71 plus application-level gaps in Extension Manager and VSCodium. Blur my Shell, Clipboard Indicator, and the Extension Manager `None` sort label now have repository-managed completions. Helium 0.17.2.1 is also under repository-managed completion: its audited Linux build has 36 Helium-specific Polish gaps, handled through a safe Chromium DataPack v5 overlay with DNF5 post-update reapplication. VSCodium is intentionally deferred for now. These changes are tracked in [`docs/LOCALIZATION-STATUS.md`](docs/LOCALIZATION-STATUS.md) and are not yet represented by the older accepted verifier aggregate.
+`scripts/install-localizations.sh` now invokes 15 version-specific GNOME-extension localization installers plus six application/system stages: Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks. Their dedicated checks are integrated into the main `scripts/verify.sh`. The 2026-09-21 audit-driven additions for Blur my Shell v72, Clipboard Indicator v71, Extension Manager 0.6.5, Helium 0.17.2.1, and GNOME Tweaks 49.0 are repository-managed and included in the clean `PASS=236 WARN=0 FAIL=0 SKIP=0` physical verification. The GNOME Tweaks `Hinting` terminology override is physically confirmed as `Dopasowanie do pikseli`. VSCodium 1.135.06055 remains intentionally deferred and is not claimed as reproducibly localized. Details are tracked in [`docs/LOCALIZATION-STATUS.md`](docs/LOCALIZATION-STATUS.md).
 
 Dhruva's dock state is also reproducible. The repository stores a sanitized desired dock order and application-folder definition in `gnome/dhruva/dock-state.json`; `scripts/install-dhruva-config.sh` restores that state after the GNOME configuration stage, and `scripts/verify.sh` detects drift. Machine-specific paths and private local folder state are intentionally excluded.
 
 
 GNOME Weather custom locations are reproducible without publishing private location data or storing opaque dconf state. The public repository contains only `gnome/weather-locations.example.tsv`; real names and WGS84 coordinates belong in the gitignored `gnome/weather-locations.local.tsv`. `scripts/manage-weather-locations.py` uses libgweather serialization to install and verify exactly one matching private location, and the restore stage runs after the curated GNOME dconf restore so it is not overwritten.
+
+The latest private offline disaster-recovery generation, created on 2026-09-21 after the clean physical verification, passed Zstandard integrity tests and a full 21-entry SHA-256 manifest verification. The private artifacts remain outside Git.
 
 See [`PROJECT-STATUS.md`](PROJECT-STATUS.md) for the current acceptance and security-validation status, [`docs/README.md`](docs/README.md) for the documentation index, [`docs/CLEAN-ROOM-RESTORE-REPORT.md`](docs/CLEAN-ROOM-RESTORE-REPORT.md) for the clean-room validation report, [`docs/gnome-extension-audit-2026-09-17.md`](docs/gnome-extension-audit-2026-09-17.md) for the GNOME extension refresh, [`docs/LOCALIZATION-STATUS.md`](docs/LOCALIZATION-STATUS.md) for Polish localization coverage, and [`docs/DISASTER-RECOVERY.md`](docs/DISASTER-RECOVERY.md) for the offline disaster-recovery strategy. The detailed total-failure operational sequence is documented separately in [`docs/DISASTER-RECOVERY-RUNBOOK.md`](docs/DISASTER-RECOVERY-RUNBOOK.md).
 
@@ -97,7 +99,7 @@ bash scripts/verify.sh
 Current accepted physical-workstation result:
 
 ```text
-PASS=231 WARN=0 FAIL=0 SKIP=0
+PASS=236 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
