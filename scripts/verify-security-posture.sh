@@ -183,19 +183,27 @@ elif ! firewall-cmd --state >/dev/null 2>&1; then
   bad "firewalld is not running"
 else
   iface=""
-  if command -v iw >/dev/null 2>&1; then
-    iface="$(iw dev 2>/dev/null | awk '$1=="Interface" {print $2; exit}')"
+  if command -v ip >/dev/null 2>&1; then
+    iface="$(ip route show default 2>/dev/null | awk '/default/ {print $5; exit}')"
   fi
 
   if [[ -z "$iface" ]]; then
     if (( is_vm )); then
       skip "trusted Wi-Fi firewalld exact-state check not applicable in VM"
     else
-      bad "physical Wi-Fi interface unavailable for firewalld verification"
+      bad "default-route interface unavailable for firewalld verification"
     fi
   elif ! command -v nmcli >/dev/null 2>&1; then
     bad "nmcli unavailable for trusted Wi-Fi firewalld verification"
   else
+    iface_type="$(
+      nmcli -t -f DEVICE,TYPE device status 2>/dev/null |
+        awk -F: -v dev="$iface" '$1 == dev { print $2; exit }'
+    )"
+    if [[ "$iface_type" != "wifi" ]]; then
+      bad "default-route interface is not Wi-Fi: $iface (type: ${iface_type:-unknown})"
+    fi
+
     profile="$(nmcli -g GENERAL.CONNECTION device show "$iface" 2>/dev/null || true)"
     saved_zone=""
     [[ -n "$profile" && "$profile" != "--" ]] &&
