@@ -62,7 +62,7 @@ Application-level follow-ups:
 
 The audit also exposed a verifier-design issue in the Ptyxis search-options completion: the actual embedded resource uses mnemonic-bearing msgids `Match _Case`, `Whole _Words`, and `Use _Regular Expressions`. The repository catalog and verifier have been corrected to those exact resource strings, and the verifier now checks the installed Ptyxis resource before accepting the translations.
 
-The repository-managed fixes discovered by the 2026-09-21 audit are now integrated and the full physical verifier completes at `PASS=236 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. VSCodium remains intentionally deferred and is therefore outside the reproducible localization claim; a clean verifier result must not be interpreted as proof that every third-party UI string on the workstation is translated.
+The repository-managed fixes discovered by the 2026-09-21 audit remain integrated; the current project-wide full physical verifier now completes at `PASS=246 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0` after additional D-H2/D-H3 security checks were added. VSCodium remains intentionally deferred and is therefore outside the reproducible localization claim; a clean verifier result must not be interpreted as proof that every third-party UI string on the workstation is translated.
 
 ## 2026-09-17 extension refresh
 
