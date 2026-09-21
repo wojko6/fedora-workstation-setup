@@ -145,6 +145,21 @@ with tempfile.TemporaryDirectory(prefix="extension-tree-integrity-") as td:
         raise SystemExit("FAIL: generated lock did not verify accepted tree")
     print("PASS: generated tree lock verifies accepted tree")
 
+    check_one = run(
+        "check-one",
+        "--lock",
+        str(lock),
+        "--uuid",
+        "fixture@example",
+        "--version",
+        "1",
+        "--path",
+        str(extension),
+    )
+    if "MATCH: extension tree integrity fixture@example" not in check_one.stdout:
+        raise SystemExit("FAIL: check-one did not accept locked tree")
+    print("PASS: single-extension integrity check accepts locked tree")
+
     (extension / "extension.js").write_text("tampered\n", encoding="utf-8")
     verify = run(
         "verify",
@@ -163,5 +178,25 @@ with tempfile.TemporaryDirectory(prefix="extension-tree-integrity-") as td:
     if "FAIL: extension tree integrity drift: fixture@example" not in verify.stdout:
         raise SystemExit("FAIL: tampered tree failure reason missing")
     print("PASS: tree lock rejects same-version content tamper")
+
+    check_one = run(
+        "check-one",
+        "--lock",
+        str(lock),
+        "--uuid",
+        "fixture@example",
+        "--version",
+        "1",
+        "--path",
+        str(extension),
+        check=False,
+    )
+    if check_one.returncode != 3:
+        raise SystemExit(
+            f"FAIL: check-one drift return code: expected 3, got {check_one.returncode}"
+        )
+    if "DRIFT: extension tree integrity mismatch: fixture@example" not in check_one.stdout:
+        raise SystemExit("FAIL: check-one drift reason missing")
+    print("PASS: single-extension integrity check reports same-version drift")
 
 print("=== EXTENSION TREE INTEGRITY TESTS: PASS ===")
