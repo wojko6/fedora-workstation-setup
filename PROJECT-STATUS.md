@@ -270,6 +270,26 @@ The final GNOME Tweaks 49.0 terminology override was visually confirmed as `Hint
 
 A new private offline disaster-recovery generation dated **2026-09-21** was then created after the clean verifier result. It contains compressed read-only Btrfs streams for root, home, and the separate `/var/lib/machines` subvolume, plus `/boot`, EFI, and reconstruction metadata. Zstandard integrity tests passed, and the final 21-entry `SHA256SUMS` manifest was verified with `SHA256_VERIFY_RC=0`. The private artifacts and machine identifiers remain outside Git.
 
+## D-H1 trusted firewalld boundary — implementation state
+
+The P0.1 / D-H1 code change is implemented and repository-tested, but is **not yet physically accepted** on the workstation.
+
+Implemented controls:
+
+- a physical restore requires an explicitly reviewed `TRUSTED_WIFI_UUID` before setup stages begin;
+- the active/default-route connection must be Wi-Fi and its NetworkManager UUID must match the reviewed UUID;
+- optional `TRUSTED_WIFI_PROFILE` can additionally pin the profile name;
+- an untrusted UUID is rejected before NetworkManager/firewalld mutation;
+- `workstation-kdeconnect` is converged to exact state with only `dhcpv6-client`, `mdns`, and `kdeconnect`;
+- `ssh`, forwarding, masquerade, explicit ports/protocols/sources, forward/source ports, ICMP blocks, ICMP inversion, and rich rules are removed;
+- KDE Connect exposure in another active zone causes a fail-closed rejection;
+- previous profile/zone state is captured and rollback is attempted on configuration failure;
+- virtualized clean-room environments without a trusted physical Wi-Fi profile receive an explicit environment `SKIP`.
+
+Negative/positive mock fixtures are integrated into `scripts/check-static.sh`: an untrusted UUID must fail with zero mutation, while a deliberately dirty trusted zone must converge to the minimal exact-state policy.
+
+Physical-host acceptance is still required before D-H1 can be marked closed.
+
 ## Repository validation
 
 Repository-only validation is automated through `scripts/check-static.sh`, which is used both locally and by GitHub Actions. It covers Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON validation, and desired-state inventory consistency.
@@ -292,7 +312,7 @@ This does not make the repository a full disk backup. Personal files, credential
 
 The next engineering block is security/architecture hardening, followed by routine lifecycle maintenance:
 
-- **D-H1:** tighten the firewalld trust boundary and exact-state enforcement for the active workstation network profile;
+- **D-H1 (implemented, physical acceptance pending):** apply the new trusted-UUID/exact-state firewalld policy on the physical workstation and verify the live result;
 - **D-H2:** expand explicit verifier coverage for security controls such as SELinux/AVC state, disabled SSH service/socket state, kernel lockdown, listener/firewall state, and expected external-module signing evidence;
 - **D-H3:** make remaining required-state checks consistently fail-closed/strict, including desired Flatpak state;
 - **D-H4:** verify installed GNOME-extension tree integrity so same-version source tampering cannot be silently accepted;
