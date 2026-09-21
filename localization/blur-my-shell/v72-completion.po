@@ -1,0 +1,151 @@
+# Blur my Shell v72 Polish completion overlay.
+# Completes the 46 runtime-confirmed English fallbacks on the audited EGO v72 build.
+msgid ""
+msgstr ""
+"Project-Id-Version: blur-my-shell v72 Polish completion\n"
+"PO-Revision-Date: 2026-09-21 10:05+0200\n"
+"Last-Translator: fedora-workstation-setup project\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "Prefer closer pixels"
+msgstr "Preferuj bliższe piksele"
+
+msgid "Blend mode"
+msgstr "Tryb mieszania"
+
+msgid "How the color is blended in."
+msgstr "Sposób mieszania koloru."
+
+msgid "Normal"
+msgstr "Normalny"
+
+msgid "Multiply"
+msgstr "Mnożenie"
+
+msgid "Screen"
+msgstr "Ekran"
+
+msgid "Overlay"
+msgstr "Nakładka"
+
+msgid "Darken"
+msgstr "Przyciemnianie"
+
+msgid "Lighten"
+msgstr "Rozjaśnianie"
+
+msgid "Plus darker"
+msgstr "Dodawanie — ciemniej"
+
+msgid "Plus lighter"
+msgstr "Dodawanie — jaśniej"
+
+msgid "Color dodge"
+msgstr "Rozjaśnianie koloru"
+
+msgid "Color burn"
+msgstr "Przyciemnianie koloru"
+
+msgid "Hard light"
+msgstr "Twarde światło"
+
+msgid "Soft light"
+msgstr "Miękkie światło"
+
+msgid "Difference"
+msgstr "Różnica"
+
+msgid "Exclusion"
+msgstr "Wykluczenie"
+
+msgid "Hue"
+msgstr "Odcień"
+
+msgid "Saturation"
+msgstr "Nasycenie"
+
+msgid "Luminosity"
+msgstr "Luminancja"
+
+msgid "An effect that affects the luminosity of the image."
+msgstr "Efekt wpływający na luminancję obrazu."
+
+msgid "Shift brightness"
+msgstr "Przesunięcie jasności"
+
+msgid "The brightness to add of remove to the image."
+msgstr "Wartość jasności dodawana do obrazu lub odejmowana od niego."
+
+msgid "Multiply brightness"
+msgstr "Mnożnik jasności"
+
+msgid "Contrast"
+msgstr "Kontrast"
+
+msgid "The contrast of the image in regard to the center of the contrast."
+msgstr "Kontrast obrazu względem środka kontrastu."
+
+msgid "Contrast center"
+msgstr "Środek kontrastu"
+
+msgid "The center of the contrast to use."
+msgstr "Środek kontrastu, który ma być używany."
+
+msgid "Boxcar"
+msgstr "Filtr prostokątny"
+
+msgid "Dirac"
+msgstr "Impuls Diraca"
+
+msgid "Apply a spatial derivative, or a laplacian."
+msgstr "Zastosuj pochodną przestrzenną lub operator Laplace’a."
+
+msgid "Operation"
+msgstr "Operacja"
+
+msgid "The mathematical operation to apply."
+msgstr "Operacja matematyczna do zastosowania."
+
+msgid "1-step derivative"
+msgstr "Pochodna jednokrokowa"
+
+msgid "2-step derivative"
+msgstr "Pochodna dwukrokowa"
+
+msgid "Laplacian"
+msgstr "Laplasjan"
+
+msgid "RGB to HSL (advanced effect)"
+msgstr "RGB na HSL (efekt zaawansowany)"
+
+msgid "Converts the image from RGBA colorspace to HSLA."
+msgstr "Konwertuje obraz z przestrzeni kolorów RGBA do HSLA."
+
+msgid "HSL to RGB (advanced effect)"
+msgstr "HSL na RGB (efekt zaawansowany)"
+
+msgid "Converts the image from HSLA colorspace to RGBA."
+msgstr "Konwertuje obraz z przestrzeni kolorów HSLA do RGBA."
+
+msgid "Corner radius"
+msgstr "Promień zaokrąglenia"
+
+msgid "Radius for the corner rounding effect."
+msgstr "Promień efektu zaokrąglania rogów."
+
+msgid "Enable corner rounding on maximized and fullscreen"
+msgstr "Włącz zaokrąglanie rogów dla okien zmaksymalizowanych i pełnoekranowych"
+
+msgid "Include advanced effects"
+msgstr "Uwzględnij efekty zaawansowane"
+
+msgid "Coverflow Alt-Tab extension blur"
+msgstr "Rozmycie rozszerzenia Coverflow Alt-Tab"
+
+msgid "Make the coverflow alt-tab extension blurred, if it is used."
+msgstr "Rozmywaj rozszerzenie Coverflow Alt-Tab, jeśli jest używane."
