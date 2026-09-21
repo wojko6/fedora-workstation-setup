@@ -83,4 +83,8 @@ echo "=== FIREWALL POLICY SECURITY FIXTURES ==="
 python3 scripts/test_firewall_policy.py
 
 echo
+echo "=== SECURITY POSTURE / FAIL-CLOSED FIXTURES ==="
+python3 scripts/test_verify_security_posture.py
+
+echo
 echo "=== STATIC CHECKS: PASS ==="
