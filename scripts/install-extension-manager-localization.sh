@@ -32,7 +32,11 @@ if ! flatpak --system info "$LOCALE_ID" >/dev/null 2>&1; then
     exit 1
 fi
 
-version="$(flatpak --system info --show-version "$APP_ID")"
+version="$(
+    LC_ALL=C flatpak --system info "$APP_ID" |
+        sed -nE 's/^[[:space:]]*Version:[[:space:]]*//p' |
+        head -n 1
+)"
 if [[ "$version" != "$EXPECTED_VERSION" ]]; then
     echo "FAIL: Extension Manager version drift: expected $EXPECTED_VERSION, found ${version:-unknown}" >&2
     exit 1
