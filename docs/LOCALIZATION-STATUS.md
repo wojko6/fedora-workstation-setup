@@ -49,10 +49,11 @@ The audit also reopened localization completeness for two desired-state extensio
 - **Blur my Shell v72**: the initial runtime audit confirmed 46 single-line English fallbacks; visual follow-up then exposed eight multiline catalog gaps and pipeline-management strings outside the effective upstream catalog. The repository now carries a 61-entry completion plus two exact-version pipeline UI source patches. Physical installation, dedicated verification, and visual acceptance all pass.
 - **Clipboard Indicator v71**: the physical v71 catalog fingerprint matches the audited EGO installation and contains only 49 compiled Polish messages. The exact upstream v71 source catalog has 112 entries, of which 41 are untranslated and 22 are fuzzy, leaving 63 effective runtime gaps. The repository now carries a 63-entry completion overlay plus exact-version/source/catalog fingerprint checks; physical installation and visual acceptance are pending.
 
-Two application-level follow-ups remain under audit:
+Application-level follow-ups:
 
 - **Extension Manager 0.6.5**: the separate system Flatpak Locale ref is present and provides the Polish `extension-manager.mo`. Visual inspection and exact v0.6.5 source review confirmed one application-owned untranslated contextual label: sort option `None`. The repository carries a one-entry completion (`None` → `Brak`) pinned to Locale commit `9e45ce9096c3efdcc54b26375fed9b730a6e8f5032daf6b8cee35482afacd036` and pristine catalog SHA-256 `6ea6fda169660bc791d46a74bd511cbb91a97ee6f9308bc9db7b4f3602d25a78`; physical installation, dedicated verification, and visual acceptance all pass.
-- VSCodium 1.135.06055 did not report a Polish language-pack extension or locale configuration, so Polish UI reproducibility is not currently demonstrated.
+- **Helium 0.17.2.1 / Chromium 153.0.8010.52**: the physical Fedora COPR RPM ships a Polish Chromium DataPack v5 at `/opt/helium/locales/pl.pak`. Exact build/source comparison found 36 Helium-specific untranslated messages relevant to Linux. The repository now carries a safe JSON completion plus a dependency-free DataPack v5 parser/writer, a versioned pristine-backup installer, a dedicated verifier, and a DNF5 `post_transaction` action that reapplies only entries that still equal their audited English source. Physical installation and visual acceptance are pending.
+- **VSCodium 1.135.06055**: Polish UI reproducibility is not currently demonstrated; this follow-up is intentionally deferred for now.
 
 The audit also exposed a verifier-design issue in the Ptyxis search-options completion: the actual embedded resource uses mnemonic-bearing msgids `Match _Case`, `Whole _Words`, and `Use _Regular Expressions`. The repository catalog and verifier have been corrected to those exact resource strings, and the verifier now checks the installed Ptyxis resource before accepting the translations.
 
@@ -105,6 +106,20 @@ The repository carries `localization/extension-manager/v0.6.5-completion.po` wit
 Because the completion is applied to a Flatpak deployment checkout, a Flatpak update or repair can replace it; the exact-version verifier detects that drift and the localization installer reapplies the controlled override after the audited Locale ref is restored.
 
 Physical installation, dedicated verification, and final visual acceptance have passed on the Fedora 44 / GNOME Shell 50.5 workstation; the sort selector now shows `Brak` instead of `None`.
+
+### Helium 0.17.2.1
+
+The physical workstation uses Fedora COPR package `helium-bin-0.17.2.1-1.fc44.x86_64`, reporting **Helium 0.17.2.1 (Chromium 153.0.8010.52)**. The producer-owned Polish locale archive is `/opt/helium/locales/pl.pak`; before repository changes its SHA-256 is `93b0489811a30c4005294b192b6cadbd4089ab29da9e167fa40f48a2320940a6`, and RPM verification reports the package as pristine.
+
+The audited archive is Chromium **DataPack v5**, UTF-8, with 11,820 resource entries and 2,478 aliases. The Helium source tree for the exact Linux build points to commit `8c19f4c6d624e31293bca13e655f2fe542ba6fdb`. Comparing that build's `i18n/source.gen.json` with `i18n/translations/pl.json` finds 38 missing Helium-specific Polish entries; two are macOS-only, leaving **36 Linux-relevant gaps**. All 36 names were confirmed in the physical `pl.pak.info` and their runtime payloads were confirmed to be the audited English source strings.
+
+The repository carries `localization/helium/v0.17.2.1-pl-completion.json` with those 36 translations. `scripts/helium_datapack.py` implements the documented Chromium DataPack v5 layout in pure Python, including alias parsing/reconstruction, deterministic UTF-8 output, semantic round-trip validation, and a synthetic self-test. It changes only resource IDs whose current payload exactly matches the audited English source; unexpected producer values are left untouched. Strict mode additionally pins the physical 0.17.2.1 resource IDs.
+
+`scripts/install-helium-localization.sh` installs the DataPack helper, completion data, and root transaction helper under `/usr/local`, installs `libdnf5-plugin-actions` when required, and installs `system/dnf5/actions.d/90-helium-localization.actions`. The DNF5 action runs after incoming `helium-bin` package transactions. The transaction helper keeps a pristine, versioned producer backup in `/var/lib/fedora-workstation-setup/helium/<version>/`, rebuilds the Polish DataPack from that backup, and replaces the live `pl.pak` atomically so an already-running browser can keep the old mapped inode safely.
+
+For future Helium versions, the post-transaction helper deliberately does **not** force old Polish text over changed producer strings. It patches only entries whose payload still equals the audited English source and warns that a new full localization audit is required. The full `scripts/verify-helium-localization.sh` remains version-pinned to 0.17.2.1 so an update cannot be silently accepted as fully reviewed.
+
+Physical installation, dedicated verification, and visual acceptance are pending.
 
 ## Bluetooth Battery Meter v46/v49
 
