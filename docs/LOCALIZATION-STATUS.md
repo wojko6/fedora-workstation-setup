@@ -51,7 +51,7 @@ The audit also reopened localization completeness for two desired-state extensio
 
 Two application-level follow-ups remain under audit:
 
-- Extension Manager 0.6.5 did not expose a Polish catalog in the base Flatpak application tree; Flatpak locale-extension/runtime state still needs to be checked before treating this as a confirmed translation gap.
+- **Extension Manager 0.6.5**: the separate system Flatpak Locale ref is present and provides the Polish `extension-manager.mo`. Visual inspection and exact v0.6.5 source review confirmed one application-owned untranslated contextual label: sort option `None`. The repository now carries a one-entry completion (`None` → `Brak`) pinned to Locale commit `9e45ce9096c3efdcc54b26375fed9b730a6e8f5032daf6b8cee35482afacd036` and pristine catalog SHA-256 `6ea6fda169660bc791d46a74bd511cbb91a97ee6f9308bc9db7b4f3602d25a78`; physical installation and final visual acceptance are pending.
 - VSCodium 1.135.06055 did not report a Polish language-pack extension or locale configuration, so Polish UI reproducibility is not currently demonstrated.
 
 The audit also exposed a verifier-design issue in the Ptyxis search-options completion: the actual embedded resource uses mnemonic-bearing msgids `Match _Case`, `Whole _Words`, and `Use _Regular Expressions`. The repository catalog and verifier have been corrected to those exact resource strings, and the verifier now checks the installed Ptyxis resource before accepting the translations.
@@ -93,6 +93,18 @@ The exact v71 upstream source catalog contains 112 messages: 41 untranslated and
 The repository carries `localization/clipboard-indicator/v71-completion.po` with all 63 missing/fuzzy entries. `scripts/install-clipboard-indicator-localization.sh` is pinned to v71 and validates `metadata.json`, `extension.js`, `prefs.js`, and the pristine upstream Polish catalog fingerprint before merging. `scripts/verify-clipboard-indicator-localization.sh` reconstructs the merged catalog, requires zero untranslated and zero fuzzy entries, compares it byte-for-byte with the live catalog, and performs gettext smoke tests for representative actions and search options.
 
 Physical installation and the dedicated runtime/gettext verification have passed on the Fedora 44 / GNOME Shell 50.5 workstation. Visual UI acceptance remains pending.
+
+### Extension Manager 0.6.5
+
+The physical workstation uses the system Flatpak `com.mattjakeman.ExtensionManager` version **0.6.5** and its separate `com.mattjakeman.ExtensionManager.Locale` ref. The Polish locale ref is pinned to commit `9e45ce9096c3efdcc54b26375fed9b730a6e8f5032daf6b8cee35482afacd036`; the pristine Polish `extension-manager.mo` fingerprint is `6ea6fda169660bc791d46a74bd511cbb91a97ee6f9308bc9db7b4f3602d25a78`.
+
+A visual audit of the search page showed the application itself translated into Polish except for the sort selector value `None`. Exact v0.6.5 source inspection confirms that this is a contextual gettext entry with context `Sort search results`; extension names and descriptions shown in search results are remote metadata supplied by extension authors and are outside Extension Manager's own localization catalog.
+
+The repository carries `localization/extension-manager/v0.6.5-completion.po` with the single contextual translation `None` → `Brak`. `scripts/install-extension-manager-localization.sh` validates the exact application version, Locale commit, and pristine catalog hash, preserves the original catalog under the user's local project backup area, merges the one-entry completion, and installs the rebuilt catalog into the system Flatpak Locale deployment. `scripts/verify-extension-manager-localization.sh` reconstructs the expected merged catalog and checks the contextual translation through Python gettext.
+
+Because the completion is applied to a Flatpak deployment checkout, a Flatpak update or repair can replace it; the exact-version verifier detects that drift and the localization installer reapplies the controlled override after the audited Locale ref is restored.
+
+Physical installation and final visual acceptance remain pending.
 
 ## Bluetooth Battery Meter v46/v49
 
