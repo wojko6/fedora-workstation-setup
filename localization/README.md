@@ -15,7 +15,7 @@ The repository adds localization only when upstream Polish support is missing, i
 - Bluetooth Battery Meter v46/v49 uses a minimal completion overlay for the 16 untranslated messages on the BudsLink Companion preferences page.
 - Papers / Nautilus uses a minimal completion overlay merged into Fedora's installed `papers.mo` for the audited Papers 49.8 build, covering confirmed gaps in document properties, the annotations sidebar, and the empty start page.
 - Plymouth keeps Fedora's upstream Polish translations and makes the early-boot/offline-update locale reproducible by installing the required Polish locale data and gettext catalog into initramfs through dracut.
-- Blur my Shell v72 uses a 46-entry completion overlay for runtime-confirmed English fallbacks in the audited EGO build.
+- Blur my Shell v72 uses a 61-entry completion plus two exact-version pipeline UI source patches, covering all 54 untranslated upstream catalog messages and seven pipeline/UI strings missed by the effective upstream extraction path.
 - Clipboard Indicator v71 uses a 63-entry completion overlay covering all untranslated and fuzzy entries from the audited upstream Polish catalog.
 - Ptyxis 50.1 uses a version-pinned Polish main-domain completion because Fedora's package does not ship `pl/LC_MESSAGES/ptyxis.mo`; it covers the audited main-window/menu strings and also activates libadwaita's existing Polish About-dialog translations without modifying `libadwaita.mo`.
 
