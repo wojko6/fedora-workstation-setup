@@ -213,5 +213,14 @@ msgstr "nieśledzona"
 msgid "Shell"
 msgstr "Powłoka"
 
+msgid "Title"
+msgstr "Tytuł"
+
+msgid "Include Process Title"
+msgstr "Uwzględnij tytuł procesu"
+
+msgid "Append title from Shell application"
+msgstr "Dołącz tytuł z aplikacji powłoki"
+
 msgid "translator-credits"
 msgstr "fedora-workstation-setup (lokalna warstwa zgodności)"
