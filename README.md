@@ -127,6 +127,8 @@ This repository is a reproducible rebuild definition, not a full-disk backup. Pe
 
 ## Maintenance
 
+Fedora major-version changes follow the controlled lifecycle in [`docs/UPGRADE.md`](docs/UPGRADE.md): target-release repository review, clean-room validation, physical upgrade, full verifier acceptance, and only then baseline promotion.
+
 After material Fedora, GNOME, kernel/NVIDIA, extension, localization, restore, or security-policy changes:
 
 1. run repository static validation;
