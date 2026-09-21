@@ -1,10 +1,8 @@
 # GNOME / workstation tools
-gnome-boxes
 gnome-browser-connector
 gnome-extensions-app
 gnome-tweaks
 gnome-system-monitor
-mediawriter
 ptyxis
 papirus-icon-theme
 papirus-icon-theme-dark
@@ -39,7 +37,6 @@ fedpkg
 gettext
 gh
 git
-htop
 lsof
 mtr
 net-tools
