@@ -83,6 +83,10 @@ echo "=== DING SYSTEM MONITOR FIXTURES ==="
 python3 scripts/test_ding_system_monitor_menu.py
 
 echo
+echo "=== ASUS LAUNCHER CONFIG SECURITY FIXTURES ==="
+python3 scripts/test_asus_launcher_config.py
+
+echo
 echo "=== GITHUB METADATA SECURITY FIXTURES ==="
 python3 scripts/test_github_metadata_security.py
 
