@@ -43,10 +43,11 @@ if name == "journalctl":
 if name == "systemctl":
     unit = args[-1] if args else ""
     if args[:4] == ["show", "-p", "LoadState", "--value"]:
-        if unit == "sshd.service":
-            print("loaded")
-        elif unit == "sshd.socket":
-            print(env("SEC_TEST_SOCKET_LOAD", "not-found"))
+        if unit in {"sshd.service", "sshd.socket"}:
+            if env("SEC_TEST_OPENSSH_SERVER_INSTALLED", "0") == "1":
+                print("loaded")
+            else:
+                print("not-found")
         else:
             print("not-found")
         raise SystemExit(0)
@@ -73,6 +74,8 @@ if name == "ss":
 if name == "rpm":
     if args[:2] == ["-q", "akmod-nvidia"]:
         raise SystemExit(0)
+    if args[:2] == ["-q", "openssh-server"]:
+        raise SystemExit(0 if env("SEC_TEST_OPENSSH_SERVER_INSTALLED", "0") == "1" else 1)
     raise SystemExit(1)
 
 if name == "mokutil":
@@ -289,11 +292,23 @@ with tempfile.TemporaryDirectory(prefix="security-posture-tests-") as td:
         "WARN: SELinux AVC denials observed",
     )
 
+    case = base / "openssh-server-installed"
+    case.mkdir()
+    expect_fail(
+        "installed OpenSSH server package",
+        run_case(case, SEC_TEST_OPENSSH_SERVER_INSTALLED="1"),
+        "openssh-server package must be absent",
+    )
+
     case = base / "ssh-active"
     case.mkdir()
     expect_fail(
         "active SSH service",
-        run_case(case, SEC_TEST_SSH_ACTIVE="active"),
+        run_case(
+            case,
+            SEC_TEST_OPENSSH_SERVER_INSTALLED="1",
+            SEC_TEST_SSH_ACTIVE="active",
+        ),
         "sshd.service must be inactive",
     )
 
