@@ -218,13 +218,20 @@ fi
 
 echo
 echo "=== WIFI POWER SAVE ==="
-iface="$(iw dev 2>/dev/null | awk '$1=="Interface" {print $2; exit}')"
-if [[ -n "$iface" ]]; then
+iface="$(ip route show default 2>/dev/null | awk '/default/ {print $5; exit}')"
+if [[ -n "$iface" ]] &&
+   iw dev 2>/dev/null | awk '$1=="Interface" {print $2}' | grep -Fxq "$iface"; then
   printf 'Interface: %s\n' "$iface"
   ps="$(iw dev "$iface" get power_save 2>/dev/null || true)"
   printf '%s\n' "$ps"
   if grep -qi 'off' <<<"$ps"; then ok "Wi-Fi power save disabled"; else bad "Wi-Fi power save is not confirmed off"; fi
-elif (( is_vm )); then skip "Wi-Fi hardware check not applicable in VM"; else bad "No Wi-Fi interface detected"; fi
+elif (( is_vm )); then
+  skip "Wi-Fi hardware check not applicable in VM"
+elif [[ -z "$iface" ]]; then
+  bad "Default-route interface unavailable"
+else
+  bad "Default-route interface is not Wi-Fi: $iface"
+fi
 
 echo
 echo "=== WIFI FIREWALL ZONE ==="
