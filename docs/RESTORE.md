@@ -13,14 +13,17 @@ The repository must not contain passwords, Wi-Fi PSKs, private SSH keys, authent
 1. Install Fedora and fully update the base system.
 2. Clone this repository.
 3. Review the manifests and machine-specific variables.
-4. Run `./install.sh`.
-5. Restore private user data from a separate encrypted backup.
-6. Reboot or sign out/in when GNOME changes require it.
-7. Run `scripts/verify.sh` and compare the result with the documented baseline.
+4. On a physical host, review the intended trusted Wi-Fi connection with `nmcli -f NAME,UUID,TYPE connection show`.
+5. Run `TRUSTED_WIFI_UUID='<reviewed-uuid>' bash install.sh`. Optionally also set `TRUSTED_WIFI_PROFILE='<reviewed-profile-name>'`.
+6. Restore private user data from a separate encrypted backup.
+7. Reboot or sign out/in when GNOME changes require it.
+8. Run `scripts/verify.sh` and compare the result with the documented baseline.
 
 ## Current baseline checks
 
 Expected current physical-workstation characteristics include Fedora 44, GNOME 50.5, Wayland, and Wi-Fi power saving disabled for the selected NetworkManager Wi-Fi profile.
+
+The trusted Wi-Fi identity is local recovery input, not public desired-state data. On a physical host the restore preflight requires a reviewed `TRUSTED_WIFI_UUID` before any setup stages run. The firewall stage refuses an active/default-route Wi-Fi profile with a different UUID and manages `workstation-kdeconnect` as exact state with only `dhcpv6-client`, `mdns`, and `kdeconnect`; SSH and forwarding are not part of the accepted zone policy.
 
 ## Acceptance and verification
 
