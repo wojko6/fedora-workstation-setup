@@ -445,6 +445,19 @@ else
 fi
 
 echo
+echo "=== BLUR MY SHELL POLISH LOCALIZATION ==="
+if blur_verify_output="$(bash "$ROOT_DIR/scripts/verify-blur-my-shell-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$blur_verify_output"; then
+    skip "Blur my Shell Polish localization: extension not installed"
+  else
+    ok "Blur my Shell v72 Polish localization matches repository completion"
+  fi
+else
+  printf '%s\n' "$blur_verify_output"
+  bad "Blur my Shell Polish localization missing, incomplete, or differs"
+fi
+
+echo
 echo "=== VITALS POLISH LOCALIZATION ==="
 if vitals_verify_output="$(bash "$ROOT_DIR/scripts/verify-vitals-localization.sh" 2>&1)"; then
   if grep -q '^SKIP:' <<<"$vitals_verify_output"; then
