@@ -46,7 +46,7 @@ Confirmed good state:
 
 The audit also reopened localization completeness for two desired-state extensions:
 
-- **Blur my Shell v72**: all 46 suspected v72 gaps were confirmed at runtime on the physical host. The repository now carries a 46-entry completion overlay pinned to the audited v72 metadata/source/catalog fingerprints; physical installation and visual acceptance are pending.
+- **Blur my Shell v72**: the initial runtime audit confirmed 46 single-line English fallbacks; visual follow-up then exposed eight multiline catalog gaps and pipeline-management strings outside the effective upstream catalog. The repository now carries a 61-entry completion plus two exact-version pipeline UI source patches; final physical installation and visual acceptance are pending.
 - **Clipboard Indicator v71**: the physical v71 catalog fingerprint matches the audited EGO installation and contains only 49 compiled Polish messages. The exact upstream v71 source catalog has 112 entries, of which 41 are untranslated and 22 are fuzzy, leaving 63 effective runtime gaps. The repository now carries a 63-entry completion overlay plus exact-version/source/catalog fingerprint checks; physical installation and visual acceptance are pending.
 
 Two application-level follow-ups remain under audit:
@@ -78,9 +78,11 @@ The physical workstation reports Blur my Shell **v72** with gettext domain `blur
 
 A runtime audit tested all 46 candidate gaps from the exact v72 source catalog, and every one resolved to its English msgid on the physical workstation. The missing set covers blend modes, luminosity/brightness/contrast controls, spatial-derivative operations, RGB/HSL conversion effects, corner rounding, and Coverflow Alt-Tab blur integration.
 
-The repository now carries `localization/blur-my-shell/v72-completion.po` with those 46 entries. `scripts/install-blur-my-shell-localization.sh` validates v72 plus the audited `metadata.json`, `extension.js`, `prefs.js`, and pristine Polish catalog fingerprints before merging. `scripts/verify-blur-my-shell-localization.sh` reconstructs the expected catalog, compares it byte-for-byte with the live installation, and checks every completed msgid through gettext.
+The first runtime pass found 46 single-line English fallbacks, but a subsequent visual audit exposed eight additional untranslated multiline catalog entries plus pipeline-management strings that upstream's extraction path does not cover correctly. The managed completion therefore now contains 61 entries: all 54 untranslated upstream v72 catalog messages plus seven pipeline/UI messages required by the audited physical build. Two exact-version source patches localize built-in pipeline names, the pipeline identifier label, and pluralized effect counts without changing user-defined pipeline names.
 
-Physical installation and visual UI acceptance remain pending.
+`scripts/install-blur-my-shell-localization.sh` validates v72 plus the audited `metadata.json`, `extension.js`, `prefs.js`, and pristine Polish catalog fingerprints, preserves pristine pipeline source backups, applies the two repository patches, merges the 61-entry catalog completion, and invokes the dedicated verifier. `scripts/verify-blur-my-shell-localization.sh` reconstructs both patched source files and the merged catalog, compares them with the live installation, and checks representative completed msgids through gettext.
+
+The first 46-entry catalog completion was installed successfully. Final installation and visual acceptance of the expanded 61-entry completion plus pipeline source fixes are pending.
 
 ### Clipboard Indicator v71 completion
 
@@ -90,7 +92,7 @@ The exact v71 upstream source catalog contains 112 messages: 41 untranslated and
 
 The repository carries `localization/clipboard-indicator/v71-completion.po` with all 63 missing/fuzzy entries. `scripts/install-clipboard-indicator-localization.sh` is pinned to v71 and validates `metadata.json`, `extension.js`, `prefs.js`, and the pristine upstream Polish catalog fingerprint before merging. `scripts/verify-clipboard-indicator-localization.sh` reconstructs the merged catalog, requires zero untranslated and zero fuzzy entries, compares it byte-for-byte with the live catalog, and performs gettext smoke tests for representative actions and search options.
 
-Physical installation and visual UI acceptance remain pending.
+Physical installation and the dedicated runtime/gettext verification have passed on the Fedora 44 / GNOME Shell 50.5 workstation. Visual UI acceptance remains pending.
 
 ## Bluetooth Battery Meter v46/v49
 
