@@ -22,14 +22,14 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After the 2026-09-21 localization closure, the physical-workstation verifier was rerun from the canonical repository checkout and completed with:
+After the 2026-09-21 D-H2/D-H3 security-verifier hardening, the physical-workstation verifier was rerun from the canonical repository checkout and completed with:
 
 ```text
-PASS=236 WARN=0 FAIL=0 SKIP=0
+PASS=246 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes the accepted 2026-09-21 localization additions for Blur my Shell, Clipboard Indicator, Extension Manager, Helium, and GNOME Tweaks. Ptyxis 50.1 remains repository-managed, Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
+This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes the accepted localization state plus explicit live security-posture verification for SELinux/AVC state, disabled SSH service/socket and TCP/22 listener state, kernel lockdown, NVIDIA/MOK signing evidence, trusted-zone firewalld exact state, required RPM/repository/Tailscale/Flatpak state, and fail-closed zero-WARN acceptance semantics. Ptyxis 50.1 remains repository-managed, Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
 
 ## Current desired state
 
@@ -109,7 +109,9 @@ The physical workstation security review established and validated the following
 - local akmods signing certificate enrolled through MOK;
 - NVIDIA kernel module signed and operational under Secure Boot;
 - kernel lockdown active in integrity mode;
-- controlled package-update workflow retained instead of unattended full-system upgrades.
+- controlled package-update workflow retained instead of unattended full-system upgrades;
+- explicit live security-posture verification is integrated into the main verifier;
+- required desired-state checks are fail-closed, including RPMs, external repositories, Tailscale, Flatpak applications, Wi-Fi/security state, and zero-WARN final acceptance.
 
 A material NVIDIA/akmods update was exercised during validation. The workstation remained operational after the update and reboot, with Secure Boot and the signed NVIDIA path still working.
 
@@ -304,6 +306,40 @@ Internet reachability: PASS (1.1.1.1 and cloudflare.com, 0% packet loss)
 
 The default `FedoraWorkstation` fallback zone remains otherwise unchanged in this closure; its broader generic defaults are outside the trusted Wi-Fi exact-state policy and will be evaluated under the next explicit network/security verification work rather than changed implicitly.
 
+## D-H2 + D-H3 security verification — CLOSED
+
+P0.2 / D-H2 and D-H3 are **implemented, repository-tested, and physically accepted** on the Fedora 44 / GNOME 50.5 workstation.
+
+D-H2 added explicit live verification for:
+
+- SELinux `Enforcing` state and current-boot AVC denial detection;
+- `sshd.service` and `sshd.socket` disabled/inactive state plus absence of a TCP/22 listener;
+- kernel lockdown in `integrity` or stronger mode;
+- NVIDIA module signature metadata and enrolled-MOK signer identity;
+- trusted Wi-Fi `workstation-kdeconnect` runtime/permanent exact state, including target, services, forwarding, masquerade, ICMP inversion, explicit ports/protocols/sources, forward/source ports, ICMP blocks, rich rules, and cross-zone KDE Connect exposure.
+
+D-H3 made required desired-state acceptance fail-closed:
+
+- missing required RPMs now fail;
+- missing required external repositories, including the VPCS COPR, now fail;
+- missing/inactive Tailscale now fails;
+- the Flatpak manifest and Flathub remote are verified explicitly and missing required applications fail;
+- required Wi-Fi/security desired state fails instead of degrading to advisory warnings;
+- the final verifier returns success only when both `FAIL=0` and `WARN=0`.
+
+Repository fixtures cover valid physical posture and negative cases for SELinux permissive mode, current-boot AVC denials, active SSH, trusted-zone service drift, cross-zone KDE Connect exposure, unenrolled NVIDIA signer identity, runtime firewalld target handling, and systems where the akmods certificate file is not directly readable/present while the loaded module signer is verifiably enrolled.
+
+Physical acceptance result on 2026-09-21:
+
+```text
+PASS=246 WARN=0 FAIL=0 SKIP=0
+VERIFY_RC=0
+```
+
+D-H2 status: **CLOSED / PHYSICALLY ACCEPTED**.
+
+D-H3 status: **CLOSED / PHYSICALLY ACCEPTED**.
+
 ## Repository validation
 
 Repository-only validation is automated through `scripts/check-static.sh`, which is used both locally and by GitHub Actions. It covers Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON validation, and desired-state inventory consistency.
@@ -326,8 +362,6 @@ This does not make the repository a full disk backup. Personal files, credential
 
 The next engineering block is security/architecture hardening, followed by routine lifecycle maintenance:
 
-- **D-H2:** expand explicit verifier coverage for security controls such as SELinux/AVC state, disabled SSH service/socket state, kernel lockdown, listener/firewall state, and expected external-module signing evidence;
-- **D-H3:** make remaining required-state checks consistently fail-closed/strict, including desired Flatpak state;
 - **D-H4:** verify installed GNOME-extension tree integrity so same-version source tampering cannot be silently accepted;
 - introduce LUKS during a future controlled reinstall/restore if full-disk encryption is desired; in-place conversion remains intentionally deferred;
 - keep package and GNOME extension pins current as Fedora evolves;
