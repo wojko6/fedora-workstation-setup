@@ -150,7 +150,7 @@ Missing or invalid required stages stop execution instead of silently continuing
 The project uses automated verification instead of manual confirmation.
 
 Current final validation:
-PASS=236 WARN=0 FAIL=0 SKIP=0
+PASS=246 WARN=0 FAIL=0 SKIP=0
 
 The verifier checks:
 
