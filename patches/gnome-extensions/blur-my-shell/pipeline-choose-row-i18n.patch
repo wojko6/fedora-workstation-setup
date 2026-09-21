@@ -1,5 +1,5 @@
---- a/src/preferences/pipelines_management/pipeline_choose_row.js
-+++ b/src/preferences/pipelines_management/pipeline_choose_row.js
+--- a/preferences/pipelines_management/pipeline_choose_row.js
++++ b/preferences/pipelines_management/pipeline_choose_row.js
 @@ -25,9 +25,14 @@
          const closure_func = string_object => {
              const pipeline_id = string_object.get_string();
