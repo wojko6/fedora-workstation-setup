@@ -5,8 +5,27 @@ ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
 log() { printf '\n==> %s\n' "$*"; }
 
+if (( EUID == 0 )); then
+  echo "ERROR: run install.sh as the desktop user, not as root." >&2
+  echo "Privileged stages invoke sudo explicitly when required." >&2
+  exit 1
+fi
+
+if [[ -z "${DBUS_SESSION_BUS_ADDRESS:-}" || -z "${XDG_RUNTIME_DIR:-}" ]]; then
+  echo "ERROR: a graphical user session is required for GNOME/user-state restore." >&2
+  echo "Run the installer from a terminal inside the target GNOME session." >&2
+  exit 1
+fi
+
 if [[ ! -r /etc/fedora-release ]]; then
   echo "ERROR: This setup is intended for Fedora." >&2
+  exit 1
+fi
+
+if command -v rpm-ostree >/dev/null 2>&1 &&
+   rpm-ostree status >/dev/null 2>&1; then
+  echo "ERROR: image-based Fedora (rpm-ostree) is not supported by this repository." >&2
+  echo "This restore path targets classic DNF/RPM Fedora Workstation." >&2
   exit 1
 fi
 

@@ -71,6 +71,10 @@ echo "=== REPOSITORY CONSISTENCY ==="
 python3 scripts/validate-repository.py
 
 echo
+echo "=== SECRET SCAN ==="
+python3 scripts/scan-secrets.py --self-test
+
+echo
 echo "=== EXTENSION SECURITY FIXTURES ==="
 python3 scripts/test_extension_security.py
 
@@ -81,6 +85,14 @@ python3 scripts/test_extension_tree_integrity.py
 echo
 echo "=== DING SYSTEM MONITOR FIXTURES ==="
 python3 scripts/test_ding_system_monitor_menu.py
+
+echo
+echo "=== ASUS LAUNCHER CONFIG SECURITY FIXTURES ==="
+python3 scripts/test_asus_launcher_config.py
+
+echo
+echo "=== INSTALLER PREFLIGHT SECURITY FIXTURES ==="
+python3 scripts/test_install_preflight.py
 
 echo
 echo "=== GITHUB METADATA SECURITY FIXTURES ==="

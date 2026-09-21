@@ -181,20 +181,30 @@ if gnome-extensions info gsconnect@andyholmes.github.io >/dev/null 2>&1; then
     bad "GSConnect D-Bus service does not respond"
   fi
 
-  if command -v firewall-cmd >/dev/null 2>&1 && command -v iw >/dev/null 2>&1; then
-    wifi_iface="$(iw dev 2>/dev/null | awk '$1=="Interface" {print $2; exit}')"
+  if command -v firewall-cmd >/dev/null 2>&1 &&
+     command -v ip >/dev/null 2>&1 &&
+     command -v nmcli >/dev/null 2>&1; then
+    wifi_iface="$(ip route show default 2>/dev/null | awk '/default/ {print $5; exit}')"
+    wifi_type=""
     if [[ -n "$wifi_iface" ]]; then
+      wifi_type="$(
+        nmcli -t -f DEVICE,TYPE device status 2>/dev/null |
+          awk -F: -v dev="$wifi_iface" '$1 == dev { print $2; exit }'
+      )"
+    fi
+
+    if [[ -n "$wifi_iface" && "$wifi_type" == "wifi" ]]; then
       zone="$(firewall-cmd --get-zone-of-interface="$wifi_iface" 2>/dev/null || true)"
       if [[ -n "$zone" && "$(firewall-cmd --zone="$zone" --query-service=kdeconnect 2>/dev/null || true)" == "yes" ]]; then
-        ok "KDE Connect service allowed in active Wi-Fi firewalld zone: $zone"
+        ok "KDE Connect service allowed in active default-route Wi-Fi firewalld zone: $zone"
       else
-        bad "KDE Connect service is not allowed in active Wi-Fi zone (${zone:-unknown})"
+        bad "KDE Connect service is not allowed in active default-route Wi-Fi zone (${zone:-unknown})"
       fi
     else
-      warnf "Wi-Fi interface unavailable for GSConnect firewall audit"
+      warnf "default-route Wi-Fi interface unavailable for GSConnect firewall audit"
     fi
   else
-    warnf "firewalld/iw unavailable for GSConnect firewall audit"
+    warnf "firewalld/ip/nmcli unavailable for GSConnect firewall audit"
   fi
 else
   warnf "GSConnect is not installed"

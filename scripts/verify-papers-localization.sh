@@ -6,8 +6,9 @@ PACKAGES=(papers papers-nautilus)
 EXPECTED_VERSION="49.8"
 OVERLAY="$ROOT_DIR/localization/papers/pl-overlay.po"
 TARGET_MO="/usr/share/locale/pl/LC_MESSAGES/papers.mo"
+BACKUP_MO="${TARGET_MO}.fedora-workstation-setup.upstream.bak"
 
-for cmd in rpm msgfmt python3; do
+for cmd in rpm msgfmt msgunfmt msgcat cmp python3; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "FAIL: required command not found: $cmd" >&2
         exit 1
@@ -27,18 +28,28 @@ for package in "${PACKAGES[@]}"; do
     fi
 done
 
-for path in "$OVERLAY" "$TARGET_MO"; do
+for path in "$OVERLAY" "$TARGET_MO" "$BACKUP_MO"; do
     if [[ ! -f "$path" ]]; then
         echo "FAIL: required Papers localization file missing: $path" >&2
         exit 1
     fi
 done
 
-tmp_mo="$(mktemp)"
-trap 'rm -f "$tmp_mo"' EXIT
-msgfmt --check "$OVERLAY" -o "$tmp_mo"
+msgfmt --check "$OVERLAY" -o /dev/null
 
-python3 - "$tmp_mo" "$TARGET_MO" <<'PY'
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "$tmpdir"' EXIT
+
+msgunfmt "$BACKUP_MO" -o "$tmpdir/upstream.po"
+msgcat --use-first "$OVERLAY" "$tmpdir/upstream.po" -o "$tmpdir/merged.po"
+msgfmt --check "$tmpdir/merged.po" -o "$tmpdir/expected-papers.mo"
+
+if ! cmp -s "$tmpdir/expected-papers.mo" "$TARGET_MO"; then
+    echo "FAIL: live Papers Polish catalog differs from byte-for-byte repository reconstruction" >&2
+    exit 1
+fi
+
+python3 - "$TARGET_MO" <<'PY'
 import gettext
 import sys
 
@@ -63,17 +74,17 @@ expected = {
     "_Open…": "_Otwórz…",
 }
 
-for path in sys.argv[1:]:
-    with open(path, "rb") as fh:
-        catalog = gettext.GNUTranslations(fh)
-    for source, translated in expected.items():
-        actual = catalog.gettext(source)
-        if actual != translated:
-            print(
-                f"FAIL: {path}: {source!r}: expected {translated!r}, found {actual!r}",
-                file=sys.stderr,
-            )
-            raise SystemExit(1)
+with open(sys.argv[1], "rb") as fh:
+    catalog = gettext.GNUTranslations(fh)
+
+for source, translated in expected.items():
+    actual = catalog.gettext(source)
+    if actual != translated:
+        print(
+            f"FAIL: {source!r}: expected {translated!r}, found {actual!r}",
+            file=sys.stderr,
+        )
+        raise SystemExit(1)
 PY
 
-echo "PASS: Papers 49.8 Polish completion overlay and live catalog match"
+echo "PASS: Papers 49.8 live Polish catalog matches byte-for-byte repository reconstruction"
