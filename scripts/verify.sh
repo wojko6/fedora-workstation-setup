@@ -648,6 +648,19 @@ else
 fi
 
 echo
+echo "=== EXTENSION MANAGER POLISH LOCALIZATION ==="
+if extension_manager_verify_output="$(bash "$ROOT_DIR/scripts/verify-extension-manager-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$extension_manager_verify_output"; then
+    skip "Extension Manager Polish localization: Flatpak not installed"
+  else
+    ok "Extension Manager 0.6.5 Polish localization matches repository completion"
+  fi
+else
+  printf '%s\n' "$extension_manager_verify_output"
+  bad "Extension Manager Polish localization missing, incomplete, or differs"
+fi
+
+echo
 echo "=== PTYXIS POLISH LOCALIZATION ==="
 PTYXIS_VERIFY="$ROOT_DIR/scripts/verify-ptyxis-localization.sh"
 if [[ ! -f "$PTYXIS_VERIFY" ]]; then
