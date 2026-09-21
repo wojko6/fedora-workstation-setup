@@ -4,7 +4,7 @@ set -Eeuo pipefail
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-required=(bash python3 msgfmt shellcheck git)
+required=(bash python3 msgfmt shellcheck git patch)
 for cmd in "${required[@]}"; do
   command -v "$cmd" >/dev/null 2>&1 || {
     echo "ERROR: required validation tool is missing: $cmd" >&2
@@ -77,6 +77,10 @@ python3 scripts/test_extension_security.py
 echo
 echo "=== EXTENSION TREE INTEGRITY FIXTURES ==="
 python3 scripts/test_extension_tree_integrity.py
+
+echo
+echo "=== DING SYSTEM MONITOR FIXTURES ==="
+python3 scripts/test_ding_system_monitor_menu.py
 
 echo
 echo "=== GITHUB METADATA SECURITY FIXTURES ==="
