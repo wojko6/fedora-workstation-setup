@@ -76,7 +76,7 @@ if [[ ! -f "$BACKUP_MO" ]]; then
         echo "Found: $current_sha" >&2
         exit 1
     fi
-    cp -a "$TARGET_MO" "$BACKUP_MO"
+    install -m 0644 "$TARGET_MO" "$BACKUP_MO"
     echo "Backup: $BACKUP_MO"
 else
     check_sha "$BACKUP_MO" "$EXPECTED_UPSTREAM_MO_SHA" "upstream Polish catalog backup"
