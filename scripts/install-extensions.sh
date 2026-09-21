@@ -5,8 +5,6 @@ ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 LIST="$ROOT_DIR/gnome/enabled-extensions.txt"
 INVENTORY="$ROOT_DIR/gnome/extensions-inventory.tsv"
 LOCK="$ROOT_DIR/gnome/extensions-lock.tsv"
-TREE_LOCK="$ROOT_DIR/gnome/extensions-tree-lock.tsv"
-TREE_HELPER="$ROOT_DIR/scripts/extension_tree_integrity.py"
 EGO_VERIFIER="$ROOT_DIR/scripts/verify_ego_extension.py"
 GITHUB_METADATA_PREPARER="$ROOT_DIR/scripts/prepare_github_extension_metadata.py"
 
@@ -29,10 +27,6 @@ command -v python3 >/dev/null 2>&1 || { echo "ERROR: python3 is required." >&2; 
 }
 [[ -f "$GITHUB_METADATA_PREPARER" ]] || {
   echo "ERROR: missing $GITHUB_METADATA_PREPARER" >&2
-  exit 1
-}
-[[ -f "$TREE_HELPER" ]] || {
-  echo "ERROR: missing $TREE_HELPER" >&2
   exit 1
 }
 
@@ -315,117 +309,6 @@ while IFS=$'\t' read -r uuid runtime_version source source_ref sha256; do
   lock_refs["$uuid"]="$source_ref"
   lock_hashes["$uuid"]="$sha256"
 done < "$LOCK"
-
-declare -A tree_lock_versions tree_lock_hashes
-if [[ -f "$TREE_LOCK" ]]; then
-  while IFS=
-while IFS= read -r uuid; do
-  [[ -z "$uuid" || "$uuid" == \#* ]] && continue
-
-  location="${locations[$uuid]:-}"
-  expected_version="${versions[$uuid]:-}"
-
-  if gnome-extensions info "$uuid" >/dev/null 2>&1; then
-    current_version="$(installed_version "$uuid")"
-
-    if [[ "$location" != /usr/share/* && -n "$expected_version" ]]; then
-      needs_restore=0
-
-      if ! version_matches "$current_version" "$expected_version"; then
-        printf 'DRIFT: %s expected runtime version %s, found %s\n' \
-          "$uuid" "$expected_version" "${current_version:-unknown}"
-        needs_restore=1
-      elif [[ -n "${tree_lock_hashes[$uuid]:-}" ]]; then
-        if installed_tree_matches_lock "$uuid" "$expected_version"; then
-          printf 'OK:   %s (runtime version %s, tree integrity match)\n' \
-            "$uuid" "$current_version"
-        else
-          tree_rc=$?
-          if (( tree_rc == 1 )); then
-            printf 'DRIFT: %s runtime version matches but installed tree differs from accepted integrity lock\n' "$uuid"
-            needs_restore=1
-          else
-            printf 'ERROR: unable to evaluate extension tree integrity for %s\n' "$uuid" >&2
-            missing=$((missing + 1))
-            continue
-          fi
-        fi
-      fi
-
-      if (( needs_restore )); then
-        printf 'RESTORE: reinstalling pinned source %s\n' "${lock_sources[$uuid]:-missing-lock}"
-
-        if install_user_extension "$uuid" "$expected_version"; then
-          printf 'DONE: restored %s from pinned source\n' "$uuid"
-        else
-          printf 'MISS(user): %s\n' "$uuid"
-          missing=$((missing + 1))
-        fi
-        continue
-      fi
-    fi
-
-    printf 'OK:   %s%s\n' "$uuid" \
-      "${current_version:+ (runtime version $current_version)}"
-    ext_dir="$HOME/.local/share/gnome-shell/extensions/$uuid"
-    if [[ -d "$ext_dir" ]] && ! compile_extension_schemas "$uuid" "$ext_dir"; then
-      missing=$((missing + 1))
-    fi
-    continue
-  fi
-  if [[ "$location" == /usr/share/* ]]; then
-    printf 'MISS(system): %s — install via Fedora package manager.\n' "$uuid"
-    missing=$((missing + 1))
-  elif install_user_extension "$uuid" "$expected_version"; then
-    printf 'DONE: %s\n' "$uuid"
-  else
-    printf 'MISS(user): %s\n' "$uuid"
-    missing=$((missing + 1))
-  fi
-done < "$LIST"
-
-if (( missing > 0 )); then
-  printf 'ERROR: %d required extension(s) remain unresolved.\n' "$missing" >&2
-  exit 1
-fi
-
-echo "All required GNOME extensions are present at the accepted runtime pins and user-extension schemas are compiled."
-echo "Log out and back in before enabling newly installed or replaced extensions."
-\t' read -r uuid runtime_version tree_sha256; do
-    [[ "$uuid" == "uuid" || -z "$uuid" ]] && continue
-
-    if [[ ! "$tree_sha256" =~ ^[0-9a-f]{64}$ ]]; then
-      printf 'ERROR: invalid extension tree SHA-256 for %s\n' "$uuid" >&2
-      exit 1
-    fi
-
-    tree_lock_versions["$uuid"]="$runtime_version"
-    tree_lock_hashes["$uuid"]="$tree_sha256"
-  done < "$TREE_LOCK"
-fi
-
-installed_tree_matches_lock() {
-  local uuid="$1"
-  local expected_version="$2"
-  local ext_dir="$HOME/.local/share/gnome-shell/extensions/$uuid"
-  local expected_hash="${tree_lock_hashes[$uuid]:-}"
-  local lock_version="${tree_lock_versions[$uuid]:-}"
-  local actual_hash
-
-  [[ -n "$expected_hash" ]] || return 2
-
-  if [[ "$lock_version" != "$expected_version" ]]; then
-    printf 'ERROR: tree-lock/inventory runtime mismatch for %s: lock=%s inventory=%s\n' \
-      "$uuid" "${lock_version:-missing}" "$expected_version" >&2
-    return 2
-  fi
-
-  if ! actual_hash="$(python3 "$TREE_HELPER" hash --path "$ext_dir" 2>/dev/null)"; then
-    return 2
-  fi
-
-  [[ "$actual_hash" == "$expected_hash" ]]
-}
 
 missing=0
 while IFS= read -r uuid; do
