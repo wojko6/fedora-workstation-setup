@@ -14,8 +14,8 @@ BACKUP_MO="${TARGET_MO}.upstream-v72.bak"
 OVERLAY="$ROOT_DIR/localization/blur-my-shell/v72-completion.po"
 PATCH_DIR="$ROOT_DIR/patches/gnome-extensions/blur-my-shell"
 VERIFIER="$ROOT_DIR/scripts/verify-blur-my-shell-localization.sh"
-PIPELINE_GROUP="$EXT_DIR/src/preferences/pipelines_management/pipeline_group.js"
-PIPELINE_CHOOSE="$EXT_DIR/src/preferences/pipelines_management/pipeline_choose_row.js"
+PIPELINE_GROUP="$EXT_DIR/preferences/pipelines_management/pipeline_group.js"
+PIPELINE_CHOOSE="$EXT_DIR/preferences/pipelines_management/pipeline_choose_row.js"
 PIPELINE_GROUP_BACKUP="${PIPELINE_GROUP}.upstream-v72.bak"
 PIPELINE_CHOOSE_BACKUP="${PIPELINE_CHOOSE}.upstream-v72.bak"
 
@@ -115,9 +115,9 @@ fi
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
 
-mkdir -p "$tmpdir/src/preferences/pipelines_management"
-cp -a "$PIPELINE_GROUP_BACKUP" "$tmpdir/src/preferences/pipelines_management/pipeline_group.js"
-cp -a "$PIPELINE_CHOOSE_BACKUP" "$tmpdir/src/preferences/pipelines_management/pipeline_choose_row.js"
+mkdir -p "$tmpdir/preferences/pipelines_management"
+cp -a "$PIPELINE_GROUP_BACKUP" "$tmpdir/preferences/pipelines_management/pipeline_group.js"
+cp -a "$PIPELINE_CHOOSE_BACKUP" "$tmpdir/preferences/pipelines_management/pipeline_choose_row.js"
 
 patch_count=0
 while IFS= read -r patch_file; do
@@ -139,8 +139,8 @@ msgcat --use-first "$OVERLAY" "$tmpdir/upstream.po" -o "$tmpdir/merged.po"
 msgfmt --check "$tmpdir/merged.po" -o "$tmpdir/$DOMAIN.mo"
 
 install -m 0644 "$tmpdir/$DOMAIN.mo" "$TARGET_MO"
-install -m 0644 "$tmpdir/src/preferences/pipelines_management/pipeline_group.js" "$PIPELINE_GROUP"
-install -m 0644 "$tmpdir/src/preferences/pipelines_management/pipeline_choose_row.js" "$PIPELINE_CHOOSE"
+install -m 0644 "$tmpdir/preferences/pipelines_management/pipeline_group.js" "$PIPELINE_GROUP"
+install -m 0644 "$tmpdir/preferences/pipelines_management/pipeline_choose_row.js" "$PIPELINE_CHOOSE"
 
 bash "$VERIFIER"
 echo "PASS: Blur my Shell v72 Polish completion installed"
