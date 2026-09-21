@@ -13,7 +13,7 @@ Target baseline:
 - Wayland session
 
 Accepted baseline:
-PASS=247 WARN=0 FAIL=0 SKIP=0
+PASS=249 WARN=0 FAIL=0 SKIP=0
 
 
 ---
@@ -150,7 +150,7 @@ Missing or invalid required stages stop execution instead of silently continuing
 The project uses automated verification instead of manual confirmation.
 
 Current final validation:
-PASS=247 WARN=0 FAIL=0 SKIP=0
+PASS=249 WARN=0 FAIL=0 SKIP=0
 
 The verifier checks:
 
