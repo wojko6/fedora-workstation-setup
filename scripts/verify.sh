@@ -218,13 +218,36 @@ fi
 
 echo
 echo "=== WIFI POWER SAVE ==="
-iface="$(iw dev 2>/dev/null | awk '$1=="Interface" {print $2; exit}')"
+iface=""
+default_iface=""
+if command -v ip >/dev/null 2>&1; then
+  default_iface="$(ip route show default 2>/dev/null | awk '/default/ {print $5; exit}')"
+fi
+
+if [[ -n "$default_iface" ]] && command -v nmcli >/dev/null 2>&1; then
+  default_iface_type="$(
+    nmcli -t -f DEVICE,TYPE device status 2>/dev/null |
+      awk -F: -v dev="$default_iface" '$1 == dev { print $2; exit }'
+  )"
+  if [[ "$default_iface_type" == "wifi" ]]; then
+    iface="$default_iface"
+  elif (( ! is_vm )); then
+    bad "default-route interface is not Wi-Fi: $default_iface (type: ${default_iface_type:-unknown})"
+  fi
+fi
+
 if [[ -n "$iface" ]]; then
   printf 'Interface: %s\n' "$iface"
   ps="$(iw dev "$iface" get power_save 2>/dev/null || true)"
   printf '%s\n' "$ps"
   if grep -qi 'off' <<<"$ps"; then ok "Wi-Fi power save disabled"; else bad "Wi-Fi power save is not confirmed off"; fi
-elif (( is_vm )); then skip "Wi-Fi hardware check not applicable in VM"; else bad "No Wi-Fi interface detected"; fi
+elif (( is_vm )); then
+  skip "Wi-Fi hardware check not applicable in VM"
+elif [[ -z "$default_iface" ]]; then
+  bad "default-route interface unavailable"
+elif ! command -v nmcli >/dev/null 2>&1; then
+  bad "nmcli unavailable for Wi-Fi interface verification"
+fi
 
 echo
 echo "=== WIFI FIREWALL ZONE ==="
