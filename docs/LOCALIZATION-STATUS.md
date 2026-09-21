@@ -150,6 +150,8 @@ The first repository bridge activated the main `ptyxis` gettext domain and fixed
 
 The earlier About-dialog fix was visually confirmed on the physical workstation. The expanded main-window/menu completion was then installed, its dedicated verifier passed, and after restarting Ptyxis the primary menu was visually confirmed in Polish, including `Nowa karta`, `Nowe okno`, `Pokaż otwarte karty`, `Pełny ekran`, `Preferencje`, `Skróty klawiszowe`, and `O programie`.
 
+A later physical audit of the terminal right-click menu exposed a second coverage gap. The exact embedded `/org/gnome/Ptyxis/ptyxis-terminal.ui` resource from `ptyxis-50.1-2.fc44` was inspected and showed untranslated terminal-menu labels and descriptions including `Search…`, link/copy/paste actions, selection actions, `Read-Only`, reset actions, profile switching, and `_Inspect Terminal`. The repository catalog and both the installer smoke test and dedicated verifier now cover the complete audited terminal context-menu message set. Physical UI confirmation of this final context-menu completion is pending.
+
 ### Papers 49.8 / Nautilus completion overlay
 
 The Fedora 44 workstation uses Papers 49.8 and `papers-nautilus 49.8-1.fc44`. Runtime inspection confirmed that the Nautilus document-properties extension uses the `papers` gettext domain, while source inspection of the exact Papers 49.8 tag confirmed that the viewer's `No Annotations` status-page title and the empty-start-page strings `Open a Document`, `Drag and drop documents here`, and `_Open…` use the same domain without message contexts. The installed Polish `papers.mo` lacked these affected labels.
