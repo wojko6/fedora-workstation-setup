@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ptyxis 50.1 Polish completion\n"
-"PO-Revision-Date: 2026-09-20 20:40+0200\n"
+"PO-Revision-Date: 2026-09-21 08:45+0200\n"
 "Last-Translator: fedora-workstation-setup project\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
@@ -64,6 +64,58 @@ msgstr "Ode_pnij kartę"
 
 msgid "Set Title"
 msgstr "Ustaw tytuł"
+
+msgid "_Open Link"
+msgstr "Otwórz _odnośnik"
+
+msgid "_Copy Link"
+msgstr "_Kopiuj odnośnik"
+
+msgid "Search…"
+msgstr "Szukaj…"
+
+msgid "_Copy"
+msgstr "_Kopiuj"
+
+msgid "Copy selection from terminal to clipboard"
+msgstr "Skopiuj zaznaczenie z terminala do schowka"
+
+msgid "Copy as _HTML"
+msgstr "Kopiuj jako _HTML"
+
+msgid "Copy selection from terminal to clipboard with HTML formatting"
+msgstr "Skopiuj zaznaczenie z terminala do schowka z formatowaniem HTML"
+
+msgid "_Paste"
+msgstr "_Wklej"
+
+msgid "Paste from clipboard into the terminal"
+msgstr "Wklej ze schowka do terminala"
+
+msgid "Select _All"
+msgstr "Zaznacz _wszystko"
+
+msgid "Selection all text from terminal including scrollback"
+msgstr "Zaznacz cały tekst terminala, w tym historię przewijania"
+
+msgid "Select _None"
+msgstr "Odznacz _wszystko"
+
+msgid "Read-Only"
+msgstr "Tylko do odczytu"
+
+msgid "Reset"
+msgstr "Zresetuj"
+
+msgid "Reset and Clear"
+msgstr "Zresetuj i wyczyść"
+
+msgid "Change Profile"
+msgstr "Zmień profil"
+
+msgid "_Inspect Terminal"
+msgstr "_Zbadaj terminal"
+
 
 msgid "Close _Other Tabs"
 msgstr "Zamknij p_ozostałe karty"
