@@ -1,6 +1,7 @@
 --- a/src/preferences/pipelines_management/pipeline_choose_row.js
 +++ b/src/preferences/pipelines_management/pipeline_choose_row.js
-@@
+@@ -25,9 +25,14 @@
+         const closure_func = string_object => {
              const pipeline_id = string_object.get_string();
              if (pipeline_id == 'create_new')
                  return _("Create new pipeline");
