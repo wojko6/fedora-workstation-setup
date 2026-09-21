@@ -71,8 +71,17 @@ The repository stores the desired configuration, not private user data. Secrets,
 ```bash
 git clone https://github.com/wojko6/fedora-workstation-setup.git
 cd fedora-workstation-setup
-./install.sh
+
+# Review the trusted physical Wi-Fi profile first; do not derive trust
+# automatically from whichever network happens to be active.
+nmcli -f NAME,UUID,TYPE connection show
+
+TRUSTED_WIFI_UUID='<reviewed-networkmanager-uuid>' bash install.sh
 ```
+
+On a physical host, `TRUSTED_WIFI_UUID` is mandatory and is deliberately kept outside Git. The firewalld stage rejects an active Wi-Fi connection whose UUID does not match the reviewed value before changing NetworkManager or firewalld state. `TRUSTED_WIFI_PROFILE` may additionally be supplied to pin the expected human-readable profile name. In a virtualized clean-room environment without a trusted physical Wi-Fi profile, the trusted-Wi-Fi firewall stage is an explicit environment `SKIP`.
+
+The dedicated `workstation-kdeconnect` zone is managed as exact state for the trusted Wi-Fi profile: only `dhcpv6-client`, `mdns`, and `kdeconnect` services are allowed; SSH, forwarding, masquerade, explicit ports/protocols/sources, forward/source ports, ICMP blocks, and rich rules are removed. The stage snapshots its previous zone/profile state and rolls back on configuration failure.
 
 `install.sh` orchestrates the restore stages in `scripts/` and is designed to remain conservative and safe to rerun where practical. It deliberately does **not** run the final verifier in the same GNOME session, because newly installed extensions and Shell metadata may not be fully active until the session is restarted. After `install.sh` completes, sign out and back in (or reboot), then run `bash scripts/verify.sh` from the repository directory.
 
