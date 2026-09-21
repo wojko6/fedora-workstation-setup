@@ -120,7 +120,7 @@ Column|Kolumna
 Mouse|Mysz
 Hyperlink|Hiperłącze
 unset|nie ustawiono
-untracked|nieśledzone
+untracked|nieśledzona
 Shell|Powłoka
 EOF
 
