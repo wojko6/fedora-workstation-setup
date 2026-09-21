@@ -661,6 +661,19 @@ else
 fi
 
 echo
+echo "=== HELIUM POLISH LOCALIZATION ==="
+if helium_verify_output="$(bash "$ROOT_DIR/scripts/verify-helium-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$helium_verify_output"; then
+    skip "Helium Polish localization: browser not installed"
+  else
+    ok "Helium 0.17.2.1 Polish localization and post-update persistence match repository"
+  fi
+else
+  printf '%s\n' "$helium_verify_output"
+  bad "Helium Polish localization missing, incomplete, drifted, or update persistence is unavailable"
+fi
+
+echo
 echo "=== PTYXIS POLISH LOCALIZATION ==="
 PTYXIS_VERIFY="$ROOT_DIR/scripts/verify-ptyxis-localization.sh"
 if [[ ! -f "$PTYXIS_VERIFY" ]]; then
