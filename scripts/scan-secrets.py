@@ -54,6 +54,18 @@ FORBIDDEN_BASENAMES = {
 }
 FORBIDDEN_SUFFIXES = {".p12", ".pfx"}
 
+# Exact historical test-only blob audited after the first full-history scan.
+# It contains the literal OpenSSH private-key header only inside a regex used by
+# the former secret-hygiene test implementation; it contains no credential.
+# The exception is deliberately bound to the full blob SHA, path, and finding
+# class so any other occurrence remains fail-closed.
+HISTORY_FINDING_ALLOWLIST: dict[tuple[str, str], frozenset[str]] = {
+    (
+        "82bc2e87bc3954cb9dcfbaf1270fb2ecef7539f3",
+        "scripts/test_secret_hygiene.py",
+    ): frozenset({"private-key header"}),
+}
+
 
 def git_run(
     args: list[str],
@@ -106,20 +118,32 @@ def secret_like_filename(path_text: str) -> bool:
     return name in FORBIDDEN_BASENAMES or suffix in FORBIDDEN_SUFFIXES
 
 
-def scan_text(text: str, location: str) -> list[str]:
+def scan_text(
+    text: str,
+    location: str,
+    *,
+    ignored_labels: frozenset[str] = frozenset(),
+) -> list[str]:
     findings: list[str] = []
     for label, pattern in SECRET_PATTERNS:
+        if label in ignored_labels:
+            continue
         for match in pattern.finditer(text):
             line = text.count("\n", 0, match.start()) + 1
             findings.append(f"{location}:{line}: possible {label}")
     return findings
 
 
-def scan_bytes(data: bytes, location: str) -> list[str]:
+def scan_bytes(
+    data: bytes,
+    location: str,
+    *,
+    ignored_labels: frozenset[str] = frozenset(),
+) -> list[str]:
     if b"\0" in data:
         return []
     text = data.decode("utf-8", errors="replace")
-    return scan_text(text, location)
+    return scan_text(text, location, ignored_labels=ignored_labels)
 
 
 def scan_path(path: Path) -> list[str]:
@@ -228,7 +252,13 @@ def scan_history() -> tuple[list[str], int]:
         seen_blobs.add(object_id)
         data = read_blob(object_id)
         scanned_blobs += 1
-        findings.extend(scan_bytes(data, location))
+        ignored_labels = HISTORY_FINDING_ALLOWLIST.get(
+            (object_id, path),
+            frozenset(),
+        )
+        findings.extend(
+            scan_bytes(data, location, ignored_labels=ignored_labels)
+        )
 
     return findings, scanned_blobs
 
