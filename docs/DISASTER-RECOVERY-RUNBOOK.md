@@ -135,7 +135,7 @@ The offline recovery set is the source of truth for this path.
 
 Do not begin reconstruction from an unverified recovery set.
 
-The current retained recovery generations are documented in [DISASTER-RECOVERY.md](DISASTER-RECOVERY.md). The latest validated set was created on **2026-09-17** and includes a SHA-256 manifest.
+The validated recovery generations are documented in [DISASTER-RECOVERY.md](DISASTER-RECOVERY.md). The latest validated set was created on **2026-09-21** after a clean `PASS=236 WARN=0 FAIL=0 SKIP=0` physical verifier run and includes a 21-entry SHA-256 manifest.
 
 From the directory containing the recovery set, verify the manifest before restoring anything:
 
@@ -212,13 +212,14 @@ The exact structure must follow the private recovery metadata and the current Fe
 
 ## Phase 6 — restore Btrfs filesystem state
 
-The offline set contains read-only Btrfs snapshot streams for root and home.
+The latest offline set contains read-only Btrfs snapshot streams for root, home, and the nested `/var/lib/machines` subvolume.
 
 Conceptually:
 
 ```text
-root snapshot stream ──► btrfs receive ──► restored root state
-home snapshot stream ──► btrfs receive ──► restored home state
+root snapshot stream     ──► btrfs receive ──► restored root state
+home snapshot stream     ──► btrfs receive ──► restored home state
+machines snapshot stream ──► btrfs receive ──► restored /var/lib/machines state
 ```
 
 The streams were generated from read-only snapshots and compressed with Zstandard.
@@ -336,7 +337,7 @@ This workstation's accepted desired state includes Secure Boot with a signed NVI
 
 The offline disaster-recovery generation represents a point in time. The current repository may have advanced since that backup was created.
 
-For example, the latest retained filesystem backup predates some later accepted Fedora/GNOME workstation changes.
+The 2026-09-21 generation was created immediately after the current accepted `PASS=236` baseline, but every recovery generation is still a point-in-time snapshot and the repository can advance later.
 
 Therefore:
 
@@ -360,7 +361,7 @@ bash scripts/verify.sh
 The current accepted physical-workstation reference is:
 
 ```text
-PASS=231 WARN=0 FAIL=0 SKIP=0
+PASS=236 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
@@ -434,12 +435,13 @@ A clean-room Fedora restore has been exercised in a VM and the physical workstat
 
 ### Offline disaster-recovery set
 
-The 2026-09-17 set was:
+The 2026-09-21 set was:
 
-- created successfully;
-- compressed;
+- created successfully after a clean physical verifier run;
+- built from read-only root, home, and `/var/lib/machines` Btrfs snapshots;
+- compressed with Zstandard;
 - tested for compression-stream integrity;
-- verified against its SHA-256 manifest.
+- verified against its 21-entry SHA-256 manifest with every entry passing.
 
 However, a complete **bare-metal restore onto an empty physical disk has not yet been exercised**.
 
