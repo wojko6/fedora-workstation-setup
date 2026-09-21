@@ -79,6 +79,10 @@ echo "=== EXTENSION TREE INTEGRITY FIXTURES ==="
 python3 scripts/test_extension_tree_integrity.py
 
 echo
+echo "=== ASUS LAUNCHER CONFIG FIXTURES ==="
+python3 scripts/test_asus_launcher_config.py
+
+echo
 echo "=== DING SYSTEM MONITOR FIXTURES ==="
 python3 scripts/test_ding_system_monitor_menu.py
 
