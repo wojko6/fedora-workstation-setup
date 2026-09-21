@@ -75,6 +75,10 @@ echo "=== EXTERNAL REPOSITORY TRUST FIXTURES ==="
 python3 scripts/test_repository_trust.py
 
 echo
+echo "=== GNOME KEYRING SRPM PROVENANCE FIXTURES ==="
+python3 scripts/test_gnome_keyring_backport_provenance.py
+
+echo
 echo "=== SECRET SCAN ==="
 python3 scripts/scan-secrets.py --self-test
 

@@ -51,7 +51,7 @@ System localization helpers:
 
 ## GNOME Keyring i18n
 
-- `build-gnome-keyring-i18n-backport.sh` — reproducible Fedora 44 / GNOME Keyring 50.0 gettext backport build.
+- `build-gnome-keyring-i18n-backport.sh` — Fedora 44 / GNOME Keyring gettext backport build pinned to exact SRPM NVR `gnome-keyring-50.0-1.fc44`, SHA-256, valid RPM signature, and the reviewed full Fedora 44 signer fingerprint; `--verify-only` performs the producer-provenance gate without building.
 - `verify-gnome-keyring-i18n.sh` — runtime/package/catalog verification.
 
 ## Generators and helpers
