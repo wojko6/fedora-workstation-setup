@@ -8,7 +8,7 @@ SOURCE_PO="$ROOT_DIR/localization/ptyxis/pl.po"
 TARGET_MO="/usr/share/locale/pl/LC_MESSAGES/ptyxis.mo"
 LIBADWAITA_MO="/usr/share/locale/pl/LC_MESSAGES/libadwaita.mo"
 
-for cmd in rpm msgfmt gettext cmp; do
+for cmd in rpm msgfmt gettext cmp gresource; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "FAIL: required command not found: $cmd" >&2
         exit 1
@@ -34,13 +34,29 @@ for path in "$SOURCE_PO" "$TARGET_MO" "$LIBADWAITA_MO"; do
 done
 
 tmp_mo="$(mktemp)"
-trap 'rm -f "$tmp_mo"' EXIT
 msgfmt --check "$SOURCE_PO" -o "$tmp_mo"
 
 if ! cmp -s "$tmp_mo" "$TARGET_MO"; then
     echo "FAIL: live Ptyxis Polish catalog differs from repository catalog" >&2
     exit 1
 fi
+
+PTYXIS_BIN="$(command -v ptyxis)"
+FIND_BAR_RESOURCE="/org/gnome/Ptyxis/ptyxis-find-bar.ui"
+find_bar_ui="$(mktemp)"
+trap 'rm -f "$tmp_mo" "$find_bar_ui"' EXIT
+
+if ! gresource extract "$PTYXIS_BIN" "$FIND_BAR_RESOURCE" >"$find_bar_ui" 2>/dev/null; then
+    echo "FAIL: unable to extract Ptyxis find-bar resource" >&2
+    exit 1
+fi
+
+for source in 'Match _Case' 'Whole _Words' 'Use _Regular Expressions'; do
+    if ! grep -Fq ">$source<" "$find_bar_ui"; then
+        echo "FAIL: audited Ptyxis resource string missing: $source" >&2
+        exit 1
+    fi
+done
 
 while IFS='|' read -r source expected; do
     actual="$(
@@ -107,9 +123,9 @@ Shell|Powłoka
 Title|Tytuł
 Include Process Title|Uwzględnij tytuł procesu
 Append title from Shell application|Dołącz tytuł z aplikacji powłoki
-Match Case|Rozróżniaj wielkość liter
-Whole Words|Całe słowa
-Use Regular Expressions|Używaj wyrażeń regularnych
+Match _Case|Rozróżniaj _wielkość liter
+Whole _Words|_Całe słowa
+Use _Regular Expressions|Używaj _wyrażeń regularnych
 EOF
 
 while IFS='|' read -r source expected; do
