@@ -757,25 +757,42 @@ echo
 echo "=== DESKTOP LAUNCHERS ==="
 if [[ -f "$HOME/Pulpit/Counter-Strike 2.desktop" ]]; then ok "desktop launcher: Counter-Strike 2.desktop"; else warn "desktop launcher missing: Counter-Strike 2.desktop"; fi
 ASUS_CONF="$ROOT_DIR/desktop/launchers/asus-router.conf"
+ASUS_TEMPLATE="$ROOT_DIR/desktop/launchers/asus-router.desktop.template"
+ASUS_RENDERER="$ROOT_DIR/scripts/render-asus-launcher.py"
 if [[ -f "$ASUS_CONF" ]]; then
-  ok "private ASUS launcher configuration available"
   ASUS_LAUNCHER="$HOME/Pulpit/asus-router.desktop"
-  if [[ ! -f "$ASUS_LAUNCHER" ]]; then
-    warn "private ASUS config exists but desktop launcher is missing"
+  ASUS_APP_LAUNCHER="$HOME/.local/share/applications/asus-router.desktop"
+  DDTERM_BIN="$HOME/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/bin/com.github.amezin.ddterm"
+
+  if [[ ! -f "$ASUS_RENDERER" || ! -f "$ASUS_TEMPLATE" ]]; then
+    bad "ASUS launcher renderer/template missing"
+  elif ! command -v python3 >/dev/null 2>&1; then
+    bad "python3 unavailable for ASUS launcher verification"
   else
-    ok "desktop launcher: asus-router.desktop"
+    asus_expected="$(mktemp)"
+    if python3 "$ASUS_RENDERER" \
+        --config "$ASUS_CONF" \
+        --template "$ASUS_TEMPLATE" \
+        --ddterm-bin "$DDTERM_BIN" \
+        --output "$asus_expected" \
+        --check-key-file; then
+      ok "private ASUS launcher configuration parses safely as data"
 
-    if grep -Fq "ddterm@amezin.github.com/bin/com.github.amezin.ddterm -- ssh" "$ASUS_LAUNCHER"; then
-      ok "ASUS launcher uses ddterm"
-    else
-      bad "ASUS launcher does not use expected ddterm command"
-    fi
+      if [[ -f "$ASUS_LAUNCHER" ]] && cmp -s "$asus_expected" "$ASUS_LAUNCHER"; then
+        ok "desktop launcher: asus-router.desktop matches rendered desired state"
+      else
+        bad "desktop ASUS launcher missing or differs from rendered desired state"
+      fi
 
-    if grep -Eq "__[A-Z0-9_]+__" "$ASUS_LAUNCHER"; then
-      bad "ASUS launcher contains unresolved template placeholders"
+      if [[ -f "$ASUS_APP_LAUNCHER" ]] && cmp -s "$asus_expected" "$ASUS_APP_LAUNCHER"; then
+        ok "application launcher: asus-router.desktop matches rendered desired state"
+      else
+        bad "application ASUS launcher missing or differs from rendered desired state"
+      fi
     else
-      ok "ASUS launcher template fully rendered"
+      bad "private ASUS launcher configuration is invalid or unsafe"
     fi
+    rm -f "$asus_expected"
   fi
 else
   printf 'INFO: private ASUS launcher configuration intentionally absent from public repository\n'
