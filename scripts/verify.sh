@@ -3,6 +3,7 @@ set -u
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 RPM_MANIFEST="$ROOT_DIR/packages/rpm.txt"
+RPM_ABSENT_MANIFEST="$ROOT_DIR/packages/rpm-absent.txt"
 FLATPAK_MANIFEST="$ROOT_DIR/packages/flatpak.txt"
 EXT_LIST="$ROOT_DIR/gnome/enabled-extensions.txt"
 EXT_INVENTORY="$ROOT_DIR/gnome/extensions-inventory.tsv"
@@ -66,6 +67,21 @@ if [[ -f "$RPM_MANIFEST" ]]; then
   done < "$RPM_MANIFEST"
 else
   bad "missing $RPM_MANIFEST"
+fi
+
+echo
+echo "=== RPM ABSENT MANIFEST ==="
+if [[ -f "$RPM_ABSENT_MANIFEST" ]]; then
+  while IFS= read -r pkg; do
+    [[ -z "$pkg" || "$pkg" == \#* ]] && continue
+    if rpm -q "$pkg" >/dev/null 2>&1; then
+      bad "excluded rpm installed: $pkg"
+    else
+      ok "excluded rpm absent: $pkg"
+    fi
+  done < "$RPM_ABSENT_MANIFEST"
+else
+  bad "missing $RPM_ABSENT_MANIFEST"
 fi
 
 echo

@@ -1,0 +1,8 @@
+# Packages intentionally absent from the workstation desired state
+
+# Remote access server is not used; outbound SSH remains provided by openssh-clients.
+openssh-server
+
+# Firefox is intentionally removed; Brave and Helium are the managed browsers.
+firefox
+firefox-langpacks

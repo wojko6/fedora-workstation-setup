@@ -15,6 +15,8 @@ TREE_LOCK = ROOT / "gnome" / "extensions-tree-lock.tsv"
 LOCK = ROOT / "gnome" / "extensions-lock.tsv"
 WEATHER_LOCATIONS_EXAMPLE = ROOT / "gnome" / "weather-locations.example.tsv"
 INSTALLER = ROOT / "install.sh"
+RPM_REQUIRED = ROOT / "packages" / "rpm.txt"
+RPM_ABSENT = ROOT / "packages" / "rpm-absent.txt"
 
 EXPECTED_HEADER = ["uuid", "name", "version", "shell_versions", "url", "location"]
 EXPECTED_LOCK_HEADER = [
@@ -155,6 +157,35 @@ def validate_weather_locations() -> None:
                     f"{WEATHER_LOCATIONS_EXAMPLE.relative_to(ROOT)}:{lineno}: "
                     f"longitude out of range: {longitude}"
                 )
+
+
+def load_package_manifest(path: Path) -> list[str]:
+    if not path.is_file():
+        fail(f"missing {path.relative_to(ROOT)}")
+        return []
+
+    items: list[str] = []
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        items.append(line)
+    return items
+
+
+required_rpms = load_package_manifest(RPM_REQUIRED)
+absent_rpms = load_package_manifest(RPM_ABSENT)
+
+for package, count in Counter(required_rpms).items():
+    if count != 1:
+        fail(f"duplicate required RPM: {package} ({count} entries)")
+
+for package, count in Counter(absent_rpms).items():
+    if count != 1:
+        fail(f"duplicate absent RPM: {package} ({count} entries)")
+
+for package in sorted(set(required_rpms) & set(absent_rpms)):
+    fail(f"RPM cannot be both required and absent: {package}")
 
 
 enabled = load_enabled()
@@ -379,3 +410,4 @@ print("PASS: extension tree-integrity locks are complete and internally consiste
 print("PASS: rejected/conflicting extensions are absent from desired state")
 print("PASS: user extension pins and portable inventory paths are valid")
 print("PASS: public GNOME Weather location example is structurally valid")
+print("PASS: required and absent RPM manifests are internally consistent")
