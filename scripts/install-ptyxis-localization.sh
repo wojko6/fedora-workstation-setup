@@ -125,7 +125,10 @@ Shell|Powłoka
 Title|Tytuł
 Include Process Title|Uwzględnij tytuł procesu
 Append title from Shell application|Dołącz tytuł z aplikacji powłoki
+Match Case|Rozróżniaj wielkość liter
+Whole Words|Całe słowa
+Use Regular Expressions|Używaj wyrażeń regularnych
 EOF
 
-echo "PASS: Ptyxis 50.1 Polish main-window, search, context-menu, inspector, and title-dialog localization installed"
+echo "PASS: Ptyxis 50.1 Polish main-window, search, search-options, context-menu, inspector, and title-dialog localization installed"
 echo "INFO: start a new Ptyxis process to refresh translated main-window, search, context-menu, inspector, and libadwaita strings"
