@@ -296,7 +296,7 @@ while IFS=$'\t' read -r uuid _name version _shells url location; do
 done < "$INVENTORY"
 
 declare -A lock_versions lock_sources lock_refs lock_hashes
-while IFS=
+while IFS=$'\t' read -r uuid runtime_version source source_ref sha256; do
   [[ "$uuid" == "uuid" || -z "$uuid" ]] && continue
 
   if [[ -z "${versions[$uuid]:-}" ]]; then
@@ -373,79 +373,6 @@ while IFS= read -r uuid; do
     fi
     continue
   fi
-
-  if [[ "$location" == /usr/share/* ]]; then
-    printf 'MISS(system): %s — install via Fedora package manager.\n' "$uuid"
-    missing=$((missing + 1))
-  elif install_user_extension "$uuid" "$expected_version"; then
-    printf 'DONE: %s\n' "$uuid"
-  else
-    printf 'MISS(user): %s\n' "$uuid"
-    missing=$((missing + 1))
-  fi
-done < "$LIST"
-
-if (( missing > 0 )); then
-  printf 'ERROR: %d required extension(s) remain unresolved.\n' "$missing" >&2
-  exit 1
-fi
-
-echo "All required GNOME extensions are present at the accepted runtime pins and user-extension schemas are compiled."
-echo "Log out and back in before enabling newly installed or replaced extensions."
-\t' read -r uuid runtime_version source source_ref sha256; do
-  [[ "$uuid" == "uuid" || -z "$uuid" ]] && continue
-
-  if [[ -z "${versions[$uuid]:-}" ]]; then
-    printf 'ERROR: lock contains unknown extension: %s\n' "$uuid" >&2
-    exit 1
-  fi
-
-  if [[ "${versions[$uuid]}" != "$runtime_version" ]]; then
-    printf 'ERROR: lock/inventory runtime mismatch for %s: lock=%s inventory=%s\n' \
-      "$uuid" "$runtime_version" "${versions[$uuid]}" >&2
-    exit 1
-  fi
-
-  lock_versions["$uuid"]="$runtime_version"
-  lock_sources["$uuid"]="$source"
-  lock_refs["$uuid"]="$source_ref"
-  lock_hashes["$uuid"]="$sha256"
-done < "$LOCK"
-
-missing=0
-while IFS= read -r uuid; do
-  [[ -z "$uuid" || "$uuid" == \#* ]] && continue
-
-  location="${locations[$uuid]:-}"
-  expected_version="${versions[$uuid]:-}"
-
-  if gnome-extensions info "$uuid" >/dev/null 2>&1; then
-    current_version="$(installed_version "$uuid")"
-
-    if [[ "$location" != /usr/share/* && -n "$expected_version" ]] && \
-       ! version_matches "$current_version" "$expected_version"; then
-      printf 'DRIFT: %s expected runtime version %s, found %s\n' \
-        "$uuid" "$expected_version" "${current_version:-unknown}"
-      printf 'RESTORE: reinstalling pinned source %s\n' "${lock_sources[$uuid]:-missing-lock}"
-
-      if install_user_extension "$uuid" "$expected_version"; then
-        printf 'DONE: restored %s from pinned source\n' "$uuid"
-      else
-        printf 'MISS(user): %s\n' "$uuid"
-        missing=$((missing + 1))
-      fi
-      continue
-    fi
-
-    printf 'OK:   %s%s\n' "$uuid" \
-      "${current_version:+ (runtime version $current_version)}"
-    ext_dir="$HOME/.local/share/gnome-shell/extensions/$uuid"
-    if [[ -d "$ext_dir" ]] && ! compile_extension_schemas "$uuid" "$ext_dir"; then
-      missing=$((missing + 1))
-    fi
-    continue
-  fi
-
   if [[ "$location" == /usr/share/* ]]; then
     printf 'MISS(system): %s — install via Fedora package manager.\n' "$uuid"
     missing=$((missing + 1))
@@ -490,87 +417,15 @@ installed_tree_matches_lock() {
   if [[ "$lock_version" != "$expected_version" ]]; then
     printf 'ERROR: tree-lock/inventory runtime mismatch for %s: lock=%s inventory=%s\n' \
       "$uuid" "${lock_version:-missing}" "$expected_version" >&2
-    return 1
+    return 2
   fi
 
   if ! actual_hash="$(python3 "$TREE_HELPER" hash --path "$ext_dir" 2>/dev/null)"; then
-    return 1
+    return 2
   fi
 
   [[ "$actual_hash" == "$expected_hash" ]]
 }
-
-missing=0
-while IFS= read -r uuid; do
-  [[ -z "$uuid" || "$uuid" == \#* ]] && continue
-
-  location="${locations[$uuid]:-}"
-  expected_version="${versions[$uuid]:-}"
-
-  if gnome-extensions info "$uuid" >/dev/null 2>&1; then
-    current_version="$(installed_version "$uuid")"
-
-    if [[ "$location" != /usr/share/* && -n "$expected_version" ]] && \
-       ! version_matches "$current_version" "$expected_version"; then
-      printf 'DRIFT: %s expected runtime version %s, found %s\n' \
-        "$uuid" "$expected_version" "${current_version:-unknown}"
-      printf 'RESTORE: reinstalling pinned source %s\n' "${lock_sources[$uuid]:-missing-lock}"
-
-      if install_user_extension "$uuid" "$expected_version"; then
-        printf 'DONE: restored %s from pinned source\n' "$uuid"
-      else
-        printf 'MISS(user): %s\n' "$uuid"
-        missing=$((missing + 1))
-      fi
-      continue
-    fi
-
-    printf 'OK:   %s%s\n' "$uuid" \
-      "${current_version:+ (runtime version $current_version)}"
-    ext_dir="$HOME/.local/share/gnome-shell/extensions/$uuid"
-    if [[ -d "$ext_dir" ]] && ! compile_extension_schemas "$uuid" "$ext_dir"; then
-      missing=$((missing + 1))
-    fi
-    continue
-  fi
-
-  if [[ "$location" == /usr/share/* ]]; then
-    printf 'MISS(system): %s — install via Fedora package manager.\n' "$uuid"
-    missing=$((missing + 1))
-  elif install_user_extension "$uuid" "$expected_version"; then
-    printf 'DONE: %s\n' "$uuid"
-  else
-    printf 'MISS(user): %s\n' "$uuid"
-    missing=$((missing + 1))
-  fi
-done < "$LIST"
-
-if (( missing > 0 )); then
-  printf 'ERROR: %d required extension(s) remain unresolved.\n' "$missing" >&2
-  exit 1
-fi
-
-echo "All required GNOME extensions are present at the accepted runtime pins and user-extension schemas are compiled."
-echo "Log out and back in before enabling newly installed or replaced extensions."
-\t' read -r uuid runtime_version source source_ref sha256; do
-  [[ "$uuid" == "uuid" || -z "$uuid" ]] && continue
-
-  if [[ -z "${versions[$uuid]:-}" ]]; then
-    printf 'ERROR: lock contains unknown extension: %s\n' "$uuid" >&2
-    exit 1
-  fi
-
-  if [[ "${versions[$uuid]}" != "$runtime_version" ]]; then
-    printf 'ERROR: lock/inventory runtime mismatch for %s: lock=%s inventory=%s\n' \
-      "$uuid" "$runtime_version" "${versions[$uuid]}" >&2
-    exit 1
-  fi
-
-  lock_versions["$uuid"]="$runtime_version"
-  lock_sources["$uuid"]="$source"
-  lock_refs["$uuid"]="$source_ref"
-  lock_hashes["$uuid"]="$sha256"
-done < "$LOCK"
 
 missing=0
 while IFS= read -r uuid; do
