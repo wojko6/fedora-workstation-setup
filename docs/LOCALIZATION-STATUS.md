@@ -46,7 +46,7 @@ Confirmed good state:
 
 The audit also reopened localization completeness for two desired-state extensions:
 
-- **Blur my Shell v72**: multiple tested strings resolve to English on the physical host, including `Prefer closer pixels`, `Blend mode`, blend-mode names, contrast/saturation/luminosity controls, `Corner radius`, and advanced-effects labels.
+- **Blur my Shell v72**: all 46 suspected v72 gaps were confirmed at runtime on the physical host. The repository now carries a 46-entry completion overlay pinned to the audited v72 metadata/source/catalog fingerprints; physical installation and visual acceptance are pending.
 - **Clipboard Indicator v71**: the physical v71 catalog fingerprint matches the audited EGO installation and contains only 49 compiled Polish messages. The exact upstream v71 source catalog has 112 entries, of which 41 are untranslated and 22 are fuzzy, leaving 63 effective runtime gaps. The repository now carries a 63-entry completion overlay plus exact-version/source/catalog fingerprint checks; physical installation and visual acceptance are pending.
 
 Two application-level follow-ups remain under audit:
@@ -71,6 +71,16 @@ The GNOME 50 extension set was reviewed on the physical Fedora workstation. ArcM
 | Tiling Shell v76 / 17.3 | 15 untranslated entries | Completion overlay |
 | User Themes | Shared GNOME Shell Extensions Polish support | No duplicate translation |
 | Freon | Upstream Polish support | Removed from desired state |
+
+### Blur my Shell v72 completion
+
+The physical workstation reports Blur my Shell **v72** with gettext domain `blur-my-shell@aunetx`. The audited upstream Polish catalog fingerprint on the physical EGO installation is `44073c8675b6457082d9e3d7f40e8889259def344fe03b57155a115750493e88`.
+
+A runtime audit tested all 46 candidate gaps from the exact v72 source catalog, and every one resolved to its English msgid on the physical workstation. The missing set covers blend modes, luminosity/brightness/contrast controls, spatial-derivative operations, RGB/HSL conversion effects, corner rounding, and Coverflow Alt-Tab blur integration.
+
+The repository now carries `localization/blur-my-shell/v72-completion.po` with those 46 entries. `scripts/install-blur-my-shell-localization.sh` validates v72 plus the audited `metadata.json`, `extension.js`, `prefs.js`, and pristine Polish catalog fingerprints before merging. `scripts/verify-blur-my-shell-localization.sh` reconstructs the expected catalog, compares it byte-for-byte with the live installation, and checks every completed msgid through gettext.
+
+Physical installation and visual UI acceptance remain pending.
 
 ### Clipboard Indicator v71 completion
 
