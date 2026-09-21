@@ -1,0 +1,26 @@
+diff --git a/app/desktopMenu.js b/app/desktopMenu.js
+--- a/app/desktopMenu.js
++++ b/app/desktopMenu.js
+@@ -116,6 +116,14 @@
+         this._addNewAction('open-in-terminal-desktop', null, () => {
+             DesktopIconsUtil.launchTerminal(this._desktopDir.get_path(), null);
+         });
++        this._addNewAction('open-system-monitor', null, () => {
++            const desktopFile = GioUnix.DesktopAppInfo.new('org.gnome.SystemMonitor.desktop');
++            if (desktopFile) {
++                const context = Gdk.Display.get_default().get_app_launch_context();
++                context.set_timestamp(Gdk.CURRENT_TIME);
++                desktopFile.launch([], context);
++            }
++        });
+         this._addNewAction('change-background', null, () => {
+             const desktopFile = GioUnix.DesktopAppInfo.new('gnome-background-panel.desktop');
+             const context = Gdk.Display.get_default().get_app_launch_context();
+@@ -223,6 +231,7 @@
+         section = this._newSection(menuContainer);
+         this._newMenuElement('Pokaż Pulpit w Menedżerze plików', "show-in-files", section);
+         this._newMenuElement('Otwórz w terminalu', "open-in-terminal-desktop", section);
++        this._newMenuElement('Monitor systemu', "open-system-monitor", section);
+ 
+         section = this._newSection(menuContainer);
+         this._newMenuElement('Zmień tło pulpitu…', "change-background", section);
