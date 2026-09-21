@@ -12,7 +12,12 @@ PREFS_JS="$EXT_DIR/prefs.js"
 TARGET_MO="$EXT_DIR/locale/pl/LC_MESSAGES/$DOMAIN.mo"
 BACKUP_MO="${TARGET_MO}.upstream-v72.bak"
 OVERLAY="$ROOT_DIR/localization/blur-my-shell/v72-completion.po"
+PATCH_DIR="$ROOT_DIR/patches/gnome-extensions/blur-my-shell"
 VERIFIER="$ROOT_DIR/scripts/verify-blur-my-shell-localization.sh"
+PIPELINE_GROUP="$EXT_DIR/src/preferences/pipelines_management/pipeline_group.js"
+PIPELINE_CHOOSE="$EXT_DIR/src/preferences/pipelines_management/pipeline_choose_row.js"
+PIPELINE_GROUP_BACKUP="${PIPELINE_GROUP}.upstream-v72.bak"
+PIPELINE_CHOOSE_BACKUP="${PIPELINE_CHOOSE}.upstream-v72.bak"
 
 EXPECTED_METADATA_SHA="c361040062f3ce2918645a578f8d596d65ce728f8643c24400bd47857e3ff44e"
 EXPECTED_EXTENSION_SHA="e8ed71fc608405dd1debada34a696ce82229e134113589f43b38a6c7f3117199"
@@ -24,14 +29,14 @@ if [[ ! -d "$EXT_DIR" ]]; then
     exit 0
 fi
 
-for cmd in python3 sha256sum msgfmt msgcat msgunfmt install; do
+for cmd in python3 sha256sum msgfmt msgcat msgunfmt install patch cmp; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "FAIL: required command not found: $cmd" >&2
         exit 1
     fi
 done
 
-for path in "$METADATA" "$EXTENSION_JS" "$PREFS_JS" "$TARGET_MO" "$OVERLAY" "$VERIFIER"; do
+for path in "$METADATA" "$EXTENSION_JS" "$PREFS_JS" "$TARGET_MO" "$OVERLAY" "$VERIFIER" "$PIPELINE_GROUP" "$PIPELINE_CHOOSE"; do
     if [[ ! -f "$path" ]]; then
         echo "FAIL: required Blur my Shell localization file missing: $path" >&2
         exit 1
@@ -78,6 +83,20 @@ check_sha "$EXTENSION_JS" "$EXPECTED_EXTENSION_SHA" "extension.js"
 check_sha "$PREFS_JS" "$EXPECTED_PREFS_SHA" "prefs.js"
 msgfmt --check "$OVERLAY" -o /dev/null
 
+if [[ ! -d "$PATCH_DIR" ]]; then
+    echo "FAIL: Blur my Shell patch directory missing: $PATCH_DIR" >&2
+    exit 1
+fi
+
+if [[ ! -f "$PIPELINE_GROUP_BACKUP" ]]; then
+    cp -a "$PIPELINE_GROUP" "$PIPELINE_GROUP_BACKUP"
+    echo "Backup: $PIPELINE_GROUP_BACKUP"
+fi
+if [[ ! -f "$PIPELINE_CHOOSE_BACKUP" ]]; then
+    cp -a "$PIPELINE_CHOOSE" "$PIPELINE_CHOOSE_BACKUP"
+    echo "Backup: $PIPELINE_CHOOSE_BACKUP"
+fi
+
 mkdir -p "$(dirname -- "$TARGET_MO")"
 
 if [[ ! -f "$BACKUP_MO" ]]; then
@@ -96,10 +115,32 @@ fi
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
 
+mkdir -p "$tmpdir/src/preferences/pipelines_management"
+cp -a "$PIPELINE_GROUP_BACKUP" "$tmpdir/src/preferences/pipelines_management/pipeline_group.js"
+cp -a "$PIPELINE_CHOOSE_BACKUP" "$tmpdir/src/preferences/pipelines_management/pipeline_choose_row.js"
+
+patch_count=0
+while IFS= read -r patch_file; do
+    patch_count=$((patch_count + 1))
+    if ! patch --dry-run --batch --forward -p1 -d "$tmpdir" < "$patch_file" >/dev/null; then
+        echo "FAIL: Blur my Shell source patch does not apply cleanly: $(basename "$patch_file")" >&2
+        exit 1
+    fi
+    patch --batch --forward -p1 -d "$tmpdir" < "$patch_file" >/dev/null
+done < <(find "$PATCH_DIR" -maxdepth 1 -type f -name '*.patch' | sort)
+
+if [[ "$patch_count" -ne 2 ]]; then
+    echo "FAIL: expected 2 Blur my Shell source patches, found $patch_count" >&2
+    exit 1
+fi
+
 msgunfmt "$BACKUP_MO" -o "$tmpdir/upstream.po"
 msgcat --use-first "$OVERLAY" "$tmpdir/upstream.po" -o "$tmpdir/merged.po"
 msgfmt --check "$tmpdir/merged.po" -o "$tmpdir/$DOMAIN.mo"
+
 install -m 0644 "$tmpdir/$DOMAIN.mo" "$TARGET_MO"
+install -m 0644 "$tmpdir/src/preferences/pipelines_management/pipeline_group.js" "$PIPELINE_GROUP"
+install -m 0644 "$tmpdir/src/preferences/pipelines_management/pipeline_choose_row.js" "$PIPELINE_CHOOSE"
 
 bash "$VERIFIER"
 echo "PASS: Blur my Shell v72 Polish completion installed"
