@@ -17,6 +17,7 @@ The repository adds localization only when upstream Polish support is missing, i
 - Plymouth keeps Fedora's upstream Polish translations and makes the early-boot/offline-update locale reproducible by installing the required Polish locale data and gettext catalog into initramfs through dracut.
 - Blur my Shell v72 uses a 61-entry completion plus two exact-version pipeline UI source patches, covering all 54 untranslated upstream catalog messages and seven pipeline/UI strings missed by the effective upstream extraction path.
 - Clipboard Indicator v71 uses a 63-entry completion overlay covering all untranslated and fuzzy entries from the audited upstream Polish catalog.
+- Extension Manager 0.6.5 uses a one-entry contextual completion (`Sort search results` / `None` → `Brak`) merged into the exact audited Flatpak Locale catalog.
 - Ptyxis 50.1 uses a version-pinned Polish main-domain completion because Fedora's package does not ship `pl/LC_MESSAGES/ptyxis.mo`; it covers the audited main-window/menu strings and also activates libadwaita's existing Polish About-dialog translations without modifying `libadwaita.mo`.
 
 All localization installation is centralized through `scripts/install-localizations.sh`, including the system-level Papers, Plymouth, and Ptyxis targets. Verification is integrated into `scripts/verify.sh`.
