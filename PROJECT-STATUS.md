@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Physical baseline refreshed and accepted 2026-09-21; Recovery and Stability Gates passed; 2026-09-21 localization closure accepted; D-H1 and D-H2/D-H3 security hardening physically accepted; latest private DR generation integrity-verified; full physical verifier clean at PASS=246 WARN=0 FAIL=0 SKIP=0
+**Status:** Physical baseline refreshed and accepted 2026-09-21; Recovery and Stability Gates passed; 2026-09-21 localization closure accepted; D-H1, D-H2/D-H3, and D-H4 High-severity audit remediation physically accepted; latest private DR generation integrity-verified; full physical verifier clean at PASS=247 WARN=0 FAIL=0 SKIP=0
 
 **Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
 
@@ -22,14 +22,14 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After the 2026-09-21 D-H2/D-H3 security-verifier hardening, the physical-workstation verifier was rerun from the canonical repository checkout and completed with:
+After the 2026-09-21 D-H4 GNOME-extension tree-integrity closure, the physical-workstation verifier was rerun from the canonical repository checkout and completed with:
 
 ```text
-PASS=246 WARN=0 FAIL=0 SKIP=0
+PASS=247 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes the accepted localization state plus explicit live security-posture verification for SELinux/AVC state, disabled SSH service/socket and TCP/22 listener state, kernel lockdown, NVIDIA/MOK signing evidence, trusted-zone firewalld exact state, required RPM/repository/Tailscale/Flatpak state, and fail-closed zero-WARN acceptance semantics. Ptyxis 50.1 remains repository-managed, Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
+This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes the accepted localization state, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, and D-H4 deterministic whole-tree integrity verification for every enabled user GNOME extension. Ptyxis 50.1 remains repository-managed, Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
 
 ## Current desired state
 
@@ -50,6 +50,7 @@ The physical-host desired state includes:
 - repository-managed Polish localization verification;
 - extension version pinning and drift detection;
 - fail-closed source locking for enabled user extensions, including SHA-256 pins for EGO archives and an exact GitHub commit pin for Dhruva;
+- deterministic whole-tree SHA-256 integrity locks for all 22 enabled user extensions, with same-version drift detection and restore enforcement;
 - strict JSON metadata validation for EGO and pinned GitHub extension sources.
 
 NordVPN, gNordVPN-Local, and Freon are intentionally absent from the current desired state. Tailscale remains the supported overlay/VPN component tracked by this repository.
@@ -340,6 +341,42 @@ D-H2 status: **CLOSED / PHYSICALLY ACCEPTED**.
 
 D-H3 status: **CLOSED / PHYSICALLY ACCEPTED**.
 
+## D-H4 GNOME extension tree integrity — CLOSED
+
+P0.3 / D-H4 is **implemented, repository-tested, and physically accepted** on the Fedora 44 / GNOME 50.5 workstation.
+
+Implemented controls:
+
+- `gnome/extensions-tree-lock.tsv` records the accepted deterministic SHA-256 for all 22 enabled user-extension trees;
+- hashing covers relative paths, entry type, regular-file contents, regular-file modes, and symlink targets while intentionally excluding volatile mtime/UID/GID metadata;
+- the repository validator requires complete, unique, version-matched, syntactically valid tree-lock entries for every enabled user extension;
+- the full `scripts/verify.sh` performs fail-closed whole-tree comparison against the accepted lock;
+- `scripts/install-extensions.sh` no longer treats a matching runtime version as sufficient: same-version tree drift is detected and triggers restoration from the existing pinned source lock;
+- repository fixtures prove detection of changed file contents, added files, regular-file mode changes, symlink-target changes, and same-version tampering;
+- integration-contract fixtures ensure future refactoring cannot silently detach tree integrity from restore or final verification.
+
+Physical acceptance evidence on 2026-09-21:
+
+```text
+22/22 enabled user-extension trees: PASS
+TREE_RC=0
+
+controlled tamper test:
+TAMPER_RC=3
+
+tree restored to accepted SHA-256:
+RESTORED_RC=0
+
+full physical verifier:
+PASS=247 WARN=0 FAIL=0 SKIP=0
+VERIFY_RC=0
+```
+
+The controlled tamper test used a temporary inert file in `user-theme@gnome-shell-extensions.gcampax.github.com`; the integrity verifier rejected the modified tree despite the runtime version remaining `79`, then accepted the tree again after the file was removed.
+
+D-H4 status: **CLOSED / PHYSICALLY ACCEPTED**.
+
+With D-H4 closed, all four High-severity findings from the 2026-09-21 audit remediation track are closed.
 ## Repository validation
 
 Repository-only validation is automated through `scripts/check-static.sh`, which is used both locally and by GitHub Actions. It covers Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON validation, and desired-state inventory consistency.
@@ -360,9 +397,7 @@ This does not make the repository a full disk backup. Personal files, credential
 
 ## Remaining work
 
-The next engineering block is security/architecture hardening, followed by routine lifecycle maintenance:
-
-- **D-H4:** verify installed GNOME-extension tree integrity so same-version source tampering cannot be silently accepted;
+The High-severity audit-remediation track is complete. Remaining work is medium/lower-risk hardening and routine lifecycle maintenance:
 - introduce LUKS during a future controlled reinstall/restore if full-disk encryption is desired; in-place conversion remains intentionally deferred;
 - keep package and GNOME extension pins current as Fedora evolves;
 - repeat the clean-room restore test after material restore-path or supported-baseline changes;
@@ -380,4 +415,4 @@ The tested baseline is considered accepted when required packages, repositories,
 
 `scripts/verify.sh` must report zero `WARN` and zero `FAIL` on the validated physical target.
 
-**Last complete accepted physical aggregate: `PASS=236 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
+**Last complete accepted physical aggregate: `PASS=247 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
