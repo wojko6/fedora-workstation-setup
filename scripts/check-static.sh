@@ -79,4 +79,8 @@ echo "=== GITHUB METADATA SECURITY FIXTURES ==="
 python3 scripts/test_github_metadata_security.py
 
 echo
+echo "=== FIREWALL POLICY SECURITY FIXTURES ==="
+python3 scripts/test_firewall_policy.py
+
+echo
 echo "=== STATIC CHECKS: PASS ==="
