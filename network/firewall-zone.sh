@@ -7,7 +7,7 @@ EXPECTED_PROFILE="${TRUSTED_WIFI_PROFILE:-}"
 
 fail() {
   echo "ERROR: $*" >&2
-  exit 1
+  return 1
 }
 
 for cmd in ip nmcli rpm systemctl firewall-cmd sudo; do
