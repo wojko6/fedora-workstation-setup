@@ -184,7 +184,7 @@ The 2026-09-19 Recovery and Stability Gates were completed without unresolved wa
 
 System-level Polish localization was extended and made reproducible for Papers 49.8 / Nautilus document properties, Papers annotations and empty start page, Plymouth offline updates, and Ptyxis 50.1. Papers received a minimal completion overlay, Plymouth's existing Polish catalog and locale data were persisted into initramfs through dracut, and Ptyxis initially received a minimal main gettext-domain bridge that activated libadwaita's existing Polish About-dialog translations. A later physical UI audit found the primary Ptyxis menu still falling back to English, so the repository catalog was expanded to cover the audited main-window/menu messages. The expanded catalog was installed, the dedicated verifier passed, and the restarted Ptyxis menu was visually confirmed in Polish on the physical workstation.
 
-The physical workstation was running GNOME Shell 50.5 during the final acceptance run. After the final Ptyxis and Bluetooth Battery Meter v49 updates, the complete live verifier finished with `PASS=228 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`, establishing the current physical baseline. The historical clean-room VM result remains `PASS=147 WARN=0 FAIL=0 SKIP=8` on Fedora 44 / GNOME 50.4.
+The physical workstation was running GNOME Shell 50.5 during the final acceptance run. After the final Ptyxis and Bluetooth Battery Meter v49 updates, the complete live verifier finished with `PASS=228 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`, establishing the accepted 2026-09-20 physical baseline at that checkpoint. The historical clean-room VM result remains `PASS=147 WARN=0 FAIL=0 SKIP=8` on Fedora 44 / GNOME 50.4.
 
 ## Bluetooth Battery Meter BudsLink localization — 2026-09-20
 
@@ -222,7 +222,7 @@ scripts/verify.sh
   -> scripts/manage-weather-locations.py --config gnome/weather-locations.local.tsv --verify
 ```
 
-`gnome-weather` and `python3-gobject` are explicit RPM desired-state dependencies. Repository consistency validation checks the anonymized public example, while the real location remains outside Git. The full physical-host verifier completed successfully with `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0` while the private location file was present.
+`gnome-weather` and `python3-gobject` are explicit RPM desired-state dependencies. Repository consistency validation checks the anonymized public example, while the real location remains outside Git. At the GNOME Weather integration checkpoint, the full physical-host verifier completed successfully with `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0` while the private location file was present. The current project-wide accepted aggregate is documented separately below.
 
 ## Extension supply-chain hardening — 2026-09-20
 
