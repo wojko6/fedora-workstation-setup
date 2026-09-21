@@ -51,7 +51,7 @@ The audit also reopened localization completeness for two desired-state extensio
 
 Two application-level follow-ups remain under audit:
 
-- **Extension Manager 0.6.5**: the separate system Flatpak Locale ref is present and provides the Polish `extension-manager.mo`. Visual inspection and exact v0.6.5 source review confirmed one application-owned untranslated contextual label: sort option `None`. The repository now carries a one-entry completion (`None` → `Brak`) pinned to Locale commit `9e45ce9096c3efdcc54b26375fed9b730a6e8f5032daf6b8cee35482afacd036` and pristine catalog SHA-256 `6ea6fda169660bc791d46a74bd511cbb91a97ee6f9308bc9db7b4f3602d25a78`; physical installation and final visual acceptance are pending.
+- **Extension Manager 0.6.5**: the separate system Flatpak Locale ref is present and provides the Polish `extension-manager.mo`. Visual inspection and exact v0.6.5 source review confirmed one application-owned untranslated contextual label: sort option `None`. The repository carries a one-entry completion (`None` → `Brak`) pinned to Locale commit `9e45ce9096c3efdcc54b26375fed9b730a6e8f5032daf6b8cee35482afacd036` and pristine catalog SHA-256 `6ea6fda169660bc791d46a74bd511cbb91a97ee6f9308bc9db7b4f3602d25a78`; physical installation, dedicated verification, and visual acceptance all pass.
 - VSCodium 1.135.06055 did not report a Polish language-pack extension or locale configuration, so Polish UI reproducibility is not currently demonstrated.
 
 The audit also exposed a verifier-design issue in the Ptyxis search-options completion: the actual embedded resource uses mnemonic-bearing msgids `Match _Case`, `Whole _Words`, and `Use _Regular Expressions`. The repository catalog and verifier have been corrected to those exact resource strings, and the verifier now checks the installed Ptyxis resource before accepting the translations.
@@ -104,7 +104,7 @@ The repository carries `localization/extension-manager/v0.6.5-completion.po` wit
 
 Because the completion is applied to a Flatpak deployment checkout, a Flatpak update or repair can replace it; the exact-version verifier detects that drift and the localization installer reapplies the controlled override after the audited Locale ref is restored.
 
-Physical installation and final visual acceptance remain pending.
+Physical installation, dedicated verification, and final visual acceptance have passed on the Fedora 44 / GNOME Shell 50.5 workstation; the sort selector now shows `Brak` instead of `None`.
 
 ## Bluetooth Battery Meter v46/v49
 
