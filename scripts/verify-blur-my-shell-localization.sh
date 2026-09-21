@@ -12,26 +12,31 @@ PREFS_JS="$EXT_DIR/prefs.js"
 TARGET_MO="$EXT_DIR/locale/pl/LC_MESSAGES/$DOMAIN.mo"
 BACKUP_MO="${TARGET_MO}.upstream-v72.bak"
 OVERLAY="$ROOT_DIR/localization/blur-my-shell/v72-completion.po"
+PATCH_DIR="$ROOT_DIR/patches/gnome-extensions/blur-my-shell"
+PIPELINE_GROUP="$EXT_DIR/src/preferences/pipelines_management/pipeline_group.js"
+PIPELINE_CHOOSE="$EXT_DIR/src/preferences/pipelines_management/pipeline_choose_row.js"
+PIPELINE_GROUP_BACKUP="${PIPELINE_GROUP}.upstream-v72.bak"
+PIPELINE_CHOOSE_BACKUP="${PIPELINE_CHOOSE}.upstream-v72.bak"
 
 EXPECTED_METADATA_SHA="c361040062f3ce2918645a578f8d596d65ce728f8643c24400bd47857e3ff44e"
 EXPECTED_EXTENSION_SHA="e8ed71fc608405dd1debada34a696ce82229e134113589f43b38a6c7f3117199"
 EXPECTED_PREFS_SHA="6e2fb0d99630b2e621e7647a03f69ed1fad6aa197e32ae2e1b60c52342e65bc5"
 EXPECTED_UPSTREAM_MO_SHA="44073c8675b6457082d9e3d7f40e8889259def344fe03b57155a115750493e88"
-EXPECTED_COMPLETION_ENTRIES="46"
+EXPECTED_COMPLETION_ENTRIES="61"
 
 if [[ ! -d "$EXT_DIR" ]]; then
     echo "SKIP: Blur my Shell extension not installed"
     exit 0
 fi
 
-for cmd in python3 sha256sum msgfmt msgcat msgunfmt msgattrib gettext cmp; do
+for cmd in python3 sha256sum msgfmt msgcat msgunfmt msgattrib gettext cmp patch; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "FAIL: required command not found: $cmd" >&2
         exit 1
     fi
 done
 
-for path in "$METADATA" "$EXTENSION_JS" "$PREFS_JS" "$TARGET_MO" "$BACKUP_MO" "$OVERLAY"; do
+for path in "$METADATA" "$EXTENSION_JS" "$PREFS_JS" "$TARGET_MO" "$BACKUP_MO" "$OVERLAY" "$PIPELINE_GROUP" "$PIPELINE_CHOOSE" "$PIPELINE_GROUP_BACKUP" "$PIPELINE_CHOOSE_BACKUP"; do
     if [[ ! -f "$path" ]]; then
         echo "FAIL: required Blur my Shell localization file missing: $path" >&2
         exit 1
@@ -86,6 +91,30 @@ fi
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
 
+mkdir -p "$tmpdir/src/preferences/pipelines_management"
+cp -a "$PIPELINE_GROUP_BACKUP" "$tmpdir/src/preferences/pipelines_management/pipeline_group.js"
+cp -a "$PIPELINE_CHOOSE_BACKUP" "$tmpdir/src/preferences/pipelines_management/pipeline_choose_row.js"
+
+patch_count=0
+while IFS= read -r patch_file; do
+    patch_count=$((patch_count + 1))
+    patch --batch --forward -p1 -d "$tmpdir" < "$patch_file" >/dev/null
+done < <(find "$PATCH_DIR" -maxdepth 1 -type f -name '*.patch' | sort)
+
+if [[ "$patch_count" -ne 2 ]]; then
+    echo "FAIL: expected 2 Blur my Shell source patches, found $patch_count" >&2
+    exit 1
+fi
+
+cmp -s "$tmpdir/src/preferences/pipelines_management/pipeline_group.js" "$PIPELINE_GROUP" || {
+    echo "FAIL: Blur my Shell pipeline_group.js differs from repository patch set" >&2
+    exit 1
+}
+cmp -s "$tmpdir/src/preferences/pipelines_management/pipeline_choose_row.js" "$PIPELINE_CHOOSE" || {
+    echo "FAIL: Blur my Shell pipeline_choose_row.js differs from repository patch set" >&2
+    exit 1
+}
+
 msgunfmt "$BACKUP_MO" -o "$tmpdir/upstream.po"
 msgcat --use-first "$OVERLAY" "$tmpdir/upstream.po" -o "$tmpdir/merged.po"
 msgfmt --check "$tmpdir/merged.po" -o "$tmpdir/$DOMAIN.mo"
@@ -115,6 +144,7 @@ while IFS= read -r source; do
     fi
 done <<'EOF'
 Prefer closer pixels
+Whether or not the pixels that are closer to the original pixel will have more weight.
 Blend mode
 How the color is blended in.
 Normal
@@ -138,10 +168,12 @@ An effect that affects the luminosity of the image.
 Shift brightness
 The brightness to add of remove to the image.
 Multiply brightness
+The brightness multiplicator of the image, so that 0 means no brightness and 2 means infinite brightness.
 Contrast
 The contrast of the image in regard to the center of the contrast.
 Contrast center
 The center of the contrast to use.
+The saturation of the image, so that 0 means no saturation and 2 means infinite saturation.
 Boxcar
 Dirac
 Apply a spatial derivative, or a laplacian.
@@ -154,9 +186,18 @@ RGB to HSL (advanced effect)
 Converts the image from RGBA colorspace to HSLA.
 HSL to RGB (advanced effect)
 Converts the image from HSLA colorspace to RGBA.
+The dynamic blur is slower and only compatible with a gaussian blur effect, but shows content behind windows.
 Corner radius
+In order to use rounded corners, please install the GNOME Rounded Blur library.
 Radius for the corner rounding effect.
 Enable corner rounding on maximized and fullscreen
+Corner rounding effect will keep being applied to maximized and fullscreen windows.
+Default
+Default rounded
+Create new pipeline
+New pipeline
+Pipeline id:
+No effect
 Include advanced effects
 Coverflow Alt-Tab extension blur
 Make the coverflow alt-tab extension blurred, if it is used.
