@@ -3,6 +3,7 @@ set -Eeuo pipefail
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 MANIFEST="$ROOT_DIR/packages/rpm.txt"
+ABSENT_MANIFEST="$ROOT_DIR/packages/rpm-absent.txt"
 
 mapfile -t packages < <(grep -Ev '^[[:space:]]*(#|$)' "$MANIFEST")
 
@@ -62,3 +63,26 @@ if printf '%s\n' "${packages[@]}" | grep -Fxq ffmpeg && rpm -q ffmpeg-free >/dev
 fi
 
 sudo dnf install -y "${packages[@]}"
+
+
+if [[ ! -f "$ABSENT_MANIFEST" ]]; then
+  echo "ERROR: missing absent-RPM manifest: $ABSENT_MANIFEST" >&2
+  exit 1
+fi
+
+mapfile -t absent_packages < <(grep -Ev '^[[:space:]]*(#|$)' "$ABSENT_MANIFEST")
+remove_packages=()
+
+for package in "${absent_packages[@]}"; do
+  if rpm -q "$package" >/dev/null 2>&1; then
+    remove_packages+=("$package")
+  fi
+done
+
+if (( ${#remove_packages[@]} > 0 )); then
+  echo "==> Removing packages excluded from desired state"
+  printf '  REMOVE: %s\n' "${remove_packages[@]}"
+  sudo dnf remove -y --no-autoremove "${remove_packages[@]}"
+else
+  echo "OK: excluded RPM packages are already absent"
+fi
