@@ -27,3 +27,10 @@ Expected current physical-workstation characteristics include Fedora 44, GNOME 5
 The Fedora 44 / GNOME 50.4 restore path has passed historical clean-room validation. The current accepted Fedora 44 / GNOME 50.5 physical-host aggregate is `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. `install.sh` restores the reviewed desired state, including the centralized localization pipeline and optional private GNOME Weather custom locations. The public repository stores only an anonymized example; real Weather names and coordinates must be restored separately as the gitignored `gnome/weather-locations.local.tsv`. The Weather stage runs after the curated GNOME dconf restore and uses libgweather serialization rather than copying opaque location state. A successful installer exit is not the final acceptance signal: after the required GNOME session restart, run `bash scripts/verify.sh` and require zero `WARN` and zero `FAIL` for the validated physical target.
 
 Private user data, credentials, browser profiles, password-manager data, Tailscale node identity, and other secrets remain outside this repository and must be restored separately.
+
+
+## Total-failure recovery
+
+This document covers the preferred clean rebuild path. If the system disk is lost, the boot chain is destroyed, or the previous filesystem state must be reconstructed from the private offline backup, follow [DISASTER-RECOVERY-RUNBOOK.md](DISASTER-RECOVERY-RUNBOOK.md) instead.
+
+The runbook begins from Fedora Live media, requires recovery-set integrity verification before restore, separates clean rebuild from filesystem-level recovery, and ends with the same repository verifier acceptance model.
