@@ -47,7 +47,7 @@ Confirmed good state:
 The audit also reopened localization completeness for two desired-state extensions:
 
 - **Blur my Shell v72**: multiple tested strings resolve to English on the physical host, including `Prefer closer pixels`, `Blend mode`, blend-mode names, contrast/saturation/luminosity controls, `Corner radius`, and advanced-effects labels.
-- **Clipboard Indicator v71**: multiple tested strings resolve to English on the physical host, including timer/image actions, edit/paste/delete/save/search controls, search options, menu-position options, and item-action labels.
+- **Clipboard Indicator v71**: the physical v71 catalog fingerprint matches the audited EGO installation and contains only 49 compiled Polish messages. The exact upstream v71 source catalog has 112 entries, of which 41 are untranslated and 22 are fuzzy, leaving 63 effective runtime gaps. The repository now carries a 63-entry completion overlay plus exact-version/source/catalog fingerprint checks; physical installation and visual acceptance are pending.
 
 Two application-level follow-ups remain under audit:
 
@@ -71,6 +71,16 @@ The GNOME 50 extension set was reviewed on the physical Fedora workstation. ArcM
 | Tiling Shell v76 / 17.3 | 15 untranslated entries | Completion overlay |
 | User Themes | Shared GNOME Shell Extensions Polish support | No duplicate translation |
 | Freon | Upstream Polish support | Removed from desired state |
+
+### Clipboard Indicator v71 completion
+
+The physical workstation reports Clipboard Indicator **v71** with gettext domain `clipboard-indicator`. The installed upstream Polish catalog fingerprint is `312170de7c29483114d5cf41f540c66ce29fc4b273349144613af848897ab06f` and contains 49 compiled translations.
+
+The exact v71 upstream source catalog contains 112 messages: 41 untranslated and 22 fuzzy. Because fuzzy gettext entries are not compiled into the runtime catalog, those 63 entries are effective English fallbacks on the tested installation.
+
+The repository carries `localization/clipboard-indicator/v71-completion.po` with all 63 missing/fuzzy entries. `scripts/install-clipboard-indicator-localization.sh` is pinned to v71 and validates `metadata.json`, `extension.js`, `prefs.js`, and the pristine upstream Polish catalog fingerprint before merging. `scripts/verify-clipboard-indicator-localization.sh` reconstructs the merged catalog, requires zero untranslated and zero fuzzy entries, compares it byte-for-byte with the live catalog, and performs gettext smoke tests for representative actions and search options.
+
+Physical installation and visual UI acceptance remain pending.
 
 ## Bluetooth Battery Meter v46/v49
 
