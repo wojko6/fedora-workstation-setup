@@ -22,10 +22,10 @@ Clean-room result:
 PASS=147 WARN=0 FAIL=0 SKIP=8
 ```
 
-After the 2026-09-21 application cleanup and the later removal of the unused OpenSSH server package from desired state, the physical workstation completed the current accepted run with:
+After the 2026-09-21 application cleanup, OpenSSH server removal, Helium desired-state promotion, VPCS COPR scoping, Firefox exclusion, and MOK verifier race fix, the physical workstation completed the current accepted run with:
 
 ```text
-PASS=245 WARN=0 FAIL=0 SKIP=0
+PASS=252 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
@@ -108,7 +108,7 @@ bash scripts/verify.sh
 Current accepted physical-workstation result:
 
 ```text
-PASS=245 WARN=0 FAIL=0 SKIP=0
+PASS=252 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
