@@ -34,6 +34,7 @@ The Bluetooth Battery Meter helper pair installs and verifies the v46/v49 BudsLi
 
 - `install-bluetooth-battery-meter-localization.sh`
 - `verify-bluetooth-battery-meter-localization.sh`
+- `install-clipboard-indicator-localization.sh` / `verify-clipboard-indicator-localization.sh` — Clipboard Indicator v71 63-entry Polish completion over the audited upstream catalog.
 
 System localization helpers:
 - `install-papers-localization.sh` / `verify-papers-localization.sh` — Papers 49.8 / Nautilus Polish completion for confirmed document-properties, annotations-sidebar, and empty-start-page gaps.
