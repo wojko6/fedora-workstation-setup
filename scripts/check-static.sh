@@ -71,6 +71,10 @@ echo "=== REPOSITORY CONSISTENCY ==="
 python3 scripts/validate-repository.py
 
 echo
+echo "=== EXTERNAL REPOSITORY TRUST FIXTURES ==="
+python3 scripts/test_repository_trust.py
+
+echo
 echo "=== SECRET SCAN ==="
 python3 scripts/scan-secrets.py --self-test
 
