@@ -13,8 +13,8 @@ TARGET_MO="$EXT_DIR/locale/pl/LC_MESSAGES/$DOMAIN.mo"
 BACKUP_MO="${TARGET_MO}.upstream-v72.bak"
 OVERLAY="$ROOT_DIR/localization/blur-my-shell/v72-completion.po"
 PATCH_DIR="$ROOT_DIR/patches/gnome-extensions/blur-my-shell"
-PIPELINE_GROUP="$EXT_DIR/src/preferences/pipelines_management/pipeline_group.js"
-PIPELINE_CHOOSE="$EXT_DIR/src/preferences/pipelines_management/pipeline_choose_row.js"
+PIPELINE_GROUP="$EXT_DIR/preferences/pipelines_management/pipeline_group.js"
+PIPELINE_CHOOSE="$EXT_DIR/preferences/pipelines_management/pipeline_choose_row.js"
 PIPELINE_GROUP_BACKUP="${PIPELINE_GROUP}.upstream-v72.bak"
 PIPELINE_CHOOSE_BACKUP="${PIPELINE_CHOOSE}.upstream-v72.bak"
 
@@ -91,9 +91,9 @@ fi
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
 
-mkdir -p "$tmpdir/src/preferences/pipelines_management"
-cp -a "$PIPELINE_GROUP_BACKUP" "$tmpdir/src/preferences/pipelines_management/pipeline_group.js"
-cp -a "$PIPELINE_CHOOSE_BACKUP" "$tmpdir/src/preferences/pipelines_management/pipeline_choose_row.js"
+mkdir -p "$tmpdir/preferences/pipelines_management"
+cp -a "$PIPELINE_GROUP_BACKUP" "$tmpdir/preferences/pipelines_management/pipeline_group.js"
+cp -a "$PIPELINE_CHOOSE_BACKUP" "$tmpdir/preferences/pipelines_management/pipeline_choose_row.js"
 
 patch_count=0
 while IFS= read -r patch_file; do
@@ -106,11 +106,11 @@ if [[ "$patch_count" -ne 2 ]]; then
     exit 1
 fi
 
-cmp -s "$tmpdir/src/preferences/pipelines_management/pipeline_group.js" "$PIPELINE_GROUP" || {
+cmp -s "$tmpdir/preferences/pipelines_management/pipeline_group.js" "$PIPELINE_GROUP" || {
     echo "FAIL: Blur my Shell pipeline_group.js differs from repository patch set" >&2
     exit 1
 }
-cmp -s "$tmpdir/src/preferences/pipelines_management/pipeline_choose_row.js" "$PIPELINE_CHOOSE" || {
+cmp -s "$tmpdir/preferences/pipelines_management/pipeline_choose_row.js" "$PIPELINE_CHOOSE" || {
     echo "FAIL: Blur my Shell pipeline_choose_row.js differs from repository patch set" >&2
     exit 1
 }
