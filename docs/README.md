@@ -7,6 +7,7 @@ This directory contains the reviewed operational and validation documentation fo
 - [RESTORE.md](RESTORE.md) — normal rebuild procedure from a clean Fedora installation.
 - [CLEAN-ROOM-RESTORE-REPORT.md](CLEAN-ROOM-RESTORE-REPORT.md) — clean-room restore validation and lessons learned.
 - [DISASTER-RECOVERY.md](DISASTER-RECOVERY.md) — offline disaster-recovery strategy and validated recovery generations.
+- [DISASTER-RECOVERY-RUNBOOK.md](DISASTER-RECOVERY-RUNBOOK.md) — detailed total-failure recovery runbook from Live USB through final verification.
 
 ## GNOME and localization
 
