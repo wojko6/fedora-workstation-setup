@@ -743,6 +743,17 @@ else
 fi
 
 echo
+echo "=== DING SYSTEM MONITOR MENU ==="
+DING_SYSTEM_MONITOR_VERIFY="$ROOT_DIR/scripts/verify-ding-system-monitor-menu.sh"
+if [[ ! -f "$DING_SYSTEM_MONITOR_VERIFY" ]]; then
+  bad "DING System Monitor menu verifier missing"
+elif bash "$DING_SYSTEM_MONITOR_VERIFY"; then
+  ok "DING System Monitor desktop-menu integration matches repository"
+else
+  bad "DING System Monitor desktop-menu integration missing or drifted"
+fi
+
+echo
 echo "=== DESKTOP LAUNCHERS ==="
 if [[ -f "$HOME/Pulpit/Counter-Strike 2.desktop" ]]; then ok "desktop launcher: Counter-Strike 2.desktop"; else warn "desktop launcher missing: Counter-Strike 2.desktop"; fi
 ASUS_CONF="$ROOT_DIR/desktop/launchers/asus-router.conf"
