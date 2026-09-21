@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Physical baseline refreshed and accepted 2026-09-21; Recovery and Stability Gates passed; 2026-09-21 localization closure accepted; D-H1 trusted firewalld boundary physically accepted; latest private DR generation integrity-verified; full physical verifier clean
+**Status:** Physical baseline refreshed and accepted 2026-09-21; Recovery and Stability Gates passed; 2026-09-21 localization closure accepted; D-H1 and D-H2/D-H3 security hardening physically accepted; latest private DR generation integrity-verified; full physical verifier clean at PASS=246 WARN=0 FAIL=0 SKIP=0
 
 **Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
 
