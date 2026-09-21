@@ -22,6 +22,11 @@ poedit
 
 # Administration / development
 python3-gobject
+flatpak
+firewalld
+iw
+libselinux-utils
+mokutil
 7zip-standalone
 bind-utils
 btop
