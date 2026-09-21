@@ -13,7 +13,7 @@ Target baseline:
 - Wayland session
 
 Accepted baseline:
-PASS=231 WARN=0 FAIL=0 SKIP=0
+PASS=236 WARN=0 FAIL=0 SKIP=0
 
 
 ---
@@ -94,9 +94,14 @@ Validated components include:
 - Vitals,
 - ddterm,
 - Advanced Media Controller,
-- Papers / Nautilus document properties,
+- Blur my Shell,
+- Clipboard Indicator,
+- Extension Manager,
+- Helium,
+- GNOME Tweaks,
+- Papers / Nautilus,
 - Plymouth offline updates,
-- Ptyxis / libadwaita About dialog.
+- Ptyxis / libadwaita.
 
 ## ArcMenu gettext binding fix
 
@@ -127,7 +132,7 @@ Implemented security improvements:
 
 ## Recovery Hardening
 
-The restore pipeline validates the environment before making changes.
+The restore pipeline validates the environment before making changes. The separate private offline DR layer was refreshed on 2026-09-21 after a clean physical verifier run; its compressed Btrfs/boot/EFI artifacts and 21-entry SHA-256 manifest passed full integrity verification.
 
 Implemented:
 
@@ -145,7 +150,7 @@ Missing or invalid required stages stop execution instead of silently continuing
 The project uses automated verification instead of manual confirmation.
 
 Current final validation:
-PASS=231 WARN=0 FAIL=0 SKIP=0
+PASS=236 WARN=0 FAIL=0 SKIP=0
 
 The verifier checks:
 
@@ -196,7 +201,7 @@ Repository validation pipeline
 
 The final physical workstation verification completed on Fedora 44 / GNOME Shell 50.5 with:
 ```text
-PASS=231
+PASS=236
 WARN=0
 FAIL=0
 SKIP=0
