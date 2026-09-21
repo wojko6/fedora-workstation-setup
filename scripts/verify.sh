@@ -674,6 +674,19 @@ else
 fi
 
 echo
+echo "=== GNOME TWEAKS POLISH LOCALIZATION ==="
+if gnome_tweaks_verify_output="$(bash "$ROOT_DIR/scripts/verify-gnome-tweaks-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$gnome_tweaks_verify_output"; then
+    skip "GNOME Tweaks Polish localization: application not installed"
+  else
+    ok "GNOME Tweaks 49.0 generated GSettings labels and Polish completion match repository"
+  fi
+else
+  printf '%s\n' "$gnome_tweaks_verify_output"
+  bad "GNOME Tweaks Polish localization missing, incomplete, or differs"
+fi
+
+echo
 echo "=== PTYXIS POLISH LOCALIZATION ==="
 PTYXIS_VERIFY="$ROOT_DIR/scripts/verify-ptyxis-localization.sh"
 if [[ ! -f "$PTYXIS_VERIFY" ]]; then
