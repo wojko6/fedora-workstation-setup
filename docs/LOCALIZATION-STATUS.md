@@ -46,7 +46,7 @@ Confirmed good state:
 
 The audit also reopened localization completeness for two desired-state extensions:
 
-- **Blur my Shell v72**: the initial runtime audit confirmed 46 single-line English fallbacks; visual follow-up then exposed eight multiline catalog gaps and pipeline-management strings outside the effective upstream catalog. The repository now carries a 61-entry completion plus two exact-version pipeline UI source patches. Physical installation and dedicated verification pass; final visual acceptance remains pending.
+- **Blur my Shell v72**: the initial runtime audit confirmed 46 single-line English fallbacks; visual follow-up then exposed eight multiline catalog gaps and pipeline-management strings outside the effective upstream catalog. The repository now carries a 61-entry completion plus two exact-version pipeline UI source patches. Physical installation, dedicated verification, and visual acceptance all pass.
 - **Clipboard Indicator v71**: the physical v71 catalog fingerprint matches the audited EGO installation and contains only 49 compiled Polish messages. The exact upstream v71 source catalog has 112 entries, of which 41 are untranslated and 22 are fuzzy, leaving 63 effective runtime gaps. The repository now carries a 63-entry completion overlay plus exact-version/source/catalog fingerprint checks; physical installation and visual acceptance are pending.
 
 Two application-level follow-ups remain under audit:
@@ -82,7 +82,7 @@ The first runtime pass found 46 single-line English fallbacks, but a subsequent 
 
 `scripts/install-blur-my-shell-localization.sh` validates v72 plus the audited `metadata.json`, `extension.js`, `prefs.js`, and pristine Polish catalog fingerprints, preserves pristine pipeline source backups, applies the two repository patches, merges the 61-entry catalog completion, and invokes the dedicated verifier. `scripts/verify-blur-my-shell-localization.sh` reconstructs both patched source files and the merged catalog, compares them with the live installation, and checks representative completed msgids through gettext.
 
-The expanded 61-entry completion plus both pipeline source fixes have now been installed successfully on the Fedora 44 / GNOME Shell 50.5 workstation. The dedicated verifier passes with `61 entries, 0 fuzzy`. Final visual acceptance of the corrected pipeline/application UI remains pending.
+The expanded 61-entry completion plus both pipeline source fixes have now been installed successfully on the Fedora 44 / GNOME Shell 50.5 workstation. The dedicated verifier passes with `61 entries, 0 fuzzy`, and the corrected pipeline/application UI has been visually accepted in Polish.
 
 ### Clipboard Indicator v71 completion
 
