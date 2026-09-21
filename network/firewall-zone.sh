@@ -89,17 +89,6 @@ for service in "${desired_services[@]}"; do
   fi
 done
 
-# Reject KDE Connect exposure in any other currently active zone.
-while IFS= read -r active_other_zone; do
-  [[ -z "$active_other_zone" || "$active_other_zone" == "$ZONE" ]] && continue
-  if sudo firewall-cmd --zone="$active_other_zone"       --query-service=kdeconnect >/dev/null 2>&1; then
-    fail "kdeconnect is enabled in another active zone: $active_other_zone"
-  fi
-done < <(
-  sudo firewall-cmd --get-active-zones |
-    awk '/^[^[:space:]]/ { print $1 }'
-)
-
 zone_existed=0
 if sudo firewall-cmd --permanent --get-zones |
    tr ' ' '\n' |
@@ -108,6 +97,19 @@ if sudo firewall-cmd --permanent --get-zones |
 fi
 
 old_profile_zone="$(nmcli -g connection.zone connection show "$PROFILE" 2>/dev/null || true)"
+
+other_kdeconnect_zones=()
+while IFS= read -r other_zone; do
+  [[ -z "$other_zone" || "$other_zone" == "$ZONE" ]] && continue
+  if sudo firewall-cmd --permanent --zone="$other_zone" \
+      --query-service=kdeconnect >/dev/null 2>&1; then
+    other_kdeconnect_zones+=("$other_zone")
+  fi
+done < <(
+  sudo firewall-cmd --permanent --get-zones |
+    tr ' ' '\n' |
+    sed '/^$/d'
+)
 
 snapshot_words() {
   local option="$1"
@@ -222,6 +224,11 @@ rollback() {
     sudo firewall-cmd --permanent --delete-zone="$ZONE" >/dev/null 2>&1
   fi
 
+  for other_zone in "${other_kdeconnect_zones[@]}"; do
+    sudo firewall-cmd --permanent --zone="$other_zone" \
+      --add-service=kdeconnect >/dev/null 2>&1
+  done
+
   sudo firewall-cmd --reload >/dev/null 2>&1
   exit "$rc"
 }
@@ -233,6 +240,12 @@ if (( ! zone_existed )); then
 fi
 
 echo "Applying exact-state policy to trusted Wi-Fi profile: $PROFILE ($TRUSTED_UUID)"
+
+for other_zone in "${other_kdeconnect_zones[@]}"; do
+  echo "Removing KDE Connect from non-trusted firewalld zone: $other_zone"
+  sudo firewall-cmd --permanent --zone="$other_zone" \
+    --remove-service=kdeconnect >/dev/null
+done
 
 clear_zone_state
 sudo firewall-cmd --permanent --zone="$ZONE" --set-target=default >/dev/null
@@ -280,8 +293,21 @@ if sudo firewall-cmd --permanent --zone="$ZONE" --query-icmp-block-inversion >/d
   fail "ICMP block inversion must be disabled in zone '$ZONE'."
 fi
 
+while IFS= read -r other_zone; do
+  [[ -z "$other_zone" || "$other_zone" == "$ZONE" ]] && continue
+  if sudo firewall-cmd --permanent --zone="$other_zone" \
+      --query-service=kdeconnect >/dev/null 2>&1; then
+    fail "kdeconnect remains enabled in non-trusted zone: $other_zone"
+  fi
+done < <(
+  sudo firewall-cmd --permanent --get-zones |
+    tr ' ' '\n' |
+    sed '/^$/d'
+)
+
 trap - ERR
 
 echo "PASS: trusted Wi-Fi profile uses exact-state firewalld zone: $ZONE"
 echo "PASS: services = dhcpv6-client mdns kdeconnect"
+echo "PASS: kdeconnect is absent from all other permanent firewalld zones"
 echo "PASS: ssh, forwarding, masquerade, ports, protocols, sources, forward-ports, source-ports, ICMP blocks, and rich rules are absent"
