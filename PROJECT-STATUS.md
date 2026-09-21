@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Physical baseline accepted 2026-09-20; Recovery and Stability Gates passed; Ptyxis, Bluetooth Battery Meter v49, and private GNOME Weather custom-location integration accepted; full physical verifier clean
+**Status:** Physical baseline refreshed and accepted 2026-09-21; Recovery and Stability Gates passed; 2026-09-21 localization closure accepted; latest private DR generation integrity-verified; full physical verifier clean
 
 **Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
 
@@ -22,14 +22,14 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After the 2026-09-20 GNOME Weather custom-location integration and geographic-equivalence verifier fix, the physical-workstation verifier completed with:
+After the 2026-09-21 localization closure, the physical-workstation verifier was rerun from the canonical repository checkout and completed with:
 
 ```text
-PASS=231 WARN=0 FAIL=0 SKIP=0
+PASS=236 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. Ptyxis 50.1 is visually confirmed in Polish, Bluetooth Battery Meter v49 is both the active runtime and the reproducible restore pin, and a private GNOME Weather custom location is reproducibly restored and verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
+This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes the accepted 2026-09-21 localization additions for Blur my Shell, Clipboard Indicator, Extension Manager, Helium, and GNOME Tweaks. Ptyxis 50.1 remains repository-managed, Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
 
 ## Current desired state
 
@@ -91,7 +91,7 @@ The setup pipeline now validates the supported baseline before executing changes
 Final physical-host verification:
 
 ```text
-PASS=231 WARN=0 FAIL=0 SKIP=0
+PASS=236 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
@@ -163,7 +163,7 @@ Advanced Media Controller v31 / 6.5 ships no Polish catalog in the tested archiv
 
 Papers 49.8 uses a minimal completion overlay for the Nautilus document-properties provider, the `No Annotations` status page, and the empty start page. The completed catalog was installed and matched the repository-managed overlay, and all three affected UI areas were visually confirmed in Polish.
 
-All 12 version-specific GNOME-extension localization installers, plus the system-level Papers, Plymouth, and Ptyxis stages, are invoked by `scripts/install-localizations.sh`. Dedicated localization verifiers are integrated into the main `scripts/verify.sh`. The current complete physical-host verifier is accepted at `PASS=228 WARN=0 FAIL=0 SKIP=0`, with Ptyxis 50.1 and Bluetooth Battery Meter v49 included in the verified desired state.
+`scripts/install-localizations.sh` now invokes 15 version-specific GNOME-extension localization installers plus six application/system localization stages: Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks. Dedicated localization verifiers are integrated into the main `scripts/verify.sh`. The current complete physical-host verifier is accepted at `PASS=236 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
 
 ## Important reproducibility decisions
 
@@ -257,6 +257,19 @@ L2: CLOSED
 
 Implementation commit `9299954b0b902943df2520d03bf40a87874c7f00` passed GitHub Actions Static checks run #132. Documentation closure commit `85328d0f5c5614c4f9c28f880d79165b85fc3108` passed run #133.
 
+## 2026-09-21 localization and disaster-recovery closure
+
+The physical localization work was closed with a fresh full verifier run from the canonical checkout:
+
+```text
+PASS=236 WARN=0 FAIL=0 SKIP=0
+VERIFY_RC=0
+```
+
+The final GNOME Tweaks 49.0 terminology override was visually confirmed as `Hinting` → `Dopasowanie do pikseli`. VSCodium remains intentionally deferred and is not claimed as reproducibly localized.
+
+A new private offline disaster-recovery generation dated **2026-09-21** was then created after the clean verifier result. It contains compressed read-only Btrfs streams for root, home, and the separate `/var/lib/machines` subvolume, plus `/boot`, EFI, and reconstruction metadata. Zstandard integrity tests passed, and the final 21-entry `SHA256SUMS` manifest was verified with `SHA256_VERIFY_RC=0`. The private artifacts and machine identifiers remain outside Git.
+
 ## Repository validation
 
 Repository-only validation is automated through `scripts/check-static.sh`, which is used both locally and by GitHub Actions. It covers Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON validation, and desired-state inventory consistency.
@@ -271,20 +284,25 @@ bash scripts/verify.sh
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, system-localization, and GNOME Weather custom-location changes. The current complete physical-host aggregate is `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. Ptyxis 50.1 is visually accepted in Polish, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the private Weather location is part of the verified local desired state without publishing its identifying data.
+The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, system-localization, GNOME Weather, and 2026-09-21 localization changes. The current complete physical-host aggregate is `PASS=236 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The managed Helium and GNOME Tweaks fixes are physically accepted, the GNOME Tweaks `Hinting` override is visually confirmed, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the private Weather location remains part of the verified local desired state without publishing its identifying data.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 
 ## Remaining work
 
-Routine maintenance remains plus one explicitly deferred security decision:
+The next engineering block is security/architecture hardening, followed by routine lifecycle maintenance:
 
-- introduce LUKS during a future controlled reinstall/restore if full-disk encryption is desired;
+- **D-H1:** tighten the firewalld trust boundary and exact-state enforcement for the active workstation network profile;
+- **D-H2:** expand explicit verifier coverage for security controls such as SELinux/AVC state, disabled SSH service/socket state, kernel lockdown, listener/firewall state, and expected external-module signing evidence;
+- **D-H3:** make remaining required-state checks consistently fail-closed/strict, including desired Flatpak state;
+- **D-H4:** verify installed GNOME-extension tree integrity so same-version source tampering cannot be silently accepted;
+- introduce LUKS during a future controlled reinstall/restore if full-disk encryption is desired; in-place conversion remains intentionally deferred;
 - keep package and GNOME extension pins current as Fedora evolves;
-- repeat the clean-room restore test after major Fedora/GNOME changes;
+- repeat the clean-room restore test after material restore-path or supported-baseline changes;
 - keep private machine-specific configuration and signing material separate from the public repository;
 - rerun physical-host verification after material desired-state changes, especially kernel/NVIDIA updates;
-- re-audit version-pinned localization whenever an extension version changes;
+- re-audit version-pinned localization whenever an extension or application version changes;
+- keep VSCodium localization explicitly deferred until it is intentionally brought into scope;
 - test future Fedora/GNOME 51 changes in a VM before promoting them to the physical workstation.
 
 The separate disaster-recovery layer is documented in `docs/DISASTER-RECOVERY.md`; the detailed total-failure operational sequence is documented in `docs/DISASTER-RECOVERY-RUNBOOK.md`. These complement rather than replace the repository-based rebuild path.
@@ -295,4 +313,4 @@ The tested baseline is considered accepted when required packages, repositories,
 
 `scripts/verify.sh` must report zero `WARN` and zero `FAIL` on the validated physical target.
 
-**Last complete accepted physical aggregate: `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
+**Last complete accepted physical aggregate: `PASS=236 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
