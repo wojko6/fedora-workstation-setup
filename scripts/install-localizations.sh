@@ -164,4 +164,8 @@ echo "=== POLISH LOCALIZATION: Extension Manager 0.6.5 Flatpak ==="
 bash "$ROOT_DIR/scripts/install-extension-manager-localization.sh"
 
 echo
+echo "=== POLISH LOCALIZATION: Helium browser ==="
+bash "$ROOT_DIR/scripts/install-helium-localization.sh"
+
+echo
 echo "Custom Polish localizations complete."
