@@ -38,10 +38,32 @@ if [[ "$gnome_major" != "$EXPECTED_GNOME_MAJOR" ]]; then
   exit 1
 fi
 
+virt="none"
+if command -v systemd-detect-virt >/dev/null 2>&1; then
+  virt="$(systemd-detect-virt 2>/dev/null || true)"
+  [[ -n "$virt" ]] || virt="none"
+fi
+
+if [[ "$virt" == "none" ]]; then
+  if [[ -z "${TRUSTED_WIFI_UUID:-}" ]]; then
+    echo "ERROR: TRUSTED_WIFI_UUID is required on a physical host." >&2
+    echo "Review the intended trusted Wi-Fi profile first with:" >&2
+    echo "  nmcli -f NAME,UUID,TYPE connection show" >&2
+    echo "Then rerun with TRUSTED_WIFI_UUID='<uuid>'." >&2
+    exit 1
+  fi
+
+  if [[ ! "${TRUSTED_WIFI_UUID}" =~ ^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$ ]]; then
+    echo "ERROR: TRUSTED_WIFI_UUID is not a valid NetworkManager UUID." >&2
+    exit 1
+  fi
+fi
+
 log "Fedora workstation setup"
 cat /etc/fedora-release
 printf 'Validated baseline: Fedora %s / GNOME %s\n' \
   "$fedora_version" "$gnome_version"
+printf 'Virtualization: %s\n' "$virt"
 
 stages=(
   scripts/setup-repositories.sh
