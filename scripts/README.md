@@ -26,7 +26,7 @@ The top-level `install.sh` orchestrates these stages. Individual stages should r
 
 ## Localization
 
-`install-localizations.sh` is the single localization pipeline. It invokes all 12 version-specific GNOME-extension localization installers, the simpler catalog installs managed directly from `localization/`, and the system-level Papers/Nautilus, Plymouth, and Ptyxis localization stages.
+`install-localizations.sh` is the single localization pipeline. It currently invokes 15 version-specific GNOME-extension localization installers plus six application/system stages: Papers/Nautilus, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks — 21 scripted localization stages in total.
 
 Dedicated `verify-*-localization.sh` scripts validate exact-version, completion-overlay, and system-localization targets and are wired into `verify.sh`.
 
@@ -46,7 +46,7 @@ The Bluetooth Battery Meter helper pair installs and verifies the v46/v49 BudsLi
 System localization helpers:
 - `install-papers-localization.sh` / `verify-papers-localization.sh` — Papers 49.8 / Nautilus Polish completion for confirmed document-properties, annotations-sidebar, and empty-start-page gaps.
 - `install-plymouth-localization.sh` / `verify-plymouth-localization.sh` — Fedora 44 Plymouth offline-update Polish locale persistence through dracut.
-- `install-ptyxis-localization.sh` / `verify-ptyxis-localization.sh` — Ptyxis 50.1 Polish main-domain bridge enabling existing libadwaita About-dialog translations.
+- `install-ptyxis-localization.sh` / `verify-ptyxis-localization.sh` — Ptyxis 50.1 Polish main-domain completion for the audited main window/menu, terminal context menu, search/inspector, title dialog, and search options, while also enabling existing libadwaita About-dialog translations.
 
 ## GNOME Keyring i18n
 
