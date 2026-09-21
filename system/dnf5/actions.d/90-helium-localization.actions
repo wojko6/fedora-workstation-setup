@@ -1,0 +1,4 @@
+# Reapply the repository-managed Helium Polish completion after Helium RPM transactions.
+# libdnf5-plugin-actions format:
+# callback:package_filter:direction:options:command
+post_transaction:helium-bin*:in:enabled=host-only:/usr/local/libexec/fedora-workstation-setup/helium-localization-post-transaction
