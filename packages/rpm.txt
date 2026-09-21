@@ -42,7 +42,6 @@ mtr
 net-tools
 nmap-ncat
 openssh-clients
-openssh-server
 pipx
 podman
 rsync
