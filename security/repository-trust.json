@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "trust_packages": [
+    "distribution-gpg-keys",
+    "distribution-gpg-keys-copr"
+  ],
+  "repositories": [
+    {
+      "repo_id": "rpmfusion-free",
+      "url_field": "Metalink",
+      "url_prefix": "https://mirrors.rpmfusion.org/metalink?repo=free-fedora-",
+      "key_uri": "file:///usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-free-fedora-44",
+      "key_owner": "distribution-gpg-keys",
+      "fingerprints": ["E9A491A3DE247814E7E067EAE06F8ECDD651FF2E"],
+      "package": "rpmfusion-free-release"
+    },
+    {
+      "repo_id": "rpmfusion-nonfree",
+      "url_field": "Metalink",
+      "url_prefix": "https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-",
+      "key_uri": "file:///usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-nonfree-fedora-44",
+      "key_owner": "distribution-gpg-keys",
+      "fingerprints": ["79BDB88F9BBF73910FD4095B6A2AF96194843C65"],
+      "package": "rpmfusion-nonfree-release"
+    },
+    {
+      "repo_id": "brave-browser",
+      "url_field": "Base URL",
+      "url_prefix": "https://brave-browser-rpm-release.s3.brave.com/",
+      "key_uri": "file:///etc/pki/rpm-gpg/brave-core-reviewed.asc",
+      "fingerprints": [
+        "DBF1A116C220B8C7164F98230686B78420038257",
+        "47D32A74E9A9E013A4B4926C68D513D36A73CD96",
+        "B2A3DCA350E67256740DF904DE4EC67BE4B0DCA0"
+      ],
+      "package": "brave-origin"
+    },
+    {
+      "repo_id": "copr:copr.fedorainfracloud.org:imput:helium",
+      "url_field": "Base URL",
+      "url_prefix": "https://download.copr.fedorainfracloud.org/results/imput/helium/",
+      "key_uri": "file:///usr/share/distribution-gpg-keys/copr/copr-imput-helium.gpg",
+      "key_owner": "distribution-gpg-keys-copr",
+      "fingerprints": ["07BCFCA30AC7E51BCFEDFFF74A3186EA47912C39"],
+      "include_packages": "helium-bin",
+      "package": "helium-bin"
+    },
+    {
+      "repo_id": "copr:copr.fedorainfracloud.org:tgerov:vpcs",
+      "url_field": "Base URL",
+      "url_prefix": "https://download.copr.fedorainfracloud.org/results/tgerov/vpcs/",
+      "key_uri": "file:///usr/share/distribution-gpg-keys/copr/copr-tgerov-vpcs.gpg",
+      "key_owner": "distribution-gpg-keys-copr",
+      "fingerprints": ["95EB28345BC0F53E9762B27FD865F5EFB8050E1C"],
+      "include_packages": "vpcs",
+      "package": "vpcs"
+    }
+  ]
+}
