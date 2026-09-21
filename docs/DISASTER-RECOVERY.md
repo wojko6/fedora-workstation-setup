@@ -12,6 +12,8 @@ The recovery model has three independent layers:
 
 The offline backup is intentionally **not stored in Git**.
 
+For the detailed incident sequence—triage, path selection, integrity checks, storage identification, Btrfs restore, boot/EFI reconciliation, first boot, and final acceptance—use [DISASTER-RECOVERY-RUNBOOK.md](DISASTER-RECOVERY-RUNBOOK.md).
+
 ## Validated recovery sets
 
 Two complete disaster-recovery generations are currently retained on offline external storage:
@@ -67,7 +69,7 @@ bash scripts/verify.sh
 
 Use the private disaster-recovery set when filesystem-level recovery is required. Restoration should be performed from Fedora Live media and must begin by verifying the recovery-set SHA-256 manifest and identifying the target disk before any partitioning or formatting operation.
 
-The exact disk reconstruction procedure depends on the replacement disk and filesystem state, so destructive recovery commands are intentionally not embedded in this public repository.
+The exact disk reconstruction procedure depends on the replacement disk and filesystem state, so destructive recovery commands are intentionally not embedded in this public repository. The public [Disaster Recovery Runbook](DISASTER-RECOVERY-RUNBOOK.md) documents the safe decision points and reconstruction order without hard-coding a target device.
 
 ## Validation status
 
@@ -76,3 +78,13 @@ The exact disk reconstruction procedure depends on the replacement disk and file
 The earlier **2026-09-15** generation remains retained as an independent previous recovery point.
 
 This validates backup creation and artifact integrity. It does **not** claim that a full bare-metal restore from the private backup has been exercised. The repository-based clean-room restore is separately validated and documented in [`CLEAN-ROOM-RESTORE-REPORT.md`](CLEAN-ROOM-RESTORE-REPORT.md).
+
+
+## Documentation roles
+
+The recovery documentation is intentionally split by purpose:
+
+- [RESTORE.md](RESTORE.md) — normal clean Fedora rebuild from the repository;
+- [DISASTER-RECOVERY.md](DISASTER-RECOVERY.md) — recovery architecture, retained generations, and backup evidence;
+- [DISASTER-RECOVERY-RUNBOOK.md](DISASTER-RECOVERY-RUNBOOK.md) — detailed total-failure operational sequence;
+- [CLEAN-ROOM-RESTORE-REPORT.md](CLEAN-ROOM-RESTORE-REPORT.md) — evidence from the tested clean-room repository rebuild.
