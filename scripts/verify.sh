@@ -103,19 +103,15 @@ else
   bad "required VPCS COPR repository not enabled: tgerov/vpcs"
 fi
 
-vpcs_repo_info="$(LC_ALL=C dnf repo info "$VPCS_REPO_ID" 2>/dev/null || true)"
-vpcs_includepkgs="$(
-  awk -F: '/^Include packages[[:space:]]*:/ {
-    sub(/^[[:space:]]+/, "", $2)
-    sub(/[[:space:]]+$/, "", $2)
-    print $2
-    exit
-  }' <<<"$vpcs_repo_info"
-)"
-if [[ "$vpcs_includepkgs" == "vpcs" ]]; then
-  ok "VPCS COPR restricted to includepkgs=vpcs"
+REPOSITORY_TRUST_VERIFY="$ROOT_DIR/scripts/verify-repository-trust.py"
+if [[ ! -f "$REPOSITORY_TRUST_VERIFY" ]]; then
+  bad "external repository trust verifier missing"
+elif repository_trust_output="$(python3 "$REPOSITORY_TRUST_VERIFY" 2>&1)"; then
+  printf '%s\n' "$repository_trust_output"
+  ok "external repository trust policy matches reviewed configuration"
 else
-  bad "VPCS COPR package scope drift: expected includepkgs=vpcs, found ${vpcs_includepkgs:-none}"
+  printf '%s\n' "$repository_trust_output"
+  bad "external repository trust policy verification failed"
 fi
 
 echo

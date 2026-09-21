@@ -56,6 +56,7 @@ else
   sudo dnf copr enable -y tgerov/vpcs
 fi
 
+sudo dnf config-manager setopt "${HELIUM_REPO_ID}.includepkgs=helium-bin"
 sudo dnf config-manager setopt "${VPCS_REPO_ID}.includepkgs=vpcs"
 
 # Repositories observed on the source workstation but intentionally not
