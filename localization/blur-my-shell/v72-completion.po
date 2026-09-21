@@ -149,3 +149,61 @@ msgstr "Rozmycie rozszerzenia Coverflow Alt-Tab"
 
 msgid "Make the coverflow alt-tab extension blurred, if it is used."
 msgstr "Rozmywaj rozszerzenie Coverflow Alt-Tab, jeśli jest używane."
+
+
+msgid "Whether or not the pixels that are closer to the original pixel will have more weight."
+msgstr "Określa, czy piksele położone bliżej oryginalnego piksela mają mieć większą wagę."
+
+msgid "The brightness multiplicator of the image, so that 0 means no brightness and 2 means infinite brightness."
+msgstr "Mnożnik jasności obrazu, gdzie 0 oznacza brak jasności, a 2 nieskończoną jasność."
+
+msgid "The saturation of the image, so that 0 means no saturation and 2 means infinite saturation."
+msgstr "Nasycenie obrazu, gdzie 0 oznacza brak nasycenia, a 2 nieskończone nasycenie."
+
+msgid "The dynamic blur is slower and only compatible with a gaussian blur effect, but shows content behind windows."
+msgstr "Rozmycie dynamiczne jest wolniejsze i działa tylko z efektem rozmycia Gaussa, ale pokazuje zawartość znajdującą się za oknami."
+
+msgid "In order to use rounded corners, please install the GNOME Rounded Blur library."
+msgstr "Aby używać zaokrąglonych rogów, zainstaluj bibliotekę GNOME Rounded Blur."
+
+msgid "Corner rounding effect will keep being applied to maximized and fullscreen windows."
+msgstr "Efekt zaokrąglania rogów będzie nadal stosowany do okien zmaksymalizowanych i pełnoekranowych."
+
+msgid ""
+"A list of windows to blur.\n"
+"Use * to match any sequence of characters (e.g., Firefox* or *Code*), and ? for a single one."
+msgstr ""
+"Lista okien, które mają być rozmywane.\n"
+"Użyj * dla dowolnego ciągu znaków (np. Firefox* lub *Code*), a ? dla pojedynczego znaku."
+
+msgid ""
+"A list of windows not to blur.\n"
+"Use * to match any sequence of characters (e.g., Firefox* or *Code*), and ? for a single one."
+msgstr ""
+"Lista okien, które nie mają być rozmywane.\n"
+"Użyj * dla dowolnego ciągu znaków (np. Firefox* lub *Code*), a ? dla pojedynczego znaku."
+
+msgid "Default"
+msgstr "Domyślny"
+
+msgid "Default rounded"
+msgstr "Domyślny zaokrąglony"
+
+msgid "Create new pipeline"
+msgstr "Utwórz nowy proces"
+
+msgid "New pipeline"
+msgstr "Nowy proces"
+
+msgid "Pipeline id:"
+msgstr "Identyfikator procesu:"
+
+msgid "No effect"
+msgstr "Brak efektów"
+
+#, c-format
+msgid "%d effect"
+msgid_plural "%d effects"
+msgstr[0] "%d efekt"
+msgstr[1] "%d efekty"
+msgstr[2] "%d efektów"
