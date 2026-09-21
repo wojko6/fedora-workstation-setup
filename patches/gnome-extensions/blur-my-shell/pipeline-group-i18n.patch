@@ -20,7 +20,7 @@
              'changed',
              () => pipelines_manager.rename_pipeline(pipeline_id, this._title.get_text())
          );
-@@ -83,8 +89,11 @@
+@@ -83,8 +89,10 @@
 -        if (effects.length == 0)
 +        if (effects.length == 0) {
              this._effects_description_row.set_title(_("No effect"));
