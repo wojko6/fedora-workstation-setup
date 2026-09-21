@@ -147,6 +147,12 @@ if name == "firewall-cmd":
         print("default")
         raise SystemExit(0)
 
+    if "--list-all" in args:
+        print(f"{zone} (active)")
+        print("  target: default")
+        print("  services: dhcpv6-client kdeconnect mdns")
+        raise SystemExit(0)
+
     if "--query-forward" in args:
         raise SystemExit(0 if env("SEC_TEST_FORWARD", "0") == "1" else 1)
 
@@ -199,12 +205,13 @@ def write_mock_bin(root: Path) -> Path:
     return bindir
 
 
-def run_case(root: Path, **overrides: str):
+def run_case(root: Path, *, create_cert: bool = True, **overrides: str):
     bindir = write_mock_bin(root)
     lockdown = root / "lockdown"
     lockdown.write_text("none [integrity] confidentiality\n", encoding="utf-8")
     cert = root / "public_key.der"
-    cert.write_bytes(b"fixture certificate")
+    if create_cert:
+        cert.write_bytes(b"fixture certificate")
 
     env = os.environ.copy()
     env["PATH"] = f"{bindir}:{env['PATH']}"
@@ -248,6 +255,13 @@ with tempfile.TemporaryDirectory(prefix="security-posture-tests-") as td:
     case = base / "valid"
     case.mkdir()
     expect_pass("valid physical security posture", run_case(case))
+
+    case = base / "valid-no-cert-file"
+    case.mkdir()
+    expect_pass(
+        "valid signer posture without retained akmods certificate file",
+        run_case(case, create_cert=False),
+    )
 
     case = base / "permissive"
     case.mkdir()
