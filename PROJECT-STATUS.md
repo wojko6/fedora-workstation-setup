@@ -287,7 +287,7 @@ Routine maintenance remains plus one explicitly deferred security decision:
 - re-audit version-pinned localization whenever an extension version changes;
 - test future Fedora/GNOME 51 changes in a VM before promoting them to the physical workstation.
 
-The separate disaster-recovery layer is documented in `docs/DISASTER-RECOVERY.md`; it complements rather than replaces this repository-based rebuild path.
+The separate disaster-recovery layer is documented in `docs/DISASTER-RECOVERY.md`; the detailed total-failure operational sequence is documented in `docs/DISASTER-RECOVERY-RUNBOOK.md`. These complement rather than replace the repository-based rebuild path.
 
 ## Acceptance criteria
 
