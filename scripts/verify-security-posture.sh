@@ -140,18 +140,17 @@ elif ! rpm -q akmod-nvidia >/dev/null 2>&1; then
 else
   if [[ -r "$AKMOD_CERT" ]]; then
     ok "akmods public signing certificate available"
-  else
-    bad "akmods public signing certificate unavailable: $AKMOD_CERT"
-  fi
-
-  if command -v mokutil >/dev/null 2>&1 && [[ -r "$AKMOD_CERT" ]]; then
-    if mokutil --test-key "$AKMOD_CERT" >/dev/null 2>&1; then
-      ok "akmods signing certificate enrolled in MOK"
+    if command -v mokutil >/dev/null 2>&1; then
+      if mokutil --test-key "$AKMOD_CERT" >/dev/null 2>&1; then
+        ok "akmods signing certificate file is enrolled in MOK"
+      else
+        bad "available akmods signing certificate file is not enrolled in MOK"
+      fi
     else
-      bad "akmods signing certificate is not enrolled in MOK"
+      bad "mokutil unavailable for akmods certificate verification"
     fi
   else
-    bad "mokutil or akmods certificate unavailable for enrollment verification"
+    printf 'INFO: akmods certificate file not present at %s; validating the active module signer against enrolled MOK instead.\n' "$AKMOD_CERT"
   fi
 
   if command -v modinfo >/dev/null 2>&1; then
@@ -245,7 +244,16 @@ else
       scope_args=()
       [[ "$scope" == "permanent" ]] && scope_args+=(--permanent)
 
-      target="$(firewall-cmd "${scope_args[@]}" --zone="$ZONE" --get-target 2>/dev/null || true)"
+      if [[ "$scope" == "permanent" ]]; then
+        target="$(firewall-cmd --permanent --zone="$ZONE" --get-target 2>/dev/null || true)"
+      else
+        target="$(
+          firewall-cmd --zone="$ZONE" --list-all 2>/dev/null |
+            sed -nE 's/^[[:space:]]*target:[[:space:]]*//p' |
+            head -n 1
+        )"
+      fi
+
       if [[ "$target" == "default" ]]; then
         ok "$scope trusted-zone target is default"
       else
