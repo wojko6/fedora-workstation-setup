@@ -18,7 +18,7 @@ if ! flatpak --system info "$APP_ID" >/dev/null 2>&1; then
     exit 0
 fi
 
-for cmd in flatpak sha256sum msgfmt msgcat msgunfmt python3 cmp; do
+for cmd in flatpak sha256sum msgfmt msgcat msgunfmt python3 cmp awk; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "FAIL: required command not found: $cmd" >&2
         exit 1
@@ -31,9 +31,8 @@ if ! flatpak --system info "$LOCALE_ID" >/dev/null 2>&1; then
 fi
 
 version="$(
-    LC_ALL=C flatpak --system info "$APP_ID" |
-        sed -nE 's/^[[:space:]]*Version:[[:space:]]*//p' |
-        head -n 1
+    flatpak --system list --app --columns=application,version |
+        awk -F '\t' -v app="$APP_ID" '$1 == app { print $2; exit }'
 )"
 if [[ "$version" != "$EXPECTED_VERSION" ]]; then
     echo "FAIL: Extension Manager version drift: expected $EXPECTED_VERSION, found ${version:-unknown}" >&2
