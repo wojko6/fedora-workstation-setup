@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Physical baseline refreshed and accepted 2026-09-21; Recovery and Stability Gates passed; 2026-09-21 localization closure accepted; D-H1, D-H2/D-H3, and D-H4 High-severity audit remediation physically accepted; reproducible DING System Monitor desktop-menu integration physically accepted; latest private DR generation integrity-verified; full physical verifier clean at PASS=249 WARN=0 FAIL=0 SKIP=0
+**Status:** Physical baseline refreshed and accepted 2026-09-21; Recovery and Stability Gates passed; 2026-09-21 localization closure accepted; D-H1, D-H2/D-H3, and D-H4 High-severity audit remediation physically accepted; reproducible DING System Monitor desktop-menu integration physically accepted; unused desktop applications removed from desired state; latest private DR generation integrity-verified; full physical verifier clean at PASS=246 WARN=0 FAIL=0 SKIP=0
 
 **Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
 
@@ -22,10 +22,10 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After the 2026-09-21 DING System Monitor desktop-menu integration was made reproducible and its updated DING tree hash was accepted, the physical-workstation verifier was rerun from the canonical repository checkout and completed with:
+After the later 2026-09-21 application cleanup removed `gnome-boxes`, `mediawriter`, and `htop` from desired state (with GNOME Snapshot already outside the manifest), the physical-workstation verifier was rerun from the canonical repository checkout and completed with:
 
 ```text
-PASS=249 WARN=0 FAIL=0 SKIP=0
+PASS=246 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
@@ -405,6 +405,26 @@ VERIFY_RC=0
 
 Status: **PHYSICALLY ACCEPTED / REPRODUCIBLE**.
 
+## Application cleanup — PHYSICALLY ACCEPTED
+
+A controlled workstation cleanup removed applications that were no longer part of the intended workflow:
+
+- GNOME Snapshot (`snapshot`) was removed; it was not part of the repository RPM manifest;
+- GNOME Boxes (`gnome-boxes`) was removed because VirtualBox remains the project virtualization platform;
+- Fedora Media Writer (`mediawriter`) was removed;
+- `htop` was removed while `btop` and GNOME System Monitor remain available.
+
+Removing GNOME Boxes also allowed DNF to remove its now-unused libvirt/GlusterFS support dependencies. The repository RPM manifest was updated to remove only the three packages that had previously been explicit desired-state entries: `gnome-boxes`, `mediawriter`, and `htop`.
+
+Final physical verification after cleanup:
+
+```text
+PASS=246 WARN=0 FAIL=0 SKIP=0
+VERIFY_RC=0
+```
+
+Status: **PHYSICALLY ACCEPTED / DESIRED STATE UPDATED**.
+
 ## Repository validation
 
 Repository-only validation is automated through `scripts/check-static.sh`, which is used both locally and by GitHub Actions. It covers Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON validation, and desired-state inventory consistency.
@@ -419,7 +439,7 @@ bash scripts/verify.sh
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, system-localization, GNOME Weather, localization, D-H4 integrity, and DING System Monitor menu changes. The current complete physical-host aggregate is `PASS=249 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The managed Helium and GNOME Tweaks fixes are physically accepted, the GNOME Tweaks `Hinting` override is visually confirmed, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the private Weather location remains part of the verified local desired state without publishing its identifying data.
+The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, system-localization, GNOME Weather, localization, D-H4 integrity, DING System Monitor menu, and application-cleanup changes. The current complete physical-host aggregate is `PASS=246 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The managed Helium and GNOME Tweaks fixes are physically accepted, the GNOME Tweaks `Hinting` override is visually confirmed, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the private Weather location remains part of the verified local desired state without publishing its identifying data.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 
@@ -443,4 +463,4 @@ The tested baseline is considered accepted when required packages, repositories,
 
 `scripts/verify.sh` must report zero `WARN` and zero `FAIL` on the validated physical target.
 
-**Last complete accepted physical aggregate: `PASS=249 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
+**Last complete accepted physical aggregate: `PASS=246 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
