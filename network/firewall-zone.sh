@@ -14,7 +14,19 @@ for cmd in ip nmcli rpm systemctl firewall-cmd sudo; do
   command -v "$cmd" >/dev/null 2>&1 || fail "required command not found: $cmd"
 done
 
-[[ -n "$TRUSTED_UUID" ]] || fail   "TRUSTED_WIFI_UUID is required; refusing to trust the active/default-route network implicitly."
+virt="none"
+if command -v systemd-detect-virt >/dev/null 2>&1; then
+  virt="$(systemd-detect-virt 2>/dev/null || true)"
+  [[ -n "$virt" ]] || virt="none"
+fi
+
+if [[ -z "$TRUSTED_UUID" && "$virt" != "none" ]]; then
+  echo "SKIP: trusted Wi-Fi firewalld policy is not applied in virtualized environment: $virt"
+  exit 0
+fi
+
+[[ -n "$TRUSTED_UUID" ]] || fail \
+  "TRUSTED_WIFI_UUID is required; refusing to trust the active/default-route network implicitly."
 
 if [[ ! "$TRUSTED_UUID" =~ ^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$ ]]; then
   fail "TRUSTED_WIFI_UUID is not a valid NetworkManager UUID: $TRUSTED_UUID"
