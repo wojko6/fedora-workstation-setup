@@ -52,7 +52,7 @@ FORBIDDEN_BASENAMES = {
 FORBIDDEN_SUFFIXES = {".p12", ".pfx"}
 
 
-def tracked_files() -> list[Path]:
+def repository_files() -> list[Path]:
     proc = subprocess.run(
         ["git", "ls-files", "-z"],
         cwd=ROOT,
@@ -60,17 +60,29 @@ def tracked_files() -> list[Path]:
         stderr=subprocess.PIPE,
         check=False,
     )
-    if proc.returncode != 0:
-        raise SystemExit(
-            "ERROR: git ls-files failed: "
-            + proc.stderr.decode("utf-8", errors="replace").strip()
-        )
+    if proc.returncode == 0:
+        files: list[Path] = []
+        for raw in proc.stdout.split(b"\0"):
+            if not raw:
+                continue
+            files.append(ROOT / raw.decode("utf-8", errors="strict"))
+        return files
 
-    files: list[Path] = []
-    for raw in proc.stdout.split(b"\0"):
-        if not raw:
+    # GitHub container jobs may expose the checked-out worktree without a usable
+    # repository metadata mount. Scanning the complete checkout is fail-safe:
+    # it is broader than tracked-file scanning, not narrower.
+    print(
+        "INFO: git metadata unavailable; scanning the complete checkout tree",
+        file=sys.stderr,
+    )
+    files = []
+    for path in ROOT.rglob("*"):
+        if not path.is_file():
             continue
-        files.append(ROOT / raw.decode("utf-8", errors="strict"))
+        rel = path.relative_to(ROOT)
+        if any(part in {".git", "__pycache__"} for part in rel.parts):
+            continue
+        files.append(path)
     return files
 
 
@@ -132,7 +144,7 @@ def main() -> int:
         self_test()
 
     findings: list[str] = []
-    for path in tracked_files():
+    for path in repository_files():
         findings.extend(scan_path(path))
 
     if findings:
