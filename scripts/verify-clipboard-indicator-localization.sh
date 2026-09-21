@@ -90,6 +90,12 @@ msgunfmt "$BACKUP_MO" -o "$tmpdir/upstream.po"
 msgcat --use-first "$OVERLAY" "$tmpdir/upstream.po" -o "$tmpdir/merged.po"
 msgfmt --check "$tmpdir/merged.po" -o "$tmpdir/$DOMAIN.mo"
 
+# gettext expects a standard locale directory layout beneath TEXTDOMAINDIR.
+# Keep the flat compiled artifact for byte-for-byte comparison, and stage a
+# second copy only for runtime gettext smoke tests.
+mkdir -p "$tmpdir/locale/pl/LC_MESSAGES"
+cp "$tmpdir/$DOMAIN.mo" "$tmpdir/locale/pl/LC_MESSAGES/$DOMAIN.mo"
+
 if ! cmp -s "$tmpdir/$DOMAIN.mo" "$TARGET_MO"; then
     echo "FAIL: installed Clipboard Indicator v71 Polish catalog differs from repository completion" >&2
     exit 1
@@ -104,7 +110,7 @@ if [[ "$untranslated" -ne 0 || "$fuzzy" -ne 0 ]]; then
 fi
 
 for source in     "Reset Timer"     "Preview Image"     "Search"     "Show Search Bar"     "Case-sensitive"     "Regular expressions"     "Open menu at cursor"     "Item Actions"; do
-    expected="$(LANGUAGE=pl LANG=pl_PL.UTF-8 LC_ALL=pl_PL.UTF-8 TEXTDOMAINDIR="$tmpdir" gettext -d "$DOMAIN" "$source")"
+    expected="$(LANGUAGE=pl LANG=pl_PL.UTF-8 LC_ALL=pl_PL.UTF-8 TEXTDOMAINDIR="$tmpdir/locale" gettext -d "$DOMAIN" "$source")"
     actual="$(LANGUAGE=pl LANG=pl_PL.UTF-8 LC_ALL=pl_PL.UTF-8 TEXTDOMAINDIR="$EXT_DIR/locale" gettext -d "$DOMAIN" "$source")"
     if [[ "$actual" != "$expected" || "$actual" == "$source" ]]; then
         echo "FAIL: Clipboard Indicator gettext smoke test failed for: $source" >&2
