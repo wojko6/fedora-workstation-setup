@@ -1,0 +1,19 @@
+--- a/src/preferences/pipelines_management/pipeline_choose_row.js
++++ b/src/preferences/pipelines_management/pipeline_choose_row.js
+@@
+             const pipeline_id = string_object.get_string();
+             if (pipeline_id == 'create_new')
+                 return _("Create new pipeline");
+-            if (pipeline_id in this.pipelines_manager.pipelines)
+-                return this.pipelines_manager.pipelines[pipeline_id].name;
+-            else
++            if (pipeline_id in this.pipelines_manager.pipelines) {
++                const name = this.pipelines_manager.pipelines[pipeline_id].name;
++                if (pipeline_id == "pipeline_default" && name == "Default")
++                    return _("Default");
++                if (pipeline_id == "pipeline_default_rounded" && name == "Default rounded")
++                    return _("Default rounded");
++                return name;
++            } else
+                 return "";
+         };
