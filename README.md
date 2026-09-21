@@ -22,16 +22,16 @@ Clean-room result:
 PASS=147 WARN=0 FAIL=0 SKIP=8
 ```
 
-After the 2026-09-21 application cleanup, OpenSSH server removal, Helium desired-state promotion, VPCS COPR scoping, Firefox exclusion, and MOK verifier race fix, the physical workstation completed the current accepted run with:
+After the 2026-09-21 application cleanup, OpenSSH server removal, Helium desired-state promotion, VPCS COPR scoping, Firefox exclusion, MOK verifier race fix, and external repository trust-anchor/package-signer hardening, the physical workstation completed the current accepted run with:
 
 ```text
-PASS=252 WARN=0 FAIL=0 SKIP=0
+PASS=256 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
 This is the current complete accepted physical-host aggregate for Fedora 44 / GNOME 50.5. It includes the accepted localization state, explicit live security-posture verification, fail-closed required-state enforcement, deterministic whole-tree integrity verification for all 22 enabled user GNOME extensions, and the repository-managed DING `Monitor systemu` desktop-menu action. A private GNOME Weather custom location remains part of the validated physical desired state, while its identifying name and coordinates are intentionally excluded from the public repository.
 
-Repository changes are guarded by a static validation workflow. The same `scripts/check-static.sh` entrypoint is used locally and in GitHub Actions to validate Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON files, and desired-state inventory consistency.
+External RPM repository trust is also fail-closed: RPM Fusion, Brave, Helium COPR, and VPCS COPR are checked against reviewed source locations, local trust-anchor material, full OpenPGP fingerprints, package-signature verification, expected package signers, and COPR package scopes. Repository changes are guarded by a static validation workflow. The same `scripts/check-static.sh` entrypoint is used locally and in GitHub Actions to validate Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON files, and desired-state inventory consistency.
 
 The 2026-09-17 extension compatibility refresh accepted ArcMenu, Bluetooth Battery Meter, Caffeine, GSConnect, Tiling Shell, and User Themes into the continuing desired state. Freon also passed compatibility testing at that time but was later deliberately removed. Media Controls was removed because the installed release did not declare GNOME 50 compatibility, while Dash2Dock Animated was removed because Dhruva is the canonical dock and running both produced duplicate docks. Advanced Media Controller v31 / 6.5 was subsequently added after physical-host testing. See [`docs/gnome-extension-audit-2026-09-17.md`](docs/gnome-extension-audit-2026-09-17.md).
 
@@ -108,7 +108,7 @@ bash scripts/verify.sh
 Current accepted physical-workstation result:
 
 ```text
-PASS=252 WARN=0 FAIL=0 SKIP=0
+PASS=256 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 

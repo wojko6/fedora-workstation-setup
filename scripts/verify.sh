@@ -329,18 +329,18 @@ if [[ ! -f "$FLATPAK_MANIFEST" ]]; then
 elif ! command -v flatpak >/dev/null 2>&1; then
   bad "flatpak command unavailable"
 else
-  if flatpak remotes --columns=name 2>/dev/null | grep -Fxq flathub; then
-    ok "Flatpak remote flathub available"
+  if flatpak remotes --system --columns=name 2>/dev/null | grep -Fxq flathub; then
+    ok "system Flatpak remote flathub available"
   else
-    bad "required Flatpak remote missing: flathub"
+    bad "required system Flatpak remote missing: flathub"
   fi
 
   while IFS= read -r app; do
     [[ -z "$app" || "$app" == \#* ]] && continue
-    if flatpak info "$app" >/dev/null 2>&1; then
-      ok "flatpak $app"
+    if flatpak --system info "$app" >/dev/null 2>&1; then
+      ok "system flatpak $app"
     else
-      bad "required Flatpak app missing: $app"
+      bad "required system Flatpak app missing: $app"
     fi
   done < "$FLATPAK_MANIFEST"
 fi
