@@ -1,6 +1,6 @@
 --- a/preferences/pipelines_management/pipeline_group.js
 +++ b/preferences/pipelines_management/pipeline_group.js
-@@ -28,7 +28,13 @@
+@@ -28,10 +28,16 @@
          // set the description
 -        this.set_description(_(`Pipeline id: "${pipeline_id}"`));
 +        this.set_description(_("Pipeline id:") + ` "${pipeline_id}"`);
@@ -17,7 +17,10 @@
 +        this.set_title(display_name.length > 0 ? display_name : " ");
 +        this._title.set_text(display_name);
          this._title.connect(
-@@ -83,6 +89,11 @@
+             'changed',
+             () => pipelines_manager.rename_pipeline(pipeline_id, this._title.get_text())
+         );
+@@ -83,8 +89,11 @@
 -        if (effects.length == 0)
 +        if (effects.length == 0) {
              this._effects_description_row.set_title(_("No effect"));
@@ -31,3 +34,5 @@
 +            ).replace("%d", String(effects.length));
 +            this._effects_description_row.set_title(count_label);
 +        }
+ 
+         let subtitle = "";
