@@ -1,0 +1,45 @@
+# GNOME Tweaks 49.0 Polish completion for generated GSettings enum labels.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-tweaks 49.0 Polish GSettings enum completion\n"
+"PO-Revision-Date: 2026-09-21 11:00+0200\n"
+"Last-Translator: fedora-workstation-setup project\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "Toggle Shade"
+msgstr "Przełącz zwinięcie"
+
+msgid "Toggle Maximize"
+msgstr "Przełącz maksymalizację"
+
+msgid "Toggle Maximize Horizontally"
+msgstr "Przełącz maksymalizację w poziomie"
+
+msgid "Toggle Maximize Vertically"
+msgstr "Przełącz maksymalizację w pionie"
+
+msgid "Lower"
+msgstr "Przenieś na spód"
+
+msgid "Wallpaper"
+msgstr "Tapeta"
+
+msgid "Centered"
+msgstr "Wyśrodkowane"
+
+msgid "Scaled"
+msgstr "Skalowane"
+
+msgid "Stretched"
+msgstr "Rozciągnięte"
+
+msgid "Zoom"
+msgstr "Powiększenie"
+
+msgid "Spanned"
+msgstr "Rozciągnięte na wiele ekranów"
