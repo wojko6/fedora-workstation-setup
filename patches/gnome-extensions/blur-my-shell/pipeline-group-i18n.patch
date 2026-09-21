@@ -1,6 +1,7 @@
 --- a/src/preferences/pipelines_management/pipeline_group.js
 +++ b/src/preferences/pipelines_management/pipeline_group.js
-@@
+@@ -28,7 +28,13 @@
+         // set the description
 -        this.set_description(_(`Pipeline id: "${pipeline_id}"`));
 +        this.set_description(_("Pipeline id:") + ` "${pipeline_id}"`);
  
@@ -15,21 +16,18 @@
 +
 +        this.set_title(display_name.length > 0 ? display_name : " ");
 +        this._title.set_text(display_name);
-@@
+         this._title.connect(
+@@ -83,6 +89,11 @@
 -        if (effects.length == 0)
--            this._effects_description_row.set_title(_("No effect"));
++        if (effects.length == 0) {
+             this._effects_description_row.set_title(_("No effect"));
 -        else if (effects.length == 1)
 -            this._effects_description_row.set_title(_("1 effect"));
 -        else
 -            this._effects_description_row.set_title(_(`${effects.length} effects`));
-+        if (effects.length == 0) {
-+            this._effects_description_row.set_title(_("No effect"));
 +        } else {
 +            const count_label = GLib.dngettext(
-+                "blur-my-shell@aunetx",
-+                "%d effect",
-+                "%d effects",
-+                effects.length
++                "blur-my-shell@aunetx", "%d effect", "%d effects", effects.length
 +            ).replace("%d", String(effects.length));
 +            this._effects_description_row.set_title(count_label);
 +        }
