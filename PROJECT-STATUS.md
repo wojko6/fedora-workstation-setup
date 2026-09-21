@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Physical baseline refreshed and accepted 2026-09-21; Recovery and Stability Gates passed; 2026-09-21 localization closure accepted; D-H1, D-H2/D-H3, and D-H4 High-severity audit remediation physically accepted; reproducible DING System Monitor desktop-menu integration physically accepted; unused desktop applications removed from desired state; latest private DR generation integrity-verified; full physical verifier clean at PASS=246 WARN=0 FAIL=0 SKIP=0
+**Status:** Physical baseline refreshed and accepted 2026-09-21; Recovery and Stability Gates passed; 2026-09-21 localization closure accepted; D-H1, D-H2/D-H3, and D-H4 High-severity audit remediation physically accepted; reproducible DING System Monitor desktop-menu integration physically accepted; unused desktop applications removed from desired state; latest private DR generation integrity-verified; full physical verifier clean at PASS=245 WARN=0 FAIL=0 SKIP=0
 
 **Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
 
@@ -25,7 +25,7 @@ The eight `SKIP` results are intentional environment-specific exclusions rather 
 After the later 2026-09-21 application cleanup removed `gnome-boxes`, `mediawriter`, and `htop` from desired state (with GNOME Snapshot already outside the manifest), the physical-workstation verifier was rerun from the canonical repository checkout and completed with:
 
 ```text
-PASS=246 WARN=0 FAIL=0 SKIP=0
+PASS=245 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
@@ -106,7 +106,7 @@ The physical workstation security review established and validated the following
 - GNOME/GVfs WS-Discovery disabled while required mDNS remains available;
 - `kernel.kptr_restrict=1` persistent and active;
 - Wi-Fi persistently assigned to the dedicated firewalld `workstation-kdeconnect` zone with trusted-UUID gating and exact-state policy (`dhcpv6-client`, `mdns`, `kdeconnect` only);
-- SSH server disabled/inactive;
+- OpenSSH server package absent; `openssh-clients` retained for outbound SSH;
 - SELinux enforcing;
 - Secure Boot enabled;
 - local akmods signing certificate enrolled through MOK;
@@ -439,7 +439,7 @@ bash scripts/verify.sh
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, system-localization, GNOME Weather, localization, D-H4 integrity, DING System Monitor menu, and application-cleanup changes. The current complete physical-host aggregate is `PASS=246 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The managed Helium and GNOME Tweaks fixes are physically accepted, the GNOME Tweaks `Hinting` override is visually confirmed, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the private Weather location remains part of the verified local desired state without publishing its identifying data.
+The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, system-localization, GNOME Weather, localization, D-H4 integrity, DING System Monitor menu, and application-cleanup changes. The current complete physical-host aggregate is `PASS=245 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The managed Helium and GNOME Tweaks fixes are physically accepted, the GNOME Tweaks `Hinting` override is visually confirmed, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the private Weather location remains part of the verified local desired state without publishing its identifying data.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 
@@ -463,4 +463,4 @@ The tested baseline is considered accepted when required packages, repositories,
 
 `scripts/verify.sh` must report zero `WARN` and zero `FAIL` on the validated physical target.
 
-**Last complete accepted physical aggregate: `PASS=246 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
+**Last complete accepted physical aggregate: `PASS=245 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
