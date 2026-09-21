@@ -5,6 +5,9 @@ ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 RPM_MANIFEST="$ROOT_DIR/packages/rpm.txt"
 FLATPAK_MANIFEST="$ROOT_DIR/packages/flatpak.txt"
 EXT_LIST="$ROOT_DIR/gnome/enabled-extensions.txt"
+EXT_INVENTORY="$ROOT_DIR/gnome/extensions-inventory.tsv"
+EXT_TREE_LOCK="$ROOT_DIR/gnome/extensions-tree-lock.tsv"
+EXT_TREE_HELPER="$ROOT_DIR/scripts/extension_tree_integrity.py"
 
 pass=0
 warn=0
@@ -811,7 +814,6 @@ fi
 
 echo
 echo "=== EXTENSION VERSIONS ==="
-EXT_INVENTORY="$ROOT_DIR/gnome/extensions-inventory.tsv"
 if [[ -f "$EXT_INVENTORY" ]]; then
   while IFS=$'\t' read -r uuid name expected_version _shell_versions _url location; do
     [[ "$uuid" == "uuid" || -z "$uuid" || -z "$expected_version" ]] && continue
@@ -828,6 +830,29 @@ if [[ -f "$EXT_INVENTORY" ]]; then
     fi
   done < "$EXT_INVENTORY"
 else bad "extension inventory missing"; fi
+
+echo
+echo "=== EXTENSION TREE INTEGRITY ==="
+if [[ ! -f "$EXT_TREE_LOCK" ]]; then
+  bad "extension tree-integrity lock missing"
+elif [[ ! -f "$EXT_TREE_HELPER" ]]; then
+  bad "extension tree-integrity helper missing"
+elif [[ ! -f "$EXT_INVENTORY" || ! -f "$EXT_LIST" ]]; then
+  bad "extension inventory or enabled list unavailable for tree-integrity verification"
+else
+  tree_integrity_output="$(
+    python3 "$EXT_TREE_HELPER" verify       --lock "$EXT_TREE_LOCK"       --inventory "$EXT_INVENTORY"       --enabled "$EXT_LIST"       --extensions-root "$HOME/.local/share/gnome-shell/extensions"       2>&1
+  )"
+  tree_integrity_rc=$?
+  printf '%s\n' "$tree_integrity_output"
+
+  if (( tree_integrity_rc == 0 )); then
+    ok "all required user-extension trees match accepted integrity lock"
+  else
+    bad "GNOME extension tree integrity verification failed"
+  fi
+fi
+
 echo
 echo "=== GNOME KEYRING I18N ==="
 
