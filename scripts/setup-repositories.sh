@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
+ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+TRUST_VERIFY="$ROOT_DIR/scripts/verify-repository-trust.py"
+
 repo_enabled() {
   dnf repolist --enabled 2>/dev/null | awk 'NR > 1 {print $1}' | grep -Fxq "$1"
 }
@@ -12,35 +15,31 @@ FEDORA_VER="$(rpm -E %fedora)"
 KEY_ROOT="/usr/share/distribution-gpg-keys"
 RPMFUSION_FREE_KEY="$KEY_ROOT/rpmfusion/RPM-GPG-KEY-rpmfusion-free-fedora-${FEDORA_VER}"
 RPMFUSION_NONFREE_KEY="$KEY_ROOT/rpmfusion/RPM-GPG-KEY-rpmfusion-nonfree-fedora-${FEDORA_VER}"
-BRAVE_KEY="$KEY_ROOT/brave/brave-core.asc"
 HELIUM_KEY="$KEY_ROOT/copr/copr-imput-helium.gpg"
 VPCS_KEY="$KEY_ROOT/copr/copr-tgerov-vpcs.gpg"
+BRAVE_KEY_URL="https://brave-browser-rpm-release.s3.brave.com/brave-core.asc"
+BRAVE_KEY="/etc/pki/rpm-gpg/brave-core-reviewed.asc"
 
 echo "==> Configuring external Fedora repositories"
 
-# Bootstrap all external-repository trust from Fedora-signed packages first.
-sudo dnf install -y dnf-plugins-core distribution-gpg-keys distribution-gpg-keys-copr
+# Bootstrap independent trust material from Fedora-signed repositories first.
+sudo dnf install -y \
+  dnf-plugins-core \
+  distribution-gpg-keys \
+  distribution-gpg-keys-copr \
+  gnupg2 \
+  curl
 
-for key in \
-  "$RPMFUSION_FREE_KEY" \
-  "$RPMFUSION_NONFREE_KEY" \
-  "$BRAVE_KEY" \
-  "$HELIUM_KEY" \
-  "$VPCS_KEY"
-do
-  [[ -f "$key" ]] || {
-    echo "ERROR: required Fedora-distributed repository key missing: $key" >&2
-    exit 1
-  }
-done
+# Validate the actual trust-anchor files before any third-party package install.
+python3 "$TRUST_VERIFY" --check-key rpmfusion-free "$RPMFUSION_FREE_KEY"
+python3 "$TRUST_VERIFY" --check-key rpmfusion-nonfree "$RPMFUSION_NONFREE_KEY"
+python3 "$TRUST_VERIFY" --check-key "$HELIUM_REPO_ID" "$HELIUM_KEY"
+python3 "$TRUST_VERIFY" --check-key "$VPCS_REPO_ID" "$VPCS_KEY"
 
-# Import the reviewed RPM Fusion keys before installing the release RPMs so the
-# bootstrap packages themselves are signature-checked against Fedora-distributed
-# trust anchors rather than a key obtained from the same external repository.
+# Import reviewed RPM Fusion keys before installing the release RPMs, avoiding
+# a same-origin bootstrap where the release RPM supplies its own trust anchor.
 sudo rpm --import "$RPMFUSION_FREE_KEY" "$RPMFUSION_NONFREE_KEY"
 
-# RPM Fusion must exist before packages such as akmod-nvidia, Steam and
-# multimedia codecs from RPM Fusion can be installed.
 if ! rpm -q rpmfusion-free-release >/dev/null 2>&1 || ! rpm -q rpmfusion-nonfree-release >/dev/null 2>&1; then
   sudo dnf install -y \
     "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-${FEDORA_VER}.noarch.rpm" \
@@ -49,8 +48,15 @@ else
   echo "OK: RPM Fusion release packages already installed"
 fi
 
-# Brave Origin uses Brave's official release repository. On Fedora 41+ the
-# supported dnf5 syntax is config-manager addrepo --from-repofile=...
+# Fedora's bundled Brave key is historical. Fetch Brave's current official
+# release-only bundle, verify its exact reviewed fingerprint set, then install
+# that verified bundle locally before the repository can consume it.
+brave_tmp="$(mktemp -d)"
+trap 'rm -rf "$brave_tmp"' EXIT
+curl -fsSLo "$brave_tmp/brave-core.asc" "$BRAVE_KEY_URL"
+python3 "$TRUST_VERIFY" --check-key brave-browser "$brave_tmp/brave-core.asc"
+sudo install -m 0644 "$brave_tmp/brave-core.asc" "$BRAVE_KEY"
+
 if repo_enabled brave-browser; then
   echo "OK: Brave repository already enabled"
 else
@@ -63,8 +69,6 @@ fi
 # Tailscale repository is required. Authentication remains private state and is
 # deliberately not automated by this repository.
 
-# Helium is part of workstation desired state and is installed from its
-# reviewed COPR source.
 if repo_enabled "$HELIUM_REPO_ID"; then
   echo "OK: Helium COPR repository already enabled"
 else
@@ -72,8 +76,6 @@ else
   sudo dnf copr enable -y imput/helium
 fi
 
-# VPCS is part of the reviewed GNS3 restore manifest. The COPR is restricted
-# to the single package that this workstation requires from it.
 if repo_enabled "$VPCS_REPO_ID"; then
   echo "OK: VPCS COPR repository already enabled"
 else
@@ -81,8 +83,7 @@ else
   sudo dnf copr enable -y tgerov/vpcs
 fi
 
-# Converge the effective trust policy. All external repositories use local
-# Fedora-distributed key files and package signature verification stays enabled.
+# Converge all external repositories to reviewed local trust anchors.
 sudo dnf config-manager setopt \
   "rpmfusion-free.gpgkey=file://${RPMFUSION_FREE_KEY}" \
   "rpmfusion-free.gpgcheck=1" \
