@@ -26,11 +26,16 @@ Repository-managed localization/integration currently covers:
 - Advanced Media Controller v31 / 6.5 full Polish catalog
 - Papers 49.8 / Nautilus document-properties completion overlay
 - Plymouth offline-update Polish locale persistence in initramfs
-- Ptyxis 50.1 Polish main-window/menu completion plus libadwaita About-dialog localization
+- Ptyxis 50.1 Polish main-window/menu, terminal-context, search, inspector, title-dialog, and search-options completion plus libadwaita About-dialog localization
+- Blur my Shell v72 61-entry completion plus exact-version pipeline UI patches
+- Clipboard Indicator v71 63-entry completion overlay
+- Extension Manager 0.6.5 contextual `None` → `Brak` completion
+- Helium 0.17.2.1 36-entry Chromium DataPack v5 completion with DNF5 post-transaction persistence
+- GNOME Tweaks 49.0 generated GSettings enum localization plus `Hinting` terminology override
 
 Dhruva remains the largest accepted case: 393 gettext messages, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
-All version-specific localization installers are wired into `scripts/install-localizations.sh`. Dedicated verifiers for the version-pinned targets are wired into the main `scripts/verify.sh` so restore drift is detected instead of silently accepted.
+`scripts/install-localizations.sh` currently invokes 15 version-specific GNOME-extension localization installers plus six application/system stages: Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks. Dedicated verifiers for the version-pinned targets are wired into the main `scripts/verify.sh` so restore drift is detected instead of silently accepted.
 
 ## 2026-09-21 global physical localization audit
 
@@ -47,17 +52,17 @@ Confirmed good state:
 The audit also reopened localization completeness for two desired-state extensions:
 
 - **Blur my Shell v72**: the initial runtime audit confirmed 46 single-line English fallbacks; visual follow-up then exposed eight multiline catalog gaps and pipeline-management strings outside the effective upstream catalog. The repository now carries a 61-entry completion plus two exact-version pipeline UI source patches. Physical installation, dedicated verification, and visual acceptance all pass.
-- **Clipboard Indicator v71**: the physical v71 catalog fingerprint matches the audited EGO installation and contains only 49 compiled Polish messages. The exact upstream v71 source catalog has 112 entries, of which 41 are untranslated and 22 are fuzzy, leaving 63 effective runtime gaps. The repository now carries a 63-entry completion overlay plus exact-version/source/catalog fingerprint checks; physical installation and visual acceptance are pending.
+- **Clipboard Indicator v71**: the physical v71 catalog fingerprint matches the audited EGO installation and contains only 49 compiled Polish messages. The exact upstream v71 source catalog has 112 entries, of which 41 are untranslated and 22 are fuzzy, leaving 63 effective runtime gaps. The repository now carries a 63-entry completion overlay plus exact-version/source/catalog fingerprint checks; physical installation and dedicated runtime/gettext verification pass. Visual UI acceptance remains a separate manual check.
 
 Application-level follow-ups:
 
 - **Extension Manager 0.6.5**: the separate system Flatpak Locale ref is present and provides the Polish `extension-manager.mo`. Visual inspection and exact v0.6.5 source review confirmed one application-owned untranslated contextual label: sort option `None`. The repository carries a one-entry completion (`None` → `Brak`) pinned to Locale commit `9e45ce9096c3efdcc54b26375fed9b730a6e8f5032daf6b8cee35482afacd036` and pristine catalog SHA-256 `6ea6fda169660bc791d46a74bd511cbb91a97ee6f9308bc9db7b4f3602d25a78`; physical installation, dedicated verification, and visual acceptance all pass.
-- **Helium 0.17.2.1 / Chromium 153.0.8010.52**: the physical Fedora COPR RPM ships a Polish Chromium DataPack v5 at `/opt/helium/locales/pl.pak`. Exact build/source comparison found 36 Helium-specific untranslated messages relevant to Linux. The repository now carries a safe JSON completion plus a dependency-free DataPack v5 parser/writer, a versioned pristine-backup installer, a dedicated verifier, and a DNF5 `post_transaction` action that reapplies only entries that still equal their audited English source. The generated GSettings-value fix has been installed and visually accepted on the physical workstation (`Toggle Maximize`, `None`, and related enum labels now resolve through Polish gettext). The newly added `Hinting` → `Dopasowanie do pikseli` terminology override still requires physical reinstall and visual confirmation.
+- **Helium 0.17.2.1 / Chromium 153.0.8010.52**: the physical Fedora COPR RPM ships a Polish Chromium DataPack v5 at `/opt/helium/locales/pl.pak`. Exact build/source comparison found 36 Helium-specific untranslated messages relevant to Linux. The repository now carries a safe JSON completion plus a dependency-free DataPack v5 parser/writer, a versioned pristine-backup installer, a dedicated verifier, and a DNF5 `post_transaction` action that reapplies only entries that still equal their audited English source. Physical installation, dedicated verification, and visual acceptance pass on the Fedora 44 workstation.
 - **VSCodium 1.135.06055**: Polish UI reproducibility is not currently demonstrated; this follow-up is intentionally deferred for now.
 
 The audit also exposed a verifier-design issue in the Ptyxis search-options completion: the actual embedded resource uses mnemonic-bearing msgids `Match _Case`, `Whole _Words`, and `Use _Regular Expressions`. The repository catalog and verifier have been corrected to those exact resource strings, and the verifier now checks the installed Ptyxis resource before accepting the translations.
 
-Until the newly discovered Blur my Shell / Clipboard Indicator gaps and the two application follow-ups are closed, the earlier zero-warning full-system verifier result remains valid for the checks it implements, but must not be interpreted as proof of globally complete Polish UI coverage.
+The repository-managed fixes discovered by the 2026-09-21 audit are now integrated and the full physical verifier completes at `PASS=236 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. VSCodium remains intentionally deferred and is therefore outside the reproducible localization claim; a clean verifier result must not be interpreted as proof that every third-party UI string on the workstation is translated.
 
 ## 2026-09-17 extension refresh
 
@@ -137,7 +142,7 @@ The repository carries a one-line source patch that changes generated GSettings 
 
 A future GNOME Tweaks package version/release is intentionally not auto-accepted: the exact-package verifier will fail until the new source and Polish catalog are re-audited.
 
-The generated GSettings-value fix is installed and visually accepted on the physical workstation: the previously visible `Toggle Maximize` / `None` / related enum values now resolve through Polish gettext. The newly added `Hinting` → `Dopasowanie do pikseli` terminology override still requires reinstall and final visual confirmation.
+The generated GSettings-value fix is installed and visually accepted on the physical workstation: the previously visible `Toggle Maximize` / `None` / related enum values now resolve through Polish gettext. The final `Hinting` → `Dopasowanie do pikseli` terminology override has also been reinstalled and visually confirmed on the physical workstation.
 
 ## Bluetooth Battery Meter v46/v49
 
@@ -251,7 +256,7 @@ The Fedora 44 workstation uses Papers 49.8 and `papers-nautilus 49.8-1.fc44`. Ru
 
 The repository carries a minimal completion overlay in `localization/papers/pl-overlay.po`. It uses `Brak przypisów` for `No Annotations`, matching the existing Polish terminology for `Annotations`, `Annotation Properties`, and `Remove Annotation`, and completes the start page with `Otwórz dokument`, `Przeciągnij i upuść dokumenty tutaj`, and `_Otwórz…`. The installer is pinned to both the Papers and papers-nautilus 49.8 packages, preserves the existing Fedora catalog, merges the reviewed missing entries, and installs the rebuilt `papers.mo`. The dedicated verifier checks package versions, the repository overlay, and exact translated values in the live catalog.
 
-The physical workstation visually confirmed the completed document-properties UI, including `Właściwości dokumentu`, `Lokalizacja`, `Twórca`, `Liczba stron`, and the remaining audited labels, as well as `Brak przypisów` in the annotations sidebar. A subsequent screenshot identified the three missing empty-start-page translations; visual acceptance of their replacements remains pending.
+The physical workstation visually confirmed the completed document-properties UI, including `Właściwości dokumentu`, `Lokalizacja`, `Twórca`, `Liczba stron`, and the remaining audited labels, as well as `Brak przypisów` in the annotations sidebar. The empty start page was subsequently completed and visually confirmed with `Otwórz dokument`, `Przeciągnij i upuść dokumenty tutaj`, and `_Otwórz…`.
 
 ### Plymouth offline updates
 
@@ -270,14 +275,14 @@ The rebuilt physical-host initramfs grew only from about 156 MiB to 157 MiB, boo
 
 ## Physical verification state
 
-After the expanded Ptyxis main-window/menu completion and Bluetooth Battery Meter v49 restore-pin promotion were integrated, the physical Fedora 44 / GNOME Shell 50.5 workstation completed a fresh full `scripts/verify.sh` acceptance run with:
+After the 2026-09-21 audit-driven localization additions were integrated, the physical Fedora 44 / GNOME Shell 50.5 workstation completed a fresh full `scripts/verify.sh` acceptance run from the canonical repository checkout with:
 
 ```text
-PASS=228 WARN=0 FAIL=0 SKIP=0
+PASS=236 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current accepted physical-host localization baseline. The Ptyxis About dialog and main menu were visually confirmed in Polish, Bluetooth Battery Meter v49 passed its dedicated localization verifier and visual acceptance, the Papers / Nautilus document-properties UI was visually confirmed in Polish, and Plymouth's initramfs state is technically verified. Final visual confirmation of the Plymouth offline-update screen remains pending until a real offline update occurs. The PASS total is lower than some earlier aggregates because the intentionally private ASUS launcher was removed from acceptance counters; this is verifier-scope cleanup rather than a localization regression.
+This is the current accepted physical-host localization baseline for the controls implemented by the repository. Helium and GNOME Tweaks are physically accepted, including the final `Hinting` → `Dopasowanie do pikseli` override; Extension Manager is visually accepted; Blur my Shell is visually accepted; Clipboard Indicator passes its dedicated installation/runtime/gettext verification; Papers / Nautilus is visually accepted; and Plymouth's initramfs state is technically verified. Final visual confirmation of the Plymouth offline-update screen remains pending until a real offline update occurs. VSCodium remains intentionally deferred and outside the reproducible localization claim.
 
 The historical clean-room VM result remains unchanged:
 
