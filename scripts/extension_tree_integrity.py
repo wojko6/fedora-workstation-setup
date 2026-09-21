@@ -280,6 +280,63 @@ def verify_lock(
     return 0 if ok else 1
 
 
+def command_check_one(args: argparse.Namespace) -> int:
+    lock_path = Path(args.lock)
+    extension_dir = Path(args.path).expanduser()
+    uuid = args.uuid
+    expected_version = str(args.version)
+
+    try:
+        locked = read_tree_lock(lock_path)
+    except (OSError, IntegrityError) as exc:
+        print(f"ERROR: cannot read extension tree lock: {exc}", file=sys.stderr)
+        return 2
+
+    entry = locked.get(uuid)
+    if entry is None:
+        print(f"ERROR: extension tree lock entry missing: {uuid}", file=sys.stderr)
+        return 2
+
+    locked_version, expected_digest = entry
+    if locked_version != expected_version:
+        print(
+            "ERROR: extension tree lock version mismatch: "
+            f"{uuid}: lock={locked_version} expected={expected_version}",
+            file=sys.stderr,
+        )
+        return 2
+
+    if not extension_dir.is_dir():
+        print(f"DRIFT: required extension tree missing: {uuid}")
+        return 3
+
+    try:
+        actual_version = installed_metadata_version(extension_dir)
+        actual_digest = tree_sha256(extension_dir)
+    except IntegrityError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
+
+    if actual_version != expected_version:
+        print(
+            "DRIFT: installed extension metadata version mismatch: "
+            f"{uuid}: expected={expected_version} found={actual_version}"
+        )
+        return 3
+
+    if actual_digest != expected_digest:
+        print(
+            "DRIFT: extension tree integrity mismatch: "
+            f"{uuid}: expected={expected_digest} found={actual_digest}"
+        )
+        return 3
+
+    print(
+        f"MATCH: extension tree integrity {uuid} = {actual_digest}"
+    )
+    return 0
+
+
 def command_hash(args: argparse.Namespace) -> int:
     print(tree_sha256(Path(args.path)))
     return 0
@@ -316,6 +373,13 @@ def build_parser() -> argparse.ArgumentParser:
     hash_parser.add_argument("--path", required=True)
     hash_parser.set_defaults(func=command_hash)
 
+    check_one = sub.add_parser("check-one")
+    check_one.add_argument("--lock", required=True)
+    check_one.add_argument("--uuid", required=True)
+    check_one.add_argument("--version", required=True)
+    check_one.add_argument("--path", required=True)
+    check_one.set_defaults(func=command_check_one)
+
     generate = sub.add_parser("generate")
     generate.add_argument("--inventory", required=True)
     generate.add_argument("--enabled", required=True)
@@ -346,7 +410,7 @@ def main() -> int:
         return args.func(args)
     except IntegrityError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
-        return 1
+        return 2
 
 
 if __name__ == "__main__":
