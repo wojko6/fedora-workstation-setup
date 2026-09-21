@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ENABLED = ROOT / "gnome" / "enabled-extensions.txt"
 INVENTORY = ROOT / "gnome" / "extensions-inventory.tsv"
+TREE_LOCK = ROOT / "gnome" / "extensions-tree-lock.tsv"
 LOCK = ROOT / "gnome" / "extensions-lock.tsv"
 WEATHER_LOCATIONS_EXAMPLE = ROOT / "gnome" / "weather-locations.example.tsv"
 
@@ -21,6 +22,7 @@ EXPECTED_LOCK_HEADER = [
     "source_ref",
     "sha256",
 ]
+EXPECTED_TREE_LOCK_HEADER = ["uuid", "runtime_version", "tree_sha256"]
 REJECTED_EXTENSIONS = {
     "mediacontrols@cliffniff.github.com": "rejected for the GNOME 50 baseline",
     "dash2dock-lite@icedman.github.com": "conflicts with the canonical Dhruva dock",
@@ -67,6 +69,18 @@ def load_lock() -> tuple[list[str], list[dict[str, str]]]:
         return [], []
 
     with LOCK.open(encoding="utf-8", newline="") as fh:
+        reader = csv.DictReader(fh, delimiter="\t")
+        header = reader.fieldnames or []
+        rows = [dict(row) for row in reader]
+    return header, rows
+
+
+def load_tree_lock() -> tuple[list[str], list[dict[str, str]]]:
+    if not TREE_LOCK.is_file():
+        fail(f"missing {TREE_LOCK.relative_to(ROOT)}")
+        return [], []
+
+    with TREE_LOCK.open(encoding="utf-8", newline="") as fh:
         reader = csv.DictReader(fh, delimiter="\t")
         header = reader.fieldnames or []
         rows = [dict(row) for row in reader]
@@ -134,6 +148,7 @@ def validate_weather_locations() -> None:
 enabled = load_enabled()
 header, rows = load_inventory()
 lock_header, lock_rows = load_lock()
+tree_lock_header, tree_lock_rows = load_tree_lock()
 validate_weather_locations()
 
 if header and header != EXPECTED_HEADER:
@@ -141,6 +156,9 @@ if header and header != EXPECTED_HEADER:
 
 if lock_header and lock_header != EXPECTED_LOCK_HEADER:
     fail(f"unexpected extension lock header: {lock_header!r}")
+
+if tree_lock_header and tree_lock_header != EXPECTED_TREE_LOCK_HEADER:
+    fail(f"unexpected extension tree-lock header: {tree_lock_header!r}")
 
 for uuid, count in Counter(enabled).items():
     if count != 1:
@@ -235,6 +253,48 @@ for row in lock_rows:
 
 lock_uuid_set = set(lock_uuids)
 
+tree_lock_uuids = [row.get("uuid", "").strip() for row in tree_lock_rows]
+for uuid, count in Counter(tree_lock_uuids).items():
+    if not uuid:
+        fail("extension tree lock contains an empty UUID")
+    elif count != 1:
+        fail(f"duplicate extension tree-lock UUID: {uuid} ({count} rows)")
+
+tree_lock_uuid_set = set(tree_lock_uuids)
+
+for row in tree_lock_rows:
+    uuid = row.get("uuid", "").strip()
+    runtime_version = row.get("runtime_version", "").strip()
+    tree_sha256 = row.get("tree_sha256", "").strip()
+
+    if not uuid:
+        continue
+
+    inventory_row = inventory_by_uuid.get(uuid)
+    if inventory_row is None:
+        fail(f"extension tree-lock UUID missing from inventory: {uuid}")
+        continue
+
+    if uuid not in enabled:
+        fail(f"extension tree-lock UUID is not in enabled desired state: {uuid}")
+
+    location = inventory_row.get("location", "").strip()
+    if not location.startswith(USER_PREFIX):
+        fail(f"extension tree lock must target a user extension: {uuid}")
+
+    inventory_version = inventory_row.get("version", "").strip()
+    if runtime_version != inventory_version:
+        fail(
+            f"extension tree-lock runtime mismatch: {uuid}: "
+            f"lock={runtime_version!r} inventory={inventory_version!r}"
+        )
+
+    if not re.fullmatch(r"[0-9a-f]{64}", tree_sha256):
+        fail(
+            f"invalid extension tree SHA-256: "
+            f"{uuid}: {tree_sha256!r}"
+        )
+
 for uuid in enabled:
     if uuid not in inventory_by_uuid:
         fail(f"enabled extension missing from inventory: {uuid}")
@@ -246,6 +306,11 @@ for uuid in enabled:
     if location.startswith(USER_PREFIX) and uuid not in lock_uuid_set:
         fail(
             f"enabled user extension missing source lock: {uuid}"
+        )
+
+    if location.startswith(USER_PREFIX) and uuid not in tree_lock_uuid_set:
+        fail(
+            f"enabled user extension missing tree-integrity lock: {uuid}"
         )
 
 for row in rows:
@@ -294,8 +359,10 @@ print("=== REPOSITORY CONSISTENCY: PASS ===")
 print(f"enabled_extensions={len(enabled)}")
 print(f"inventory_rows={len(rows)}")
 print(f"extension_lock_rows={len(lock_rows)}")
+print(f"extension_tree_lock_rows={len(tree_lock_rows)}")
 print("PASS: enabled extension list and inventory are internally consistent")
 print("PASS: extension source locks are internally consistent")
+print("PASS: extension tree-integrity locks are complete and internally consistent")
 print("PASS: rejected/conflicting extensions are absent from desired state")
 print("PASS: user extension pins and portable inventory paths are valid")
 print("PASS: public GNOME Weather location example is structurally valid")
