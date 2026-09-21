@@ -104,6 +104,9 @@ Hyperlink|Hiperłącze
 unset|nie ustawiono
 untracked|nieśledzona
 Shell|Powłoka
+Title|Tytuł
+Include Process Title|Uwzględnij tytuł procesu
+Append title from Shell application|Dołącz tytuł z aplikacji powłoki
 EOF
 
 while IFS='|' read -r source expected; do
@@ -123,4 +126,4 @@ _Credits|_Zasługi
 _Legal|_Kwestie prawne
 EOF
 
-echo "PASS: Ptyxis 50.1 Polish main-window/search/context-menu/inspector catalog and libadwaita About-dialog strings are present"
+echo "PASS: Ptyxis 50.1 Polish main-window/search/context-menu/inspector/title-dialog catalog and libadwaita About-dialog strings are present"
