@@ -231,6 +231,8 @@ if zone is not None:
     iface = option_value(args, "--change-interface")
     if iface is not None:
         log("firewall-cmd " + " ".join(args))
+        if os.environ.get("FW_TEST_FAIL_CHANGE_INTERFACE") == "1":
+            raise SystemExit(1)
         for zdata in state["zones"].values():
             if iface in zdata.get("interfaces", []):
                 zdata["interfaces"].remove(iface)
@@ -290,6 +292,27 @@ def initial_state(*, active_uuid=TRUSTED_UUID):
         "active_zone": "workstation-kdeconnect",
         "firewalld_active": True,
         "zones": {
+            "FedoraWorkstation": {
+                "active": True,
+                "interfaces": [],
+                "target": "default",
+                "services": [
+                    "dhcpv6-client",
+                    "kdeconnect",
+                    "samba-client",
+                    "ssh",
+                ],
+                "ports": ["1025-65535/udp", "1025-65535/tcp"],
+                "protocols": [],
+                "source_ports": [],
+                "forward_ports": [],
+                "sources": [],
+                "icmp_blocks": [],
+                "rich_rules": [],
+                "forward": True,
+                "masquerade": False,
+                "icmp_inversion": False,
+            },
             "public": {
                 "active": True,
                 "interfaces": ["enp1s0"],
@@ -342,7 +365,7 @@ def write_mock_bin(root: Path):
         path.chmod(path.stat().st_mode | stat.S_IXUSR)
     return bindir
 
-def run_case(tmp: Path, state, trusted_uuid):
+def run_case(tmp: Path, state, trusted_uuid, *, fail_change_interface=False):
     state_path = tmp / "state.json"
     log_path = tmp / "mutations.log"
     state_path.write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
@@ -354,6 +377,8 @@ def run_case(tmp: Path, state, trusted_uuid):
     env["FW_TEST_LOG"] = str(log_path)
     env["TRUSTED_WIFI_UUID"] = trusted_uuid
     env["TRUSTED_WIFI_PROFILE"] = PROFILE
+    if fail_change_interface:
+        env["FW_TEST_FAIL_CHANGE_INTERFACE"] = "1"
     result = subprocess.run(
         ["bash", str(TARGET)],
         text=True,
@@ -433,6 +458,58 @@ with tempfile.TemporaryDirectory(prefix="firewall-policy-tests-") as td:
     if "--add-service=ssh" in mutations or "--add-forward" in mutations:
         raise SystemExit("FAIL: unsafe ssh/forward policy was reintroduced")
 
+    fallback = state["zones"]["FedoraWorkstation"]
+    if "kdeconnect" in fallback["services"]:
+        raise SystemExit("FAIL: kdeconnect remains in fallback FedoraWorkstation zone")
+    if set(fallback["services"]) != {"dhcpv6-client", "samba-client", "ssh"}:
+        raise SystemExit(
+            "FAIL: unrelated FedoraWorkstation services were modified: "
+            + repr(fallback["services"])
+        )
+    if fallback["ports"] != ["1025-65535/udp", "1025-65535/tcp"]:
+        raise SystemExit("FAIL: unrelated FedoraWorkstation ports were modified")
+    if not fallback["forward"]:
+        raise SystemExit("FAIL: unrelated FedoraWorkstation forwarding was modified")
+    if "--zone=FedoraWorkstation --remove-service=kdeconnect" not in mutations:
+        raise SystemExit("FAIL: fallback-zone KDE Connect was not explicitly removed")
+
     print("PASS: trusted dirty zone converged to exact minimal state")
+    print("PASS: KDE Connect removed from fallback zone without unrelated changes")
+
+    case3 = base / "rollback"
+    case3.mkdir()
+    original = initial_state()
+    result, state, mutations = run_case(
+        case3,
+        original,
+        TRUSTED_UUID,
+        fail_change_interface=True,
+    )
+    if result.returncode == 0:
+        raise SystemExit("FAIL: simulated post-mutation failure unexpectedly succeeded")
+    if state["profile_zone"] != original["profile_zone"]:
+        raise SystemExit("FAIL: rollback did not restore NetworkManager zone")
+    restored = state["zones"]["FedoraWorkstation"]
+    if "kdeconnect" not in restored["services"]:
+        raise SystemExit("FAIL: rollback did not restore fallback-zone KDE Connect")
+    restored_target = state["zones"]["workstation-kdeconnect"]
+    for key in [
+        "target",
+        "services",
+        "ports",
+        "protocols",
+        "source_ports",
+        "forward_ports",
+        "sources",
+        "icmp_blocks",
+        "rich_rules",
+        "forward",
+        "masquerade",
+        "icmp_inversion",
+    ]:
+        if restored_target[key] != original["zones"]["workstation-kdeconnect"][key]:
+            raise SystemExit(f"FAIL: rollback mismatch for target-zone field: {key}")
+
+    print("PASS: rollback restores target zone, profile zone, and KDE Connect isolation changes")
 
 print("=== FIREWALL POLICY SECURITY TESTS: PASS ===")
