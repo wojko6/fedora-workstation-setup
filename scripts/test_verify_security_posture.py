@@ -95,6 +95,12 @@ if name == "modinfo":
         raise SystemExit(0)
     raise SystemExit(1)
 
+if name == "ip":
+    if args == ["route", "show", "default"]:
+        print("default via 192.168.1.1 dev wlp1s0 proto dhcp src 192.168.1.10 metric 600")
+        raise SystemExit(0)
+    raise SystemExit(1)
+
 if name == "iw":
     if args == ["dev"]:
         print("phy#0")
@@ -103,6 +109,9 @@ if name == "iw":
     raise SystemExit(1)
 
 if name == "nmcli":
+    if args == ["-t", "-f", "DEVICE,TYPE", "device", "status"]:
+        print(f"wlp1s0:{env('SEC_TEST_IFACE_TYPE', 'wifi')}")
+        raise SystemExit(0)
     if args[:4] == ["-g", "GENERAL.CONNECTION", "device", "show"]:
         print("Home WiFi")
         raise SystemExit(0)
@@ -189,6 +198,7 @@ COMMANDS = [
     "rpm",
     "mokutil",
     "modinfo",
+    "ip",
     "iw",
     "nmcli",
     "firewall-cmd",
@@ -285,6 +295,14 @@ with tempfile.TemporaryDirectory(prefix="security-posture-tests-") as td:
         "active SSH service",
         run_case(case, SEC_TEST_SSH_ACTIVE="active"),
         "sshd.service must be inactive",
+    )
+
+    case = base / "not-wifi"
+    case.mkdir()
+    expect_fail(
+        "default-route interface is not Wi-Fi",
+        run_case(case, SEC_TEST_IFACE_TYPE="ethernet"),
+        "default-route interface is not Wi-Fi",
     )
 
     case = base / "firewall-drift"
