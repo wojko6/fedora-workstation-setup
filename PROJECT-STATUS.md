@@ -453,9 +453,9 @@ The High-severity audit-remediation track is complete. Remaining work is medium/
 - rerun physical-host verification after material desired-state changes, especially kernel/NVIDIA updates;
 - re-audit version-pinned localization whenever an extension or application version changes;
 - keep VSCodium localization explicitly deferred until it is intentionally brought into scope;
-- test future Fedora/GNOME 51 changes in a VM before promoting them to the physical workstation.
+- follow `docs/UPGRADE.md` for future Fedora/GNOME major upgrades: qualify the target release in a VM first, then promote only after a clean physical verifier.
 
-The separate disaster-recovery layer is documented in `docs/DISASTER-RECOVERY.md`; the detailed total-failure operational sequence is documented in `docs/DISASTER-RECOVERY-RUNBOOK.md`. These complement rather than replace the repository-based rebuild path.
+The separate disaster-recovery layer is documented in `docs/DISASTER-RECOVERY.md`; the detailed total-failure operational sequence is documented in `docs/DISASTER-RECOVERY-RUNBOOK.md`. The Fedora major-release lifecycle is documented in `docs/UPGRADE.md`. These complement rather than replace the repository-based rebuild path.
 
 ## Acceptance criteria
 
