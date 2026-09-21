@@ -427,7 +427,9 @@ Status: **PHYSICALLY ACCEPTED / DESIRED STATE UPDATED**.
 
 ## Repository validation
 
-Repository-only validation is automated through `scripts/check-static.sh`, which is used both locally and by GitHub Actions. It covers Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON validation, and desired-state inventory consistency.
+Repository-only validation is automated through `scripts/check-static.sh`, which is used both locally and by GitHub Actions. It covers Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON validation, desired-state inventory consistency, and current-tree high-confidence secret scanning.
+
+GitHub Actions also runs a dedicated history-aware secret gate from a complete, non-shallow checkout. `scripts/scan-secrets.py --history` enumerates every reachable historical Git blob, checks secret-like historical filenames, and scans textual blob contents without printing matched secret values. A repository fixture proves that a synthetic token committed and later removed from the current tree is still detected by the history scan.
 
 The live-system verifier is:
 

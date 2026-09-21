@@ -83,6 +83,10 @@ echo "=== SECRET SCAN ==="
 python3 scripts/scan-secrets.py --self-test
 
 echo
+echo "=== HISTORY SECRET SCANNER FIXTURES ==="
+python3 scripts/test_secret_history_scanner.py
+
+echo
 echo "=== EXTENSION SECURITY FIXTURES ==="
 python3 scripts/test_extension_security.py
 

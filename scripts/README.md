@@ -5,6 +5,7 @@ The scripts directory contains the operational entrypoints used to build, restor
 ## Primary entrypoints
 
 - `check-static.sh` — repository-only validation used locally and by GitHub Actions.
+- `scan-secrets.py` — high-confidence secret scanner for the current tracked tree; `--history` scans every reachable historical Git blob and fails on shallow clones so deleted credentials cannot evade the CI gate.
 - `verify.sh` — full live-system verifier after restore and GNOME session restart.
 - `restore-gnome.sh` — restore the reviewed GNOME dconf state.
 - `audit-extension-runtime.sh` — extension-focused runtime audit.
