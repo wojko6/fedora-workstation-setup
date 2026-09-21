@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import csv
 import re
+import stat
 import sys
 from collections import Counter
 from pathlib import Path
@@ -13,6 +14,7 @@ INVENTORY = ROOT / "gnome" / "extensions-inventory.tsv"
 TREE_LOCK = ROOT / "gnome" / "extensions-tree-lock.tsv"
 LOCK = ROOT / "gnome" / "extensions-lock.tsv"
 WEATHER_LOCATIONS_EXAMPLE = ROOT / "gnome" / "weather-locations.example.tsv"
+INSTALLER = ROOT / "install.sh"
 
 EXPECTED_HEADER = ["uuid", "name", "version", "shell_versions", "url", "location"]
 EXPECTED_LOCK_HEADER = [
@@ -87,6 +89,16 @@ def load_tree_lock() -> tuple[list[str], list[dict[str, str]]]:
     return header, rows
 
 
+def validate_entrypoints() -> None:
+    if not INSTALLER.is_file():
+        fail("missing install.sh")
+        return
+
+    mode = INSTALLER.stat().st_mode
+    if not mode & stat.S_IXUSR:
+        fail("install.sh must be executable by its owner (git mode 100755)")
+
+
 def validate_weather_locations() -> None:
     if not WEATHER_LOCATIONS_EXAMPLE.is_file():
         fail(f"missing {WEATHER_LOCATIONS_EXAMPLE.relative_to(ROOT)}")
@@ -150,6 +162,7 @@ header, rows = load_inventory()
 lock_header, lock_rows = load_lock()
 tree_lock_header, tree_lock_rows = load_tree_lock()
 validate_weather_locations()
+validate_entrypoints()
 
 if header and header != EXPECTED_HEADER:
     fail(f"unexpected inventory header: {header!r}")
