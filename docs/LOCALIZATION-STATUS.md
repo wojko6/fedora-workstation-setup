@@ -119,7 +119,7 @@ The repository carries `localization/helium/v0.17.2.1-pl-completion.json` with t
 
 For future Helium versions, the post-transaction helper deliberately does **not** force old Polish text over changed producer strings. It patches only entries whose payload still equals the audited English source and warns that a new full localization audit is required. The full `scripts/verify-helium-localization.sh` remains version-pinned to 0.17.2.1 so an update cannot be silently accepted as fully reviewed.
 
-Physical installation, dedicated verification, and visual acceptance are pending.
+Physical installation, dedicated verification, and visual acceptance have passed on the Fedora 44 workstation.
 
 ### GNOME Tweaks 49.0
 
@@ -137,7 +137,7 @@ The repository carries a one-line source patch that changes generated GSettings 
 
 A future GNOME Tweaks package version/release is intentionally not auto-accepted: the exact-package verifier will fail until the new source and Polish catalog are re-audited.
 
-Physical installation and visual acceptance are pending.
+The generated GSettings-value fix is installed and visually accepted on the physical workstation: the previously visible `Toggle Maximize` / `None` / related enum values now resolve through Polish gettext. The newly added `Hinting` → `Dopasowanie do pikseli` terminology override still requires reinstall and final visual confirmation.
 
 ## Bluetooth Battery Meter v46/v49
 
