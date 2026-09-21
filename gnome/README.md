@@ -67,5 +67,9 @@ scripts/verify.sh
 
 If the private local file is absent, restore and verification report that no private Weather location was requested and continue without exposing or inventing location data.
 
-The custom-location mechanism was physically validated on the Fedora 44 / GNOME 50.5 workstation, including correction of an early coordinate-unit error and a duplicate-name migration edge case. At the Weather-integration checkpoint the full verifier completed with `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0` while the private location file was present. The current project-wide physical baseline has since advanced to `PASS=247 WARN=0 FAIL=0 SKIP=0`; see `PROJECT-STATUS.md` for the latest aggregate.
+The custom-location mechanism was physically validated on the Fedora 44 / GNOME 50.5 workstation, including correction of an early coordinate-unit error and a duplicate-name migration edge case. At the Weather-integration checkpoint the full verifier completed with `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0` while the private location file was present. The current project-wide physical baseline has since advanced to `PASS=249 WARN=0 FAIL=0 SKIP=0`; see `PROJECT-STATUS.md` for the latest aggregate.
 
+
+## DING v97 System Monitor desktop menu
+
+The accepted Fedora 44 / GNOME 50.5 state includes a repository-managed DING v97 desktop-background context-menu entry named `Monitor systemu`. The action launches `org.gnome.SystemMonitor.desktop`, is restored through `scripts/install-ding-system-monitor-menu.sh`, verified by `scripts/verify-ding-system-monitor-menu.sh`, and is part of the accepted D-H4 final-tree hash for `ding@rastersoft.com`.
