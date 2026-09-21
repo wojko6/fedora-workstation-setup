@@ -167,7 +167,8 @@ else
     fi
 
     if [[ -n "$nvidia_signer" ]] && command -v mokutil >/dev/null 2>&1; then
-      if mokutil --list-enrolled 2>/dev/null | grep -Fq "$nvidia_signer"; then
+      enrolled_mok="$(mokutil --list-enrolled 2>/dev/null || true)"
+      if grep -Fq "$nvidia_signer" <<<"$enrolled_mok"; then
         ok "NVIDIA module signer identity is present in enrolled MOK certificates"
       else
         bad "NVIDIA module signer identity is not found in enrolled MOK certificates: $nvidia_signer"

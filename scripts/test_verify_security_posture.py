@@ -84,6 +84,8 @@ if name == "mokutil":
     if args == ["--list-enrolled"]:
         if env("SEC_TEST_SIGNER_ENROLLED", "1") == "1":
             print("Subject: CN=Fedora akmods")
+            if env("SEC_TEST_MOK_LARGE_OUTPUT", "0") == "1":
+                print("X" * 262144)
         else:
             print("Subject: CN=Different certificate")
         raise SystemExit(0)
@@ -334,6 +336,13 @@ with tempfile.TemporaryDirectory(prefix="security-posture-tests-") as td:
         "cross-zone KDE Connect exposure",
         run_case(case, SEC_TEST_CROSS_ZONE_KDE="1"),
         "kdeconnect exposed in non-trusted permanent zone",
+    )
+
+    case = base / "large-mok-output"
+    case.mkdir()
+    expect_pass(
+        "enrolled NVIDIA signer with large MOK output",
+        run_case(case, SEC_TEST_MOK_LARGE_OUTPUT="1"),
     )
 
     case = base / "signer"
