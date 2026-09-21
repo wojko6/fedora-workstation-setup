@@ -8,6 +8,7 @@ This directory contains the reviewed operational and validation documentation fo
 - [CLEAN-ROOM-RESTORE-REPORT.md](CLEAN-ROOM-RESTORE-REPORT.md) — clean-room restore validation and lessons learned.
 - [DISASTER-RECOVERY.md](DISASTER-RECOVERY.md) — offline disaster-recovery strategy and validated recovery generations.
 - [DISASTER-RECOVERY-RUNBOOK.md](DISASTER-RECOVERY-RUNBOOK.md) — detailed total-failure recovery runbook from Live USB through final verification.
+- [UPGRADE.md](UPGRADE.md) — controlled Fedora major-release upgrade lifecycle with VM qualification and physical acceptance gates.
 
 ## GNOME and localization
 
