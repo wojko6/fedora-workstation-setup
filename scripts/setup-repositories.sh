@@ -5,6 +5,9 @@ repo_enabled() {
   dnf repolist --enabled 2>/dev/null | awk 'NR > 1 {print $1}' | grep -Fxq "$1"
 }
 
+HELIUM_REPO_ID="copr:copr.fedorainfracloud.org:imput:helium"
+VPCS_REPO_ID="copr:copr.fedorainfracloud.org:tgerov:vpcs"
+
 echo "==> Configuring external Fedora repositories"
 
 # RPM Fusion must exist before packages such as akmod-nvidia, Steam and
@@ -33,16 +36,27 @@ fi
 # Tailscale repository is required. Authentication remains private state and is
 # deliberately not automated by this repository.
 
-# VPCS is part of the reviewed GNS3 restore manifest. The source workstation
-# obtains it from the tgerov/vpcs COPR, so bootstrap the same source before
-# packages/rpm.txt is installed.
-if dnf repolist --enabled 2>/dev/null | grep -Fq 'tgerov:vpcs'; then
+# Helium is part of workstation desired state and is installed from its
+# reviewed COPR source.
+if repo_enabled "$HELIUM_REPO_ID"; then
+  echo "OK: Helium COPR repository already enabled"
+else
+  echo "==> Enabling COPR repository for Helium (imput/helium)"
+  sudo dnf install -y dnf-plugins-core
+  sudo dnf copr enable -y imput/helium
+fi
+
+# VPCS is part of the reviewed GNS3 restore manifest. The COPR is restricted
+# to the single package that this workstation requires from it.
+if repo_enabled "$VPCS_REPO_ID"; then
   echo "OK: VPCS COPR repository already enabled"
 else
   echo "==> Enabling COPR repository for VPCS (tgerov/vpcs)"
   sudo dnf install -y dnf-plugins-core
   sudo dnf copr enable -y tgerov/vpcs
 fi
+
+sudo dnf config-manager setopt "${VPCS_REPO_ID}.includepkgs=vpcs"
 
 # Repositories observed on the source workstation but intentionally not
 # bootstrapped unless they become part of the reviewed restore manifest:

@@ -16,6 +16,7 @@ gnome-shell-extension-background-logo
 # Applications
 gnome-weather
 brave-origin
+helium-bin
 papers-nautilus
 poedit
 
@@ -25,6 +26,7 @@ flatpak
 firewalld
 iw
 libselinux-utils
+libdnf5-plugin-actions
 mokutil
 7zip-standalone
 bind-utils
