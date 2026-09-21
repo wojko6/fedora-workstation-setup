@@ -83,6 +83,10 @@ echo "=== EXTENSION TREE INTEGRITY FIXTURES ==="
 python3 scripts/test_extension_tree_integrity.py
 
 echo
+echo "=== INSTALLER PREFLIGHT FIXTURES ==="
+python3 scripts/test_install_preflight.py
+
+echo
 echo "=== ASUS LAUNCHER CONFIG FIXTURES ==="
 python3 scripts/test_asus_launcher_config.py
 
