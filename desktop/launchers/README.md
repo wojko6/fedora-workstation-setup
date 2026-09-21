@@ -1,9 +1,13 @@
 # Desktop launchers
 
-Inventory found these user launchers:
+Repository-managed desktop launchers restored by
+`scripts/install-launchers.sh`.
 
-- `asus-router.desktop`
-- `com.github.amezin.ddterm.desktop`
-- `Counter-Strike 2.desktop`
+Current launchers:
 
-Launcher files will be added only after reviewing them for machine-specific paths, usernames, hostnames, credentials, and other private values. Restore scripts should generate machine-specific values where practical.
+- Counter-Strike 2 — static launcher with no private data.
+- ASUS Router SSH — generated from a public template and a local,
+  gitignored configuration file.
+
+Machine-specific credentials, SSH keys, usernames, addresses, and
+other private values are not stored in Git.
