@@ -19,6 +19,7 @@ This directory contains the reviewed operational and validation documentation fo
 ## Project status
 
 - [../PROJECT-STATUS.md](../PROJECT-STATUS.md) — current accepted physical-host baseline and remaining work.
+- [WORKLOG-2026-09-22.md](WORKLOG-2026-09-22.md) — day-close worklog recording the physical visual validation of Polish Plymouth offline updates.
 
 ## Verification entrypoints
 

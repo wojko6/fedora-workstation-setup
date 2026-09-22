@@ -145,7 +145,7 @@ Repository-managed targets currently include:
 - ddterm v72 completion plus metadata description localization;
 - Advanced Media Controller v31 / 6.5 full Polish catalog;
 - Papers 49.8 completion overlay for Nautilus document properties, annotations, and the empty start page;
-- Plymouth offline-update Polish locale persistence in initramfs;
+- Plymouth offline-update Polish locale persistence in initramfs, physically and visually validated during a real offline-update cycle on 2026-09-22;
 - Ptyxis 50.1 Polish main-window/menu completion plus the existing libadwaita About-dialog integration.
 
 Dhruva remains the largest localization case: a 393-message gettext catalog, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
@@ -167,6 +167,8 @@ Vitals v85 uses a version-pinned completion overlay over its incomplete upstream
 Advanced Media Controller v31 / 6.5 ships no Polish catalog in the tested archive. The repository carries a complete **276-entry** Polish gettext catalog generated against the exact v31 string template. Its installer/verifier checks version 31, version name 6.5, gettext domain, audited file fingerprints, translation completeness, byte-for-byte installed `.mo` equality, and a runtime gettext smoke test requiring `General` to resolve to `Ogólne`. The preferences UI was visually confirmed in Polish on the physical workstation.
 
 Papers 49.8 uses a minimal completion overlay for the Nautilus document-properties provider, the `No Annotations` status page, and the empty start page. The completed catalog was installed and matched the repository-managed overlay, and all three affected UI areas were visually confirmed in Polish.
+
+Plymouth offline-update localization is now fully physically validated. During a real Fedora offline-update cycle on **2026-09-22**, the physical workstation displayed the update screen in Polish, including `Instalowanie aktualizacji…`, `Nie należy wyłączać komputera`, and translated progress text (`Ukończono 13%` was observed). This closes the previous evidence gap between technically verified initramfs contents and actual user-visible runtime behavior.
 
 `scripts/install-localizations.sh` now invokes 15 version-specific GNOME-extension localization installers plus six application/system localization stages: Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks. Dedicated localization verifiers are integrated into the main `scripts/verify.sh`. The current complete physical-host verifier is accepted at `PASS=236 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
 

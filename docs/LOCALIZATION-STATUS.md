@@ -264,7 +264,7 @@ Fedora's installed Plymouth catalog already contains correct Polish translations
 
 The repository therefore does not duplicate Plymouth translations. Instead, `localization/plymouth/55-polish-plymouth.conf` records the tested dracut `install_items` set. `scripts/install-plymouth-localization.sh` installs that persistent dracut configuration, rebuilds the current initramfs when required, and validates the required locale and gettext artifacts. `glibc-langpack-pl` is an explicit RPM dependency so the small per-language locale tree is used instead of embedding the 223 MiB global locale archive.
 
-The rebuilt physical-host initramfs grew only from about 156 MiB to 157 MiB, booted successfully on kernel `7.2.5-200.fc44.x86_64`, and `systemctl --failed` reported zero failed units. Final visual confirmation of the translated offline-update screen remains pending until the next real offline update.
+The rebuilt physical-host initramfs grew only from about 156 MiB to 157 MiB, booted successfully on kernel `7.2.5-200.fc44.x86_64`, and `systemctl --failed` reported zero failed units. On **2026-09-22**, a real Fedora offline-update cycle on the physical workstation visually confirmed the translated Plymouth screen: `Instalowanie aktualizacji…`, `Nie należy wyłączać komputera`, and translated percentage progress (`Ukończono 13%` was observed). The Plymouth offline-update localization is therefore both technically verified and physically visually validated.
 
 ## GNOME system-extension audit
 
@@ -282,7 +282,7 @@ PASS=236 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current accepted physical-host localization baseline for the controls implemented by the repository. Helium and GNOME Tweaks are physically accepted, including the final `Hinting` → `Dopasowanie do pikseli` override; Extension Manager is visually accepted; Blur my Shell is visually accepted; Clipboard Indicator passes its dedicated installation/runtime/gettext verification; Papers / Nautilus is visually accepted; and Plymouth's initramfs state is technically verified. Final visual confirmation of the Plymouth offline-update screen remains pending until a real offline update occurs. VSCodium remains intentionally deferred and outside the reproducible localization claim.
+The 2026-09-21 localization closure run remains the dedicated localization checkpoint at `PASS=236 WARN=0 FAIL=0 SKIP=0`. The current project-wide physical acceptance has since advanced to `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. Helium and GNOME Tweaks are physically accepted, including the final `Hinting` → `Dopasowanie do pikseli` override; Extension Manager is visually accepted; Blur my Shell is visually accepted; Clipboard Indicator passes its dedicated installation/runtime/gettext verification; Papers / Nautilus is visually accepted; and Plymouth offline-update localization is now technically verified and physically visually confirmed during the real 2026-09-22 offline-update cycle. VSCodium remains intentionally deferred and outside the reproducible localization claim.
 
 The historical clean-room VM result remains unchanged:
 
