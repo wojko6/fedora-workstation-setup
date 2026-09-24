@@ -60,6 +60,7 @@ System localization helpers:
 ## Generators and helpers
 
 - `apply-space-bar-localization.py`
+- `gsconnect_runcommand_names.py` — safely localizes the five audited GSConnect v73 factory RunCommand display names in per-device GSettings while preserving UUIDs, command lines, and user-renamed/custom commands.
 - `generate-dhruva-emoji-pl.py`
 - `inventory-extensions.sh`
 - `validate-repository.py`
