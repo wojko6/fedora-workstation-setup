@@ -29,7 +29,7 @@ PASS=256 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes GSConnect v73 and ddterm v73 localization, the dedicated `workstation-tailscale` DROP policy, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, D-H4 deterministic whole-tree integrity verification for every enabled user GNOME extension, and the repository-managed DING System Monitor desktop-menu customization. Ptyxis 50.1 remains repository-managed, Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
+This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes GSConnect v73 and ddterm v73 localization, the dedicated `workstation-tailscale` DROP policy, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, D-H4 deterministic whole-tree integrity verification for every enabled user GNOME extension, and the repository-managed DING System Monitor desktop-menu customization. Ptyxis 50.1 is repository-managed and fully physically accepted: the 162-entry completion covers the audited preferences/profile/shortcut resources, custom-link editor, palette preview, and dynamic C-generated labels, while the fail-closed `.desktop` remediation localizes the three GNOME Shell launcher actions. Physical installation, dedicated verification, visual confirmation, and the final full verifier all passed; Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
 
 ## Current desired state
 
@@ -147,7 +147,7 @@ Repository-managed targets currently include:
 - Advanced Media Controller v31 / 6.5 full Polish catalog;
 - Papers 49.8 completion overlay for Nautilus document properties, annotations, and the empty start page;
 - Plymouth offline-update Polish locale persistence in initramfs, physically and visually validated during a real offline-update cycle on 2026-09-22;
-- Ptyxis 50.1 Polish main-window/menu completion plus the existing libadwaita About-dialog integration.
+- Ptyxis 50.1 complete audited Polish localization covering main-window/menu, terminal/search/inspector/title UI, preferences/profile/shortcut/custom-link/palette resources, dynamic C-generated labels, libadwaita About integration, and GNOME Shell desktop actions.
 
 Dhruva remains the largest localization case: a 393-message gettext catalog, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 

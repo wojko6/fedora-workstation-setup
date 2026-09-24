@@ -1,7 +1,7 @@
 # Fedora 44 / Ptyxis 50.1 Polish localization completion.
 # Fedora's Ptyxis 50.1 package does not ship a Polish ptyxis.mo.
-# This version-pinned catalog covers the main window/menu strings confirmed
-# on the audited build and activates libadwaita's existing Polish About strings.
+# This version-pinned catalog covers the audited main window/menu, terminal,
+# preferences/profile/shortcut resources, and activates libadwaita's existing Polish About strings.
 msgid ""
 msgstr ""
 "Project-Id-Version: ptyxis 50.1 Polish completion\n"
@@ -233,3 +233,489 @@ msgstr "Używaj _wyrażeń regularnych"
 
 msgid "translator-credits"
 msgstr "fedora-workstation-setup (lokalna warstwa zgodności)"
+
+msgid "Show All Palettes"
+msgstr "Pokaż wszystkie palety"
+
+msgid "Transparency"
+msgstr "Przezroczystość"
+
+msgid "Reduces the opacity of the background window"
+msgstr "Zmniejsza krycie tła okna"
+
+msgid "Use System _Font"
+msgstr "Używaj _czcionki systemowej"
+
+msgid "Custom Font"
+msgstr "Własna czcionka"
+
+msgid "Line Spacing"
+msgstr "Odstęp między wierszami"
+
+msgid "Column Spacing"
+msgstr "Odstęp między kolumnami"
+
+msgid "Blinking Text"
+msgstr "Migający tekst"
+
+msgid "Never"
+msgstr "Nigdy"
+
+msgid "Focused"
+msgstr "Gdy aktywne"
+
+msgid "Unfocused"
+msgstr "Gdy nieaktywne"
+
+msgid "Always"
+msgstr "Zawsze"
+
+msgid "Cursor Shape"
+msgstr "Kształt kursora"
+
+msgid "Block"
+msgstr "Blok"
+
+msgid "I-Beam"
+msgstr "Kreska pionowa"
+
+msgid "Underline"
+msgstr "Podkreślenie"
+
+msgid "Cursor Blinking"
+msgstr "Miganie kursora"
+
+msgid "Follow System"
+msgstr "Zgodnie z systemem"
+
+msgid "Enabled"
+msgstr "Włączone"
+
+msgid "Disabled"
+msgstr "Wyłączone"
+
+msgid "Behavior"
+msgstr "Zachowanie"
+
+msgid "Interface"
+msgstr "Interfejs"
+
+msgid "New Tab Position"
+msgstr "Położenie nowej karty"
+
+msgid "Next"
+msgstr "Następna"
+
+msgid "Last"
+msgstr "Ostatnia"
+
+msgid "Restore Session"
+msgstr "Przywracanie sesji"
+
+msgid "Attempt to restore previous tabs when Ptyxis starts"
+msgstr "Spróbuj przywrócić poprzednie karty przy uruchamianiu Ptyxis"
+
+msgid "Restore Window Size"
+msgstr "Przywracanie rozmiaru okna"
+
+msgid "Restore the previous window size when creating a new window"
+msgstr "Przywróć poprzedni rozmiar okna podczas tworzenia nowego okna"
+
+msgid "Columns"
+msgstr "Kolumny"
+
+msgid "Rows"
+msgstr "Wiersze"
+
+msgid "Accessibility"
+msgstr "Dostępność"
+
+msgid "Allow Screen Readers"
+msgstr "Zezwalaj czytnikom ekranu"
+
+msgid "Permit screen readers such as Orca to read terminal content and typed text"
+msgstr "Zezwala czytnikom ekranu, takim jak Orca, na odczytywanie zawartości terminala i wpisywanego tekstu"
+
+msgid "Bell"
+msgstr "Dzwonek"
+
+msgid "Audible Bell"
+msgstr "Dzwonek dźwiękowy"
+
+msgid "Emit an audible bell when requested by active tab"
+msgstr "Emituj sygnał dźwiękowy na żądanie aktywnej karty"
+
+msgid "Visual Bell"
+msgstr "Dzwonek wizualny"
+
+msgid "Emit a visual bell when requested by active tab"
+msgstr "Wyświetl sygnał wizualny na żądanie aktywnej karty"
+
+msgid "Scrolling"
+msgstr "Przewijanie"
+
+msgid "Use Scrollbars"
+msgstr "Używaj pasków przewijania"
+
+msgid "Scroll on Keystroke"
+msgstr "Przewijaj przy naciśnięciu klawisza"
+
+msgid "Scroll to the bottom upon input keystroke"
+msgstr "Przewijaj na dół po naciśnięciu klawisza"
+
+msgid "Scroll on Output"
+msgstr "Przewijaj przy pojawieniu się danych"
+
+msgid "Scroll to the bottom when new content is available"
+msgstr "Przewijaj na dół, gdy pojawi się nowa zawartość"
+
+msgid "Limit Scrollback"
+msgstr "Ogranicz historię przewijania"
+
+msgid "Restrict the number of lines saved for scrollback"
+msgstr "Ogranicza liczbę wierszy zachowywanych w historii przewijania"
+
+msgid "Scrollback Lines"
+msgstr "Wiersze historii przewijania"
+
+msgid "The number of lines to keep for scrollback"
+msgstr "Liczba wierszy zachowywanych w historii przewijania"
+
+msgid "Use Login Shell"
+msgstr "Używaj powłoki logowania"
+
+msgid "Preserve Working Directory"
+msgstr "Zachowuj katalog roboczy"
+
+msgid "Safe"
+msgstr "Gdy bezpieczne"
+
+msgid "Exit Action"
+msgstr "Działanie po zakończeniu"
+
+msgid "No Action"
+msgstr "Brak działania"
+
+msgid "Restart"
+msgstr "Uruchom ponownie"
+
+msgid "Close"
+msgstr "Zamknij"
+
+msgid "Compatibility"
+msgstr "Zgodność"
+
+msgid "Backspace Key"
+msgstr "Klawisz Backspace"
+
+msgid "Sequence to send for Backspace key"
+msgstr "Sekwencja wysyłana dla klawisza Backspace"
+
+msgid "Delete Key"
+msgstr "Klawisz Delete"
+
+msgid "Sequence to send for Delete key"
+msgstr "Sekwencja wysyłana dla klawisza Delete"
+
+msgid "Ambiguous-width Characters"
+msgstr "Znaki o niejednoznacznej szerokości"
+
+msgid "Narrow"
+msgstr "Wąskie"
+
+msgid "Wide"
+msgstr "Szerokie"
+
+msgid "Custom Links"
+msgstr "Niestandardowe odnośniki"
+
+msgid "Set as Default Terminal"
+msgstr "Ustaw jako domyślny terminal"
+
+msgid "Shortcuts"
+msgstr "Skróty"
+
+msgid "Terminal"
+msgstr "Terminal"
+
+msgid "Copy to Clipboard"
+msgstr "Kopiuj do schowka"
+
+msgid "Paste from Clipboard"
+msgstr "Wklej ze schowka"
+
+msgid "Select All"
+msgstr "Zaznacz wszystko"
+
+msgid "Clear Selection"
+msgstr "Wyczyść zaznaczenie"
+
+msgid "Show Context Menu"
+msgstr "Pokaż menu kontekstowe"
+
+msgid "Windows"
+msgstr "Okna"
+
+msgid "Open a new tab in a new window"
+msgstr "Otwórz nową kartę w nowym oknie"
+
+msgid "Close Window"
+msgstr "Zamknij okno"
+
+msgid "Close the current window"
+msgstr "Zamknij bieżące okno"
+
+msgid "Tabs"
+msgstr "Karty"
+
+msgid "Open a new tab in the current window"
+msgstr "Otwórz nową kartę w bieżącym oknie"
+
+msgid "View Tab Overview"
+msgstr "Wyświetl przegląd kart"
+
+msgid "Show an overview of all tabs within the window"
+msgstr "Pokaż przegląd wszystkich kart w oknie"
+
+msgid "Close Tab"
+msgstr "Zamknij kartę"
+
+msgid "Close the current tab"
+msgstr "Zamknij bieżącą kartę"
+
+msgid "Close Other Tabs"
+msgstr "Zamknij pozostałe karty"
+
+msgid "Close all tabs except the active tab"
+msgstr "Zamknij wszystkie karty poza aktywną"
+
+msgid "Undo Close Tab"
+msgstr "Cofnij zamknięcie karty"
+
+msgid "Undo closing the last tab"
+msgstr "Cofnij zamknięcie ostatniej karty"
+
+msgid "Move to Previous Tab"
+msgstr "Przejdź do poprzedniej karty"
+
+msgid "Move to Next Tab"
+msgstr "Przejdź do następnej karty"
+
+msgid "Move Tab Left"
+msgstr "Przenieś kartę w lewo"
+
+msgid "Move the tab one position to the left"
+msgstr "Przenieś kartę o jedną pozycję w lewo"
+
+msgid "Move Tab Right"
+msgstr "Przenieś kartę w prawo"
+
+msgid "Move the tab one position to the right"
+msgstr "Przenieś kartę o jedną pozycję w prawo"
+
+msgid "Move Tab to New Window"
+msgstr "Przenieś kartę do nowego okna"
+
+msgid "Detach the current tab and move it to a new window"
+msgstr "Odłącz bieżącą kartę i przenieś ją do nowego okna"
+
+msgid "Switch to Tab 1"
+msgstr "Przełącz na kartę 1"
+
+msgid "Switch to Tab 2"
+msgstr "Przełącz na kartę 2"
+
+msgid "Switch to Tab 3"
+msgstr "Przełącz na kartę 3"
+
+msgid "Switch to Tab 4"
+msgstr "Przełącz na kartę 4"
+
+msgid "Switch to Tab 5"
+msgstr "Przełącz na kartę 5"
+
+msgid "Switch to Tab 6"
+msgstr "Przełącz na kartę 6"
+
+msgid "Switch to Tab 7"
+msgstr "Przełącz na kartę 7"
+
+msgid "Switch to Tab 8"
+msgstr "Przełącz na kartę 8"
+
+msgid "Switch to Tab 9"
+msgstr "Przełącz na kartę 9"
+
+msgid "Switch to Tab 10"
+msgstr "Przełącz na kartę 10"
+
+msgid "Switch to Last Tab"
+msgstr "Przełącz na ostatnią kartę"
+
+msgid "Zoom"
+msgstr "Powiększenie"
+
+msgid "Zoom In"
+msgstr "Powiększ"
+
+msgid "Zoom Out"
+msgstr "Pomniejsz"
+
+msgid "Reset Zoom"
+msgstr "Zresetuj powiększenie"
+
+msgid "Application"
+msgstr "Aplikacja"
+
+msgid "Toggle Fullscreen"
+msgstr "Przełącz tryb pełnoekranowy"
+
+msgid "Toggle in and out of fullscreen"
+msgstr "Włącz lub wyłącz tryb pełnoekranowy"
+
+msgid "Show Primary Menu"
+msgstr "Pokaż menu główne"
+
+msgid "Displays the primary menu for the terminal window"
+msgstr "Wyświetla menu główne okna terminala"
+
+msgid "Show New Tab Menu"
+msgstr "Pokaż menu nowej karty"
+
+msgid "Displays the new tab menu for the terminal window"
+msgstr "Wyświetla menu nowej karty okna terminala"
+
+msgid "Show this preferences window"
+msgstr "Pokaż to okno preferencji"
+
+msgid "Keyboard Shortcuts"
+msgstr "Skróty klawiszowe"
+
+msgid "Show the keyboard shortcuts configuration"
+msgstr "Pokaż konfigurację skrótów klawiszowych"
+
+msgid "Profiles"
+msgstr "Profile"
+
+msgid "Automatic"
+msgstr "Automatycznie"
+
+msgid "Control-H"
+msgstr "Control-H"
+
+msgid "ASCII DEL"
+msgstr "ASCII DEL"
+
+msgid "Escape Sequence"
+msgstr "Sekwencja Escape"
+
+msgid "TTY Erase"
+msgstr "Kasowanie TTY"
+
+msgid "Edit Profile"
+msgstr "Edytuj profil"
+
+msgid "Profile"
+msgstr "Profil"
+
+msgid "Identifier"
+msgstr "Identyfikator"
+
+msgid "Copy"
+msgstr "Kopiuj"
+
+msgid "Color"
+msgstr "Kolor"
+
+msgid "Use Bright Colors for Bold"
+msgstr "Używaj jasnych kolorów dla pogrubienia"
+
+msgid "Network"
+msgstr "Sieć"
+
+msgid "Proxy"
+msgstr "Serwer pośredniczący"
+
+msgid "Applies the network proxy settings to the container environment"
+msgstr "Stosuje ustawienia serwera pośredniczącego sieci do środowiska kontenera"
+
+msgid "Use Custom Command"
+msgstr "Używaj niestandardowego polecenia"
+
+msgid "Custom Command"
+msgstr "Niestandardowe polecenie"
+
+msgid "Default Container"
+msgstr "Domyślny kontener"
+
+msgid "The default container to use with this profile"
+msgstr "Domyślny kontener używany z tym profilem"
+
+msgid "Preserve Container"
+msgstr "Zachowuj kontener"
+
+msgid "Preserve the current container when opening new tabs and windows"
+msgstr "Zachowuj bieżący kontener podczas otwierania nowych kart i okien"
+
+msgid "Remove Profile"
+msgstr "Usuń profil"
+
+msgid "Select a profile to apply to this terminal"
+msgstr "Wybierz profil do zastosowania w tym terminalu"
+
+msgid "View More"
+msgstr "Pokaż więcej"
+
+msgid "_Make Default"
+msgstr "Ustaw jako _domyślny"
+
+msgid "_Duplicate…"
+msgstr "_Duplikuj…"
+
+msgid "_Edit…"
+msgstr "_Edytuj…"
+
+msgid "_Remove"
+msgstr "_Usuń"
+
+msgid "Cancel"
+msgstr "Anuluj"
+
+msgid "Set"
+msgstr "Ustaw"
+
+msgid "Press Escape to cancel or Backspace to disable."
+msgstr "Naciśnij Escape, aby anulować, lub Backspace, aby wyłączyć."
+
+msgid "disabled"
+msgstr "wyłączony"
+
+msgid "Add Link"
+msgstr "Dodaj odnośnik"
+
+msgid "Edit Custom Link"
+msgstr "Edytuj niestandardowy odnośnik"
+
+msgid "Custom Link"
+msgstr "Niestandardowy odnośnik"
+
+msgid "A clickable link in the terminal that matches text patterns and opens custom URLs. Uses regex capture groups to build the final URL (e.g., $1 becomes the first matched group)."
+msgstr "Klikalny odnośnik w terminalu, który dopasowuje wzorce tekstu i otwiera niestandardowe adresy URL. Używa grup przechwytujących wyrażeń regularnych do zbudowania końcowego adresu URL (np. $1 staje się pierwszą dopasowaną grupą)."
+
+msgid "Regex Pattern"
+msgstr "Wzorzec wyrażenia regularnego"
+
+msgid "Target URL"
+msgstr "Docelowy adres URL"
+
+msgid "Add Profile"
+msgstr "Dodaj profil"
+
+msgid "Show Fewer Palettes"
+msgstr "Pokaż mniej palet"
+
+msgid "Select Font"
+msgstr "Wybierz czcionkę"
+
+msgid "The quick brown fox jumps over the lazy dog"
+msgstr "Pchnąć w tę łódź jeża lub ośm skrzyń fig"
