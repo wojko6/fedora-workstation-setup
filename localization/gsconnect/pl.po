@@ -1,10 +1,10 @@
+# GSConnect v73 Polish completion overlay.
+# Completes all untranslated entries found in the exact upstream v73 Polish catalog.
 msgid ""
 msgstr ""
-"Project-Id-Version: gsconnect v72 local completion\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-13 14:44-0400\n"
-"PO-Revision-Date: 2026-09-17 14:00+0200\n"
-"Last-Translator: Fedora Workstation Setup local completion\n"
+"Project-Id-Version: gsconnect v73 local completion\n"
+"PO-Revision-Date: 2026-09-24 17:00+0200\n"
+"Last-Translator: fedora-workstation-setup project\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
 "MIME-Version: 1.0\n"
@@ -12,19 +12,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#: data/ui/preferences-device-panel.ui:510
 msgid "Links"
 msgstr "Odnośniki"
 
-#: data/ui/preferences-device-panel.ui:562
 msgid "Automatically open received URLs"
 msgstr "Automatycznie otwieraj otrzymane adresy URL"
 
-#: data/ui/preferences-window.ui:826
 msgid "Retry"
 msgstr "Spróbuj ponownie"
 
-#: data/ui/preferences-window.ui:858
 msgid ""
 "The <tt>openssl</tt> command-line tool does not appear to be installed.\n"
 "Use your distro's package manager to install it.\n"
@@ -37,30 +33,21 @@ msgstr ""
 "Więcej informacji znajdziesz w <a href=\"https://github.com/gsconnect/gnome-"
 "shell-extension-gsconnect/wiki/Error#openssl-not-found\">wiki GSConnect</a>."
 
-#. TRANSLATORS: Open a dialog to connect to an IP or Bluez device
-#: data/ui/preferences-window.ui:923
 msgid "Add device by IP…"
 msgstr "Dodaj urządzenie za pomocą adresu IP…"
 
-#: src/preferences/service.js:443
 msgid "Invalid Device Name"
 msgstr "Nieprawidłowa nazwa urządzenia"
 
-#. TRANSLATOR: %s is a list of forbidden characters
-#: src/preferences/service.js:445
 #, javascript-format
-msgid ""
-"Device name must not contain any of %s and have a length of 1-32 characters"
+msgid "Device name must not contain any of %s and have a length of 1-32 characters"
 msgstr ""
 "Nazwa urządzenia nie może zawierać żadnego z następujących znaków: %s i musi "
 "mieć długość od 1 do 32 znaków"
 
-#. Notify the user
-#: src/service/daemon.js:99
 msgid "Settings Migrated"
 msgstr "Ustawienia zostały przeniesione"
 
-#: src/service/daemon.js:100
 msgid ""
 "GSConnect has updated to support changes to the KDE Connect protocol. Some "
 "devices may need to be re-paired."
@@ -68,12 +55,12 @@ msgstr ""
 "GSConnect został zaktualizowany, aby obsługiwać zmiany w protokole KDE "
 "Connect. Niektóre urządzenia mogą wymagać ponownego sparowania."
 
-#. TRANSLATORS: eg. Failed to pair with Google Pixel
-#: src/service/device.js:960
+msgid "Target Device Name"
+msgstr "Nazwa urządzenia docelowego"
+
 #, javascript-format
 msgid "Failed to pair with %s"
 msgstr "Nie udało się sparować z %s"
 
-#: src/service/device.js:961
 msgid "Device clocks are out of sync"
 msgstr "Zegary urządzeń nie są zsynchronizowane"
