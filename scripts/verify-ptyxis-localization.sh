@@ -159,6 +159,9 @@ Match _Case|Rozróżniaj _wielkość liter
 Whole _Words|_Całe słowa
 Use _Regular Expressions|Używaj _wyrażeń regularnych
 Add Link|Dodaj odnośnik
+Add Profile|Dodaj profil
+Show Fewer Palettes|Pokaż mniej palet
+Select Font|Wybierz czcionkę
 EOF
 
 while IFS='|' read -r source expected; do
