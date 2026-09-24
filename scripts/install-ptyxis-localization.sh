@@ -187,6 +187,7 @@ Append title from Shell application|Dołącz tytuł z aplikacji powłoki
 Match _Case|Rozróżniaj _wielkość liter
 Whole _Words|_Całe słowa
 Use _Regular Expressions|Używaj _wyrażeń regularnych
+Add Link|Dodaj odnośnik
 EOF
 
 echo "PASS: Ptyxis 50.1 Polish catalog, complete audited preferences/profile resources, and GNOME Shell desktop-action localization installed"
