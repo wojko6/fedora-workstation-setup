@@ -184,8 +184,12 @@ if name == "firewall-cmd":
 
     if "--list-all" in args:
         print(f"{zone} (active)")
-        print("  target: default")
-        print("  services: dhcpv6-client kdeconnect mdns")
+        if zone == "workstation-tailscale":
+            print(f"  target: {env('SEC_TEST_TS_TARGET', 'DROP')}")
+            print("  services:")
+        else:
+            print("  target: default")
+            print("  services: dhcpv6-client kdeconnect mdns")
         raise SystemExit(0)
 
     if "--query-forward" in args:
