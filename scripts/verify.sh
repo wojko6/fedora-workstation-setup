@@ -443,7 +443,7 @@ if gsconnect_verify_output="$(bash "$ROOT_DIR/scripts/verify-gsconnect-localizat
   if grep -q '^SKIP:' <<<"$gsconnect_verify_output"; then
     skip "GSConnect Polish localization: extension not installed"
   else
-    ok "GSConnect Polish localization and Shell gettext domain match repository"
+    ok "GSConnect v73 Polish localization and Shell gettext domain match repository"
   fi
 else
   printf '%s\n' "$gsconnect_verify_output"
@@ -573,7 +573,7 @@ if ddterm_verify_output="$(bash "$ROOT_DIR/scripts/verify-ddterm-localization.sh
   if grep -q '^SKIP:' <<<"$ddterm_verify_output"; then
     skip "ddterm Polish localization: extension not installed"
   else
-    ok "ddterm v72 Polish localization and metadata description match repository"
+    ok "ddterm v73 Polish localization and metadata description match repository"
   fi
 else
   printf '%s\n' "$ddterm_verify_output"
