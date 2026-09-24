@@ -100,7 +100,7 @@ echo "=== POLISH LOCALIZATION: Dhruva ==="
 bash "$ROOT_DIR/scripts/install-dhruva-localization.sh"
 
 echo
-echo "=== POLISH LOCALIZATION: GSConnect completion ==="
+echo "=== POLISH LOCALIZATION: GSConnect v73 completion ==="
 bash "$ROOT_DIR/scripts/install-gsconnect-localization.sh"
 
 echo
@@ -140,7 +140,7 @@ echo "=== POLISH LOCALIZATION: Vitals v85 completion ==="
 bash "$ROOT_DIR/scripts/install-vitals-localization.sh"
 
 echo
-echo "=== POLISH LOCALIZATION: ddterm v72 completion ==="
+echo "=== POLISH LOCALIZATION: ddterm v73 completion ==="
 bash "$ROOT_DIR/scripts/install-ddterm-localization.sh"
 
 echo

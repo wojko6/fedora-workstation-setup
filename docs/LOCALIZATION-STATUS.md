@@ -15,14 +15,14 @@ Repository-managed localization/integration currently covers:
 - Dhruva
 - Background Logo
 - Browser Switcher
-- GSConnect v72 completion and Shell gettext-domain fix
+- GSConnect v73 20-entry managed catalog (14 audited gaps + 6 reviewed RunCommand editor corrections), Shell gettext-domain fixes, and safe localization of five factory RunCommand names
 - Tiling Shell v76 / 17.3 completion overlay
 - Just Perfection v37 full Polish localization
 - Spotlight v15 / 2026.15 Polish localization and gettext integration
 - Space Bar v39 controlled Polish localization
 - Bluetooth Battery Meter v46/v49 BudsLink Companion completion overlay
 - Vitals v85 Polish completion overlay
-- ddterm v72 Polish completion plus localized metadata description
+- ddterm v73 18-entry Polish completion plus localized metadata description
 - Advanced Media Controller v31 / 6.5 full Polish catalog
 - Papers 49.8 / Nautilus document-properties completion overlay
 - Plymouth offline-update Polish locale persistence in initramfs
@@ -35,7 +35,7 @@ Repository-managed localization/integration currently covers:
 
 Dhruva remains the largest accepted case: 393 gettext messages, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
-`scripts/install-localizations.sh` currently invokes 15 version-specific GNOME-extension localization installers plus six application/system stages: Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks. Dedicated verifiers for the version-pinned targets are wired into the main `scripts/verify.sh` so restore drift is detected instead of silently accepted.
+`scripts/install-localizations.sh` currently manages **25 localization targets/operations**: four generic gettext targets, 15 specialized GNOME-extension stages, and six application/system stages (Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks). Dedicated verifiers for the version-pinned targets are wired into the main `scripts/verify.sh` so restore drift is detected instead of silently accepted.
 
 ## 2026-09-21 global physical localization audit
 
@@ -73,7 +73,7 @@ The GNOME 50 extension set was reviewed on the physical Fedora workstation. ArcM
 | ArcMenu | Upstream Polish support | No duplicate translation |
 | Bluetooth Battery Meter v49 | 16 untranslated BudsLink Companion entries | Completion overlay + v49 restore pin |
 | Caffeine | Upstream Polish support | No duplicate translation |
-| GSConnect v72 | 11 untranslated entries plus Shell domain issue | Completion overlay + metadata domain fix |
+| GSConnect v73 | 12 untranslated catalog entries + 2 unextracted plugin strings + missing RunCommand editor gettext domain + five English factory command names | 20-entry managed catalog + metadata/setup gettext-domain fixes + settings-safe factory-name migration |
 | Tiling Shell v76 / 17.3 | 15 untranslated entries | Completion overlay |
 | User Themes | Shared GNOME Shell Extensions Polish support | No duplicate translation |
 | Freon | Upstream Polish support | Removed from desired state |
@@ -152,17 +152,17 @@ The repository carries a minimal completion overlay in `localization/bluetooth-b
 
 The completion is limited to the demonstrated BudsLink gap; existing upstream Polish translations elsewhere in the extension remain unchanged. The exact EGO v49 archive is pinned with SHA-256 `53efe7719a55376ba7fdcaf5a837ec3567804489d39446f26bec881e85dd5afc`, so clean restore now reproduces the accepted v49 runtime instead of downgrading to v46.
 
-## GSConnect v72
+## GSConnect v73
 
-The exact v72 Polish catalog audit found **11 untranslated entries and 0 fuzzy entries**. The repository carries a minimal completion overlay rather than a duplicate full upstream catalog.
+The exact v73 Polish catalog audit found **12 untranslated entries and 0 fuzzy entries**. Eleven gaps persisted from v72 and v73 added `Target Device Name`. After the first physical installation and logout/login, visual inspection exposed two additional user-visible strings — `Connectivity Report` and `Display connectivity status` — that exist in `src/service/plugins/connectivity_report.js` but are absent from both the exact v73 POT and Polish catalog. A later RunCommand UI audit found a second integration defect: `preferences-command-editor.ui` omits the GSConnect translation domain, so its translatable labels remain English at runtime even though Polish catalog entries exist. Six awkward upstream Polish strings in that workflow are reviewed and overridden (`Edit Command`, `Save`, `Command Line`, `Choose an executable`, `Edit`, `Remove`). The managed catalog therefore contains **20 entries**: 14 audited gaps plus six reviewed RunCommand UI corrections.
 
-Runtime testing exposed an additional integration problem: GSConnect v72 ships the Polish catalog as `org.gnome.Shell.Extensions.GSConnect.mo`, but its extension metadata omitted `gettext-domain`. GNOME Shell 50 therefore used the wrong domain for Shell-side strings. The repository installer sets:
+GSConnect v73 still ships the Polish catalog as `org.gnome.Shell.Extensions.GSConnect.mo` while its pristine extension metadata omits `gettext-domain`. The repository therefore retains the Shell gettext-domain repair:
 
 ```json
 "gettext-domain": "org.gnome.Shell.Extensions.GSConnect"
 ```
 
-After logout/login, Quick Settings strings were confirmed translated on the physical workstation. The dedicated verifier checks both the merged Polish catalog and metadata domain.
+The v73 installer is pinned to the audited metadata, `extension.js`, `prefs.js`, `config.js`, and pristine Polish catalog fingerprints. It preserves versioned pristine backups, reconstructs the metadata change and merged catalog, and invokes the dedicated verifier. The verifier also asserts that the pristine v73 catalog does not resolve the two source-gap msgids and that the installed managed catalog resolves them to the reviewed Polish translations. The revised 14-entry overlay was applied on the physical workstation on 2026-09-24 and its earlier tree hash `30a5d6f15318b3e138d49b19a82be34bad03610374db20e110eeb3d63c6a79c3` was superseded by the subsequent RunCommand remediation. The installer also pins pristine `utils/setup.js` SHA-256 `3e2980b4eba74a93e46208e0dfa7b5fe4c6f80f071ab2e1298deac0dd9506a45`, adds the missing process default gettext domain, and invokes `scripts/gsconnect_runcommand_names.py`. That helper changes only the `name` field of the five exact factory commands (`Lock`, `Log Out`, `Power Off`, `Restart`, `Suspend`) while preserving every command line and any user-renamed/custom command. The corrected physical run reported `RunCommand names: inspected=5 migrated=5`, `Source-gap gettext checks: 2`, `RunCommand editor gettext checks: 9`, `RunCommand names verified: inspected=5 localized=5`, `Completion entries: 20`, and PASS. The final post-localization GSConnect v73 tree SHA-256 is `29bd02e3021fea0146311a623c3cd937dd96b224c41aeb83449d530f3468bffa`. After logout/login, the physical RunCommand page and editor were visually confirmed in Polish, while the actual command lines remained unchanged. GSConnect v73 localization is technically and visually accepted.
 
 ## Tiling Shell v76 / 17.3
 
@@ -210,13 +210,13 @@ The packaged upstream Polish catalog contained fuzzy or missing entries that lef
 
 The Vitals panel menu and preferences were visually checked on the physical Fedora workstation after the completion was installed.
 
-## ddterm v72
+## ddterm v73
 
-The physical workstation reports **ddterm v72**, version string `63.2.3 4f64fbe89`, with gettext domain `ddterm@amezin.github.com`.
+The physical workstation reports **ddterm v73**, version string `64.0.0 3ef2eb496`, with gettext domain `ddterm@amezin.github.com`.
 
-The upstream Polish catalog leaves `About ddterm` fuzzy, so gettext falls back to English. In addition, the About-window description comes directly from `metadata.json` rather than from the gettext catalog. The repository therefore carries a one-entry completion overlay plus an exact-version metadata-description localization.
+The exact v73 Polish source catalog contains **10 fuzzy and 8 untranslated entries**, for 18 effective runtime gaps. The global localization audit therefore expanded the previous one-entry fix into a complete 18-entry overlay covering the audited fuzzy/untranslated set. The About-window description still comes directly from `metadata.json`, so the exact-version metadata-description localization remains required.
 
-`scripts/install-ddterm-localization.sh` validates the audited v72 fingerprints, stores pristine metadata and Polish catalog backups, merges the single gettext completion, and writes the localized description. `scripts/verify-ddterm-localization.sh` reconstructs both artifacts and compares them with the live installation.
+`scripts/install-ddterm-localization.sh` validates the audited v73 metadata, `panelicon.js`, `about.js`, and pristine Polish catalog fingerprints, preserves versioned pristine backups, merges all 18 completion entries, and writes the localized description. `scripts/verify-ddterm-localization.sh` reconstructs both artifacts and compares them with the live installation. Physical installation and dedicated verification passed on 2026-09-24. The accepted post-localization extension-tree SHA-256 is `dbd72752dcc7687ab7a14a36ff1780f65e0b75e71245b8fa473e833b229c0d26`.
 
 ## Advanced Media Controller v31 / 6.5
 
@@ -282,7 +282,7 @@ PASS=236 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-The 2026-09-21 localization closure run remains the dedicated localization checkpoint at `PASS=236 WARN=0 FAIL=0 SKIP=0`. The current project-wide physical acceptance has since advanced to `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. Helium and GNOME Tweaks are physically accepted, including the final `Hinting` → `Dopasowanie do pikseli` override; Extension Manager is visually accepted; Blur my Shell is visually accepted; Clipboard Indicator passes its dedicated installation/runtime/gettext verification; Papers / Nautilus is visually accepted; and Plymouth offline-update localization is now technically verified and physically visually confirmed during the real 2026-09-22 offline-update cycle. VSCodium remains intentionally deferred and outside the reproducible localization claim.
+The 2026-09-21 localization closure run remains a historical dedicated checkpoint at `PASS=236 WARN=0 FAIL=0 SKIP=0`. On 2026-09-24, GSConnect v73 and ddterm v73 were installed from the audit branch, their dedicated localization verifiers and visual checks passed, and their final post-localization tree hashes were pinned. After correcting the runtime Tailscale target verifier and restoring the accepted Dhruva dock order, the complete physical verifier finished at `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. This is the current accepted physical-host aggregate. VSCodium remains intentionally deferred and outside the reproducible localization claim.
 
 The historical clean-room VM result remains unchanged:
 

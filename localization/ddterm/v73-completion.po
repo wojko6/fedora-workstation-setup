@@ -1,0 +1,67 @@
+# ddterm v73 Polish completion overlay.
+# Completes all 18 effective gaps (untranslated or fuzzy) in the exact audited v73 catalog.
+msgid ""
+msgstr ""
+"Project-Id-Version: ddterm v73 Polish completion\n"
+"PO-Revision-Date: 2026-09-24 17:00+0200\n"
+"Last-Translator: fedora-workstation-setup project\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "Contributors"
+msgstr "Współtwórcy"
+
+msgid "Tab _Title"
+msgstr "Tytuł _karty"
+
+msgid "Cancel"
+msgstr "Anuluj"
+
+msgid "About ddterm"
+msgstr "O ddterm"
+
+msgid "Appearance"
+msgstr "Wygląd"
+
+msgid "Work Area _Size"
+msgstr "_Rozmiar obszaru roboczego"
+
+msgid "Unlimited Scrollback"
+msgstr "Nieograniczona historia przewijania"
+
+msgid "Scrollback Lines"
+msgstr "Wiersze historii przewijania"
+
+msgid "Global Shortcuts"
+msgstr "Skróty globalne"
+
+msgid "Application Shortcuts"
+msgstr "Skróty aplikacji"
+
+msgid "Use System Font"
+msgstr "Używaj czcionki systemowej"
+
+msgid "Copy On Selection"
+msgstr "Kopiuj po zaznaczeniu"
+
+msgid "Enter new shortcut"
+msgstr "Wprowadź nowy skrót"
+
+msgid "Click \"Set\" to replace existing shortcut(s). Click \"Add\" to add alternative shortcut."
+msgstr "Kliknij „Ustaw”, aby zastąpić istniejące skróty. Kliknij „Dodaj”, aby dodać alternatywny skrót."
+
+msgid "Press Esc to cancel or Backspace to disable the keyboard shortcut"
+msgstr "Naciśnij Esc, aby anulować, lub Backspace, aby wyłączyć skrót klawiszowy"
+
+msgid "Set"
+msgstr "Ustaw"
+
+msgid "Add"
+msgstr "Dodaj"
+
+msgid "Reset to default value"
+msgstr "Przywróć wartość domyślną"
