@@ -62,7 +62,7 @@ System localization helpers:
 - `apply-space-bar-localization.py`
 - `gsconnect_runcommand_names.py` — safely localizes the five audited GSConnect v73 factory RunCommand display names in per-device GSettings while preserving UUIDs, command lines, and user-renamed/custom commands.
 - `ptyxis_desktop_actions.py` — deterministically reconstructs the audited Ptyxis desktop launcher with Polish names for its three GNOME Shell actions; refuses changed action lists, names, commands, or pre-existing Polish action labels.
-- `ptyxis_resource_audit.py` — extracts the six audited Ptyxis preference/profile/shortcut GResources and requires every translatable msgid to be present in the installed Polish catalog; only three reviewed technical identity labels are allowed to equal their source.
+- `ptyxis_resource_audit.py` — extracts the seven audited Ptyxis preference/profile/shortcut/custom-link GResources and requires every translatable msgid to be present in the installed Polish catalog; only three reviewed technical identity labels are allowed to equal their source.
 - `generate-dhruva-emoji-pl.py`
 - `inventory-extensions.sh`
 - `validate-repository.py`
