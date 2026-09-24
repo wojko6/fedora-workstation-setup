@@ -136,7 +136,7 @@ Repository-managed targets currently include:
 - Dhruva;
 - Background Logo;
 - Browser Switcher;
-- GSConnect v73 12-entry completion plus Shell gettext-domain fix;
+- GSConnect v73 14-entry completion (12 catalog gaps + 2 unextracted source strings) plus Shell gettext-domain fix;
 - Tiling Shell v76 / 17.3 completion overlay;
 - Just Perfection v37;
 - Spotlight v15 / 2026.15;
@@ -151,7 +151,7 @@ Repository-managed targets currently include:
 
 Dhruva remains the largest localization case: a 393-message gettext catalog, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
-GSConnect v73 was audited against its exact upstream release. Twelve untranslated entries are completed, including the new v73 `Target Device Name` gap, and the missing metadata `gettext-domain` repair remains required for the Shell-side catalog. The v73 installer/verifier passed on the physical workstation on 2026-09-24.
+GSConnect v73 was audited against its exact upstream release. The catalog itself has 12 untranslated entries, including the new v73 `Target Device Name` gap, and the missing metadata `gettext-domain` repair remains required for the Shell-side catalog. A post-login visual check on 2026-09-24 then exposed two additional user-visible source strings, `Connectivity Report` and `Display connectivity status`, that are absent from the upstream POT/catalog. The managed v73 overlay is therefore 14 entries. The verifier now checks these source-extraction gaps explicitly; a fresh physical apply and tree-hash capture are pending.
 
 Tiling Shell v76 / 17.3 was audited against the exact installed version. Fifteen untranslated Polish strings were completed with a minimal version-pinned overlay.
 
@@ -177,14 +177,14 @@ Plymouth offline-update localization is now fully physically validated. During a
 
 The physical workstation had independently updated GSConnect and ddterm to v73, creating controlled localization/version drift from the accepted v72 repository state. A read-only audit pinned the exact v73 upstream state before remediation. GSConnect v73 retains 11 prior untranslated messages and adds `Target Device Name`, for a 12-entry completion; its pristine metadata still omits the Shell gettext domain. ddterm v73 contains 10 fuzzy and 8 untranslated Polish catalog entries, so the prior one-entry fix was expanded to a complete 18-entry overlay while retaining the localized metadata description.
 
-Both staged v73 installers completed successfully on the physical Fedora 44 / GNOME 50.5 workstation, both dedicated verifiers passed, and final post-localization extension-tree hashes were captured:
+The first staged v73 installers completed successfully on the physical Fedora 44 / GNOME 50.5 workstation and both dedicated verifiers passed. The resulting ddterm tree hash remains valid, but the GSConnect hash below was later superseded when the post-login visual audit exposed two source strings missing from the upstream translation catalogs:
 
 ```text
-GSConnect v73  ea4d9e561a75b849b8c3a549e109e3a210dced429bc2f278f5c5c880f680f79c
+GSConnect v73  ea4d9e561a75b849b8c3a549e109e3a210dced429bc2f278f5c5c880f680f79c  (superseded; 12-entry overlay)
 ddterm v73     dbd72752dcc7687ab7a14a36ff1780f65e0b75e71245b8fa473e833b229c0d26
 ```
 
-The audit branch now promotes the v73 inventory rows, exact EGO archive SHA-256 pins, and these post-localization tree locks. This is not yet a replacement for the previous complete physical aggregate: logout/login runtime/visual validation and a fresh full `scripts/verify.sh` run remain required before the v73 state is declared fully accepted.
+The audit branch promotes the v73 inventory rows and exact EGO archive SHA-256 pins. ddterm's post-localization tree lock remains valid. GSConnect's tree lock is temporarily stale by design on this draft branch until the revised 14-entry overlay is applied and a new physical tree hash is captured. Do not run the full acceptance verifier against this intermediate draft state. The previous complete physical aggregate remains the last accepted aggregate.
 
 ## Important reproducibility decisions
 
