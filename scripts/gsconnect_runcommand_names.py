@@ -56,8 +56,32 @@ def command_settings(source, device_id: str, Gio):
     return Gio.Settings.new_full(schema, None, path)
 
 
+def _deep_unpack(value):
+    """Recursively convert GLib.Variant containers to plain Python values."""
+    unpack = getattr(value, "unpack", None)
+    if callable(unpack):
+        return _deep_unpack(unpack())
+
+    if isinstance(value, dict):
+        return {
+            key: _deep_unpack(item)
+            for key, item in value.items()
+        }
+
+    if isinstance(value, (list, tuple)):
+        return type(value)(_deep_unpack(item) for item in value)
+
+    return value
+
+
 def unpack_commands(settings) -> dict[str, dict[str, str]]:
-    commands = settings.get_value("command-list").recursive_unpack()
+    commands = _deep_unpack(settings.get_value("command-list"))
+    if not isinstance(commands, dict):
+        raise SystemExit(
+            "FAIL: unexpected GSConnect command-list container type: "
+            f"{type(commands).__name__}"
+        )
+
     result: dict[str, dict[str, str]] = {}
 
     for uuid, entry in commands.items():
