@@ -12,16 +12,21 @@ METADATA="$EXT_DIR/metadata.json"
 EXTENSION_JS="$EXT_DIR/extension.js"
 PREFS_JS="$EXT_DIR/prefs.js"
 CONFIG_JS="$EXT_DIR/config.js"
+SETUP_JS="$EXT_DIR/utils/setup.js"
+SCHEMA_DIR="$EXT_DIR/schemas"
 BACKUP_DIR="$EXT_DIR/.localization-backup-v73"
 BACKUP_METADATA="$BACKUP_DIR/metadata.json"
 BACKUP_MO="$BACKUP_DIR/$DOMAIN.mo"
+BACKUP_SETUP_JS="$BACKUP_DIR/setup.js"
+RUNCOMMAND_HELPER="$ROOT_DIR/scripts/gsconnect_runcommand_names.py"
 
 EXPECTED_METADATA_SHA="deb9d7972da0e973b3a67c910577dd2df1191b48fdd115a99288bcdb9c927422"
 EXPECTED_EXTENSION_SHA="8de3ae0c1c4c1d0768c31aa8713192228168e988c3120eb3100a80d9f2b2feee"
 EXPECTED_PREFS_SHA="d5c073a134d912411d4317d29e5a33131d71854471f58035cdb2cfabd3341e30"
 EXPECTED_CONFIG_SHA="a90f3a914ab72bf7d72ce303008ef19c1904105abad691403172aeee996df6ee"
+EXPECTED_SETUP_SHA="3e2980b4eba74a93e46208e0dfa7b5fe4c6f80f071ab2e1298deac0dd9506a45"
 EXPECTED_UPSTREAM_MO_SHA="ac830d12a1e851b79438e18b5b6abf42cca6df10e02c176bba934af734235384"
-EXPECTED_COMPLETION_ENTRIES="14"
+EXPECTED_COMPLETION_ENTRIES="20"
 
 if [[ ! -d "$EXT_DIR" ]]; then
     echo "SKIP: GSConnect extension not installed: $UUID"
@@ -35,7 +40,7 @@ for cmd in msgfmt msgunfmt msgcat python3 sha256sum cmp; do
     }
 done
 
-for path in "$SOURCE_PO" "$TARGET_MO" "$METADATA" "$EXTENSION_JS" "$PREFS_JS" "$CONFIG_JS" "$BACKUP_METADATA" "$BACKUP_MO"; do
+for path in "$SOURCE_PO" "$TARGET_MO" "$METADATA" "$EXTENSION_JS" "$PREFS_JS" "$CONFIG_JS" "$SETUP_JS" "$BACKUP_METADATA" "$BACKUP_MO" "$BACKUP_SETUP_JS" "$RUNCOMMAND_HELPER"; do
     [[ -f "$path" ]] || {
         echo "FAIL: required GSConnect localization file missing: $path" >&2
         exit 1
@@ -59,6 +64,7 @@ check_sha "$PREFS_JS" "$EXPECTED_PREFS_SHA" "prefs.js"
 check_sha "$CONFIG_JS" "$EXPECTED_CONFIG_SHA" "config.js"
 check_sha "$BACKUP_METADATA" "$EXPECTED_METADATA_SHA" "pristine metadata backup"
 check_sha "$BACKUP_MO" "$EXPECTED_UPSTREAM_MO_SHA" "pristine Polish catalog backup"
+check_sha "$BACKUP_SETUP_JS" "$EXPECTED_SETUP_SHA" "pristine utils/setup.js backup"
 
 python3 - "$METADATA" "$EXPECTED_VERSION" "$DOMAIN" <<'PY'
 import json
@@ -111,6 +117,28 @@ if ! cmp -s "$tmpdir/metadata.json" "$METADATA"; then
     exit 1
 fi
 
+python3 - "$BACKUP_SETUP_JS" "$tmpdir/setup.js" <<'PY'
+import sys
+
+src, dst = sys.argv[1:]
+text = open(src, encoding="utf-8").read()
+needle = "    Gettext.bindtextdomain(Config.APP_ID, Config.PACKAGE_LOCALEDIR);\n"
+replacement = (
+    needle
+    + "    Gettext.textdomain(Config.APP_ID);\n"
+)
+if text.count(needle) != 1:
+    raise SystemExit("FAIL: unexpected GSConnect v73 setupGettext() source")
+text = text.replace(needle, replacement, 1)
+with open(dst, "w", encoding="utf-8") as f:
+    f.write(text)
+PY
+
+if ! cmp -s "$tmpdir/setup.js" "$SETUP_JS"; then
+    echo "FAIL: installed GSConnect setupGettext() domain fix differs from repository" >&2
+    exit 1
+fi
+
 msgunfmt "$BACKUP_MO" -o "$tmpdir/upstream.po"
 msgcat --use-first "$SOURCE_PO" "$tmpdir/upstream.po" -o "$tmpdir/merged.po"
 msgfmt --check "$tmpdir/merged.po" -o "$tmpdir/$DOMAIN.mo"
@@ -128,6 +156,15 @@ upstream_path, installed_path = sys.argv[1:]
 expected = {
     "Connectivity Report": "Raport łączności",
     "Display connectivity status": "Wyświetlanie stanu łączności",
+}
+
+reviewed_overrides = {
+    "Edit Command": "Edytuj polecenie",
+    "Save": "Zapisz",
+    "Command Line": "Wiersz polecenia",
+    "Choose an executable": "Wybierz plik wykonywalny",
+    "Edit": "Edytuj",
+    "Remove": "Usuń",
 }
 
 with open(upstream_path, "rb") as f:
@@ -150,8 +187,19 @@ for msgid, msgstr in expected.items():
             f"expected {msgstr!r}, got {actual!r}"
         )
 
+for msgid, msgstr in reviewed_overrides.items():
+    actual = installed.gettext(msgid)
+    if actual != msgstr:
+        raise SystemExit(
+            f"FAIL: GSConnect reviewed RunCommand UI translation for {msgid!r}: "
+            f"expected {msgstr!r}, got {actual!r}"
+        )
+
 print(f"Source-gap gettext checks: {len(expected)}")
+print(f"Reviewed RunCommand UI checks: {len(reviewed_overrides)}")
 PY
 
+python3 "$RUNCOMMAND_HELPER" verify --schema-dir "$SCHEMA_DIR"
+
 printf 'Completion entries: %d\n' "$completion_entries"
-echo "PASS: GSConnect v73 Polish localization and Shell gettext domain match repository"
+echo "PASS: GSConnect v73 Polish localization, RunCommand UI and factory names match repository"
