@@ -17,6 +17,7 @@ RESOURCES = (
     "/org/gnome/Ptyxis/ptyxis-profile-row.ui",
     "/org/gnome/Ptyxis/ptyxis-shortcut-accel-dialog.ui",
     "/org/gnome/Ptyxis/ptyxis-shortcut-row.ui",
+    "/org/gnome/Ptyxis/ptyxis-custom-link-editor.ui",
 )
 
 # These technical labels are intentionally identical in Polish.
