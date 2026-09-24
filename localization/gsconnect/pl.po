@@ -1,5 +1,6 @@
 # GSConnect v73 Polish completion overlay.
-# Completes all untranslated entries found in the exact upstream v73 Polish catalog.
+# Completes all untranslated entries found in the exact upstream v73 Polish catalog
+# plus audited user-visible source strings missing from the upstream POT/catalog.
 msgid ""
 msgstr ""
 "Project-Id-Version: gsconnect v73 local completion\n"
@@ -11,6 +12,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+
+msgid "Connectivity Report"
+msgstr "Raport łączności"
+
+msgid "Display connectivity status"
+msgstr "Wyświetlanie stanu łączności"
 
 msgid "Links"
 msgstr "Odnośniki"
