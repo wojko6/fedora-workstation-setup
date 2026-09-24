@@ -167,6 +167,12 @@ reviewed_overrides = {
     "Remove": "Usuń",
 }
 
+existing_editor_translations = {
+    "Cancel": "Anuluj",
+    "Name": "Nazwa",
+    "Open": "Otwórz",
+}
+
 with open(upstream_path, "rb") as f:
     upstream = gettext.GNUTranslations(f)
 with open(installed_path, "rb") as f:
@@ -187,16 +193,20 @@ for msgid, msgstr in expected.items():
             f"expected {msgstr!r}, got {actual!r}"
         )
 
-for msgid, msgstr in reviewed_overrides.items():
-    actual = installed.gettext(msgid)
-    if actual != msgstr:
-        raise SystemExit(
-            f"FAIL: GSConnect reviewed RunCommand UI translation for {msgid!r}: "
-            f"expected {msgstr!r}, got {actual!r}"
-        )
+for group in (reviewed_overrides, existing_editor_translations):
+    for msgid, msgstr in group.items():
+        actual = installed.gettext(msgid)
+        if actual != msgstr:
+            raise SystemExit(
+                f"FAIL: GSConnect RunCommand UI translation for {msgid!r}: "
+                f"expected {msgstr!r}, got {actual!r}"
+            )
 
 print(f"Source-gap gettext checks: {len(expected)}")
-print(f"Reviewed RunCommand UI checks: {len(reviewed_overrides)}")
+print(
+    "RunCommand editor gettext checks: "
+    f"{len(reviewed_overrides) + len(existing_editor_translations)}"
+)
 PY
 
 python3 "$RUNCOMMAND_HELPER" verify --schema-dir "$SCHEMA_DIR"
