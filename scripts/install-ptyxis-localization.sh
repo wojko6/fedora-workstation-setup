@@ -188,6 +188,9 @@ Match _Case|Rozróżniaj _wielkość liter
 Whole _Words|_Całe słowa
 Use _Regular Expressions|Używaj _wyrażeń regularnych
 Add Link|Dodaj odnośnik
+Add Profile|Dodaj profil
+Show Fewer Palettes|Pokaż mniej palet
+Select Font|Wybierz czcionkę
 EOF
 
 echo "PASS: Ptyxis 50.1 Polish catalog, complete audited preferences/profile resources, and GNOME Shell desktop-action localization installed"
