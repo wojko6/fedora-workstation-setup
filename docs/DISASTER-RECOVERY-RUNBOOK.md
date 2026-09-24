@@ -337,7 +337,7 @@ This workstation's accepted desired state includes Secure Boot with a signed NVI
 
 The offline disaster-recovery generation represents a point in time. The current repository may have advanced since that backup was created.
 
-The 2026-09-21 generation was created immediately after the current accepted `PASS=236` baseline, but every recovery generation is still a point-in-time snapshot and the repository can advance later.
+The 2026-09-21 generation was created immediately after the then-accepted `PASS=236` baseline, but every recovery generation is still a point-in-time snapshot and the repository can advance later.
 
 Therefore:
 
@@ -361,7 +361,7 @@ bash scripts/verify.sh
 The current accepted physical-workstation reference is:
 
 ```text
-PASS=236 WARN=0 FAIL=0 SKIP=0
+PASS=256 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 

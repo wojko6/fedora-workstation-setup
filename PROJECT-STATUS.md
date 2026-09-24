@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Physical baseline refreshed and accepted 2026-09-24; Recovery and Stability Gates passed; GSConnect v73 and ddterm v73 localization promotion physically accepted; dedicated `workstation-tailscale` DROP policy physically accepted; D-H1, D-H2/D-H3, and D-H4 High-severity audit remediation physically accepted; reproducible DING System Monitor desktop-menu integration physically accepted; unused desktop applications removed from desired state; Helium required in desired state; VPCS COPR restricted to vpcs; Firefox explicitly absent; MOK signer verification made deterministic; external repository trust anchors and package signer identities physically accepted; latest private DR generation integrity-verified; full physical verifier clean at PASS=256 WARN=0 FAIL=0 SKIP=0
+**Status:** Physical baseline refreshed and accepted 2026-09-24; Recovery and Stability Gates passed; GSConnect v73, ddterm v73, and complete Ptyxis 50.1 Polish localization physically accepted; dedicated `workstation-tailscale` DROP policy physically accepted; D-H1, D-H2/D-H3, and D-H4 High-severity audit remediation physically accepted; reproducible DING System Monitor desktop-menu integration physically accepted; unused desktop applications removed from desired state; Helium required in desired state; VPCS COPR restricted to vpcs; Firefox explicitly absent; MOK signer verification made deterministic; external repository trust anchors and package signer identities physically accepted; latest private DR generation integrity-verified; full physical verifier clean at PASS=256 WARN=0 FAIL=0 SKIP=0
 
 **Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
 
@@ -22,7 +22,7 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After the 2026-09-24 GSConnect/ddterm v73 localization promotion, Tailscale runtime-target verifier portability fix, and restoration of the accepted Dhruva dock order, the physical-workstation verifier was rerun from the audit branch and completed with:
+After the 2026-09-24 GSConnect/ddterm v73 localization promotion, Tailscale runtime-target verifier portability fix, restoration of the accepted Dhruva dock order, and final Ptyxis 50.1 localization acceptance, the physical-workstation verifier completed with:
 
 ```text
 PASS=256 WARN=0 FAIL=0 SKIP=0
@@ -171,7 +171,7 @@ Papers 49.8 uses a minimal completion overlay for the Nautilus document-properti
 
 Plymouth offline-update localization is now fully physically validated. During a real Fedora offline-update cycle on **2026-09-22**, the physical workstation displayed the update screen in Polish, including `Instalowanie aktualizacji…`, `Nie należy wyłączać komputera`, and translated progress text (`Ukończono 13%` was observed). This closes the previous evidence gap between technically verified initramfs contents and actual user-visible runtime behavior.
 
-`scripts/install-localizations.sh` now manages 25 localization targets/operations: four generic gettext targets, 15 specialized GNOME-extension stages, and six application/system stages (Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks). Dedicated localization verifiers are integrated into the main `scripts/verify.sh`. GSConnect v73 and ddterm v73 passed their dedicated physical checks and visual acceptance, and the final 2026-09-24 full physical verifier completed cleanly at `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
+`scripts/install-localizations.sh` now manages 25 localization targets/operations: four generic gettext targets, 15 specialized GNOME-extension stages, and six application/system stages (Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks). Dedicated localization verifiers are integrated into the main `scripts/verify.sh`. GSConnect v73, ddterm v73, and the complete Ptyxis 50.1 localization passed their dedicated physical checks and visual acceptance, and the final 2026-09-24 full physical verifier completed cleanly at `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
 
 ## GSConnect/ddterm v73 localization promotion — 2026-09-24
 

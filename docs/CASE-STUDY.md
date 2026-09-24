@@ -105,7 +105,7 @@ Validated components include:
 - GNOME Tweaks,
 - Papers / Nautilus,
 - Plymouth offline updates,
-- Ptyxis / libadwaita.
+- Ptyxis 50.1 complete audited Polish localization, including preferences/profile/shortcut/custom-link/palette UI, dynamic gettext labels, libadwaita About integration, and GNOME Shell desktop actions.
 
 ## ArcMenu gettext binding fix
 
