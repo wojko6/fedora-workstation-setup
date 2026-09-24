@@ -21,7 +21,7 @@ EXPECTED_EXTENSION_SHA="8de3ae0c1c4c1d0768c31aa8713192228168e988c3120eb3100a80d9
 EXPECTED_PREFS_SHA="d5c073a134d912411d4317d29e5a33131d71854471f58035cdb2cfabd3341e30"
 EXPECTED_CONFIG_SHA="a90f3a914ab72bf7d72ce303008ef19c1904105abad691403172aeee996df6ee"
 EXPECTED_UPSTREAM_MO_SHA="ac830d12a1e851b79438e18b5b6abf42cca6df10e02c176bba934af734235384"
-EXPECTED_COMPLETION_ENTRIES="12"
+EXPECTED_COMPLETION_ENTRIES="14"
 
 if [[ ! -d "$EXT_DIR" ]]; then
     echo "SKIP: GSConnect extension not installed: $UUID"
@@ -119,6 +119,39 @@ if ! cmp -s "$tmpdir/$DOMAIN.mo" "$TARGET_MO"; then
     echo "FAIL: GSConnect Polish localization differs from repository completion" >&2
     exit 1
 fi
+
+python3 - "$BACKUP_MO" "$TARGET_MO" <<'PY'
+import gettext
+import sys
+
+upstream_path, installed_path = sys.argv[1:]
+expected = {
+    "Connectivity Report": "Raport łączności",
+    "Display connectivity status": "Wyświetlanie stanu łączności",
+}
+
+with open(upstream_path, "rb") as f:
+    upstream = gettext.GNUTranslations(f)
+with open(installed_path, "rb") as f:
+    installed = gettext.GNUTranslations(f)
+
+for msgid, msgstr in expected.items():
+    upstream_value = upstream.gettext(msgid)
+    if upstream_value != msgid:
+        raise SystemExit(
+            f"FAIL: expected audited GSConnect v73 upstream source gap for {msgid!r}, "
+            f"got {upstream_value!r}"
+        )
+
+    actual = installed.gettext(msgid)
+    if actual != msgstr:
+        raise SystemExit(
+            f"FAIL: GSConnect source-gap translation for {msgid!r}: "
+            f"expected {msgstr!r}, got {actual!r}"
+        )
+
+print(f"Source-gap gettext checks: {len(expected)}")
+PY
 
 printf 'Completion entries: %d\n' "$completion_entries"
 echo "PASS: GSConnect v73 Polish localization and Shell gettext domain match repository"
