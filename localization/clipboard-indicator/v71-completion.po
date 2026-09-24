@@ -200,3 +200,6 @@ msgstr "Wybierz spośród zainstalowanych aplikacji"
 
 msgid "Search applications..."
 msgstr "Szukaj aplikacji..."
+
+msgid "The currently active clipboard entry will not be removed when clearing history"
+msgstr "Aktualnie aktywny wpis schowka nie zostanie usunięty podczas czyszczenia historii"
