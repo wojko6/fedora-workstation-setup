@@ -151,7 +151,7 @@ Repository-managed targets currently include:
 
 Dhruva remains the largest localization case: a 393-message gettext catalog, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
-GSConnect v73 was audited against its exact upstream release. The catalog itself has 12 untranslated entries, including the new v73 `Target Device Name` gap, and the missing metadata `gettext-domain` repair remains required for the Shell-side catalog. A post-login visual check on 2026-09-24 then exposed two additional user-visible source strings, `Connectivity Report` and `Display connectivity status`, that are absent from the upstream POT/catalog. The managed v73 overlay is therefore 14 entries. The verifier now checks these source-extraction gaps explicitly; a fresh physical apply and tree-hash capture are pending.
+GSConnect v73 was audited against its exact upstream release. The catalog itself has 12 untranslated entries, including the new v73 `Target Device Name` gap, and the missing metadata `gettext-domain` repair remains required for the Shell-side catalog. A post-login visual check on 2026-09-24 then exposed two additional user-visible source strings, `Connectivity Report` and `Display connectivity status`, that are absent from the upstream POT/catalog. The managed v73 overlay is therefore 14 entries. The revised installer and verifier passed on the physical workstation, including `Source-gap gettext checks: 2`, and the final post-localization tree hash is `30a5d6f15318b3e138d49b19a82be34bad03610374db20e110eeb3d63c6a79c3`.
 
 Tiling Shell v76 / 17.3 was audited against the exact installed version. Fifteen untranslated Polish strings were completed with a minimal version-pinned overlay.
 
@@ -180,11 +180,11 @@ The physical workstation had independently updated GSConnect and ddterm to v73, 
 The first staged v73 installers completed successfully on the physical Fedora 44 / GNOME 50.5 workstation and both dedicated verifiers passed. The resulting ddterm tree hash remains valid, but the GSConnect hash below was later superseded when the post-login visual audit exposed two source strings missing from the upstream translation catalogs:
 
 ```text
-GSConnect v73  ea4d9e561a75b849b8c3a549e109e3a210dced429bc2f278f5c5c880f680f79c  (superseded; 12-entry overlay)
+GSConnect v73  30a5d6f15318b3e138d49b19a82be34bad03610374db20e110eeb3d63c6a79c3  (final 14-entry overlay)
 ddterm v73     dbd72752dcc7687ab7a14a36ff1780f65e0b75e71245b8fa473e833b229c0d26
 ```
 
-The audit branch promotes the v73 inventory rows and exact EGO archive SHA-256 pins. ddterm's post-localization tree lock remains valid. GSConnect's tree lock is temporarily stale by design on this draft branch until the revised 14-entry overlay is applied and a new physical tree hash is captured. Do not run the full acceptance verifier against this intermediate draft state. The previous complete physical aggregate remains the last accepted aggregate.
+The audit branch now promotes the v73 inventory rows, exact EGO archive SHA-256 pins, and final post-localization tree locks for both ddterm and GSConnect. The previous complete physical aggregate remains the last accepted aggregate until logout/login visual confirmation and a fresh full `scripts/verify.sh` run complete.
 
 ## Important reproducibility decisions
 
