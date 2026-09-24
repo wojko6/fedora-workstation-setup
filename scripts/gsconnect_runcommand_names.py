@@ -5,11 +5,6 @@ import argparse
 import sys
 from pathlib import Path
 
-try:
-    from gi.repository import Gio, GLib
-except ImportError as exc:
-    raise SystemExit(f"FAIL: PyGObject/Gio unavailable: {exc}")
-
 APP_SCHEMA = "org.gnome.Shell.Extensions.GSConnect"
 RUNCOMMAND_SCHEMA = "org.gnome.Shell.Extensions.GSConnect.Plugin.RunCommand"
 ROOT_PATH = "/org/gnome/shell/extensions/gsconnect/"
@@ -25,7 +20,15 @@ DEFAULT_COMMANDS = {
 }
 
 
-def schema_source(schema_dir: Path) -> Gio.SettingsSchemaSource:
+def load_gi():
+    try:
+        from gi.repository import Gio, GLib
+    except ImportError as exc:
+        raise SystemExit(f"FAIL: PyGObject/Gio unavailable: {exc}")
+    return Gio, GLib
+
+
+def schema_source(schema_dir: Path, Gio):
     if not schema_dir.is_dir():
         raise SystemExit(f"FAIL: GSConnect schema directory missing: {schema_dir}")
 
@@ -36,21 +39,14 @@ def schema_source(schema_dir: Path) -> Gio.SettingsSchemaSource:
     )
 
 
-def settings_for(
-    source: Gio.SettingsSchemaSource,
-    schema_id: str,
-    path: str,
-) -> Gio.Settings:
+def settings_for(source, schema_id: str, path: str, Gio):
     schema = source.lookup(schema_id, True)
     if schema is None:
         raise SystemExit(f"FAIL: GSConnect GSettings schema missing: {schema_id}")
     return Gio.Settings.new_full(schema, None, path)
 
 
-def command_settings(
-    source: Gio.SettingsSchemaSource,
-    device_id: str,
-) -> Gio.Settings:
+def command_settings(source, device_id: str, Gio):
     schema = source.lookup(RUNCOMMAND_SCHEMA, True)
     if schema is None:
         raise SystemExit(
@@ -60,7 +56,7 @@ def command_settings(
     return Gio.Settings.new_full(schema, None, path)
 
 
-def unpack_commands(settings: Gio.Settings) -> dict[str, dict[str, str]]:
+def unpack_commands(settings) -> dict[str, dict[str, str]]:
     commands = settings.get_value("command-list").recursive_unpack()
     result: dict[str, dict[str, str]] = {}
 
@@ -80,7 +76,7 @@ def unpack_commands(settings: Gio.Settings) -> dict[str, dict[str, str]]:
     return result
 
 
-def pack_commands(commands: dict[str, dict[str, str]]) -> GLib.Variant:
+def pack_commands(commands: dict[str, dict[str, str]], GLib):
     packed = {
         uuid: GLib.Variant(
             "a{ss}",
@@ -95,8 +91,9 @@ def pack_commands(commands: dict[str, dict[str, str]]) -> GLib.Variant:
 
 
 def inspect_or_apply(schema_dir: Path, apply: bool) -> int:
-    source = schema_source(schema_dir)
-    root = settings_for(source, APP_SCHEMA, ROOT_PATH)
+    Gio, GLib = load_gi()
+    source = schema_source(schema_dir, Gio)
+    root = settings_for(source, APP_SCHEMA, ROOT_PATH, Gio)
     devices = root.get_strv("devices")
 
     inspected = 0
@@ -106,7 +103,7 @@ def inspect_or_apply(schema_dir: Path, apply: bool) -> int:
     english_defaults = 0
 
     for device_id in devices:
-        settings = command_settings(source, device_id)
+        settings = command_settings(source, device_id, Gio)
         commands = unpack_commands(settings)
         changed = False
 
@@ -138,7 +135,7 @@ def inspect_or_apply(schema_dir: Path, apply: bool) -> int:
             before_commands = {
                 uuid: entry["command"] for uuid, entry in commands.items()
             }
-            settings.set_value("command-list", pack_commands(commands))
+            settings.set_value("command-list", pack_commands(commands, GLib))
             after = unpack_commands(settings)
             after_commands = {
                 uuid: entry["command"] for uuid, entry in after.items()
