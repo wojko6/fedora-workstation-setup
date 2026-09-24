@@ -136,14 +136,14 @@ Repository-managed targets currently include:
 - Dhruva;
 - Background Logo;
 - Browser Switcher;
-- GSConnect v72 completion plus Shell gettext-domain fix;
+- GSConnect v73 12-entry completion plus Shell gettext-domain fix;
 - Tiling Shell v76 / 17.3 completion overlay;
 - Just Perfection v37;
 - Spotlight v15 / 2026.15;
 - Space Bar v39;
 - Bluetooth Battery Meter v46/v49 BudsLink Companion completion overlay;
 - Vitals v85 completion;
-- ddterm v72 completion plus metadata description localization;
+- ddterm v73 18-entry completion plus metadata description localization;
 - Advanced Media Controller v31 / 6.5 full Polish catalog;
 - Papers 49.8 completion overlay for Nautilus document properties, annotations, and the empty start page;
 - Plymouth offline-update Polish locale persistence in initramfs, physically and visually validated during a real offline-update cycle on 2026-09-22;
@@ -151,7 +151,7 @@ Repository-managed targets currently include:
 
 Dhruva remains the largest localization case: a 393-message gettext catalog, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
-GSConnect v72 was audited against its exact upstream catalog. Eleven untranslated entries were completed, and runtime testing identified the missing metadata `gettext-domain` required for Shell-side Quick Settings translations.
+GSConnect v73 was audited against its exact upstream release. Twelve untranslated entries are completed, including the new v73 `Target Device Name` gap, and the missing metadata `gettext-domain` repair remains required for the Shell-side catalog. The v73 installer/verifier passed on the physical workstation on 2026-09-24.
 
 Tiling Shell v76 / 17.3 was audited against the exact installed version. Fifteen untranslated Polish strings were completed with a minimal version-pinned overlay.
 
@@ -163,7 +163,7 @@ Space Bar v39 lacks a usable upstream localization path for the audited release.
 
 Bluetooth Battery Meter uses a minimal **16-entry** completion overlay for the BudsLink Companion preferences page. The desired-state restore lock is now v49; the localization installer and verifier retain compatibility with the previously audited v46 build while requiring the audited gettext domain and exact BudsLink source messages. The v49 installation passed its dedicated verifier and gettext smoke test, and the completed preferences page was visually confirmed in Polish after terminating the resident Extension Manager and GNOME Extensions processes that had cached the previous catalog.
 
-Vitals v85 uses a version-pinned completion overlay over its incomplete upstream Polish catalog. ddterm v72 uses a one-entry gettext completion plus a localized metadata description for its About window.
+Vitals v85 uses a version-pinned completion overlay over its incomplete upstream Polish catalog. ddterm v73 now uses a full 18-entry completion for all audited fuzzy/untranslated catalog gaps plus the localized metadata description for its About window; the dedicated v73 installer/verifier passed on the physical workstation on 2026-09-24.
 
 Advanced Media Controller v31 / 6.5 ships no Polish catalog in the tested archive. The repository carries a complete **276-entry** Polish gettext catalog generated against the exact v31 string template. Its installer/verifier checks version 31, version name 6.5, gettext domain, audited file fingerprints, translation completeness, byte-for-byte installed `.mo` equality, and a runtime gettext smoke test requiring `General` to resolve to `Ogólne`. The preferences UI was visually confirmed in Polish on the physical workstation.
 
@@ -171,7 +171,20 @@ Papers 49.8 uses a minimal completion overlay for the Nautilus document-properti
 
 Plymouth offline-update localization is now fully physically validated. During a real Fedora offline-update cycle on **2026-09-22**, the physical workstation displayed the update screen in Polish, including `Instalowanie aktualizacji…`, `Nie należy wyłączać komputera`, and translated progress text (`Ukończono 13%` was observed). This closes the previous evidence gap between technically verified initramfs contents and actual user-visible runtime behavior.
 
-`scripts/install-localizations.sh` now invokes 15 version-specific GNOME-extension localization installers plus six application/system localization stages: Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks. Dedicated localization verifiers are integrated into the main `scripts/verify.sh`. The current complete physical-host verifier is accepted at `PASS=236 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
+`scripts/install-localizations.sh` now manages 25 localization targets/operations: four generic gettext targets, 15 specialized GNOME-extension stages, and six application/system stages (Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks). Dedicated localization verifiers are integrated into the main `scripts/verify.sh`. The 2026-09-24 GSConnect v73 and ddterm v73 dedicated checks passed, but the previous complete physical-host aggregate remains the last accepted aggregate until the updated branch is run through the full verifier.
+
+## GSConnect/ddterm v73 localization promotion — 2026-09-24
+
+The physical workstation had independently updated GSConnect and ddterm to v73, creating controlled localization/version drift from the accepted v72 repository state. A read-only audit pinned the exact v73 upstream state before remediation. GSConnect v73 retains 11 prior untranslated messages and adds `Target Device Name`, for a 12-entry completion; its pristine metadata still omits the Shell gettext domain. ddterm v73 contains 10 fuzzy and 8 untranslated Polish catalog entries, so the prior one-entry fix was expanded to a complete 18-entry overlay while retaining the localized metadata description.
+
+Both staged v73 installers completed successfully on the physical Fedora 44 / GNOME 50.5 workstation, both dedicated verifiers passed, and final post-localization extension-tree hashes were captured:
+
+```text
+GSConnect v73  ea4d9e561a75b849b8c3a549e109e3a210dced429bc2f278f5c5c880f680f79c
+ddterm v73     dbd72752dcc7687ab7a14a36ff1780f65e0b75e71245b8fa473e833b229c0d26
+```
+
+The audit branch now promotes the v73 inventory rows, exact EGO archive SHA-256 pins, and these post-localization tree locks. This is not yet a replacement for the previous complete physical aggregate: logout/login runtime/visual validation and a fresh full `scripts/verify.sh` run remain required before the v73 state is declared fully accepted.
 
 ## Important reproducibility decisions
 
