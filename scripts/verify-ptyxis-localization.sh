@@ -11,6 +11,7 @@ DESKTOP_FILE="/usr/share/applications/org.gnome.Ptyxis.desktop"
 DESKTOP_BACKUP="${DESKTOP_FILE}.fedora-workstation-setup.upstream.bak"
 EXPECTED_DESKTOP_SHA256="8c596c2aff40ac062f61e6c541f0bccfa62091ce8503d63e2306d2e0a97f2b88"
 DESKTOP_PATCHER="$ROOT_DIR/scripts/ptyxis_desktop_actions.py"
+RESOURCE_AUDITOR="$ROOT_DIR/scripts/ptyxis_resource_audit.py"
 
 for cmd in rpm msgfmt gettext cmp gresource sha256sum python3; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
@@ -30,7 +31,7 @@ if [[ "$nvr" != "$EXPECTED_NVR" ]]; then
     exit 1
 fi
 
-for path in "$SOURCE_PO" "$TARGET_MO" "$LIBADWAITA_MO" "$DESKTOP_FILE" "$DESKTOP_BACKUP" "$DESKTOP_PATCHER"; do
+for path in "$SOURCE_PO" "$TARGET_MO" "$LIBADWAITA_MO" "$DESKTOP_FILE" "$DESKTOP_BACKUP" "$DESKTOP_PATCHER" "$RESOURCE_AUDITOR"; do
     if [[ ! -f "$path" ]]; then
         echo "FAIL: required localization file missing: $path" >&2
         exit 1
@@ -73,6 +74,8 @@ if command -v desktop-file-validate >/dev/null 2>&1; then
 fi
 
 PTYXIS_BIN="$(command -v ptyxis)"
+python3 "$RESOURCE_AUDITOR" --binary "$PTYXIS_BIN" --mo "$TARGET_MO"
+
 FIND_BAR_RESOURCE="/org/gnome/Ptyxis/ptyxis-find-bar.ui"
 
 if ! gresource extract "$PTYXIS_BIN" "$FIND_BAR_RESOURCE" >"$find_bar_ui" 2>/dev/null; then
@@ -174,4 +177,4 @@ _Credits|_Zasługi
 _Legal|_Kwestie prawne
 EOF
 
-echo "PASS: Ptyxis 50.1 Polish catalog, libadwaita About strings, and GNOME Shell desktop actions match repository"
+echo "PASS: Ptyxis 50.1 Polish catalog, complete audited preference/profile resources, libadwaita About strings, and GNOME Shell desktop actions match repository"
