@@ -17,7 +17,7 @@ EXPECTED_METADATA_SHA="a6eb46bc0f6aee7703b66885b0f7569b2b4c1681bacbe12d084b67898
 EXPECTED_EXTENSION_SHA="07efc321fbae6d47ad01cc7fbc3e91bcfb231be3dc267ecf431cd6638f273bf7"
 EXPECTED_PREFS_SHA="c6128d7503eda7853dd01492e324246aac1a4834cdb020f37b8deee9ee5e275a"
 EXPECTED_UPSTREAM_MO_SHA="312170de7c29483114d5cf41f540c66ce29fc4b273349144613af848897ab06f"
-EXPECTED_COMPLETION_ENTRIES="63"
+EXPECTED_COMPLETION_ENTRIES="64"
 
 if [[ ! -d "$EXT_DIR" ]]; then
     echo "SKIP: Clipboard Indicator extension not installed"
@@ -109,7 +109,7 @@ if [[ "$untranslated" -ne 0 || "$fuzzy" -ne 0 ]]; then
     exit 1
 fi
 
-for source in     "Reset Timer"     "Preview Image"     "Search"     "Show Search Bar"     "Case-sensitive"     "Regular expressions"     "Open menu at cursor"     "Item Actions"; do
+for source in     "Reset Timer"     "Preview Image"     "Search"     "Show Search Bar"     "Case-sensitive"     "Regular expressions"     "Open menu at cursor"     "Item Actions"     "The currently active clipboard entry will not be removed when clearing history"; do
     expected="$(LANGUAGE=pl LANG=pl_PL.UTF-8 LC_ALL=pl_PL.UTF-8 TEXTDOMAINDIR="$tmpdir/locale" gettext -d "$DOMAIN" "$source")"
     actual="$(LANGUAGE=pl LANG=pl_PL.UTF-8 LC_ALL=pl_PL.UTF-8 TEXTDOMAINDIR="$EXT_DIR/locale" gettext -d "$DOMAIN" "$source")"
     if [[ "$actual" != "$expected" || "$actual" == "$source" ]]; then
