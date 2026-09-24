@@ -15,7 +15,7 @@ Repository-managed localization/integration currently covers:
 - Dhruva
 - Background Logo
 - Browser Switcher
-- GSConnect v73 12-entry completion and Shell gettext-domain fix
+- GSConnect v73 14-entry completion (12 catalog gaps + 2 unextracted source strings) and Shell gettext-domain fix
 - Tiling Shell v76 / 17.3 completion overlay
 - Just Perfection v37 full Polish localization
 - Spotlight v15 / 2026.15 Polish localization and gettext integration
@@ -73,7 +73,7 @@ The GNOME 50 extension set was reviewed on the physical Fedora workstation. ArcM
 | ArcMenu | Upstream Polish support | No duplicate translation |
 | Bluetooth Battery Meter v49 | 16 untranslated BudsLink Companion entries | Completion overlay + v49 restore pin |
 | Caffeine | Upstream Polish support | No duplicate translation |
-| GSConnect v73 | 12 untranslated entries plus Shell domain issue | Completion overlay + metadata domain fix |
+| GSConnect v73 | 12 untranslated catalog entries + 2 user-visible source strings absent from the upstream POT/catalog, plus Shell domain issue | 14-entry completion overlay + metadata domain fix |
 | Tiling Shell v76 / 17.3 | 15 untranslated entries | Completion overlay |
 | User Themes | Shared GNOME Shell Extensions Polish support | No duplicate translation |
 | Freon | Upstream Polish support | Removed from desired state |
@@ -154,7 +154,7 @@ The completion is limited to the demonstrated BudsLink gap; existing upstream Po
 
 ## GSConnect v73
 
-The exact v73 Polish catalog audit found **12 untranslated entries and 0 fuzzy entries**. Eleven gaps persisted from v72 and v73 added `Target Device Name`. The repository carries a minimal 12-entry completion overlay rather than a duplicate full upstream catalog.
+The exact v73 Polish catalog audit found **12 untranslated entries and 0 fuzzy entries**. Eleven gaps persisted from v72 and v73 added `Target Device Name`. After the first physical installation and logout/login, visual inspection exposed two additional user-visible strings — `Connectivity Report` and `Display connectivity status` — that exist in `src/service/plugins/connectivity_report.js` but are absent from both the exact v73 POT and Polish catalog. The repository therefore carries a **14-entry** completion overlay: 12 catalog gaps plus these two audited source-extraction gaps.
 
 GSConnect v73 still ships the Polish catalog as `org.gnome.Shell.Extensions.GSConnect.mo` while its pristine extension metadata omits `gettext-domain`. The repository therefore retains the Shell gettext-domain repair:
 
@@ -162,7 +162,7 @@ GSConnect v73 still ships the Polish catalog as `org.gnome.Shell.Extensions.GSCo
 "gettext-domain": "org.gnome.Shell.Extensions.GSConnect"
 ```
 
-The v73 installer is pinned to the audited metadata, `extension.js`, `prefs.js`, `config.js`, and pristine Polish catalog fingerprints. It preserves versioned pristine backups, reconstructs the metadata change and merged catalog, and invokes the dedicated verifier. Physical installation and dedicated verification passed on 2026-09-24. The accepted post-localization extension-tree SHA-256 is `ea4d9e561a75b849b8c3a549e109e3a210dced429bc2f278f5c5c880f680f79c`. Logout/login runtime/visual confirmation remains part of the final promotion gate.
+The v73 installer is pinned to the audited metadata, `extension.js`, `prefs.js`, `config.js`, and pristine Polish catalog fingerprints. It preserves versioned pristine backups, reconstructs the metadata change and merged catalog, and invokes the dedicated verifier. The verifier now also asserts that the pristine v73 catalog does not resolve the two source-gap msgids and that the installed managed catalog resolves them to the reviewed Polish translations. The earlier 12-entry physical pass and tree hash `ea4d9e561a75b849b8c3a549e109e3a210dced429bc2f278f5c5c880f680f79c` are superseded by this visual finding; a new physical apply/verify and post-localization tree hash are required before GSConnect v73 is accepted.
 
 ## Tiling Shell v76 / 17.3
 
