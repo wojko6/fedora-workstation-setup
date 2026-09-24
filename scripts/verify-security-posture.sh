@@ -23,6 +23,8 @@ is_vm=0
 LOCKDOWN_FILE="${VERIFY_LOCKDOWN_FILE:-/sys/kernel/security/lockdown}"
 AKMOD_CERT="${VERIFY_AKMOD_CERT:-/etc/pki/akmods/certs/public_key.der}"
 ZONE="workstation-kdeconnect"
+TAILSCALE_ZONE="workstation-tailscale"
+TAILSCALE_IFACE="tailscale0"
 
 echo "=== EXPLICIT SECURITY POSTURE ==="
 printf 'Virtualization: %s\n' "$virt"
@@ -322,6 +324,104 @@ else
     )
     (( cross_zone_drift == 0 )) &&
       ok "kdeconnect absent from every other permanent firewalld zone"
+  fi
+
+  echo
+  echo "--- TAILSCALE FIREWALL EXACT STATE ---"
+
+  if ! firewall-cmd --permanent --get-zones 2>/dev/null |
+      tr ' ' '\n' |
+      grep -Fxq "$TAILSCALE_ZONE"; then
+    bad "required Tailscale firewalld zone missing: $TAILSCALE_ZONE"
+  else
+    permanent_interfaces="$(
+      firewall-cmd --permanent --zone="$TAILSCALE_ZONE" --list-interfaces 2>/dev/null |
+        tr ' ' '\n' |
+        sed '/^$/d' |
+        sort
+    )"
+    if [[ "$permanent_interfaces" == "$TAILSCALE_IFACE" ]]; then
+      ok "permanent Tailscale zone binds only $TAILSCALE_IFACE"
+    else
+      bad "permanent Tailscale zone interface drift: expected $TAILSCALE_IFACE, found ${permanent_interfaces:-none}"
+    fi
+
+    for scope in runtime permanent; do
+      scope_args=()
+      [[ "$scope" == "permanent" ]] && scope_args+=(--permanent)
+
+      target="$(
+        firewall-cmd "${scope_args[@]}" --zone="$TAILSCALE_ZONE" --get-target 2>/dev/null || true
+      )"
+      if [[ "$target" == "DROP" ]]; then
+        ok "$scope Tailscale-zone target is DROP"
+      else
+        bad "$scope Tailscale-zone target drift: ${target:-unknown}"
+      fi
+
+      services="$(
+        firewall-cmd "${scope_args[@]}" --zone="$TAILSCALE_ZONE" --list-services 2>/dev/null |
+          xargs
+      )"
+      if [[ -z "$services" ]]; then
+        ok "$scope Tailscale-zone services empty"
+      else
+        bad "$scope Tailscale-zone services contain unexpected state: $services"
+      fi
+
+      if firewall-cmd "${scope_args[@]}" --zone="$TAILSCALE_ZONE" --query-forward >/dev/null 2>&1; then
+        bad "$scope Tailscale-zone forwarding enabled"
+      else
+        ok "$scope Tailscale-zone forwarding disabled"
+      fi
+
+      if firewall-cmd "${scope_args[@]}" --zone="$TAILSCALE_ZONE" --query-masquerade >/dev/null 2>&1; then
+        bad "$scope Tailscale-zone masquerade enabled"
+      else
+        ok "$scope Tailscale-zone masquerade disabled"
+      fi
+
+      if firewall-cmd "${scope_args[@]}" --zone="$TAILSCALE_ZONE" --query-icmp-block-inversion >/dev/null 2>&1; then
+        bad "$scope Tailscale-zone ICMP block inversion enabled"
+      else
+        ok "$scope Tailscale-zone ICMP block inversion disabled"
+      fi
+
+      for option in \
+        --list-ports \
+        --list-protocols \
+        --list-source-ports \
+        --list-forward-ports \
+        --list-sources \
+        --list-icmp-blocks \
+        --list-rich-rules; do
+        extra="$(
+          firewall-cmd "${scope_args[@]}" --zone="$TAILSCALE_ZONE" "$option" 2>/dev/null |
+            xargs
+        )"
+        if [[ -z "$extra" ]]; then
+          ok "$scope Tailscale-zone $option empty"
+        else
+          bad "$scope Tailscale-zone $option contains unexpected state: $extra"
+        fi
+      done
+    done
+
+    if command -v ip >/dev/null 2>&1 &&
+       ip link show "$TAILSCALE_IFACE" >/dev/null 2>&1; then
+      tailscale_active_zone="$(
+        firewall-cmd --get-zone-of-interface="$TAILSCALE_IFACE" 2>/dev/null || true
+      )"
+      if [[ "$tailscale_active_zone" == "$TAILSCALE_ZONE" ]]; then
+        ok "active Tailscale interface uses $TAILSCALE_ZONE"
+      else
+        bad "active Tailscale zone drift: expected $TAILSCALE_ZONE, found ${tailscale_active_zone:-none}"
+      fi
+    elif (( is_vm )); then
+      skip "active Tailscale interface check not applicable without node identity in VM"
+    else
+      bad "required physical Tailscale interface missing: $TAILSCALE_IFACE"
+    fi
   fi
 fi
 
