@@ -15,7 +15,7 @@ Repository-managed localization/integration currently covers:
 - Dhruva
 - Background Logo
 - Browser Switcher
-- GSConnect v73 14-entry completion (12 catalog gaps + 2 unextracted source strings) and Shell gettext-domain fix
+- GSConnect v73 20-entry managed catalog (14 audited gaps + 6 reviewed RunCommand editor corrections), Shell gettext-domain fixes, and safe localization of five factory RunCommand names
 - Tiling Shell v76 / 17.3 completion overlay
 - Just Perfection v37 full Polish localization
 - Spotlight v15 / 2026.15 Polish localization and gettext integration
@@ -73,7 +73,7 @@ The GNOME 50 extension set was reviewed on the physical Fedora workstation. ArcM
 | ArcMenu | Upstream Polish support | No duplicate translation |
 | Bluetooth Battery Meter v49 | 16 untranslated BudsLink Companion entries | Completion overlay + v49 restore pin |
 | Caffeine | Upstream Polish support | No duplicate translation |
-| GSConnect v73 | 12 untranslated catalog entries + 2 user-visible source strings absent from the upstream POT/catalog, plus Shell domain issue | 14-entry completion overlay + metadata domain fix |
+| GSConnect v73 | 12 untranslated catalog entries + 2 unextracted plugin strings + missing RunCommand editor gettext domain + five English factory command names | 20-entry managed catalog + metadata/setup gettext-domain fixes + settings-safe factory-name migration |
 | Tiling Shell v76 / 17.3 | 15 untranslated entries | Completion overlay |
 | User Themes | Shared GNOME Shell Extensions Polish support | No duplicate translation |
 | Freon | Upstream Polish support | Removed from desired state |
@@ -154,7 +154,7 @@ The completion is limited to the demonstrated BudsLink gap; existing upstream Po
 
 ## GSConnect v73
 
-The exact v73 Polish catalog audit found **12 untranslated entries and 0 fuzzy entries**. Eleven gaps persisted from v72 and v73 added `Target Device Name`. After the first physical installation and logout/login, visual inspection exposed two additional user-visible strings — `Connectivity Report` and `Display connectivity status` — that exist in `src/service/plugins/connectivity_report.js` but are absent from both the exact v73 POT and Polish catalog. The repository therefore carries a **14-entry** completion overlay: 12 catalog gaps plus these two audited source-extraction gaps.
+The exact v73 Polish catalog audit found **12 untranslated entries and 0 fuzzy entries**. Eleven gaps persisted from v72 and v73 added `Target Device Name`. After the first physical installation and logout/login, visual inspection exposed two additional user-visible strings — `Connectivity Report` and `Display connectivity status` — that exist in `src/service/plugins/connectivity_report.js` but are absent from both the exact v73 POT and Polish catalog. A later RunCommand UI audit found a second integration defect: `preferences-command-editor.ui` omits the GSConnect translation domain, so its translatable labels remain English at runtime even though Polish catalog entries exist. Six awkward upstream Polish strings in that workflow are reviewed and overridden (`Edit Command`, `Save`, `Command Line`, `Choose an executable`, `Edit`, `Remove`). The managed catalog therefore contains **20 entries**: 14 audited gaps plus six reviewed RunCommand UI corrections.
 
 GSConnect v73 still ships the Polish catalog as `org.gnome.Shell.Extensions.GSConnect.mo` while its pristine extension metadata omits `gettext-domain`. The repository therefore retains the Shell gettext-domain repair:
 
@@ -162,7 +162,7 @@ GSConnect v73 still ships the Polish catalog as `org.gnome.Shell.Extensions.GSCo
 "gettext-domain": "org.gnome.Shell.Extensions.GSConnect"
 ```
 
-The v73 installer is pinned to the audited metadata, `extension.js`, `prefs.js`, `config.js`, and pristine Polish catalog fingerprints. It preserves versioned pristine backups, reconstructs the metadata change and merged catalog, and invokes the dedicated verifier. The verifier now also asserts that the pristine v73 catalog does not resolve the two source-gap msgids and that the installed managed catalog resolves them to the reviewed Polish translations. The revised 14-entry overlay was applied on the physical workstation on 2026-09-24. The dedicated verifier reported `Source-gap gettext checks: 2`, `Completion entries: 14`, and PASS. The final post-localization GSConnect v73 extension-tree SHA-256 is `30a5d6f15318b3e138d49b19a82be34bad03610374db20e110eeb3d63c6a79c3`. Logout/login visual confirmation of the two corrected plugin-list strings remains required before final aggregate acceptance.
+The v73 installer is pinned to the audited metadata, `extension.js`, `prefs.js`, `config.js`, and pristine Polish catalog fingerprints. It preserves versioned pristine backups, reconstructs the metadata change and merged catalog, and invokes the dedicated verifier. The verifier now also asserts that the pristine v73 catalog does not resolve the two source-gap msgids and that the installed managed catalog resolves them to the reviewed Polish translations. The revised 14-entry overlay was applied on the physical workstation on 2026-09-24 and the dedicated verifier passed; its tree hash `30a5d6f15318b3e138d49b19a82be34bad03610374db20e110eeb3d63c6a79c3` is now superseded by the subsequent RunCommand remediation. The installer now also pins pristine `utils/setup.js` SHA-256 `3e2980b4eba74a93e46208e0dfa7b5fe4c6f80f071ab2e1298deac0dd9506a45`, adds the missing process default gettext domain, and invokes `scripts/gsconnect_runcommand_names.py`. That helper changes only the `name` field of the five exact factory commands (`Lock`, `Log Out`, `Power Off`, `Restart`, `Suspend`) while preserving every command line and any user-renamed/custom command. A fresh physical apply, dedicated verifier pass, visual check, and new tree hash are required before final aggregate acceptance.
 
 ## Tiling Shell v76 / 17.3
 
