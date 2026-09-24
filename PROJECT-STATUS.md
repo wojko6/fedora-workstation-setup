@@ -37,6 +37,7 @@ The physical-host desired state includes:
 
 - required RPM packages and external repositories;
 - Tailscale package and `tailscaled` service state;
+- dedicated `workstation-tailscale` firewalld exact-state policy for `tailscale0` (`DROP`, no services/ports/forwarding/masquerade);
 - disabled LLMNR and disabled GNOME/GVfs WS-Discovery;
 - `kernel.kptr_restrict=1` in persistent and runtime state;
 - Secure Boot enabled with a signed NVIDIA kernel module;
@@ -446,6 +447,45 @@ bash scripts/verify.sh
 The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, system-localization, GNOME Weather, localization, D-H4 integrity, DING System Monitor menu, and application-cleanup changes. The current complete physical-host aggregate is `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The accepted repository-trust layer verifies reviewed source URLs, local OpenPGP trust-anchor material, full fingerprints, package-signature enforcement, expected package signer identity, and COPR package scoping. The managed Helium and GNOME Tweaks fixes are physically accepted, the GNOME Tweaks `Hinting` override is visually confirmed, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the private Weather location remains part of the verified local desired state without publishing its identifying data.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
+
+## 2026-09-24 Tailscale firewalld isolation — IMPLEMENTED / FULL VERIFIER PENDING
+
+Issue #11 identified a concrete gap in the broader firewalld fallback path.
+
+Observed before remediation:
+
+```text
+tailscale0 -> no explicit firewalld zone
+default fallback -> FedoraWorkstation
+FedoraWorkstation -> TCP/22 + TCP/UDP 1025-65535 allowed
+remote Tailnet scan:
+22/tcp      closed
+1716/tcp    open
+27036/tcp   open
+```
+
+The local listeners behind the two confirmed open ports were GSConnect/KDE Connect on TCP/1716 and Steam on TCP/27036.
+
+A bounded runtime A/B test moved `tailscale0` into a rejecting zone without changing the trusted Wi-Fi policy. Fedora retained outbound Tailscale connectivity to the Windows peer, while the same remote scan changed all three tested ports to `filtered`.
+
+The accepted design is now a dedicated exact-state zone:
+
+```text
+zone: workstation-tailscale
+interface: tailscale0
+target: DROP
+services: none
+ports: none
+protocols: none
+sources: none
+forward: no
+masquerade: no
+rich rules: none
+```
+
+The configuration survived `firewall-cmd --reload` and a physical reboot. After reboot, `tailscale0` remained in `workstation-tailscale`, the trusted Wi-Fi interface remained in `workstation-kdeconnect`, outbound `tailscale ping` still passed, and TCP/22, TCP/1716 and TCP/27036 remained `filtered` from the Windows Tailnet peer.
+
+Repository work makes this state reproducible through `network/tailscale-firewall-zone.sh`, installer integration, static fixtures and explicit security-posture verification. The previous physical aggregate `PASS=256 WARN=0 FAIL=0 SKIP=0` remains the last accepted aggregate until the updated repository is run through the full physical verifier.
 
 ## Planned desktop-environment expansion
 
