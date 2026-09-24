@@ -689,3 +689,21 @@ msgstr "Naciśnij Escape, aby anulować, lub Backspace, aby wyłączyć."
 
 msgid "disabled"
 msgstr "wyłączony"
+
+msgid "Add Link"
+msgstr "Dodaj odnośnik"
+
+msgid "Edit Custom Link"
+msgstr "Edytuj niestandardowy odnośnik"
+
+msgid "Custom Link"
+msgstr "Niestandardowy odnośnik"
+
+msgid "A clickable link in the terminal that matches text patterns and opens custom URLs. Uses regex capture groups to build the final URL (e.g., $1 becomes the first matched group)."
+msgstr "Klikalny odnośnik w terminalu, który dopasowuje wzorce tekstu i otwiera niestandardowe adresy URL. Używa grup przechwytujących wyrażeń regularnych do zbudowania końcowego adresu URL (np. $1 staje się pierwszą dopasowaną grupą)."
+
+msgid "Regex Pattern"
+msgstr "Wzorzec wyrażenia regularnego"
+
+msgid "Target URL"
+msgstr "Docelowy adres URL"
