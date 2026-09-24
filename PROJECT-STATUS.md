@@ -184,7 +184,7 @@ GSConnect v73  29bd02e3021fea0146311a623c3cd937dd96b224c41aeb83449d530f3468bffa 
 ddterm v73     dbd72752dcc7687ab7a14a36ff1780f65e0b75e71245b8fa473e833b229c0d26
 ```
 
-The audit branch now promotes the v73 inventory rows, exact EGO archive SHA-256 pins, and final post-localization tree locks for both ddterm and GSConnect. The remaining gate is visual confirmation after logout/login followed by a fresh full physical `scripts/verify.sh` run.
+The audit branch now promotes the v73 inventory rows, exact EGO archive SHA-256 pins, and final post-localization tree locks for both ddterm and GSConnect. GSConnect v73 RunCommand names and editor were visually confirmed in Polish after logout/login, with the actual command lines unchanged. The remaining gate is a fresh full physical `scripts/verify.sh` run.
 
 ## Important reproducibility decisions
 
