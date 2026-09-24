@@ -10,16 +10,18 @@ This directory contains the reviewed operational and validation documentation fo
 - [DISASTER-RECOVERY-RUNBOOK.md](DISASTER-RECOVERY-RUNBOOK.md) — detailed total-failure recovery runbook from Live USB through final verification.
 - [UPGRADE.md](UPGRADE.md) — controlled Fedora major-upgrade lifecycle, clean-room gate, physical acceptance, and rollback rules.
 
-## GNOME and localization
+## Desktop environments and localization
 
 - [LOCALIZATION-STATUS.md](LOCALIZATION-STATUS.md) — repository-managed Polish localization coverage, version pins, and verification strategy.
 - [gnome-extension-audit-2026-09-17.md](gnome-extension-audit-2026-09-17.md) — accepted GNOME extension compatibility refresh for Fedora 44 / GNOME 50.4.
 - [../gnome/README.md](../gnome/README.md) — GNOME desired-state policy, extension inventory, and Dhruva handling.
+- [Issue #12](https://github.com/wojko6/fedora-workstation-setup/issues/12) — planned GNOME + KDE Plasma coexistence design; GNOME remains the accepted baseline until KDE passes validation.
 
 ## Project status
 
 - [../PROJECT-STATUS.md](../PROJECT-STATUS.md) — current accepted physical-host baseline and remaining work.
 - [WORKLOG-2026-09-22.md](WORKLOG-2026-09-22.md) — day-close worklog recording the physical visual validation of Polish Plymouth offline updates.
+- [WORKLOG-2026-09-24.md](WORKLOG-2026-09-24.md) — engineering-roadmap setup and the revised GNOME + KDE Plasma desktop-environment plan.
 
 ## Verification entrypoints
 
