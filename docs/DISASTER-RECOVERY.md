@@ -22,6 +22,8 @@ Validated recovery generations documented by this project include:
 - **2026-09-17** — refreshed recovery set after the earlier Fedora 44 / GNOME 50.4 accepted state;
 - **2026-09-21** — current validated recovery set created after the Fedora 44 / GNOME 50.5 physical verifier completed at `PASS=236 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
 
+The workstation desired-state baseline has since advanced and was re-accepted on 2026-09-24 at `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. No newer private offline DR generation has been created yet, so the 2026-09-21 set remains the latest validated recovery artifact generation rather than a snapshot of every 2026-09-24 desired-state change.
+
 The latest 2026-09-21 recovery set contains:
 
 - a read-only Btrfs snapshot stream for the root filesystem;

@@ -135,7 +135,7 @@ The offline recovery set is the source of truth for this path.
 
 Do not begin reconstruction from an unverified recovery set.
 
-The validated recovery generations are documented in [DISASTER-RECOVERY.md](DISASTER-RECOVERY.md). The latest validated set was created on **2026-09-21** after a clean `PASS=236 WARN=0 FAIL=0 SKIP=0` physical verifier run and includes a 21-entry SHA-256 manifest.
+The validated recovery generations are documented in [DISASTER-RECOVERY.md](DISASTER-RECOVERY.md). The latest validated offline set was created on **2026-09-21** after a clean `PASS=236 WARN=0 FAIL=0 SKIP=0` physical verifier run and includes a 21-entry SHA-256 manifest. The desired-state repository baseline was subsequently re-accepted on **2026-09-24** at `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`; treat the dates separately and do not assume the older DR image contains every later desired-state change.
 
 From the directory containing the recovery set, verify the manifest before restoring anything:
 
