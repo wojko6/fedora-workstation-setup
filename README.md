@@ -12,6 +12,14 @@ The goal of this repository is to rebuild the workstation after a clean Fedora i
 - Lenovo Legion 5 15ACH6H
 - Wi-Fi: Realtek RTL8852AE (`rtw89_8852ae`)
 
+## Engineering roadmap
+
+The current accepted production baseline remains **Fedora 44 / GNOME Shell 50.5 / Wayland**. KDE Plasma is **planned work**, not part of the accepted desired state yet.
+
+[Issue #12](https://github.com/wojko6/fedora-workstation-setup/issues/12) tracks a controlled GNOME + KDE Plasma coexistence design. GNOME remains the canonical baseline, and the first KDE phase is intentionally scoped as an additional desktop session rather than a replacement. The current display-manager/login path should remain unchanged initially so the project does not introduce several major variables at once.
+
+Before KDE can be promoted into the supported desired state, the project must validate GNOME -> KDE -> GNOME session switching, rollback, XDG portals, MIME/default applications, keyring/KWallet behavior, autostart interactions, Wayland behavior, networking/Tailscale, audio, Bluetooth, removable storage, reproducible KDE configuration capture/restore, and the full Fedora verifier.
+
 ## Validation status
 
 The historical Fedora 44 / GNOME 50.4 baseline was validated with a clean-room restore in an Oracle VirtualBox VM. The current physical workstation has since advanced to GNOME Shell 50.5.
