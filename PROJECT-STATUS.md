@@ -151,7 +151,7 @@ Repository-managed targets currently include:
 
 Dhruva remains the largest localization case: a 393-message gettext catalog, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
-GSConnect v73 was audited against its exact upstream release. The catalog itself has 12 untranslated entries, including the new v73 `Target Device Name` gap, and the missing metadata `gettext-domain` repair remains required for the Shell-side catalog. A post-login visual check on 2026-09-24 exposed two additional unextracted plugin strings, bringing the audited gap set to 14. A subsequent RunCommand audit found that the command-editor GtkBuilder resource omits the GSConnect gettext domain and that five factory command names are stored as English GSettings data rather than gettext strings. The branch now manages 20 catalog entries, patches the process default gettext domain through exact-version `utils/setup.js`, and safely localizes only the five exact factory `name` fields while preserving the command lines. The earlier GSConnect tree hash `30a5d6f15318b3e138d49b19a82be34bad03610374db20e110eeb3d63c6a79c3` is therefore superseded pending the next physical apply.
+GSConnect v73 was audited against its exact upstream release. The catalog itself has 12 untranslated entries, including the new v73 `Target Device Name` gap, and the missing metadata `gettext-domain` repair remains required for the Shell-side catalog. A post-login visual check on 2026-09-24 exposed two additional unextracted plugin strings, bringing the audited gap set to 14. A subsequent RunCommand audit found that the command-editor GtkBuilder resource omits the GSConnect gettext domain and that five factory command names are stored as English GSettings data rather than gettext strings. The branch now manages 20 catalog entries, patches the process default gettext domain through exact-version `utils/setup.js`, and safely localizes only the five exact factory `name` fields while preserving the command lines. The corrected physical installer/verifier pass completed successfully with all five factory names localized and all RunCommand gettext checks passing. The final GSConnect v73 tree hash is `29bd02e3021fea0146311a623c3cd937dd96b224c41aeb83449d530f3468bffa`.
 
 Tiling Shell v76 / 17.3 was audited against the exact installed version. Fifteen untranslated Polish strings were completed with a minimal version-pinned overlay.
 
@@ -180,11 +180,11 @@ The physical workstation had independently updated GSConnect and ddterm to v73, 
 The first staged v73 installers completed successfully on the physical Fedora 44 / GNOME 50.5 workstation and both dedicated verifiers passed. The resulting ddterm tree hash remains valid, but the GSConnect hash below was later superseded when the post-login visual audit exposed two source strings missing from the upstream translation catalogs:
 
 ```text
-GSConnect v73  30a5d6f15318b3e138d49b19a82be34bad03610374db20e110eeb3d63c6a79c3  (superseded; pre-RunCommand remediation)
+GSConnect v73  29bd02e3021fea0146311a623c3cd937dd96b224c41aeb83449d530f3468bffa  (final RunCommand-remediated tree)
 ddterm v73     dbd72752dcc7687ab7a14a36ff1780f65e0b75e71245b8fa473e833b229c0d26
 ```
 
-The audit branch promotes the v73 inventory rows and exact EGO archive SHA-256 pins. ddterm's tree lock remains final. GSConnect's current tree-lock row is temporarily stale on this draft branch because the new RunCommand domain/catalog remediation changes the extension tree; a replacement hash will be captured only after the targeted physical installer/verifier pass. Do not run the full aggregate verifier until that lock is updated.
+The audit branch now promotes the v73 inventory rows, exact EGO archive SHA-256 pins, and final post-localization tree locks for both ddterm and GSConnect. The remaining gate is visual confirmation after logout/login followed by a fresh full physical `scripts/verify.sh` run.
 
 ## Important reproducibility decisions
 
