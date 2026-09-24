@@ -158,6 +158,7 @@ Append title from Shell application|Dołącz tytuł z aplikacji powłoki
 Match _Case|Rozróżniaj _wielkość liter
 Whole _Words|_Całe słowa
 Use _Regular Expressions|Używaj _wyrażeń regularnych
+Add Link|Dodaj odnośnik
 EOF
 
 while IFS='|' read -r source expected; do
