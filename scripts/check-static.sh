@@ -95,6 +95,10 @@ echo "=== EXTENSION TREE INTEGRITY FIXTURES ==="
 python3 scripts/test_extension_tree_integrity.py
 
 echo
+echo "=== PTYXIS DESKTOP ACTION FIXTURES ==="
+python3 scripts/test_ptyxis_desktop_actions.py
+
+echo
 echo "=== DING SYSTEM MONITOR FIXTURES ==="
 python3 scripts/test_ding_system_monitor_menu.py
 
