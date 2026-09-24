@@ -3,12 +3,16 @@ set -Eeuo pipefail
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 PACKAGE="ptyxis"
-EXPECTED_VERSION="50.1"
+EXPECTED_NVR="50.1-2.fc44"
 SOURCE_PO="$ROOT_DIR/localization/ptyxis/pl.po"
 TARGET_MO="/usr/share/locale/pl/LC_MESSAGES/ptyxis.mo"
 BACKUP_MO="${TARGET_MO}.fedora-workstation-setup.upstream.bak"
+DESKTOP_FILE="/usr/share/applications/org.gnome.Ptyxis.desktop"
+DESKTOP_BACKUP="${DESKTOP_FILE}.fedora-workstation-setup.upstream.bak"
+EXPECTED_DESKTOP_SHA256="8c596c2aff40ac062f61e6c541f0bccfa62091ce8503d63e2306d2e0a97f2b88"
+DESKTOP_PATCHER="$ROOT_DIR/scripts/ptyxis_desktop_actions.py"
 
-for cmd in rpm msgfmt gettext cmp sudo; do
+for cmd in rpm msgfmt gettext cmp sudo sha256sum python3; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "FAIL: required command not found: $cmd" >&2
         exit 1
@@ -20,44 +24,95 @@ if ! rpm -q "$PACKAGE" >/dev/null 2>&1; then
     exit 1
 fi
 
-version="$(rpm -q --qf '%{VERSION}\n' "$PACKAGE")"
-if [[ "$version" != "$EXPECTED_VERSION" ]]; then
-    echo "FAIL: Ptyxis version drift: expected $EXPECTED_VERSION, found $version" >&2
+nvr="$(rpm -q --qf '%{VERSION}-%{RELEASE}\n' "$PACKAGE")"
+if [[ "$nvr" != "$EXPECTED_NVR" ]]; then
+    echo "FAIL: Ptyxis package drift: expected $EXPECTED_NVR, found $nvr" >&2
     exit 1
 fi
 
-if [[ ! -f "$SOURCE_PO" ]]; then
-    echo "FAIL: missing Ptyxis Polish catalog source: $SOURCE_PO" >&2
+for path in "$SOURCE_PO" "$DESKTOP_FILE" "$DESKTOP_PATCHER"; do
+    if [[ ! -f "$path" ]]; then
+        echo "FAIL: required Ptyxis localization source missing: $path" >&2
+        exit 1
+    fi
+done
+
+installed_package="$(rpm -q "$PACKAGE")"
+desktop_owner="$(rpm -qf "$DESKTOP_FILE" 2>/dev/null || true)"
+if [[ "$desktop_owner" != "$installed_package" ]]; then
+    echo "FAIL: Ptyxis desktop file is not owned by expected package: $DESKTOP_FILE" >&2
     exit 1
 fi
 
 tmp_mo="$(mktemp)"
-trap 'rm -f "$tmp_mo"' EXIT
+tmp_desktop="$(mktemp)"
+trap 'rm -f "$tmp_mo" "$tmp_desktop"' EXIT
 
 msgfmt --check "$SOURCE_PO" -o "$tmp_mo"
 
-if [[ -f "$TARGET_MO" ]] && cmp -s "$tmp_mo" "$TARGET_MO"; then
-    echo "PASS: Ptyxis 50.1 Polish localization bridge already installed"
-    exit 0
-fi
-
-if [[ -f "$TARGET_MO" && ! -f "$BACKUP_MO" ]]; then
-    if rpm -qf "$TARGET_MO" >/dev/null 2>&1; then
-        sudo cp -a "$TARGET_MO" "$BACKUP_MO"
-        echo "Backup: $BACKUP_MO"
-    else
-        echo "INFO: replacing unowned/local Ptyxis catalog without creating an upstream backup"
+if [[ ! -f "$TARGET_MO" ]] || ! cmp -s "$tmp_mo" "$TARGET_MO"; then
+    if [[ -f "$TARGET_MO" && ! -f "$BACKUP_MO" ]]; then
+        if rpm -qf "$TARGET_MO" >/dev/null 2>&1; then
+            sudo cp -a "$TARGET_MO" "$BACKUP_MO"
+            echo "Backup: $BACKUP_MO"
+        else
+            echo "INFO: replacing unowned/local Ptyxis catalog without creating an upstream backup"
+        fi
     fi
-fi
 
-sudo install -D -m 0644 "$tmp_mo" "$TARGET_MO"
-if command -v restorecon >/dev/null 2>&1; then
-    sudo restorecon "$TARGET_MO"
+    sudo install -D -m 0644 "$tmp_mo" "$TARGET_MO"
+    if command -v restorecon >/dev/null 2>&1; then
+        sudo restorecon "$TARGET_MO"
+    fi
 fi
 
 if ! cmp -s "$tmp_mo" "$TARGET_MO"; then
     echo "FAIL: installed Ptyxis Polish catalog differs from repository catalog" >&2
     exit 1
+fi
+
+read -r desktop_hash _ < <(sha256sum "$DESKTOP_FILE")
+
+if [[ -f "$DESKTOP_BACKUP" ]]; then
+    read -r backup_hash _ < <(sha256sum "$DESKTOP_BACKUP")
+    if [[ "$backup_hash" != "$EXPECTED_DESKTOP_SHA256" ]]; then
+        echo "FAIL: Ptyxis pristine desktop backup fingerprint drift: $backup_hash" >&2
+        exit 1
+    fi
+else
+    if [[ "$desktop_hash" != "$EXPECTED_DESKTOP_SHA256" ]]; then
+        echo "FAIL: Ptyxis desktop file is neither audited pristine state nor backed up; refusing to overwrite" >&2
+        echo "INFO: expected pristine SHA-256: $EXPECTED_DESKTOP_SHA256" >&2
+        echo "INFO: current SHA-256:          $desktop_hash" >&2
+        exit 1
+    fi
+
+    sudo cp -a "$DESKTOP_FILE" "$DESKTOP_BACKUP"
+    echo "Backup: $DESKTOP_BACKUP"
+fi
+
+python3 "$DESKTOP_PATCHER" --input "$DESKTOP_BACKUP" --output "$tmp_desktop"
+
+if ! cmp -s "$tmp_desktop" "$DESKTOP_FILE"; then
+    read -r desktop_hash _ < <(sha256sum "$DESKTOP_FILE")
+    if [[ "$desktop_hash" != "$EXPECTED_DESKTOP_SHA256" ]]; then
+        echo "FAIL: Ptyxis desktop file differs from both audited pristine and expected localized state" >&2
+        exit 1
+    fi
+
+    sudo install -m 0644 "$tmp_desktop" "$DESKTOP_FILE"
+    if command -v restorecon >/dev/null 2>&1; then
+        sudo restorecon "$DESKTOP_FILE"
+    fi
+fi
+
+if ! cmp -s "$tmp_desktop" "$DESKTOP_FILE"; then
+    echo "FAIL: installed Ptyxis desktop actions differ from repository-managed expected state" >&2
+    exit 1
+fi
+
+if command -v desktop-file-validate >/dev/null 2>&1; then
+    desktop-file-validate "$DESKTOP_FILE"
 fi
 
 while IFS='|' read -r source expected; do
@@ -130,5 +185,6 @@ Whole _Words|_Całe słowa
 Use _Regular Expressions|Używaj _wyrażeń regularnych
 EOF
 
-echo "PASS: Ptyxis 50.1 Polish main-window, search, search-options, context-menu, inspector, and title-dialog localization installed"
-echo "INFO: start a new Ptyxis process to refresh translated main-window, search, context-menu, inspector, and libadwaita strings"
+echo "PASS: Ptyxis 50.1 Polish catalog and GNOME Shell desktop-action localization installed"
+echo "INFO: launcher actions: New Window -> Nowe okno; New Tab -> Nowa karta; Preferences -> Preferencje"
+echo "INFO: reopen the GNOME app grid; sign out/in only if Shell still caches the old desktop-action labels"
