@@ -64,7 +64,9 @@ Validation includes:
 - installation state,
 - runtime activation,
 - schema compilation,
-- version verification.
+- version verification,
+- source/archive SHA-256 pins,
+- deterministic whole-tree integrity locks for enabled user extensions.
 
 Examples:
 
@@ -89,10 +91,12 @@ Validated components include:
 
 - ArcMenu,
 - Dhruva,
+- GSConnect v73,
+- Tiling Shell,
 - Spotlight,
 - Space Bar,
 - Vitals,
-- ddterm,
+- ddterm v73,
 - Advanced Media Controller,
 - Blur my Shell,
 - Clipboard Indicator,
@@ -126,7 +130,8 @@ Implemented security improvements:
 - WSDD discovery disabled,
 - kernel hardening settings,
 - dedicated KDE Connect firewall zone,
-- Secure Boot validation.
+- dedicated `workstation-tailscale` DROP-by-default firewalld zone for `tailscale0`,
+- Secure Boot and signed NVIDIA module validation.
 
 ---
 
@@ -199,12 +204,13 @@ Repository validation pipeline
 │   └── recovery readiness checks
 ```
 
-The final physical workstation verification completed on Fedora 44 / GNOME Shell 50.5 with:
+The final accepted physical workstation verification completed on 2026-09-24 on Fedora 44 / GNOME Shell 50.5 with:
 ```text
-PASS=236
+PASS=256
 WARN=0
 FAIL=0
 SKIP=0
+VERIFY_RC=0
 ```
 
 
