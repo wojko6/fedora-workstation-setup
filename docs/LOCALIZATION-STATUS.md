@@ -28,7 +28,7 @@ Repository-managed localization/integration currently covers:
 - Plymouth offline-update Polish locale persistence in initramfs
 - Ptyxis 50.1 complete audited Polish localization covering main-window/menu, terminal/search/inspector/title UI, eight preferences/profile/shortcut/custom-link/palette resources, four dynamic C-generated labels, libadwaita About-dialog integration, and GNOME Shell desktop actions
 - Blur my Shell v72 61-entry completion plus exact-version pipeline UI patches
-- Clipboard Indicator v71 63-entry completion overlay
+- Clipboard Indicator v71 64-entry completion overlay
 - Extension Manager 0.6.5 contextual `None` → `Brak` completion
 - Helium 0.17.2.1 36-entry Chromium DataPack v5 completion with DNF5 post-transaction persistence
 - GNOME Tweaks 49.0 generated GSettings enum localization plus `Hinting` terminology override
@@ -52,7 +52,7 @@ Confirmed good state:
 The audit also reopened localization completeness for two desired-state extensions:
 
 - **Blur my Shell v72**: the initial runtime audit confirmed 46 single-line English fallbacks; visual follow-up then exposed eight multiline catalog gaps and pipeline-management strings outside the effective upstream catalog. The repository now carries a 61-entry completion plus two exact-version pipeline UI source patches. Physical installation, dedicated verification, and visual acceptance all pass.
-- **Clipboard Indicator v71**: the physical v71 catalog fingerprint matches the audited EGO installation and contains only 49 compiled Polish messages. The exact upstream v71 source catalog has 112 entries, of which 41 are untranslated and 22 are fuzzy, leaving 63 effective runtime gaps. The repository now carries a 63-entry completion overlay plus exact-version/source/catalog fingerprint checks; physical installation and dedicated runtime/gettext verification pass. Visual UI acceptance remains a separate manual check.
+- **Clipboard Indicator v71**: the physical v71 catalog fingerprint matches the audited EGO installation and contains only 49 compiled Polish messages. Re-audit against the exact upstream `v71` Polish source catalog found 113 non-header entries: 41 untranslated and 23 fuzzy, leaving 64 effective runtime gaps. The previous 63-entry overlay had omitted exactly one fuzzy description, `The currently active clipboard entry will not be removed when clearing history`, which was exposed by physical visual inspection on 2026-09-24. The staged 64-entry overlay now covers every exact upstream untranslated/fuzzy entry and the verifier smoke-tests that residual string explicitly. Physical re-installation and final visual acceptance of this corrected state remain required.
 
 Application-level follow-ups:
 
@@ -94,11 +94,11 @@ The expanded 61-entry completion plus both pipeline source fixes have now been i
 
 The physical workstation reports Clipboard Indicator **v71** with gettext domain `clipboard-indicator`. The installed upstream Polish catalog fingerprint is `312170de7c29483114d5cf41f540c66ce29fc4b273349144613af848897ab06f` and contains 49 compiled translations.
 
-The exact v71 upstream source catalog contains 112 messages: 41 untranslated and 22 fuzzy. Because fuzzy gettext entries are not compiled into the runtime catalog, those 63 entries are effective English fallbacks on the tested installation.
+The exact upstream `v71` Polish source catalog contains 113 non-header messages: 41 untranslated and 23 fuzzy. Because fuzzy gettext entries are not compiled into the runtime catalog, those 64 entries are effective English fallbacks on the tested installation.
 
-The repository carries `localization/clipboard-indicator/v71-completion.po` with all 63 missing/fuzzy entries. `scripts/install-clipboard-indicator-localization.sh` is pinned to v71 and validates `metadata.json`, `extension.js`, `prefs.js`, and the pristine upstream Polish catalog fingerprint before merging. `scripts/verify-clipboard-indicator-localization.sh` reconstructs the merged catalog, requires zero untranslated and zero fuzzy entries, compares it byte-for-byte with the live catalog, and performs gettext smoke tests for representative actions and search options.
+The repository carries `localization/clipboard-indicator/v71-completion.po` with all 64 missing/fuzzy entries. `scripts/install-clipboard-indicator-localization.sh` is pinned to v71 and validates `metadata.json`, `extension.js`, `prefs.js`, and the pristine upstream Polish catalog fingerprint before merging. `scripts/verify-clipboard-indicator-localization.sh` reconstructs the merged catalog, requires the exact 64-entry completion, compares it byte-for-byte with the live catalog, and performs gettext smoke tests for representative actions/search options plus the visually discovered residual fuzzy description.
 
-Physical installation and the dedicated runtime/gettext verification have passed on the Fedora 44 / GNOME Shell 50.5 workstation. Visual UI acceptance remains pending.
+The earlier 63-entry state passed technical verification but physical visual inspection exposed the residual English description under `Keep selected entry after Clear History`. The corrected 64-entry state is staged; physical installation, dedicated verification, and final visual confirmation remain pending.
 
 ### Extension Manager 0.6.5
 
