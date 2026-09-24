@@ -8,19 +8,19 @@ METADATA="$EXT_DIR/metadata.json"
 PANELICON="$EXT_DIR/ddterm/shell/panelicon.js"
 ABOUT_JS="$EXT_DIR/ddterm/app/about.js"
 TARGET_MO="$EXT_DIR/locale/pl/LC_MESSAGES/$UUID.mo"
-BACKUP_DIR="$EXT_DIR/.localization-backup-v72"
+BACKUP_DIR="$EXT_DIR/.localization-backup-v73"
 BACKUP_METADATA="$BACKUP_DIR/metadata.json"
 BACKUP_MO="$BACKUP_DIR/$UUID.mo"
-OVERLAY="$ROOT_DIR/localization/ddterm/v72-completion.po"
+OVERLAY="$ROOT_DIR/localization/ddterm/v73-completion.po"
 VERIFIER="$ROOT_DIR/scripts/verify-ddterm-localization.sh"
 
-EXPECTED_VERSION="72"
+EXPECTED_VERSION="73"
 EXPECTED_DOMAIN="$UUID"
 EXPECTED_DESCRIPTION="Rozwijany terminal dla GNOME Shell z obsługą kart. Działa natywnie w Waylandzie"
-EXPECTED_METADATA_SHA="4bc96c9abe16f1f1b335e0d2b593c98faf4653e41201db03aeb1097934cf600a"
+EXPECTED_METADATA_SHA="929c083f90f50813dbc17b3ac177fb7ed036328e26fc80651c38cf1d1d5b1f85"
 EXPECTED_PANELICON_SHA="92bd4daa7a90413d8c9ff83f4f85303e43f323603682ac97e722db90ceaff442"
 EXPECTED_ABOUT_SHA="574246b0505bcc791b819dd0b0aa550552c0b2022f8d95cec320eab14437a03e"
-EXPECTED_UPSTREAM_MO_SHA="bf837ab0f6dc6576d7c7615871644681d219adea075411d1d89d26793728e40a"
+EXPECTED_UPSTREAM_MO_SHA="37754ae9fa4b614dae7a9c503df1e2b9ff6ea604150ae9b23e5782460f5007d7"
 UPSTREAM_DESCRIPTION="Another drop down terminal extension for GNOME Shell. With tabs. Works on Wayland natively"
 
 if [[ ! -d "$EXT_DIR" ]]; then
@@ -71,7 +71,7 @@ check_sha() {
     local actual
     actual="$(sha256sum "$path" | awk '{print $1}')"
     if [[ "$actual" != "$expected" ]]; then
-        echo "FAIL: ddterm v72 $label fingerprint differs: $actual" >&2
+        echo "FAIL: ddterm v73 $label fingerprint differs: $actual" >&2
         exit 1
     fi
 }
@@ -119,5 +119,5 @@ install -m 0644 "$tmpdir/metadata.json" "$METADATA"
 install -m 0644 "$tmpdir/$UUID.mo" "$TARGET_MO"
 
 bash "$VERIFIER"
-echo "PASS: ddterm v72 Polish completion installed"
+echo "PASS: ddterm v73 full Polish completion installed"
 echo "Sign out and back in to reload ddterm Shell translations and metadata."
