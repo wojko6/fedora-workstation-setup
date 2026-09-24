@@ -135,7 +135,7 @@ Confirm that:
 - the NVIDIA module loads and remains signed;
 - required external repositories are enabled for the new release;
 - the VPCS COPR still has `Include packages: vpcs`;
-- Tailscale and the trusted-Wi-Fi firewalld policy remain operational.
+- Tailscale, the trusted-Wi-Fi `workstation-kdeconnect` policy, and the dedicated `workstation-tailscale` DROP policy remain operational.
 
 Review any `.rpmnew` or `.rpmsave` files before merging configuration changes. Do not run blind `dnf autoremove`.
 
