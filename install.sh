@@ -98,6 +98,7 @@ stages=(
   scripts/install-dhruva-config.sh
   network/wifi-power-save.sh
   network/firewall-zone.sh
+  network/tailscale-firewall-zone.sh
   security/disable-llmnr.sh
   security/kernel-hardening.sh
   security/disable-wsdd.sh
