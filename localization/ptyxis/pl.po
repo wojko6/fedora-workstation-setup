@@ -707,3 +707,15 @@ msgstr "Wzorzec wyrażenia regularnego"
 
 msgid "Target URL"
 msgstr "Docelowy adres URL"
+
+msgid "Add Profile"
+msgstr "Dodaj profil"
+
+msgid "Show Fewer Palettes"
+msgstr "Pokaż mniej palet"
+
+msgid "Select Font"
+msgstr "Wybierz czcionkę"
+
+msgid "The quick brown fox jumps over the lazy dog"
+msgstr "Pchnąć w tę łódź jeża lub ośm skrzyń fig"
