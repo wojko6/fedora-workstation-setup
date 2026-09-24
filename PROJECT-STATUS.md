@@ -136,7 +136,7 @@ Repository-managed targets currently include:
 - Dhruva;
 - Background Logo;
 - Browser Switcher;
-- GSConnect v73 14-entry completion (12 catalog gaps + 2 unextracted source strings) plus Shell gettext-domain fix;
+- GSConnect v73 20-entry managed catalog plus Shell/RunCommand gettext-domain fixes and localized factory RunCommand names;
 - Tiling Shell v76 / 17.3 completion overlay;
 - Just Perfection v37;
 - Spotlight v15 / 2026.15;
@@ -151,7 +151,7 @@ Repository-managed targets currently include:
 
 Dhruva remains the largest localization case: a 393-message gettext catalog, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
-GSConnect v73 was audited against its exact upstream release. The catalog itself has 12 untranslated entries, including the new v73 `Target Device Name` gap, and the missing metadata `gettext-domain` repair remains required for the Shell-side catalog. A post-login visual check on 2026-09-24 then exposed two additional user-visible source strings, `Connectivity Report` and `Display connectivity status`, that are absent from the upstream POT/catalog. The managed v73 overlay is therefore 14 entries. The revised installer and verifier passed on the physical workstation, including `Source-gap gettext checks: 2`, and the final post-localization tree hash is `30a5d6f15318b3e138d49b19a82be34bad03610374db20e110eeb3d63c6a79c3`.
+GSConnect v73 was audited against its exact upstream release. The catalog itself has 12 untranslated entries, including the new v73 `Target Device Name` gap, and the missing metadata `gettext-domain` repair remains required for the Shell-side catalog. A post-login visual check on 2026-09-24 exposed two additional unextracted plugin strings, bringing the audited gap set to 14. A subsequent RunCommand audit found that the command-editor GtkBuilder resource omits the GSConnect gettext domain and that five factory command names are stored as English GSettings data rather than gettext strings. The branch now manages 20 catalog entries, patches the process default gettext domain through exact-version `utils/setup.js`, and safely localizes only the five exact factory `name` fields while preserving the command lines. The earlier GSConnect tree hash `30a5d6f15318b3e138d49b19a82be34bad03610374db20e110eeb3d63c6a79c3` is therefore superseded pending the next physical apply.
 
 Tiling Shell v76 / 17.3 was audited against the exact installed version. Fifteen untranslated Polish strings were completed with a minimal version-pinned overlay.
 
@@ -180,11 +180,11 @@ The physical workstation had independently updated GSConnect and ddterm to v73, 
 The first staged v73 installers completed successfully on the physical Fedora 44 / GNOME 50.5 workstation and both dedicated verifiers passed. The resulting ddterm tree hash remains valid, but the GSConnect hash below was later superseded when the post-login visual audit exposed two source strings missing from the upstream translation catalogs:
 
 ```text
-GSConnect v73  30a5d6f15318b3e138d49b19a82be34bad03610374db20e110eeb3d63c6a79c3  (final 14-entry overlay)
+GSConnect v73  30a5d6f15318b3e138d49b19a82be34bad03610374db20e110eeb3d63c6a79c3  (superseded; pre-RunCommand remediation)
 ddterm v73     dbd72752dcc7687ab7a14a36ff1780f65e0b75e71245b8fa473e833b229c0d26
 ```
 
-The audit branch now promotes the v73 inventory rows, exact EGO archive SHA-256 pins, and final post-localization tree locks for both ddterm and GSConnect. The previous complete physical aggregate remains the last accepted aggregate until logout/login visual confirmation and a fresh full `scripts/verify.sh` run complete.
+The audit branch promotes the v73 inventory rows and exact EGO archive SHA-256 pins. ddterm's tree lock remains final. GSConnect's current tree-lock row is temporarily stale on this draft branch because the new RunCommand domain/catalog remediation changes the extension tree; a replacement hash will be captured only after the targeted physical installer/verifier pass. Do not run the full aggregate verifier until that lock is updated.
 
 ## Important reproducibility decisions
 
