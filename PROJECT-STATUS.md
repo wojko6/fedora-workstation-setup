@@ -447,9 +447,16 @@ The repository has passed a clean-room functional restore test for Fedora 44 / G
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 
+## Planned desktop-environment expansion
+
+Public Issue #12 now tracks a future **GNOME + KDE Plasma** coexistence design. This is a planned feature and does **not** change the currently accepted Fedora 44 / GNOME 50.5 baseline.
+
+The intended first phase keeps GNOME as the canonical production desktop and adds KDE Plasma as an optional alternate session without replacing GNOME or changing the display manager at the same time. Promotion into the supported desired state requires explicit validation of session switching and rollback, XDG portals, MIME/default applications, keyring/KWallet behavior, autostart interactions, Wayland behavior, networking/Tailscale, audio, Bluetooth, removable storage, reproducible KDE configuration capture/restore, and the full repository verifier.
+
 ## Remaining work
 
-The High-severity audit-remediation track is complete. Remaining work is medium/lower-risk hardening and routine lifecycle maintenance:
+The High-severity audit-remediation track is complete. Remaining work is medium/lower-risk hardening, planned desktop-environment work, and routine lifecycle maintenance:
+- complete the planned GNOME + KDE Plasma coexistence validation tracked by Issue #12 before treating KDE as part of the supported desired state;
 - introduce LUKS during a future controlled reinstall/restore if full-disk encryption is desired; in-place conversion remains intentionally deferred;
 - keep package and GNOME extension pins current as Fedora evolves;
 - repeat the clean-room restore test after material restore-path or supported-baseline changes;
