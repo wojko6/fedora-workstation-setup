@@ -50,7 +50,7 @@ The Bluetooth Battery Meter helper pair installs and verifies the v46/v49 BudsLi
 System localization helpers:
 - `install-papers-localization.sh` / `verify-papers-localization.sh` — Papers 49.8 / Nautilus Polish completion for confirmed document-properties, annotations-sidebar, and empty-start-page gaps.
 - `install-plymouth-localization.sh` / `verify-plymouth-localization.sh` — Fedora 44 Plymouth offline-update Polish locale persistence through dracut.
-- `install-ptyxis-localization.sh` / `verify-ptyxis-localization.sh` — Ptyxis 50.1 Polish main-domain completion for the audited main window/menu, terminal context menu, search/inspector, title dialog, and search options, while also enabling existing libadwaita About-dialog translations.
+- `install-ptyxis-localization.sh` / `verify-ptyxis-localization.sh` — Ptyxis 50.1-2.fc44 Polish main-domain completion for the audited in-application UI plus exact-fingerprint localization of the GNOME Shell `.desktop` actions `New Window`, `New Tab`, and `Preferences`.
 
 ## GNOME Keyring i18n
 
@@ -61,6 +61,7 @@ System localization helpers:
 
 - `apply-space-bar-localization.py`
 - `gsconnect_runcommand_names.py` — safely localizes the five audited GSConnect v73 factory RunCommand display names in per-device GSettings while preserving UUIDs, command lines, and user-renamed/custom commands.
+- `ptyxis_desktop_actions.py` — deterministically reconstructs the audited Ptyxis desktop launcher with Polish names for its three GNOME Shell actions; refuses changed action lists, names, commands, or pre-existing Polish action labels.
 - `generate-dhruva-emoji-pl.py`
 - `inventory-extensions.sh`
 - `validate-repository.py`
