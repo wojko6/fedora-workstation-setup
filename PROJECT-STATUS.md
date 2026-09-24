@@ -461,7 +461,7 @@ The repository has passed a clean-room functional restore test for Fedora 44 / G
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 
-## 2026-09-24 Tailscale firewalld isolation — IMPLEMENTED / FULL VERIFIER PENDING
+## 2026-09-24 Tailscale firewalld isolation — IMPLEMENTED / PHYSICALLY ACCEPTED
 
 Issue #11 identified a concrete gap in the broader firewalld fallback path.
 
@@ -498,7 +498,7 @@ rich rules: none
 
 The configuration survived `firewall-cmd --reload` and a physical reboot. After reboot, `tailscale0` remained in `workstation-tailscale`, the trusted Wi-Fi interface remained in `workstation-kdeconnect`, outbound `tailscale ping` still passed, and TCP/22, TCP/1716 and TCP/27036 remained `filtered` from the Windows Tailnet peer.
 
-Repository work makes this state reproducible through `network/tailscale-firewall-zone.sh`, installer integration, static fixtures and explicit security-posture verification. The previous physical aggregate `PASS=256 WARN=0 FAIL=0 SKIP=0` remains the last accepted aggregate until the updated repository is run through the full physical verifier.
+Repository work makes this state reproducible through `network/tailscale-firewall-zone.sh`, installer integration, static fixtures and explicit security-posture verification. After correcting the portable runtime target check, the dedicated physical security verifier completed at `PASS=62 WARN=0 FAIL=0 SKIP=0`, and the complete workstation verifier completed at `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The `workstation-tailscale` policy is therefore part of the accepted 2026-09-24 physical baseline.
 
 ## Planned desktop-environment expansion
 
