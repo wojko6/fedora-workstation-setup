@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Physical baseline refreshed and accepted 2026-09-21; Recovery and Stability Gates passed; 2026-09-21 localization closure accepted; D-H1, D-H2/D-H3, and D-H4 High-severity audit remediation physically accepted; reproducible DING System Monitor desktop-menu integration physically accepted; unused desktop applications removed from desired state; Helium required in desired state; VPCS COPR restricted to vpcs; Firefox explicitly absent; MOK signer verification made deterministic; external repository trust anchors and package signer identities physically accepted; latest private DR generation integrity-verified; full physical verifier clean at PASS=256 WARN=0 FAIL=0 SKIP=0
+**Status:** Physical baseline refreshed and accepted 2026-09-24; Recovery and Stability Gates passed; GSConnect v73 and ddterm v73 localization promotion physically accepted; dedicated `workstation-tailscale` DROP policy physically accepted; D-H1, D-H2/D-H3, and D-H4 High-severity audit remediation physically accepted; reproducible DING System Monitor desktop-menu integration physically accepted; unused desktop applications removed from desired state; Helium required in desired state; VPCS COPR restricted to vpcs; Firefox explicitly absent; MOK signer verification made deterministic; external repository trust anchors and package signer identities physically accepted; latest private DR generation integrity-verified; full physical verifier clean at PASS=256 WARN=0 FAIL=0 SKIP=0
 
 **Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
 
@@ -22,14 +22,14 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After the later 2026-09-21 application cleanup removed `gnome-boxes`, `mediawriter`, and `htop` from desired state (with GNOME Snapshot already outside the manifest), the physical-workstation verifier was rerun from the canonical repository checkout and completed with:
+After the 2026-09-24 GSConnect/ddterm v73 localization promotion, Tailscale runtime-target verifier portability fix, and restoration of the accepted Dhruva dock order, the physical-workstation verifier was rerun from the audit branch and completed with:
 
 ```text
 PASS=256 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes the accepted localization state, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, D-H4 deterministic whole-tree integrity verification for every enabled user GNOME extension, and the repository-managed DING System Monitor desktop-menu customization. Ptyxis 50.1 remains repository-managed, Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
+This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes GSConnect v73 and ddterm v73 localization, the dedicated `workstation-tailscale` DROP policy, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, D-H4 deterministic whole-tree integrity verification for every enabled user GNOME extension, and the repository-managed DING System Monitor desktop-menu customization. Ptyxis 50.1 remains repository-managed, Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
 
 ## Current desired state
 
@@ -171,7 +171,7 @@ Papers 49.8 uses a minimal completion overlay for the Nautilus document-properti
 
 Plymouth offline-update localization is now fully physically validated. During a real Fedora offline-update cycle on **2026-09-22**, the physical workstation displayed the update screen in Polish, including `Instalowanie aktualizacji…`, `Nie należy wyłączać komputera`, and translated progress text (`Ukończono 13%` was observed). This closes the previous evidence gap between technically verified initramfs contents and actual user-visible runtime behavior.
 
-`scripts/install-localizations.sh` now manages 25 localization targets/operations: four generic gettext targets, 15 specialized GNOME-extension stages, and six application/system stages (Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks). Dedicated localization verifiers are integrated into the main `scripts/verify.sh`. The 2026-09-24 GSConnect v73 and ddterm v73 dedicated checks passed, but the previous complete physical-host aggregate remains the last accepted aggregate until the updated branch is run through the full verifier.
+`scripts/install-localizations.sh` now manages 25 localization targets/operations: four generic gettext targets, 15 specialized GNOME-extension stages, and six application/system stages (Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks). Dedicated localization verifiers are integrated into the main `scripts/verify.sh`. GSConnect v73 and ddterm v73 passed their dedicated physical checks and visual acceptance, and the final 2026-09-24 full physical verifier completed cleanly at `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
 
 ## GSConnect/ddterm v73 localization promotion — 2026-09-24
 
@@ -184,7 +184,7 @@ GSConnect v73  29bd02e3021fea0146311a623c3cd937dd96b224c41aeb83449d530f3468bffa 
 ddterm v73     dbd72752dcc7687ab7a14a36ff1780f65e0b75e71245b8fa473e833b229c0d26
 ```
 
-The audit branch now promotes the v73 inventory rows, exact EGO archive SHA-256 pins, and final post-localization tree locks for both ddterm and GSConnect. GSConnect v73 RunCommand names and editor were visually confirmed in Polish after logout/login, with the actual command lines unchanged. The remaining gate is a fresh full physical `scripts/verify.sh` run.
+The audit branch promotes the v73 inventory rows, exact EGO archive SHA-256 pins, and final post-localization tree locks for both ddterm and GSConnect. GSConnect v73 RunCommand names and editor were visually confirmed in Polish after logout/login, with the actual command lines unchanged. The final full physical verifier then completed at `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`, establishing the 2026-09-24 accepted baseline.
 
 ## Important reproducibility decisions
 
