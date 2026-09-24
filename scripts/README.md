@@ -23,6 +23,8 @@ The scripts directory contains the operational entrypoints used to build, restor
 - `install-weather-locations.sh` — restores reviewed custom GNOME Weather locations in the user session.
 - `install-dhruva-config.sh`
 - `manage-weather-locations.py` — libgweather-backed installer/verifier for reviewed custom GNOME Weather locations.
+- `../network/firewall-zone.sh` — exact-state trusted-Wi-Fi firewalld policy for `workstation-kdeconnect`.
+- `../network/tailscale-firewall-zone.sh` — exact-state `workstation-tailscale` policy that binds `tailscale0` to a DROP-by-default zone without explicit inbound services or ports.
 
 The top-level `install.sh` orchestrates these stages. Individual stages should remain safe to inspect and, where practical, safe to rerun.
 
@@ -67,5 +69,6 @@ System localization helpers:
 - `test_github_metadata_security.py` — negative fixtures for pinned GitHub metadata handling.
 - `verify-ding-system-monitor-menu.sh` — validates the exact DING v97 System Monitor action/menu integration and required desktop file.
 - `test_ding_system_monitor_menu.py` — static fixture and integration-contract tests for the DING System Monitor customization.
+- `test_tailscale_firewall_policy.py` — exact-state, fallback-isolation and rollback fixtures for the dedicated Tailscale firewalld zone.
 
 Do not add ad-hoc one-off scripts unless they are part of the documented restore, audit, or validation workflow.
