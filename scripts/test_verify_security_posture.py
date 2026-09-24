@@ -104,6 +104,8 @@ if name == "ip":
     if args == ["route", "show", "default"]:
         print("default via 192.168.1.1 dev wlp1s0 proto dhcp src 192.168.1.10 metric 600")
         raise SystemExit(0)
+    if args == ["link", "show", "tailscale0"]:
+        raise SystemExit(0 if env("SEC_TEST_TS_IFACE", "1") == "1" else 1)
     raise SystemExit(1)
 
 if name == "iw":
@@ -131,11 +133,15 @@ if name == "firewall-cmd":
         raise SystemExit(0)
 
     if args and args[0].startswith("--get-zone-of-interface="):
-        print(env("SEC_TEST_ACTIVE_ZONE", "workstation-kdeconnect"))
+        iface = args[0].split("=", 1)[1]
+        if iface == "tailscale0":
+            print(env("SEC_TEST_TS_ACTIVE_ZONE", "workstation-tailscale"))
+        else:
+            print(env("SEC_TEST_ACTIVE_ZONE", "workstation-kdeconnect"))
         raise SystemExit(0)
 
     if args == ["--permanent", "--get-zones"]:
-        print("FedoraWorkstation workstation-kdeconnect")
+        print("FedoraWorkstation workstation-kdeconnect workstation-tailscale")
         raise SystemExit(0)
 
     zone = None
@@ -151,14 +157,29 @@ if name == "firewall-cmd":
         raise SystemExit(0 if env("SEC_TEST_CROSS_ZONE_KDE", "0") == "1" else 1)
 
     if "--list-services" in args:
-        if env("SEC_TEST_SERVICE_DRIFT", "0") == "1" and not permanent:
+        if zone == "workstation-tailscale":
+            if env("SEC_TEST_TS_SERVICE_DRIFT", "0") == "1":
+                print("ssh")
+            else:
+                print("")
+        elif env("SEC_TEST_SERVICE_DRIFT", "0") == "1" and not permanent:
             print("dhcpv6-client kdeconnect mdns ssh")
         else:
             print("dhcpv6-client kdeconnect mdns")
         raise SystemExit(0)
 
+    if "--list-interfaces" in args:
+        if zone == "workstation-tailscale":
+            print(env("SEC_TEST_TS_INTERFACES", "tailscale0"))
+        else:
+            print("")
+        raise SystemExit(0)
+
     if "--get-target" in args:
-        print("default")
+        if zone == "workstation-tailscale":
+            print(env("SEC_TEST_TS_TARGET", "DROP"))
+        else:
+            print("default")
         raise SystemExit(0)
 
     if "--list-all" in args:
@@ -168,6 +189,8 @@ if name == "firewall-cmd":
         raise SystemExit(0)
 
     if "--query-forward" in args:
+        if zone == "workstation-tailscale":
+            raise SystemExit(0 if env("SEC_TEST_TS_FORWARD", "0") == "1" else 1)
         raise SystemExit(0 if env("SEC_TEST_FORWARD", "0") == "1" else 1)
 
     if "--query-masquerade" in args:
@@ -336,6 +359,30 @@ with tempfile.TemporaryDirectory(prefix="security-posture-tests-") as td:
         "cross-zone KDE Connect exposure",
         run_case(case, SEC_TEST_CROSS_ZONE_KDE="1"),
         "kdeconnect exposed in non-trusted permanent zone",
+    )
+
+    case = base / "tailscale-target"
+    case.mkdir()
+    expect_fail(
+        "Tailscale zone target drift",
+        run_case(case, SEC_TEST_TS_TARGET="default"),
+        "Tailscale-zone target drift",
+    )
+
+    case = base / "tailscale-service"
+    case.mkdir()
+    expect_fail(
+        "Tailscale zone service drift",
+        run_case(case, SEC_TEST_TS_SERVICE_DRIFT="1"),
+        "Tailscale-zone services contain unexpected state",
+    )
+
+    case = base / "tailscale-active-zone"
+    case.mkdir()
+    expect_fail(
+        "Tailscale active-zone drift",
+        run_case(case, SEC_TEST_TS_ACTIVE_ZONE="FedoraWorkstation"),
+        "active Tailscale zone drift",
     )
 
     case = base / "large-mok-output"
