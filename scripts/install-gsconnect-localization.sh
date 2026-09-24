@@ -12,15 +12,20 @@ METADATA="$EXT_DIR/metadata.json"
 EXTENSION_JS="$EXT_DIR/extension.js"
 PREFS_JS="$EXT_DIR/prefs.js"
 CONFIG_JS="$EXT_DIR/config.js"
+SETUP_JS="$EXT_DIR/utils/setup.js"
+SCHEMA_DIR="$EXT_DIR/schemas"
 BACKUP_DIR="$EXT_DIR/.localization-backup-v73"
 BACKUP_METADATA="$BACKUP_DIR/metadata.json"
 BACKUP_MO="$BACKUP_DIR/$DOMAIN.mo"
+BACKUP_SETUP_JS="$BACKUP_DIR/setup.js"
+RUNCOMMAND_HELPER="$ROOT_DIR/scripts/gsconnect_runcommand_names.py"
 VERIFIER="$ROOT_DIR/scripts/verify-gsconnect-localization.sh"
 
 EXPECTED_METADATA_SHA="deb9d7972da0e973b3a67c910577dd2df1191b48fdd115a99288bcdb9c927422"
 EXPECTED_EXTENSION_SHA="8de3ae0c1c4c1d0768c31aa8713192228168e988c3120eb3100a80d9f2b2feee"
 EXPECTED_PREFS_SHA="d5c073a134d912411d4317d29e5a33131d71854471f58035cdb2cfabd3341e30"
 EXPECTED_CONFIG_SHA="a90f3a914ab72bf7d72ce303008ef19c1904105abad691403172aeee996df6ee"
+EXPECTED_SETUP_SHA="3e2980b4eba74a93e46208e0dfa7b5fe4c6f80f071ab2e1298deac0dd9506a45"
 EXPECTED_UPSTREAM_MO_SHA="ac830d12a1e851b79438e18b5b6abf42cca6df10e02c176bba934af734235384"
 
 if [[ ! -d "$EXT_DIR" ]]; then
@@ -35,7 +40,7 @@ for cmd in msgfmt msgunfmt msgcat python3 sha256sum install cp cmp; do
     }
 done
 
-for path in "$SOURCE_PO" "$TARGET_MO" "$METADATA" "$EXTENSION_JS" "$PREFS_JS" "$CONFIG_JS" "$VERIFIER"; do
+for path in "$SOURCE_PO" "$TARGET_MO" "$METADATA" "$EXTENSION_JS" "$PREFS_JS" "$CONFIG_JS" "$SETUP_JS" "$RUNCOMMAND_HELPER" "$VERIFIER"; do
     [[ -f "$path" ]] || {
         echo "FAIL: required GSConnect localization file missing: $path" >&2
         exit 1
@@ -100,6 +105,14 @@ else
     check_sha "$BACKUP_MO" "$EXPECTED_UPSTREAM_MO_SHA" "pristine Polish catalog backup"
 fi
 
+if [[ ! -f "$BACKUP_SETUP_JS" ]]; then
+    check_sha "$SETUP_JS" "$EXPECTED_SETUP_SHA" "pristine utils/setup.js"
+    cp -a "$SETUP_JS" "$BACKUP_SETUP_JS"
+    echo "Backup: $BACKUP_SETUP_JS"
+else
+    check_sha "$BACKUP_SETUP_JS" "$EXPECTED_SETUP_SHA" "pristine utils/setup.js backup"
+fi
+
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
 
@@ -118,13 +131,33 @@ with open(dst, "w", encoding="utf-8") as f:
     f.write("\n")
 PY
 
+python3 - "$BACKUP_SETUP_JS" "$tmpdir/setup.js" <<'PY'
+import sys
+
+src, dst = sys.argv[1:]
+text = open(src, encoding="utf-8").read()
+needle = "    Gettext.bindtextdomain(Config.APP_ID, Config.PACKAGE_LOCALEDIR);\n"
+replacement = (
+    needle
+    + "    Gettext.textdomain(Config.APP_ID);\n"
+)
+if text.count(needle) != 1:
+    raise SystemExit("FAIL: unexpected GSConnect v73 setupGettext() source")
+text = text.replace(needle, replacement, 1)
+with open(dst, "w", encoding="utf-8") as f:
+    f.write(text)
+PY
+
 msgunfmt "$BACKUP_MO" -o "$tmpdir/upstream.po"
 msgcat --use-first "$SOURCE_PO" "$tmpdir/upstream.po" -o "$tmpdir/merged.po"
 msgfmt --check "$tmpdir/merged.po" -o "$tmpdir/$DOMAIN.mo"
 
 install -m 0644 "$tmpdir/metadata.json" "$METADATA"
+install -m 0644 "$tmpdir/setup.js" "$SETUP_JS"
 install -m 0644 "$tmpdir/$DOMAIN.mo" "$TARGET_MO"
 
+python3 "$RUNCOMMAND_HELPER" apply --schema-dir "$SCHEMA_DIR"
+
 bash "$VERIFIER"
-echo "PASS: GSConnect v73 Polish completion and Shell gettext-domain fix installed"
-echo "Sign out and back in to reload GSConnect Shell translations and metadata."
+echo "PASS: GSConnect v73 Polish localization, RunCommand UI and factory names installed"
+echo "Sign out and back in to reload GSConnect Shell translations and preferences resources."
