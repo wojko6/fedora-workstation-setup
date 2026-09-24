@@ -350,9 +350,17 @@ else
       scope_args=()
       [[ "$scope" == "permanent" ]] && scope_args+=(--permanent)
 
-      target="$(
-        firewall-cmd "${scope_args[@]}" --zone="$TAILSCALE_ZONE" --get-target 2>/dev/null || true
-      )"
+      if [[ "$scope" == "permanent" ]]; then
+        target="$(
+          firewall-cmd --permanent --zone="$TAILSCALE_ZONE" --get-target 2>/dev/null || true
+        )"
+      else
+        target="$(
+          firewall-cmd --zone="$TAILSCALE_ZONE" --list-all 2>/dev/null |
+            sed -nE 's/^[[:space:]]*target:[[:space:]]*//p' |
+            head -n 1
+        )"
+      fi
       if [[ "$target" == "DROP" ]]; then
         ok "$scope Tailscale-zone target is DROP"
       else
