@@ -508,7 +508,7 @@ if arcmenu_verify_output="$(bash "$ROOT_DIR/scripts/verify-arcmenu-localization.
   if grep -q '^SKIP:' <<<"$arcmenu_verify_output"; then
     skip "ArcMenu Polish localization: extension not installed"
   else
-    ok "ArcMenu v73 / 69.2 Polish gettext binding fix matches repository"
+    ok "ArcMenu v74 / 70.0 Polish gettext binding fix matches repository"
   fi
 else
   printf '%s\n' "$arcmenu_verify_output"
