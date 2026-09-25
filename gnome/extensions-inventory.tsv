@@ -4,7 +4,7 @@ Vitals@CoreCoding.com	Vitals	85	45,46,47,48,49,50,51	https://github.com/corecodi
 add-to-desktop@tommimon.github.com	Add to Desktop	16	45,46,47,48,49,50	https://github.com/Tommimon/add-to-desktop	~/.local/share/gnome-shell/extensions/add-to-desktop@tommimon.github.com
 advanced-media-controller@sanjai.com	Advanced Media Controller	31	45,46,47,48,49,50	https://codeberg.org/sanjai-shaarugesh/Advanced-media-controller	~/.local/share/gnome-shell/extensions/advanced-media-controller@sanjai.com
 apps-menu@gnome-shell-extensions.gcampax.github.com	Apps Menu		50	https://gitlab.gnome.org/GNOME/gnome-shell-extensions	/usr/share/gnome-shell/extensions/apps-menu@gnome-shell-extensions.gcampax.github.com
-arcmenu@arcmenu.com	ArcMenu	73	45,46,47,48,49,50	https://gitlab.com/arcmenu/ArcMenu	~/.local/share/gnome-shell/extensions/arcmenu@arcmenu.com
+arcmenu@arcmenu.com	ArcMenu	74	45,46,47,48,49,50,51	https://gitlab.com/arcmenu/ArcMenu	~/.local/share/gnome-shell/extensions/arcmenu@arcmenu.com
 background-logo@fedorahosted.org	Background Logo		50	https://forge.fedoraproject.org/workstation/background-logo-extension	/usr/share/gnome-shell/extensions/background-logo@fedorahosted.org
 blur-my-shell@aunetx	Blur my Shell	72	46,47,48,49,50	https://github.com/aunetx/blur-my-shell	~/.local/share/gnome-shell/extensions/blur-my-shell@aunetx
 browser-switcher@totoshko88.github.io	Browser Switcher	17	45,46,47,48,49,50	https://github.com/totoshko88/browser-switcher	~/.local/share/gnome-shell/extensions/browser-switcher@totoshko88.github.io
