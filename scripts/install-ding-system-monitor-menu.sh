@@ -45,7 +45,7 @@ fi
 
 action_count="$(grep -Fc "'open-system-monitor'" "$TARGET" || true)"
 desktop_count="$(grep -Fc "org.gnome.SystemMonitor.desktop" "$TARGET" || true)"
-menu_count="$(grep -Fc "'Monitor systemu'" "$TARGET" || true)"
+menu_count="$(grep -Fc "this._newMenuElement(_('System Monitor'), \"open-system-monitor\", section);" "$TARGET" || true)"
 
 if [[ "$action_count" == "1" && "$desktop_count" == "1" && "$menu_count" == "1" ]]; then
   bash "$VERIFIER"
@@ -53,7 +53,9 @@ if [[ "$action_count" == "1" && "$desktop_count" == "1" && "$menu_count" == "1" 
   exit 0
 fi
 
-if (( action_count > 0 || desktop_count > 0 || menu_count > 0 )); then
+legacy_menu_count="$(grep -Fc "'Monitor systemu'" "$TARGET" || true)"
+
+if (( action_count > 0 || desktop_count > 0 || menu_count > 0 || legacy_menu_count > 0 )); then
   echo "FAIL: partial DING System Monitor customization detected; refusing to patch" >&2
   exit 1
 fi
