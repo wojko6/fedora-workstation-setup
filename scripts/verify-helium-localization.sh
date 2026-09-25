@@ -4,8 +4,8 @@ set -Eeuo pipefail
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 
 PACKAGE="helium-bin"
-EXPECTED_VERSION="0.17.2.1"
-EXPECTED_UPSTREAM_PAK_SHA="93b0489811a30c4005294b192b6cadbd4089ab29da9e167fa40f48a2320940a6"
+EXPECTED_VERSION="0.18.1.1"
+EXPECTED_UPSTREAM_PAK_SHA="211933686949bd514ec57a450bd7f4b39631a474c891b70e1214202de9f34c02"
 EXPECTED_ENTRIES=36
 
 PAK="/opt/helium/locales/pl.pak"
@@ -13,7 +13,7 @@ INFO="/opt/helium/locales/pl.pak.info"
 
 PATCHER_SRC="$ROOT_DIR/scripts/helium_datapack.py"
 HELPER_SRC="$ROOT_DIR/scripts/helium-localization-post-transaction.sh"
-OVERLAY_SRC="$ROOT_DIR/localization/helium/v0.17.2.1-pl-completion.json"
+OVERLAY_SRC="$ROOT_DIR/localization/helium/v0.18.1.1-pl-completion.json"
 ACTION_SRC="$ROOT_DIR/system/dnf5/actions.d/90-helium-localization.actions"
 
 PATCHER_DST="/usr/local/libexec/fedora-workstation-setup/helium_datapack.py"
