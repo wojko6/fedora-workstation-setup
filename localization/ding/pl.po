@@ -144,7 +144,7 @@ msgid "Compression completed"
 msgstr "Kompresja zakończona"
 
 msgid "Copy"
-msgstr "Skopiuj"
+msgstr "Kopiuj"
 
 msgid "Create archive"
 msgstr "Utwórz archiwum"
@@ -259,7 +259,7 @@ msgid "Never"
 msgstr "Nigdy"
 
 msgid "New Folder"
-msgstr "Nowy katalog"
+msgstr "Nowy folder"
 
 msgid "New Folder with {0} item"
 msgid_plural "New Folder with {0} items"
