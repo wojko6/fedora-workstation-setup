@@ -8,8 +8,9 @@ EXT_DIR="$HOME/.local/share/gnome-shell/extensions/$UUID"
 TARGET="$EXT_DIR/app/desktopMenu.js"
 PATCH_FILE="$ROOT_DIR/patches/gnome-extensions/ding/desktopMenu-system-monitor.patch"
 DESKTOP_FILE="/usr/share/applications/org.gnome.SystemMonitor.desktop"
+DING_MO="$EXT_DIR/locale/pl/LC_MESSAGES/ding.mo"
 
-for path in "$TARGET" "$PATCH_FILE" "$DESKTOP_FILE"; do
+for path in "$TARGET" "$PATCH_FILE" "$DESKTOP_FILE" "$DING_MO"; do
   [[ -f "$path" ]] || {
     echo "FAIL: required DING System Monitor verification file missing: $path" >&2
     exit 1
@@ -51,7 +52,7 @@ action = """        this._addNewAction('open-system-monitor', null, () => {
         });
 """
 
-menu = """        this._newMenuElement('Monitor systemu', "open-system-monitor", section);
+menu = """        this._newMenuElement(_('System Monitor'), "open-system-monitor", section);
 """
 
 if text.count(action) != 1:
@@ -62,4 +63,19 @@ if text.count("org.gnome.SystemMonitor.desktop") != 1:
     raise SystemExit("FAIL: unexpected GNOME System Monitor desktop-file reference count")
 PY
 
-echo "PASS: DING v97 System Monitor desktop-menu integration matches repository"
+python3 - "$DING_MO" <<'PY'
+import gettext
+import sys
+
+with open(sys.argv[1], "rb") as fh:
+    tr = gettext.GNUTranslations(fh)
+
+actual = tr.gettext("System Monitor")
+if actual != "Monitor systemu":
+    raise SystemExit(
+        "FAIL: DING runtime localization for 'System Monitor': "
+        f"expected 'Monitor systemu', got {actual!r}"
+    )
+PY
+
+echo "PASS: DING v97 System Monitor desktop-menu integration and Polish label match repository"
