@@ -10,6 +10,7 @@ The repository adds localization only when upstream Polish support is missing, i
 - Completion-only targets carry the minimal missing entries.
 - Space Bar v39 uses controlled exact-version source replacements.
 - Spotlight v15 / 2026.15 uses gettext wiring plus source patches.
+- ArcMenu v73 / 69.2 keeps the upstream Polish catalog and applies only the exact-version gettext-domain binding fix required by the audited runtime; it does not carry a duplicate translation catalog.
 - Dhruva combines a gettext catalog, source patches, and generated Polish CLDR emoji metadata.
 - Advanced Media Controller v31 / 6.5 carries a complete Polish catalog pinned to the audited release.
 - Bluetooth Battery Meter v46/v49 uses a minimal completion overlay for the 16 untranslated messages on the BudsLink Companion preferences page.
@@ -23,5 +24,7 @@ The repository adds localization only when upstream Polish support is missing, i
 - Ptyxis 50.1 uses a version-pinned Polish main-domain completion because Fedora's package does not ship `pl/LC_MESSAGES/ptyxis.mo`. In addition to the already audited main window/menu, terminal context menu, search/inspector, title dialog, and search options, the 2026-09-24 physical audit first added 152 unique missing strings covering the preferences, profile editor/dialog/row, and shortcut dialog/row resources. A later visual check exposed six more unique custom-link gaps: five strings in `ptyxis-custom-link-editor.ui` plus the C-generated `Add Link` label. Follow-up screenshots then exposed three more C-generated preference labels (`Add Profile`, `Show Fewer Palettes`, `Select Font`) and the translatable palette-preview pangram. The managed completion therefore adds 162 unique strings from this audit cycle. The installer/verifier now scan eight exact embedded UI resources and require zero unresolved resource strings, with only `Terminal`, `Control-H`, and `ASCII DEL` accepted as reviewed identity translations; the four C-generated labels are checked separately through gettext. The same stage patches the audited `org.gnome.Ptyxis.desktop` actions with `Name[pl]` values for `New Window`, `New Tab`, and `Preferences`, pinned to pristine SHA-256 `8c596c2aff40ac062f61e6c541f0bccfa62091ce8503d63e2306d2e0a97f2b88`.
 
 All localization installation is centralized through `scripts/install-localizations.sh`: four generic gettext targets, 15 specialized GNOME-extension stages, plus Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks application/system stages (**25 localization targets/operations total**). Verification is integrated into `scripts/verify.sh`. VSCodium is intentionally deferred and is not part of the current reproducible localization set.
+
+Terminology and metadata conventions are documented in [STYLE-GUIDE.md](STYLE-GUIDE.md).
 
 See [../docs/LOCALIZATION-STATUS.md](../docs/LOCALIZATION-STATUS.md) for the accepted versions, coverage, and runtime validation details.
