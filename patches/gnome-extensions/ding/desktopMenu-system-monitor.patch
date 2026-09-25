@@ -16,11 +16,11 @@ diff --git a/app/desktopMenu.js b/app/desktopMenu.js
          this._addNewAction('change-background', null, () => {
              const desktopFile = GioUnix.DesktopAppInfo.new('gnome-background-panel.desktop');
              const context = Gdk.Display.get_default().get_app_launch_context();
-@@ -223,6 +231,7 @@
+@@ -222,6 +230,7 @@
          section = this._newSection(menuContainer);
-         this._newMenuElement('Pokaż Pulpit w Menedżerze plików', "show-in-files", section);
-         this._newMenuElement('Otwórz w terminalu', "open-in-terminal-desktop", section);
-+        this._newMenuElement('Monitor systemu', "open-system-monitor", section);
+         this._newMenuElement(_('Show Desktop in Files'), "show-in-files", section);
+         this._newMenuElement(_('Open in Terminal'), "open-in-terminal-desktop", section);
++        this._newMenuElement(_('System Monitor'), "open-system-monitor", section);
  
          section = this._newSection(menuContainer);
-         this._newMenuElement('Zmień tło pulpitu…', "change-background", section);
+         this._newMenuElement(_('Change Background…'), "change-background", section);
