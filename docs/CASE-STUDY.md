@@ -109,7 +109,7 @@ Validated components include:
 
 ## ArcMenu gettext binding fix
 
-ArcMenu v73 contained a Polish gettext catalog, but runtime translation loading required additional gettext domain handling.
+ArcMenu v74 / 70.0 contains a Polish gettext catalog, but runtime translation loading requires explicit binding of the `arcmenu` gettext domain to the extension-local locale directory.
 
 The repository provides a version-pinned fix with automated verification:
 
@@ -118,7 +118,7 @@ The repository provides a version-pinned fix with automated verification:
 - runtime gettext verification.
 
 Validated result:
-PASS: ArcMenu v73 Polish gettext binding fix 
+PASS: ArcMenu v74 / 70.0 Polish gettext binding fix; power-button tooltips were visually confirmed in Polish after logout/login. 
 
 ---
 
