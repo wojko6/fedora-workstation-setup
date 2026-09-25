@@ -352,6 +352,30 @@ msgstr "Ustawienia"
 msgid "Settings shared with Nautilus"
 msgstr "Ustawienia współdzielone z Nautilus"
 
+msgid "Paste"
+msgstr "Wklej"
+
+msgid "Select All"
+msgstr "Zaznacz wszystko"
+
+msgid "Arrange Icons"
+msgstr "Rozmieść ikony"
+
+msgid "Arrange By..."
+msgstr "Sortuj według..."
+
+msgid "Show Desktop in Files"
+msgstr "Wyświetl pulpit w menedżerze plików"
+
+msgid "Change Background…"
+msgstr "Zmień tło…"
+
+msgid "Desktop Icons Settings"
+msgstr "Ustawienia ikon pulpitu"
+
+msgid "Display Settings"
+msgstr "Ustawienia ekranu"
+
 msgid "System Monitor"
 msgstr "Monitor systemu"
 
