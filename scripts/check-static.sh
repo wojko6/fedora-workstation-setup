@@ -68,7 +68,7 @@ echo
 echo "=== HELIUM DATAPACK FIXTURES ==="
 python3 scripts/helium_datapack.py self-test
 python3 scripts/helium_datapack.py validate-overlay \
-  --overlay localization/helium/v0.17.2.1-pl-completion.json
+  --overlay localization/helium/v0.18.1.1-pl-completion.json
 
 echo
 echo "=== REPOSITORY CONSISTENCY ==="
