@@ -10,7 +10,7 @@ The repository adds localization only when upstream Polish support is missing, i
 - Completion-only targets carry the minimal missing entries.
 - Space Bar v39 uses controlled exact-version source replacements.
 - Spotlight v15 / 2026.15 uses gettext wiring plus source patches.
-- ArcMenu v73 / 69.2 keeps the upstream Polish catalog and applies only the exact-version gettext-domain binding fix required by the audited runtime; it does not carry a duplicate translation catalog.
+- ArcMenu v74 / 70.0 keeps the upstream Polish catalog and applies only the exact-version gettext-domain binding fix required by the audited runtime; the v74 EGO archive and affected live files are fingerprint-pinned, and no duplicate translation catalog is carried.
 - Dhruva combines a gettext catalog, source patches, and generated Polish CLDR emoji metadata.
 - Advanced Media Controller v31 / 6.5 carries a complete Polish catalog pinned to the audited release.
 - Bluetooth Battery Meter v46/v49 uses a minimal completion overlay for the 16 untranslated messages on the BudsLink Companion preferences page.
