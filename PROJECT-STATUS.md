@@ -401,9 +401,9 @@ The DING v97 desktop background context menu now contains a repository-managed `
 
 Implementation and acceptance details:
 
-- `patches/gnome-extensions/ding/desktopMenu-system-monitor.patch` adds the menu action and entry;
+- `patches/gnome-extensions/ding/desktopMenu-system-monitor.patch` adds the menu action and a gettext-managed `System Monitor` entry;
 - `scripts/install-ding-system-monitor-menu.sh` applies the patch fail-closed only to the audited DING v97 runtime;
-- `scripts/verify-ding-system-monitor-menu.sh` verifies the exact action block, menu entry, runtime version, and GNOME System Monitor desktop file;
+- `scripts/verify-ding-system-monitor-menu.sh` verifies the exact action block, gettext-managed menu entry, Polish `Monitor systemu` runtime label, runtime version, and GNOME System Monitor desktop file;
 - `install.sh` restores the customization as part of the normal workstation rebuild;
 - `scripts/verify.sh` includes the customization in final physical acceptance;
 - `gnome-system-monitor` is an explicit RPM dependency;
