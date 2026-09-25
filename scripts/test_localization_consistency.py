@@ -119,6 +119,7 @@ for path in po_files:
 expected = {
     ("localization/ding/pl.po", "Copy", None): "Kopiuj",
     ("localization/ding/pl.po", "New Folder", None): "Nowy folder",
+    ("localization/ding/pl.po", "System Monitor", None): "Monitor systemu",
     ("localization/just-another-search-bar/pl.po", "Preferences", None): "Preferencje",
     ("localization/ptyxis/pl.po", "Preferences", None): "Preferencje",
     # Deliberate contextual exception documented in localization/STYLE-GUIDE.md.
