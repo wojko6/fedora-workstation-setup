@@ -29,7 +29,7 @@ PASS=256 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes GSConnect v73 and ddterm v73 localization, the fully accepted Clipboard Indicator v71 64-entry completion, the dedicated `workstation-tailscale` DROP policy, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, D-H4 deterministic whole-tree integrity verification for every enabled user GNOME extension, and the repository-managed DING System Monitor desktop-menu customization. Ptyxis 50.1 is repository-managed and fully physically accepted: the 162-entry completion covers the audited preferences/profile/shortcut resources, custom-link editor, palette preview, and dynamic C-generated labels, while the fail-closed `.desktop` remediation localizes the three GNOME Shell launcher actions. Physical installation, dedicated verification, visual confirmation, and the final full verifier all passed; Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
+This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes GSConnect v73 and ddterm v73 localization, the fully accepted Clipboard Indicator v71 64-entry completion, the dedicated `workstation-tailscale` DROP policy, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, D-H4 deterministic whole-tree integrity verification for every enabled user GNOME extension, and the repository-managed DING System Monitor desktop-menu customization. Ptyxis 50.1 is repository-managed and fully physically accepted: the 2026-09-24 audit cycle added 162 unique translations across the audited preferences/profile/shortcut resources, custom-link editor, palette preview, and dynamic C-generated labels, while the fail-closed `.desktop` remediation localizes the three GNOME Shell launcher actions. Physical installation, dedicated verification, visual confirmation, and the final full verifier all passed; Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
 
 ## Current desired state
 
@@ -401,9 +401,9 @@ The DING v97 desktop background context menu now contains a repository-managed `
 
 Implementation and acceptance details:
 
-- `patches/gnome-extensions/ding/desktopMenu-system-monitor.patch` adds the menu action and entry;
+- `patches/gnome-extensions/ding/desktopMenu-system-monitor.patch` adds the menu action and a gettext-managed `System Monitor` entry;
 - `scripts/install-ding-system-monitor-menu.sh` applies the patch fail-closed only to the audited DING v97 runtime;
-- `scripts/verify-ding-system-monitor-menu.sh` verifies the exact action block, menu entry, runtime version, and GNOME System Monitor desktop file;
+- `scripts/verify-ding-system-monitor-menu.sh` verifies the exact action block, gettext-managed menu entry, Polish `Monitor systemu` runtime label, runtime version, and GNOME System Monitor desktop file;
 - `install.sh` restores the customization as part of the normal workstation rebuild;
 - `scripts/verify.sh` includes the customization in final physical acceptance;
 - `gnome-system-monitor` is an explicit RPM dependency;

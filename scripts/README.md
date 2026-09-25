@@ -32,7 +32,7 @@ The top-level `install.sh` orchestrates these stages. Individual stages should r
 
 `install-localizations.sh` is the single localization pipeline. It manages **25 localization targets/operations**: four generic gettext targets, 15 specialized GNOME-extension stages, and six application/system stages (Papers/Nautilus, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks).
 
-Dedicated `verify-*-localization.sh` scripts validate exact-version, completion-overlay, and system-localization targets and are wired into `verify.sh`.
+Dedicated `verify-*-localization.sh` scripts validate exact-version, completion-overlay, and system-localization targets and are wired into `verify.sh`. `test_localization_consistency.py` enforces repository-wide Polish gettext metadata and a small set of reviewed terminology invariants without flattening context-sensitive translations.
 
 The Bluetooth Battery Meter helper pair installs and verifies the v46/v49 BudsLink Companion completion overlay:
 
@@ -40,9 +40,10 @@ The Bluetooth Battery Meter helper pair installs and verifies the v46/v49 BudsLi
 - `verify-bluetooth-battery-meter-localization.sh`
 - `install-clipboard-indicator-localization.sh` / `verify-clipboard-indicator-localization.sh` — Clipboard Indicator v71 64-entry Polish completion over all exact upstream untranslated/fuzzy entries, including an explicit smoke test for the visually discovered residual description.
 - `install-blur-my-shell-localization.sh` / `verify-blur-my-shell-localization.sh` — Blur my Shell v72 61-entry Polish completion plus two pipeline UI source patches over the audited physical EGO build.
+- `install-arcmenu-localization.sh` / `verify-arcmenu-localization.sh` — ArcMenu v74 / 70.0 exact-version gettext-domain binding fix over the fingerprint-pinned upstream Polish catalog; no duplicate repository catalog is installed.
 
 - `install-extension-manager-localization.sh` / `verify-extension-manager-localization.sh` — Extension Manager 0.6.5 Flatpak Locale one-entry contextual completion (`None` → `Brak`) pinned to the audited Locale commit and pristine catalog hash.
-- `install-helium-localization.sh` / `verify-helium-localization.sh` — Helium 0.17.2.1 36-entry Polish DataPack v5 completion plus DNF5 post-transaction persistence.
+- `install-helium-localization.sh` / `verify-helium-localization.sh` — Helium 0.18.1.1 / Chromium 154.0.8037.57 36-entry Polish DataPack v5 completion plus DNF5 post-transaction persistence.
 - `helium_datapack.py` — dependency-free Chromium DataPack v5 parser/writer used to apply and verify Helium locale overlays without replacing unrelated producer resources.
 - `helium-localization-post-transaction.sh` — root helper installed for the DNF5 `post_transaction` hook; it keeps versioned pristine producer backups and patches only entries that still match their audited English source.
 - `install-gnome-tweaks-localization.sh` / `verify-gnome-tweaks-localization.sh` — GNOME Tweaks 49.0 exact-package localization bridge for generated GSettings enum labels, with pristine source/catalog backups and byte-for-byte reconstruction.

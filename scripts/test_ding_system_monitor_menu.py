@@ -11,6 +11,7 @@ INSTALL = ROOT / "scripts" / "install-ding-system-monitor-menu.sh"
 VERIFY = ROOT / "scripts" / "verify-ding-system-monitor-menu.sh"
 MAIN_INSTALL = ROOT / "install.sh"
 MAIN_VERIFY = ROOT / "scripts" / "verify.sh"
+DING_PO = ROOT / "localization" / "ding" / "pl.po"
 
 FIXTURE = """class DesktopMenuFixture {
     constructor() {
@@ -31,11 +32,11 @@ FIXTURE = """class DesktopMenuFixture {
         let section = this._newSection(menuContainer);
 
         section = this._newSection(menuContainer);
-        this._newMenuElement('Pokaż Pulpit w Menedżerze plików', "show-in-files", section);
-        this._newMenuElement('Otwórz w terminalu', "open-in-terminal-desktop", section);
+        this._newMenuElement(_('Show Desktop in Files'), "show-in-files", section);
+        this._newMenuElement(_('Open in Terminal'), "open-in-terminal-desktop", section);
 
         section = this._newSection(menuContainer);
-        this._newMenuElement('Zmień tło pulpitu…', "change-background", section);
+        this._newMenuElement(_('Change Background…'), "change-background", section);
 
         return menuContainer;
     }
@@ -84,7 +85,7 @@ with tempfile.TemporaryDirectory(prefix="ding-system-monitor-") as td:
     required = [
         "this._addNewAction('open-system-monitor', null, () => {",
         "GioUnix.DesktopAppInfo.new('org.gnome.SystemMonitor.desktop')",
-        'this._newMenuElement(\'Monitor systemu\', "open-system-monitor", section);',
+        'this._newMenuElement(_(\'System Monitor\'), "open-system-monitor", section);',
     ]
     for phrase in required:
         if text.count(phrase) != 1:
@@ -105,6 +106,7 @@ contracts = {
     VERIFY: [
         "org.gnome.SystemMonitor.desktop",
         "open-system-monitor",
+        "System Monitor",
         "Monitor systemu",
         "EXPECTED_VERSION=\"97\"",
     ],
@@ -125,5 +127,10 @@ for path, phrases in contracts.items():
                 f"FAIL: DING System Monitor integration contract missing in {path.name}: {phrase}"
             )
 
+po_text = DING_PO.read_text(encoding="utf-8")
+if 'msgid "System Monitor"\nmsgstr "Monitor systemu"' not in po_text:
+    raise SystemExit("FAIL: DING Polish catalog is missing System Monitor -> Monitor systemu")
+
 print("PASS: DING System Monitor restore and verification contracts present")
+print("PASS: DING System Monitor label is gettext-managed in the Polish catalog")
 print("=== DING SYSTEM MONITOR TESTS: PASS ===")

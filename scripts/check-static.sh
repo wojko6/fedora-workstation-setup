@@ -47,6 +47,10 @@ while IFS= read -r -d '' file; do
 done < <(find localization -type f -name '*.po' -print0)
 
 echo
+echo "=== LOCALIZATION CONSISTENCY ==="
+python3 scripts/test_localization_consistency.py
+
+echo
 echo "=== JSON FILES ==="
 while IFS= read -r -d '' file; do
   echo "json.tool $file"
@@ -64,7 +68,7 @@ echo
 echo "=== HELIUM DATAPACK FIXTURES ==="
 python3 scripts/helium_datapack.py self-test
 python3 scripts/helium_datapack.py validate-overlay \
-  --overlay localization/helium/v0.17.2.1-pl-completion.json
+  --overlay localization/helium/v0.18.1.1-pl-completion.json
 
 echo
 echo "=== REPOSITORY CONSISTENCY ==="

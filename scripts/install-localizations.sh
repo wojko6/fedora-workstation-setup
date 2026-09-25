@@ -120,7 +120,7 @@ echo "=== POLISH LOCALIZATION: Space Bar v39 ==="
 bash "$ROOT_DIR/scripts/install-space-bar-localization.sh"
 
 echo
-echo "=== POLISH LOCALIZATION: ArcMenu v73 / 69.2 ==="
+echo "=== POLISH LOCALIZATION: ArcMenu v74 / 70.0 ==="
 bash "$ROOT_DIR/scripts/install-arcmenu-localization.sh"
 
 echo
