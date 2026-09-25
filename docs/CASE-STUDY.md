@@ -101,7 +101,7 @@ Validated components include:
 - Blur my Shell,
 - Clipboard Indicator,
 - Extension Manager,
-- Helium,
+- Helium 0.18.1.1 / Chromium 154,
 - GNOME Tweaks,
 - Papers / Nautilus,
 - Plymouth offline updates,
@@ -118,7 +118,9 @@ The repository provides a version-pinned fix with automated verification:
 - runtime gettext verification.
 
 Validated result:
-PASS: ArcMenu v74 / 70.0 Polish gettext binding fix; power-button tooltips were visually confirmed in Polish after logout/login. 
+PASS: ArcMenu v74 / 70.0 Polish gettext binding fix; power-button tooltips were visually confirmed in Polish after logout/login.
+
+The same final localization pass also closed two upgrade-driven drift cases without weakening validation: DING v97 received complete observed desktop-menu and sorting-submenu translations with its final tree hash pinned, while Helium 0.18.1.1 was re-audited against Chromium 154, including new resource IDs and byte-for-byte DataPack reconstruction.
 
 ---
 
@@ -204,7 +206,7 @@ Repository validation pipeline
 │   └── recovery readiness checks
 ```
 
-The final accepted physical workstation verification completed on 2026-09-24 on Fedora 44 / GNOME Shell 50.5 with:
+The final accepted physical workstation verification was refreshed on 2026-09-25 on Fedora 44 / GNOME Shell 50.5 after the ArcMenu/DING/GSConnect/Helium consistency pass, with:
 ```text
 PASS=256
 WARN=0
