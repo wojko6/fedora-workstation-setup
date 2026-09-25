@@ -15,6 +15,7 @@ Repository-managed localization/integration currently covers:
 - Dhruva
 - Background Logo
 - Browser Switcher
+- ArcMenu v73 / 69.2 upstream Polish catalog with repository-managed exact-version gettext-domain binding fix
 - GSConnect v73 20-entry managed catalog (14 audited gaps + 6 reviewed RunCommand editor corrections), Shell gettext-domain fixes, and safe localization of five factory RunCommand names
 - Tiling Shell v76 / 17.3 completion overlay
 - Just Perfection v37 full Polish localization
@@ -70,7 +71,7 @@ The GNOME 50 extension set was reviewed on the physical Fedora workstation. ArcM
 
 | Extension | Polish localization status | Repository action |
 | --- | --- | --- |
-| ArcMenu | Upstream Polish support | No duplicate translation |
+| ArcMenu | Upstream Polish catalog; audited v73 runtime required an explicit gettext-domain binding | Exact-version binding fix; no duplicate translation catalog |
 | Bluetooth Battery Meter v49 | 16 untranslated BudsLink Companion entries | Completion overlay + v49 restore pin |
 | Caffeine | Upstream Polish support | No duplicate translation |
 | GSConnect v73 | 12 untranslated catalog entries + 2 unextracted plugin strings + missing RunCommand editor gettext domain + five English factory command names | 20-entry managed catalog + metadata/setup gettext-domain fixes + settings-safe factory-name migration |
