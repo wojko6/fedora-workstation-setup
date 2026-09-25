@@ -376,6 +376,30 @@ msgstr "Ustawienia ikon pulpitu"
 msgid "Display Settings"
 msgstr "Ustawienia ekranu"
 
+msgid "Keep Arranged..."
+msgstr "Autorozmieszczanie"
+
+msgid "Keep Stacked by type..."
+msgstr "Grupowanie według typu..."
+
+msgid "Sort Home/Drives/Trash..."
+msgstr "Sortuj katalog domowy/dyski/kosz..."
+
+msgid "Sort by Name"
+msgstr "Według nazwy"
+
+msgid "Sort by Name Descending"
+msgstr "Według nazwy malejąco"
+
+msgid "Sort by Modified Time"
+msgstr "Według daty modyfikacji"
+
+msgid "Sort by Type"
+msgstr "Według typu"
+
+msgid "Sort by Size"
+msgstr "Według rozmiaru"
+
 msgid "System Monitor"
 msgstr "Monitor systemu"
 
