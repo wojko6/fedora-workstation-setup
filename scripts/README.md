@@ -40,7 +40,7 @@ The Bluetooth Battery Meter helper pair installs and verifies the v46/v49 BudsLi
 - `verify-bluetooth-battery-meter-localization.sh`
 - `install-clipboard-indicator-localization.sh` / `verify-clipboard-indicator-localization.sh` — Clipboard Indicator v71 64-entry Polish completion over all exact upstream untranslated/fuzzy entries, including an explicit smoke test for the visually discovered residual description.
 - `install-blur-my-shell-localization.sh` / `verify-blur-my-shell-localization.sh` — Blur my Shell v72 61-entry Polish completion plus two pipeline UI source patches over the audited physical EGO build.
-- `install-arcmenu-localization.sh` / `verify-arcmenu-localization.sh` — ArcMenu v73 / 69.2 exact-version gettext-domain binding fix over the upstream Polish catalog; no duplicate repository catalog is installed.
+- `install-arcmenu-localization.sh` / `verify-arcmenu-localization.sh` — ArcMenu v74 / 70.0 exact-version gettext-domain binding fix over the fingerprint-pinned upstream Polish catalog; no duplicate repository catalog is installed.
 
 - `install-extension-manager-localization.sh` / `verify-extension-manager-localization.sh` — Extension Manager 0.6.5 Flatpak Locale one-entry contextual completion (`None` → `Brak`) pinned to the audited Locale commit and pristine catalog hash.
 - `install-helium-localization.sh` / `verify-helium-localization.sh` — Helium 0.17.2.1 36-entry Polish DataPack v5 completion plus DNF5 post-transaction persistence.
