@@ -13,6 +13,7 @@ This directory contains the reviewed operational and validation documentation fo
 ## Desktop environments and localization
 
 - [LOCALIZATION-STATUS.md](LOCALIZATION-STATUS.md) — repository-managed Polish localization coverage, version pins, and verification strategy.
+- [../localization/STYLE-GUIDE.md](../localization/STYLE-GUIDE.md) — Polish UI terminology, gettext metadata, and context-sensitive consistency rules.
 - [gnome-extension-audit-2026-09-17.md](gnome-extension-audit-2026-09-17.md) — accepted GNOME extension compatibility refresh for Fedora 44 / GNOME 50.4.
 - [../gnome/README.md](../gnome/README.md) — GNOME desired-state policy, extension inventory, and Dhruva handling.
 - [Issue #12](https://github.com/wojko6/fedora-workstation-setup/issues/12) — planned GNOME + KDE Plasma coexistence design; GNOME remains the accepted baseline until KDE passes validation.
