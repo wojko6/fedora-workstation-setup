@@ -6,7 +6,7 @@ ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 PACKAGE="helium-bin"
 PATCHER_SRC="$ROOT_DIR/scripts/helium_datapack.py"
 HELPER_SRC="$ROOT_DIR/scripts/helium-localization-post-transaction.sh"
-OVERLAY_SRC="$ROOT_DIR/localization/helium/v0.17.2.1-pl-completion.json"
+OVERLAY_SRC="$ROOT_DIR/localization/helium/v0.18.1.1-pl-completion.json"
 ACTION_SRC="$ROOT_DIR/system/dnf5/actions.d/90-helium-localization.actions"
 
 PATCHER_DST="/usr/local/libexec/fedora-workstation-setup/helium_datapack.py"
