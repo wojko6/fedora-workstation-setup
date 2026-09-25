@@ -352,6 +352,9 @@ msgstr "Ustawienia"
 msgid "Settings shared with Nautilus"
 msgstr "Ustawienia współdzielone z Nautilus"
 
+msgid "System Monitor"
+msgstr "Monitor systemu"
+
 msgid "Show All in Files"
 msgstr "Wyświetl w menedżerze plików"
 
