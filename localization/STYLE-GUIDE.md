@@ -9,12 +9,15 @@ priority over superficial string equality.
 
 ## Gettext metadata
 
-Repository-managed Polish `.po` sources use:
+Repository-managed Polish `.po` sources use `Language: pl`.
 
-```text
-Language: pl
-nplurals=3
-```
+Most managed catalogs use the standard three-form Polish gettext rule
+(`nplurals=3`). A target-specific completion overlay must, however, remain
+compatible with the pristine producer catalog it is merged into. GSConnect v73
+is an explicit compatibility exception: its audited upstream Polish catalog
+contains four-form plural entries, so the repository overlay retains that
+four-form header. Forcing a three-form header over that producer catalog makes
+the deterministic merge fail `msgfmt --check`.
 
 The runtime session locale remains `pl_PL.UTF-8`; gettext catalog language
 metadata and the operating-system locale are separate concerns.
@@ -40,6 +43,10 @@ Existing translator attribution should be preserved. Do not rewrite
 The following differences are intentional and must not be flattened
 automatically:
 
+- GSConnect v73 retains the audited upstream four-form plural header because
+  its completion is merged into a producer catalog that contains four plural
+  forms. This is a merge-compatibility rule, not a general Polish gettext
+  convention.
 - Vitals v85 uses `Preferences -> — ustawienia` in the audited completion
   because it is treated as a title fragment in that UI. Any future change
   requires source/runtime review rather than a blind terminology replacement.
