@@ -105,11 +105,16 @@ for path in po_files:
         )
 
     plural_forms = header_value(path, "Plural-Forms")
-    if plural_forms is not None and "nplurals=3" not in plural_forms:
-        fail(
-            f"{path.relative_to(ROOT)}: Polish catalog must use nplurals=3, "
-            f"found {plural_forms!r}"
+    if plural_forms is not None:
+        rel = path.relative_to(ROOT).as_posix()
+        expected_nplurals = (
+            4 if rel == "localization/gsconnect/pl.po" else 3
         )
+        if f"nplurals={expected_nplurals}" not in plural_forms:
+            fail(
+                f"{rel}: expected nplurals={expected_nplurals}, "
+                f"found {plural_forms!r}"
+            )
 
 expected = {
     ("localization/ding/pl.po", "Copy", None): "Kopiuj",
