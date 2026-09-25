@@ -1,0 +1,10 @@
+{
+  "uuid": "arcmenu@arcmenu.com",
+  "version": 74,
+  "version_name": "70.0",
+  "archive_sha256": "ef414c90dcb5f2b0c6ccb5f8e59fd9963c584789d3d8d26740ddb731100c4b40",
+  "metadata_sha256": "216b95f710d9e904680f10074c41ebf804b63c4501a223944cd69afb58d9810a",
+  "constants_sha256": "c4a70dbbdba4701bf114373f4ee33d3120b12cbbf481d0f800893cef628e6280",
+  "menu_widgets_sha256": "abda46d06a6229bf9163f75a4ff7da515a252575e26951ca033f8e01f63a660c",
+  "polish_mo_sha256": "76b7b60c3080cde50d63011cb34efd1cb45f4d28ce30592ba4d1aeb6a4083334"
+}
