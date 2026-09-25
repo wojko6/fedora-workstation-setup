@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Physical baseline refreshed and accepted 2026-09-24; Recovery and Stability Gates passed; GSConnect v73, ddterm v73, complete Ptyxis 50.1 Polish localization, and corrected Clipboard Indicator v71 64-entry localization physically accepted; dedicated `workstation-tailscale` DROP policy physically accepted; D-H1, D-H2/D-H3, and D-H4 High-severity audit remediation physically accepted; reproducible DING System Monitor desktop-menu integration physically accepted; unused desktop applications removed from desired state; Helium required in desired state; VPCS COPR restricted to vpcs; Firefox explicitly absent; MOK signer verification made deterministic; external repository trust anchors and package signer identities physically accepted; latest private DR generation integrity-verified; full physical verifier clean at PASS=256 WARN=0 FAIL=0 SKIP=0
+**Status:** Physical baseline refreshed and accepted 2026-09-25; Recovery and Stability Gates passed; ArcMenu v74 / 70.0 runtime localization binding, GSConnect v73, ddterm v73, complete DING v97 desktop-menu localization, complete Ptyxis 50.1 Polish localization, corrected Clipboard Indicator v71 64-entry localization, and Helium 0.18.1.1 / Chromium 154.0.8037.57 re-audit physically accepted; dedicated `workstation-tailscale` DROP policy physically accepted; D-H1, D-H2/D-H3, and D-H4 High-severity audit remediation physically accepted; unused desktop applications removed from desired state; VPCS COPR restricted to vpcs; Firefox explicitly absent; MOK signer verification made deterministic; external repository trust anchors and package signer identities physically accepted; latest private DR generation integrity-verified; full physical verifier clean at PASS=256 WARN=0 FAIL=0 SKIP=0
 
 **Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
 
@@ -22,14 +22,14 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After the 2026-09-24 GSConnect/ddterm v73 localization promotion, Tailscale runtime-target verifier portability fix, restoration of the accepted Dhruva dock order, and final Ptyxis 50.1 localization acceptance, the physical-workstation verifier completed with:
+After the 2026-09-25 localization-consistency closure, including ArcMenu v74, DING v97 desktop-menu completion, GSConnect v73 verification, Helium 0.18.1.1 re-audit, and restoration of the accepted Space Bar desired-state value, the physical-workstation verifier completed with:
 
 ```text
 PASS=256 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes GSConnect v73 and ddterm v73 localization, the fully accepted Clipboard Indicator v71 64-entry completion, the dedicated `workstation-tailscale` DROP policy, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, D-H4 deterministic whole-tree integrity verification for every enabled user GNOME extension, and the repository-managed DING System Monitor desktop-menu customization. Ptyxis 50.1 is repository-managed and fully physically accepted: the 2026-09-24 audit cycle added 162 unique translations across the audited preferences/profile/shortcut resources, custom-link editor, palette preview, and dynamic C-generated labels, while the fail-closed `.desktop` remediation localizes the three GNOME Shell launcher actions. Physical installation, dedicated verification, visual confirmation, and the final full verifier all passed; Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
+This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes ArcMenu v74 / 70.0 with its exact-version gettext-domain binding fix, GSConnect v73 and ddterm v73 localization, the fully accepted Clipboard Indicator v71 64-entry completion, the completed DING v97 desktop background menu and Arrange By submenu in Polish, Helium 0.18.1.1 / Chromium 154.0.8037.57 with strict 36-entry DataPack verification, the dedicated `workstation-tailscale` DROP policy, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, and D-H4 deterministic whole-tree integrity verification for every enabled user GNOME extension. Ptyxis 50.1 remains fully physically accepted from the 2026-09-24 audit cycle. Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
 
 ## Current desired state
 
@@ -397,7 +397,7 @@ D-H4 status: **CLOSED / PHYSICALLY ACCEPTED**.
 With D-H4 closed, all four High-severity findings from the 2026-09-21 audit remediation track are closed.
 ## DING System Monitor desktop-menu integration — PHYSICALLY ACCEPTED
 
-The DING v97 desktop background context menu now contains a repository-managed `Monitor systemu` entry directly below `Otwórz w terminalu`.
+The DING v97 desktop background context menu contains the repository-managed `Monitor systemu` entry directly below `Otwórz w terminalu`. The 2026-09-25 visual consistency pass also completed the remaining desktop-menu and `Sortuj według...` submenu labels in Polish, including `Nowy folder`, `Wklej`, `Zaznacz wszystko`, `Rozmieść ikony`, `Wyświetl pulpit w menedżerze plików`, `Zmień tło…`, `Ustawienia ikon pulpitu`, and the name/type/date/size sorting choices.
 
 Implementation and acceptance details:
 
@@ -409,14 +409,12 @@ Implementation and acceptance details:
 - `gnome-system-monitor` is an explicit RPM dependency;
 - `gnome/extensions-tree-lock.tsv` was updated only after visual confirmation and dedicated verification, so D-H4 continues to protect the customized final DING tree.
 
-Physical acceptance on 2026-09-21:
+Initial System Monitor integration acceptance was completed on 2026-09-21. After the 2026-09-25 full menu-translation pass, the final accepted DING v97 tree is:
 
 ```text
 DING menu visual/function test: PASS
-DING_MENU_RC=0
-DING tree hash: a1e645bf8652d3256f1bc9aa6a24a359da1bf03cd6319d43d8d0e3b0743ba487
-PASS=249 WARN=0 FAIL=0 SKIP=0
-VERIFY_RC=0
+DING tree hash: f1ec256c26a42371ab80cd331a82efafe42766c1d5608a953fad14fa8512ca73
+PASS=256 WARN=0 FAIL=0 SKIP=0
 ```
 
 Status: **PHYSICALLY ACCEPTED / REPRODUCIBLE**.
@@ -457,7 +455,7 @@ bash scripts/verify.sh
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, system-localization, GNOME Weather, localization, D-H4 integrity, DING System Monitor menu, and application-cleanup changes. The current complete physical-host aggregate is `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The accepted repository-trust layer verifies reviewed source URLs, local OpenPGP trust-anchor material, full fingerprints, package-signature enforcement, expected package signer identity, and COPR package scoping. The managed Helium and GNOME Tweaks fixes are physically accepted, the GNOME Tweaks `Hinting` override is visually confirmed, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the private Weather location remains part of the verified local desired state without publishing its identifying data.
+The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, system-localization, GNOME Weather, localization, D-H4 integrity, DING menu, and application-cleanup changes. The current complete physical-host aggregate, refreshed on 2026-09-25, is `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The accepted repository-trust layer verifies reviewed source URLs, local OpenPGP trust-anchor material, full fingerprints, package-signature enforcement, expected package signer identity, and COPR package scoping. ArcMenu v74, GSConnect v73, DING v97, Helium 0.18.1.1, GNOME Tweaks 49.0, and the remaining managed localization targets are physically accepted; the GNOME Tweaks `Hinting` override is visually confirmed, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the private Weather location remains part of the verified local desired state without publishing its identifying data.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 
