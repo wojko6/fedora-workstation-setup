@@ -47,6 +47,10 @@ while IFS= read -r -d '' file; do
 done < <(find localization -type f -name '*.po' -print0)
 
 echo
+echo "=== LOCALIZATION CONSISTENCY ==="
+python3 scripts/test_localization_consistency.py
+
+echo
 echo "=== JSON FILES ==="
 while IFS= read -r -d '' file; do
   echo "json.tool $file"
