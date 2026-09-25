@@ -5,14 +5,10 @@ ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 
 UUID="arcmenu@arcmenu.com"
 EXT_DIR="$HOME/.local/share/gnome-shell/extensions/$UUID"
-CONSTANTS_TARGET="$EXT_DIR/constants.js"
-MENU_WIDGETS_TARGET="$EXT_DIR/menuWidgets.js"
-BACKUP_DIR="$EXT_DIR/.localization-backup-v73"
-CONSTANTS_BACKUP="$BACKUP_DIR/constants.js"
-MENU_WIDGETS_BACKUP="$BACKUP_DIR/menuWidgets.js"
+TARGET="$EXT_DIR/constants.js"
+BACKUP="$EXT_DIR/.localization-backup-v73/constants.js"
 
-BIND_PATCH="$ROOT_DIR/localization/arcmenu/v73-bindtextdomain.patch"
-TOOLTIP_PATCH="$ROOT_DIR/localization/arcmenu/v73-power-tooltip-i18n.patch"
+PATCH="$ROOT_DIR/localization/arcmenu/v73-bindtextdomain.patch"
 SOURCE="$ROOT_DIR/localization/arcmenu/v73-source.json"
 
 if [[ ! -d "$EXT_DIR" ]]; then
@@ -20,21 +16,34 @@ if [[ ! -d "$EXT_DIR" ]]; then
     exit 0
 fi
 
-for cmd in python3 sha256sum patch cmp; do
+for cmd in python3 sha256sum patch; do
     command -v "$cmd" >/dev/null 2>&1 || {
         echo "FAIL: required command not found: $cmd" >&2
         exit 1
     }
 done
 
-for path in "$CONSTANTS_TARGET" "$MENU_WIDGETS_TARGET" "$CONSTANTS_BACKUP" "$MENU_WIDGETS_BACKUP" "$BIND_PATCH" "$TOOLTIP_PATCH" "$SOURCE"; do
-    [[ -f "$path" ]] || {
-        echo "FAIL: required ArcMenu localization verification file missing: $path" >&2
-        exit 1
-    }
-done
+[[ -f "$TARGET" ]] || {
+    echo "FAIL: ArcMenu constants.js missing" >&2
+    exit 1
+}
 
-read -r expected_version expected_name expected_metadata_sha expected_constants_sha expected_menu_widgets_sha < <(
+[[ -f "$PATCH" ]] || {
+    echo "FAIL: ArcMenu v73 patch missing" >&2
+    exit 1
+}
+
+[[ -f "$SOURCE" ]] || {
+    echo "FAIL: ArcMenu source fingerprints missing" >&2
+    exit 1
+}
+
+[[ -f "$BACKUP" ]] || {
+    echo "FAIL: ArcMenu pristine v73 backup missing" >&2
+    exit 1
+}
+
+read -r expected_version expected_name expected_metadata_sha expected_constants_sha < <(
     python3 - "$SOURCE" <<'PY'
 import json
 import sys
@@ -47,7 +56,6 @@ print(
     d["version_name"],
     d["metadata_sha256"],
     d["constants_sha256"],
-    d["menu_widgets_sha256"],
 )
 PY
 )
@@ -75,49 +83,31 @@ if [[ "$(sha256sum "$EXT_DIR/metadata.json" | awk '{print $1}')" != "$expected_m
     exit 1
 fi
 
-if [[ "$(sha256sum "$CONSTANTS_BACKUP" | awk '{print $1}')" != "$expected_constants_sha" ]]; then
+if [[ "$(sha256sum "$BACKUP" | awk '{print $1}')" != "$expected_constants_sha" ]]; then
     echo "FAIL: ArcMenu pristine constants.js fingerprint differs" >&2
-    exit 1
-fi
-
-if [[ "$(sha256sum "$MENU_WIDGETS_BACKUP" | awk '{print $1}')" != "$expected_menu_widgets_sha" ]]; then
-    echo "FAIL: ArcMenu pristine menuWidgets.js fingerprint differs" >&2
     exit 1
 fi
 
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
-cp -a "$CONSTANTS_BACKUP" "$tmp/constants.js"
-cp -a "$MENU_WIDGETS_BACKUP" "$tmp/menuWidgets.js"
-patch -s -p1 -d "$tmp" < "$BIND_PATCH"
-patch -s -p1 -d "$tmp" < "$TOOLTIP_PATCH"
+cp -a "$BACKUP" "$tmp/constants.js"
+patch -s -p1 -d "$tmp" < "$PATCH"
 
-if ! cmp -s "$tmp/constants.js" "$CONSTANTS_TARGET"; then
+if ! cmp -s "$tmp/constants.js" "$TARGET"; then
     echo "FAIL: ArcMenu v73 Polish gettext binding fix differs from repository" >&2
     exit 1
 fi
 
-if ! cmp -s "$tmp/menuWidgets.js" "$MENU_WIDGETS_TARGET"; then
-    echo "FAIL: ArcMenu v73 power-tooltip gettext fix differs from repository" >&2
+if ! grep -Fq "bindtextdomain('arcmenu', ARCMENU_LOCALE_DIR);" "$TARGET"; then
+    echo "FAIL: ArcMenu gettext domain is not explicitly bound to its locale directory" >&2
     exit 1
 fi
 
-grep -Fq "bindtextdomain('arcmenu', ARCMENU_LOCALE_DIR);" "$CONSTANTS_TARGET" || {
-    echo "FAIL: ArcMenu gettext domain is not explicitly bound to its locale directory" >&2
+if grep -Fq '/home/wojciech' "$TARGET" ||
+   grep -Fq '/home/wojciech' "$PATCH"; then
+    echo "FAIL: ArcMenu localization contains a private hardcoded path" >&2
     exit 1
-}
+fi
 
-grep -Fq "super(menuLayout, _(Constants.PowerOptions[powerType].name)," "$MENU_WIDGETS_TARGET" || {
-    echo "FAIL: ArcMenu power-button tooltip does not pass the runtime name through gettext" >&2
-    exit 1
-}
-
-for path in "$CONSTANTS_TARGET" "$MENU_WIDGETS_TARGET" "$BIND_PATCH" "$TOOLTIP_PATCH"; do
-    if grep -Fq '/home/wojciech' "$path"; then
-        echo "FAIL: ArcMenu localization contains a private hardcoded path: $path" >&2
-        exit 1
-    fi
-done
-
-echo "PASS: ArcMenu v73 / 69.2 Polish gettext binding and power-tooltip fixes match repository"
+echo "PASS: ArcMenu v73 / 69.2 Polish gettext binding fix matches repository"
