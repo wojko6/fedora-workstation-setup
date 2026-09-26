@@ -498,6 +498,13 @@ The configuration survived `firewall-cmd --reload` and a physical reboot. After 
 
 Repository work makes this state reproducible through `network/tailscale-firewall-zone.sh`, installer integration, static fixtures and explicit security-posture verification. After correcting the portable runtime target check, the dedicated physical security verifier completed at `PASS=62 WARN=0 FAIL=0 SKIP=0`, and the complete workstation verifier completed at `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The `workstation-tailscale` policy is therefore part of the accepted 2026-09-24 physical baseline.
 
+## Engineering roadmap
+
+The canonical forward-looking plan is maintained in [ROADMAP.md](ROADMAP.md).
+This status document remains the source of truth for the currently accepted
+physical baseline; roadmap entries remain planned work until their own
+acceptance criteria and required validation gates pass.
+
 ## Planned desktop-environment expansion
 
 Public Issue #12 now tracks a future **GNOME + KDE Plasma** coexistence design. This is a planned feature and does **not** change the currently accepted Fedora 44 / GNOME 50.5 baseline.
