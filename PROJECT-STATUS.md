@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Physical baseline refreshed and accepted 2026-09-25; Recovery and Stability Gates passed; ArcMenu v74 / 70.0 runtime localization binding, GSConnect v73, ddterm v73, complete DING v97 desktop-menu localization, complete Ptyxis 50.1 Polish localization, corrected Clipboard Indicator v71 64-entry localization, and Helium 0.18.1.1 / Chromium 154.0.8037.57 re-audit physically accepted; dedicated `workstation-tailscale` DROP policy physically accepted; D-H1, D-H2/D-H3, and D-H4 High-severity audit remediation physically accepted; unused desktop applications removed from desired state; VPCS COPR restricted to vpcs; Firefox explicitly absent; MOK signer verification made deterministic; external repository trust anchors and package signer identities physically accepted; latest private DR generation integrity-verified; full physical verifier clean at PASS=256 WARN=0 FAIL=0 SKIP=0
+**Status:** Physical baseline refreshed and accepted 2026-09-26; User Themes v79 / 50.4 Polish localization and selective Polish display names for ten descriptive GNOME extensions physically accepted; Recovery and Stability Gates remain passed; full physical verifier clean at PASS=258 WARN=0 FAIL=0 SKIP=0
 
 **Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
 
@@ -30,6 +30,25 @@ VERIFY_RC=0
 ```
 
 This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes ArcMenu v74 / 70.0 with its exact-version gettext-domain binding fix, GSConnect v73 and ddterm v73 localization, the fully accepted Clipboard Indicator v71 64-entry completion, the completed DING v97 desktop background menu and Arrange By submenu in Polish, Helium 0.18.1.1 / Chromium 154.0.8037.57 with strict 36-entry DataPack verification, the dedicated `workstation-tailscale` DROP policy, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, and D-H4 deterministic whole-tree integrity verification for every enabled user GNOME extension. Ptyxis 50.1 remains fully physically accepted from the 2026-09-24 audit cycle. Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
+
+## 2026-09-26 localization acceptance
+
+Physical inspection exposed an untranslated User Themes v79 preferences UI. The accepted remediation uses an exact-version gettext source patch for `Themes` and `Default`, a minimal Polish catalog, and a metadata patch for the extension display name and description. The final User Themes tree SHA-256 is `fe416a5c49f9ecdb00a2758a4f552feba34d69a61a55eb9b545d8f7ffe627414`.
+
+A separate selective display-name pass localized ten descriptive extension names while intentionally preserving project/brand names such as ArcMenu, GSConnect, Dhruva, Vitals, ddterm, and Tiling Shell. Each managed `metadata.json` is version/fingerprint pinned and accepted only in pristine or exact repository-managed form.
+
+During physical validation, Extension Manager briefly failed to list extensions because the GNOME Shell Extensions D-Bus peer disconnected. All modified JSON remained valid. A subsequent comparison showed the translated names on disk while `gnome-extensions info` still exposed cached English metadata. A full GNOME session logout/login reloaded the metadata and the Polish names were visually confirmed.
+
+The same acceptance cycle restored two unrelated incidental runtime drifts instead of promoting them: Space Bar `application-styles` was restored to the accepted repository CSS and an extra `org.gnome.Settings.desktop` item was removed from the Dhruva dock state.
+
+Final physical acceptance:
+
+```text
+PASS=258 WARN=0 FAIL=0 SKIP=0
+VERIFY_RC=0
+```
+
+All 22 enabled user-extension trees match the accepted integrity lock in this final state.
 
 ## Current desired state
 
