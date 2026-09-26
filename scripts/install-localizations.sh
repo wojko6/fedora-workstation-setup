@@ -176,4 +176,8 @@ echo "=== POLISH LOCALIZATION: GNOME Tweaks 49.0 ==="
 bash "$ROOT_DIR/scripts/install-gnome-tweaks-localization.sh"
 
 echo
+echo "=== POLISH EXTENSION DISPLAY NAMES ==="
+bash "$ROOT_DIR/scripts/install-extension-display-names.sh"
+
+echo
 echo "Custom Polish localizations complete."
