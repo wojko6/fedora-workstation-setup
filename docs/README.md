@@ -20,6 +20,7 @@ This directory contains the reviewed operational and validation documentation fo
 
 ## Project status
 
+- [../ROADMAP.md](../ROADMAP.md) — canonical technical roadmap, sequencing and promotion gates.
 - [../PROJECT-STATUS.md](../PROJECT-STATUS.md) — current accepted physical-host baseline and remaining work.
 - [WORKLOG-2026-09-22.md](WORKLOG-2026-09-22.md) — day-close worklog recording the physical visual validation of Polish Plymouth offline updates.
 - [WORKLOG-2026-09-24.md](WORKLOG-2026-09-24.md) — roadmap setup, Tailscale firewalld isolation, GSConnect/ddterm v73 maintenance, complete Ptyxis 50.1 localization closure, and final physical acceptance.
