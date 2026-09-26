@@ -20,7 +20,7 @@ Fedora 44
 GNOME Shell 50.5
 Wayland
 
-PASS=256
+PASS=258
 WARN=0
 FAIL=0
 SKIP=0
