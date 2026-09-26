@@ -25,6 +25,7 @@ This directory contains the reviewed operational and validation documentation fo
 - [WORKLOG-2026-09-22.md](WORKLOG-2026-09-22.md) — day-close worklog recording the physical visual validation of Polish Plymouth offline updates.
 - [WORKLOG-2026-09-24.md](WORKLOG-2026-09-24.md) — roadmap setup, Tailscale firewalld isolation, GSConnect/ddterm v73 maintenance, complete Ptyxis 50.1 localization closure, and final physical acceptance.
 - [WORKLOG-2026-09-25.md](WORKLOG-2026-09-25.md) — ArcMenu v74, DING v97 menu completion, GSConnect v73 consistency validation, Helium 0.18.1.1 re-audit, and final zero-warning physical acceptance.
+- [WORKLOG-2026-09-26.md](WORKLOG-2026-09-26.md) — User Themes v79 localization, selective Polish extension display names, GNOME metadata-cache diagnosis, tree-lock promotion, desired-state reconciliation, and PASS=258 physical acceptance.
 
 ## Verification entrypoints
 
