@@ -503,6 +503,19 @@ else
 fi
 
 echo
+echo "=== USER THEMES POLISH LOCALIZATION ==="
+if user_theme_verify_output="$(bash "$ROOT_DIR/scripts/verify-user-theme-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$user_theme_verify_output"; then
+    skip "User Themes Polish localization: extension not installed"
+  else
+    ok "User Themes v79 / 50.4 Polish localization matches repository"
+  fi
+else
+  printf '%s\n' "$user_theme_verify_output"
+  bad "User Themes Polish localization missing, incomplete, or differs"
+fi
+
+echo
 echo "=== ARCMENU POLISH LOCALIZATION ==="
 if arcmenu_verify_output="$(bash "$ROOT_DIR/scripts/verify-arcmenu-localization.sh" 2>&1)"; then
   if grep -q '^SKIP:' <<<"$arcmenu_verify_output"; then
