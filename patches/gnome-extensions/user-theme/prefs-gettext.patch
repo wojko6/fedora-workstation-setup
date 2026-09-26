@@ -1,0 +1,50 @@
+--- a/prefs.js
++++ b/prefs.js
+@@ -24,9 +24,10 @@
+         GObject.registerClass(this);
+     }
+ 
+-    constructor(settings) {
+-        super({title: 'Themes'});
++    constructor(settings, gettext) {
++        super({title: gettext('Themes')});
+ 
++        this._gettext = gettext;
+         this._actionGroup = new Gio.SimpleActionGroup();
+         this.insert_action_group('theme', this._actionGroup);
+ 
+@@ -78,7 +79,7 @@
+     }
+ 
+     _addTheme(name) {
+-        const row = new ThemeRow(name);
++        const row = new ThemeRow(name, this._gettext);
+         this._rows.set(name, row);
+ 
+         this.add(row);
+@@ -115,14 +116,14 @@
+         GObject.registerClass(this);
+     }
+ 
+-    constructor(name) {
++    constructor(name, gettext) {
+         const check = new Gtk.CheckButton({
+             action_name: 'theme.name',
+             action_target: new GLib.Variant('s', name),
+         });
+ 
+         super({
+-            title: name || 'Default',
++            title: name || gettext('Default'),
+             activatable_widget: check,
+         });
+         this.add_prefix(check);
+@@ -131,6 +132,7 @@
+ 
+ export default class UserThemePrefs extends ExtensionPreferences {
+     getPreferencesWidget() {
+-        return new UserThemePrefsWidget(this.getSettings());
++        return new UserThemePrefsWidget(
++            this.getSettings(), this.gettext.bind(this));
+     }
+ }
