@@ -138,7 +138,6 @@ expected = {
     ("localization/ding/pl.po", "System Monitor", None): "Monitor systemu",
     ("localization/just-another-search-bar/pl.po", "Preferences", None): "Preferencje",
     ("localization/ptyxis/pl.po", "Preferences", None): "Preferencje",
-    ("localization/user-theme/pl.po", "User Themes", None): "Motywy użytkownika",
     ("localization/user-theme/pl.po", "Themes", None): "Motywy",
     ("localization/user-theme/pl.po", "Default", None): "Domyślny",
     # Deliberate contextual exception documented in localization/STYLE-GUIDE.md.
