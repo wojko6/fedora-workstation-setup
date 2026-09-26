@@ -15,7 +15,6 @@ EXPECTED_VERSION="31"
 EXPECTED_VERSION_NAME="6.5"
 EXPECTED_DOMAIN="advanced-media-controller"
 EXPECTED_ENTRIES="276"
-EXPECTED_METADATA_SHA="ed5afc509700e3f0d7a158ccc1969407b44f7cbeb8ef46366eeeec2eccaa196c"
 EXPECTED_EXTENSION_SHA="2582e6c0cd90f44f7dfb9eb8313c9dfca0d718a55f59aedf0307857d3e80a275"
 EXPECTED_PREFS_SHA="225c05e48f57cfd9f1c8cf5573600b588179de799bbe5d359c5fb6ecfddd9d0d"
 
@@ -78,7 +77,7 @@ check_sha() {
     fi
 }
 
-check_sha "$METADATA" "$EXPECTED_METADATA_SHA" "metadata.json"
+python3 "$ROOT_DIR/scripts/extension-display-names.py" check-one --uuid "$UUID" --allow-pristine
 check_sha "$EXTENSION_JS" "$EXPECTED_EXTENSION_SHA" "extension.js"
 check_sha "$PREFS_JS" "$EXPECTED_PREFS_SHA" "prefs.js"
 
