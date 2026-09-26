@@ -2,7 +2,7 @@
 
 ## Status
 
-**Candidate prepared; physical visual acceptance pending.**
+**Physically validated and accepted.**
 
 This follow-up was opened after the User Themes v79 metadata-name localization
 was physically confirmed in the GNOME Extensions list.
@@ -75,16 +75,18 @@ localization workflows remain fail-closed after the display-name change.
 The aggregate localization installer applies display-name changes last, after
 the target-specific catalogs/source patches have been handled.
 
-## Acceptance gate
+## Acceptance result
 
-Do not promote the affected extension-tree hashes until all of the following
-are complete:
+The physical Fedora 44 / GNOME Shell 50.5 workstation completed the following acceptance sequence:
 
-1. install the candidate on the physical Fedora workstation;
-2. close and reopen GNOME Extensions / Extension Manager;
-3. visually confirm all ten managed names;
-4. run the dedicated display-name verifier;
-5. regenerate/review only the affected extension-tree lock entries;
-6. run the full physical verifier with zero unexpected failures/warnings;
-7. update the localization status and merge only after the live state and
-   repository locks describe the same accepted trees.
+1. installed the candidate on the physical Fedora workstation;
+2. confirmed all ten metadata files remained valid JSON;
+3. diagnosed stale English names as GNOME Shell metadata cache rather than file corruption;
+4. logged out and back in to force a complete metadata reload;
+5. visually confirmed all ten managed Polish names;
+6. passed the dedicated display-name verifier;
+7. promoted only the ten affected extension-tree hashes;
+8. restored unrelated Space Bar and Dhruva desired-state drift;
+9. completed the full physical verifier at `PASS=258 WARN=0 FAIL=0 SKIP=0`.
+
+The selective display-name pass is therefore part of the accepted physical desired state.
