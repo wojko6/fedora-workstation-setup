@@ -120,6 +120,10 @@ echo "=== POLISH LOCALIZATION: Space Bar v39 ==="
 bash "$ROOT_DIR/scripts/install-space-bar-localization.sh"
 
 echo
+echo "=== POLISH LOCALIZATION: User Themes v79 / 50.4 ==="
+bash "$ROOT_DIR/scripts/install-user-theme-localization.sh"
+
+echo
 echo "=== POLISH LOCALIZATION: ArcMenu v74 / 70.0 ==="
 bash "$ROOT_DIR/scripts/install-arcmenu-localization.sh"
 
