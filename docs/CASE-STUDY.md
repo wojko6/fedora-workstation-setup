@@ -13,7 +13,7 @@ Target baseline:
 - Wayland session
 
 Accepted baseline:
-PASS=256 WARN=0 FAIL=0 SKIP=0
+PASS=258 WARN=0 FAIL=0 SKIP=0
 
 
 ---
@@ -157,7 +157,7 @@ Missing or invalid required stages stop execution instead of silently continuing
 The project uses automated verification instead of manual confirmation.
 
 Current final validation:
-PASS=256 WARN=0 FAIL=0 SKIP=0
+PASS=258 WARN=0 FAIL=0 SKIP=0
 
 The verifier checks:
 
@@ -206,9 +206,9 @@ Repository validation pipeline
 │   └── recovery readiness checks
 ```
 
-The final accepted physical workstation verification was refreshed on 2026-09-25 on Fedora 44 / GNOME Shell 50.5 after the ArcMenu/DING/GSConnect/Helium consistency pass, with:
+The final accepted physical workstation verification was refreshed on 2026-09-26 on Fedora 44 / GNOME Shell 50.5 after the User Themes and selective extension display-name localization acceptance, with:
 ```text
-PASS=256
+PASS=258
 WARN=0
 FAIL=0
 SKIP=0
