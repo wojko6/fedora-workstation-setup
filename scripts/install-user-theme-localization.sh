@@ -11,9 +11,11 @@ UTIL="$EXT_DIR/util.js"
 DOMAIN="gnome-shell-extension-user-theme"
 TARGET_MO="$EXT_DIR/locale/pl/LC_MESSAGES/$DOMAIN.mo"
 BACKUP_DIR="$EXT_DIR/.localization-backup-v79"
+BACKUP_METADATA="$BACKUP_DIR/metadata.json"
 BACKUP_PREFS="$BACKUP_DIR/prefs.js"
 PO="$ROOT_DIR/localization/user-theme/pl.po"
-PATCH="$ROOT_DIR/patches/gnome-extensions/user-theme/prefs-gettext.patch"
+PREFS_PATCH="$ROOT_DIR/patches/gnome-extensions/user-theme/prefs-gettext.patch"
+METADATA_PATCH="$ROOT_DIR/patches/gnome-extensions/user-theme/metadata-pl.patch"
 VERIFIER="$ROOT_DIR/scripts/verify-user-theme-localization.sh"
 
 EXPECTED_VERSION="79"
@@ -35,7 +37,7 @@ for cmd in python3 sha256sum msgfmt patch cmp install cp; do
     }
 done
 
-for path in "$METADATA" "$PREFS" "$EXTENSION" "$UTIL" "$PO" "$PATCH" "$VERIFIER"; do
+for path in "$METADATA" "$PREFS" "$EXTENSION" "$UTIL" "$PO" "$PREFS_PATCH" "$METADATA_PATCH" "$VERIFIER"; do
     [[ -f "$path" ]] || {
         echo "FAIL: required User Themes localization file missing: $path" >&2
         exit 1
@@ -82,12 +84,19 @@ check_sha() {
     fi
 }
 
-check_sha "$METADATA" "$EXPECTED_METADATA_SHA" "metadata.json"
 check_sha "$EXTENSION" "$EXPECTED_EXTENSION_SHA" "extension.js"
 check_sha "$UTIL" "$EXPECTED_UTIL_SHA" "util.js"
 msgfmt --check "$PO" -o /dev/null
 
 mkdir -p "$BACKUP_DIR"
+
+if [[ ! -f "$BACKUP_METADATA" ]]; then
+    check_sha "$METADATA" "$EXPECTED_METADATA_SHA" "pristine metadata.json"
+    cp -a "$METADATA" "$BACKUP_METADATA"
+    echo "Backup: $BACKUP_METADATA"
+else
+    check_sha "$BACKUP_METADATA" "$EXPECTED_METADATA_SHA" "pristine metadata.json backup"
+fi
 
 if [[ ! -f "$BACKUP_PREFS" ]]; then
     check_sha "$PREFS" "$EXPECTED_PREFS_SHA" "pristine prefs.js"
@@ -100,14 +109,30 @@ fi
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
 
+cp -a "$BACKUP_METADATA" "$tmpdir/metadata.json"
 cp -a "$BACKUP_PREFS" "$tmpdir/prefs.js"
-patch --silent -p1 -d "$tmpdir" < "$PATCH"
+
+patch --silent -p1 -d "$tmpdir" < "$METADATA_PATCH"
+patch --silent -p1 -d "$tmpdir" < "$PREFS_PATCH"
 msgfmt --check "$PO" -o "$tmpdir/$DOMAIN.mo"
 
+if ! cmp -s "$METADATA" "$BACKUP_METADATA" &&
+   ! cmp -s "$METADATA" "$tmpdir/metadata.json"; then
+    echo "FAIL: live User Themes metadata.json is neither pristine v79 nor the repository-managed localized form" >&2
+    exit 1
+fi
+
+if ! cmp -s "$PREFS" "$BACKUP_PREFS" &&
+   ! cmp -s "$PREFS" "$tmpdir/prefs.js"; then
+    echo "FAIL: live User Themes prefs.js is neither pristine v79 nor the repository-managed gettext form" >&2
+    exit 1
+fi
+
 mkdir -p "$(dirname -- "$TARGET_MO")"
+install -m 0644 "$tmpdir/metadata.json" "$METADATA"
 install -m 0644 "$tmpdir/prefs.js" "$PREFS"
 install -m 0644 "$tmpdir/$DOMAIN.mo" "$TARGET_MO"
 
 bash "$VERIFIER"
 echo "PASS: User Themes v79 Polish localization installed"
-echo "Close and reopen the User Themes preferences window; sign out/in only if the metadata title remains cached."
+echo "Close and reopen the User Themes preferences window to validate the localized title and rows."
