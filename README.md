@@ -14,11 +14,16 @@ The goal of this repository is to rebuild the workstation after a clean Fedora i
 
 ## Engineering roadmap
 
-The current accepted production baseline remains **Fedora 44 / GNOME Shell 50.5 / Wayland**. KDE Plasma is **planned work**, not part of the accepted desired state yet.
+The current accepted production baseline remains **Fedora 44 / GNOME Shell 50.5 / Wayland**.
 
-[Issue #12](https://github.com/wojko6/fedora-workstation-setup/issues/12) tracks a controlled GNOME + KDE Plasma coexistence design. GNOME remains the canonical baseline, and the first KDE phase is intentionally scoped as an additional desktop session rather than a replacement. The current display-manager/login path should remain unchanged initially so the project does not introduce several major variables at once.
+The canonical technical roadmap is maintained in [ROADMAP.md](ROADMAP.md).
+It separates near-term hardening, recurring lifecycle maintenance, major
+validation milestones and later/conditional work while keeping planned changes
+distinct from the accepted desired state.
 
-Before KDE can be promoted into the supported desired state, the project must validate GNOME -> KDE -> GNOME session switching, rollback, XDG portals, MIME/default applications, keyring/KWallet behavior, autostart interactions, Wayland behavior, networking/Tailscale, audio, Bluetooth, removable storage, reproducible KDE configuration capture/restore, and the full Fedora verifier.
+[Issue #17](https://github.com/wojko6/fedora-workstation-setup/issues/17) remains
+the umbrella execution tracker, and the public GitHub Project tracks workflow
+state. Individual issues retain their detailed acceptance criteria.
 
 ## Validation status
 
