@@ -59,6 +59,21 @@ automatically:
 - `Dash` can mean the GNOME application dash or a line/dash indicator; those
   are different concepts.
 
+## GNOME extension display names
+
+Descriptive extension names may be localized when they function primarily as
+user-facing feature labels. Project or brand names remain unchanged unless a
+separate review establishes a clear localized form.
+
+The managed mapping lives in `gnome/extension-display-names-pl.tsv`. Changes
+are version-scoped and fingerprint-pinned to the exact pristine
+`metadata.json`. The installer may change only the `name` field; any other
+metadata drift is a hard failure.
+
+Examples of names intentionally left as project names include ArcMenu,
+Blur my Shell, Caffeine, ddterm, Dhruva, GSConnect, Just Perfection, Space Bar,
+Spotlight, Tiling Shell, and Vitals.
+
 ## Review workflow
 
 For a changed localization target:

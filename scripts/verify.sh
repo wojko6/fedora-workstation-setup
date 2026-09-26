@@ -921,6 +921,16 @@ if [[ -f "$EXT_INVENTORY" ]]; then
 else bad "extension inventory missing"; fi
 
 echo
+echo "=== POLISH EXTENSION DISPLAY NAMES ==="
+if display_names_output="$(bash "$ROOT_DIR/scripts/verify-extension-display-names.sh" 2>&1)"; then
+  printf '%s\n' "$display_names_output"
+  ok "selective Polish GNOME extension display names match repository"
+else
+  printf '%s\n' "$display_names_output"
+  bad "selective Polish GNOME extension display names missing or drifted"
+fi
+
+echo
 echo "=== EXTENSION TREE INTEGRITY ==="
 if [[ ! -f "$EXT_TREE_LOCK" ]]; then
   bad "extension tree-integrity lock missing"

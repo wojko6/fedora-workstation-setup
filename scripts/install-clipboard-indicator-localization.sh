@@ -14,7 +14,6 @@ BACKUP_MO="${TARGET_MO}.upstream-v71.bak"
 OVERLAY="$ROOT_DIR/localization/clipboard-indicator/v71-completion.po"
 VERIFIER="$ROOT_DIR/scripts/verify-clipboard-indicator-localization.sh"
 
-EXPECTED_METADATA_SHA="a6eb46bc0f6aee7703b66885b0f7569b2b4c1681bacbe12d084b6789849276eb"
 EXPECTED_EXTENSION_SHA="07efc321fbae6d47ad01cc7fbc3e91bcfb231be3dc267ecf431cd6638f273bf7"
 EXPECTED_PREFS_SHA="c6128d7503eda7853dd01492e324246aac1a4834cdb020f37b8deee9ee5e275a"
 EXPECTED_UPSTREAM_MO_SHA="312170de7c29483114d5cf41f540c66ce29fc4b273349144613af848897ab06f"
@@ -73,7 +72,7 @@ check_sha() {
     fi
 }
 
-check_sha "$METADATA" "$EXPECTED_METADATA_SHA" "metadata.json"
+python3 "$ROOT_DIR/scripts/extension-display-names.py" check-one --uuid "$UUID" --allow-pristine
 check_sha "$EXTENSION_JS" "$EXPECTED_EXTENSION_SHA" "extension.js"
 check_sha "$PREFS_JS" "$EXPECTED_PREFS_SHA" "prefs.js"
 msgfmt --check "$OVERLAY" -o /dev/null

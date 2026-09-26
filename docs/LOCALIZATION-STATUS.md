@@ -38,6 +38,32 @@ Dhruva remains the largest accepted case: 393 gettext messages, 20 source patche
 
 `scripts/install-localizations.sh` currently manages **25 localization targets/operations**: four generic gettext targets, 15 specialized GNOME-extension stages, and six application/system stages (Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks). Dedicated verifiers for the version-pinned targets are wired into the main `scripts/verify.sh` so restore drift is detected instead of silently accepted.
 
+## 2026-09-26 User Themes and extension display-name acceptance
+
+Physical UI inspection found User Themes v79 / 50.4 partially untranslated. The exact runtime used literal `Themes` and `Default` strings in `prefs.js`, had no effective Polish extension-local catalog, and exposed the preferences window title directly from `metadata.name`.
+
+The accepted remediation:
+
+- wraps `Themes` and `Default` with the GNOME Shell preferences gettext helper;
+- installs a minimal Polish catalog for `gnome-shell-extension-user-theme`;
+- localizes the exact-v79 metadata name and description;
+- preserves pristine backups and rejects unknown same-version source drift;
+- pins the physically accepted User Themes tree at `fe416a5c49f9ecdb00a2758a4f552feba34d69a61a55eb9b545d8f7ffe627414`.
+
+The preferences UI was visually confirmed as `Motywy użytkownika`, `Motywy`, and `Domyślny`.
+
+A separate selective pass now manages Polish display names for ten descriptive extensions through `gnome/extension-display-names-pl.tsv`. The helper changes only the exact audited metadata `name` field and rejects any other drift. Project/brand names such as ArcMenu, GSConnect, Dhruva, Vitals, ddterm, Space Bar, Spotlight, and Tiling Shell remain unchanged by policy.
+
+GNOME Shell cached the old metadata names until a full session logout/login; the on-disk files and dedicated verifier were already correct. After the session reload the names were visually confirmed in Extension Manager.
+
+Final physical verifier:
+
+```text
+PASS=258 WARN=0 FAIL=0 SKIP=0
+```
+
+All affected extension-tree hashes were promoted only after physical visual acceptance.
+
 ## 2026-09-25 localization consistency closure
 
 The final consistency pass was performed against the Fedora 44 / GNOME Shell 50.5 physical workstation after the broader 2026-09-21/24 localization work.
