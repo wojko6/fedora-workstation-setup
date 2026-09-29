@@ -30,7 +30,7 @@ The top-level `install.sh` orchestrates these stages. Individual stages should r
 
 ## Localization
 
-`install-localizations.sh` is the single localization pipeline. It manages **25 localization targets/operations**: four generic gettext targets, 15 specialized GNOME-extension stages, and six application/system stages (Papers/Nautilus, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks).
+`install-localizations.sh` is the single localization pipeline. It manages **27 localization targets/operations**: four generic gettext targets, 16 specialized GNOME-extension stages, six application/system stages (Papers/Nautilus, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks), and one selective extension display-name stage.
 
 Dedicated `verify-*-localization.sh` scripts validate exact-version, completion-overlay, and system-localization targets and are wired into `verify.sh`. `test_localization_consistency.py` enforces repository-wide Polish gettext metadata and a small set of reviewed terminology invariants without flattening context-sensitive translations.
 
