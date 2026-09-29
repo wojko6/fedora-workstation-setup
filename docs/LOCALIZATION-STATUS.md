@@ -36,7 +36,7 @@ Repository-managed localization/integration currently covers:
 
 Dhruva remains the largest accepted case: 393 gettext messages, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
-`scripts/install-localizations.sh` currently manages **25 localization targets/operations**: four generic gettext targets, 15 specialized GNOME-extension stages, and six application/system stages (Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks). Dedicated verifiers for the version-pinned targets are wired into the main `scripts/verify.sh` so restore drift is detected instead of silently accepted.
+`scripts/install-localizations.sh` currently manages **27 localization targets/operations**: four generic gettext targets, 16 specialized GNOME-extension stages, six application/system stages (Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks), and one selective extension display-name stage. Dedicated verifiers for the version-pinned targets are wired into the main `scripts/verify.sh` so restore drift is detected instead of silently accepted.
 
 ## 2026-09-26 User Themes and extension display-name acceptance
 
