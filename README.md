@@ -35,10 +35,10 @@ Clean-room result:
 PASS=147 WARN=0 FAIL=0 SKIP=8
 ```
 
-After the 2026-09-25 localization-consistency closure, including ArcMenu v74 runtime binding validation, the completed DING v97 desktop-menu translation pass, and the Helium 0.18.1.1 re-audit, the physical workstation completed the current accepted run with:
+After the 2026-09-26 localization acceptance, including User Themes v79 / 50.4, selective Polish extension display names, ArcMenu v74 runtime binding validation, the completed DING v97 desktop-menu translation pass, and the Helium 0.18.1.1 re-audit, the physical workstation completed the current accepted run with:
 
 ```text
-PASS=256 WARN=0 FAIL=0 SKIP=0
+PASS=258 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 

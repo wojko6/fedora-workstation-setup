@@ -22,10 +22,10 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After the 2026-09-25 localization-consistency closure, including ArcMenu v74, DING v97 desktop-menu completion, GSConnect v73 verification, Helium 0.18.1.1 re-audit, and restoration of the accepted Space Bar desired-state value, the physical-workstation verifier completed with:
+After the 2026-09-26 localization acceptance, including User Themes v79 / 50.4, selective Polish extension display names, ArcMenu v74, DING v97 desktop-menu completion, GSConnect v73 verification, Helium 0.18.1.1 re-audit, and restoration of the accepted Space Bar desired-state value, the physical-workstation verifier completed with:
 
 ```text
-PASS=256 WARN=0 FAIL=0 SKIP=0
+PASS=258 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
@@ -474,7 +474,7 @@ bash scripts/verify.sh
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, system-localization, GNOME Weather, localization, D-H4 integrity, DING menu, and application-cleanup changes. The current complete physical-host aggregate, refreshed on 2026-09-25, is `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The accepted repository-trust layer verifies reviewed source URLs, local OpenPGP trust-anchor material, full fingerprints, package-signature enforcement, expected package signer identity, and COPR package scoping. ArcMenu v74, GSConnect v73, DING v97, Helium 0.18.1.1, GNOME Tweaks 49.0, and the remaining managed localization targets are physically accepted; the GNOME Tweaks `Hinting` override is visually confirmed, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the private Weather location remains part of the verified local desired state without publishing its identifying data.
+The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, system-localization, GNOME Weather, localization, D-H4 integrity, DING menu, application-cleanup, User Themes and selective extension-display-name changes. The current complete physical-host aggregate, refreshed on 2026-09-26, is `PASS=258 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The accepted repository-trust layer verifies reviewed source URLs, local OpenPGP trust-anchor material, full fingerprints, package-signature enforcement, expected package signer identity, and COPR package scoping. ArcMenu v74, GSConnect v73, DING v97, Helium 0.18.1.1, GNOME Tweaks 49.0, and the remaining managed localization targets are physically accepted; the GNOME Tweaks `Hinting` override is visually confirmed, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the private Weather location remains part of the verified local desired state without publishing its identifying data.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 
@@ -551,4 +551,4 @@ The tested baseline is considered accepted when required packages, repositories,
 
 `scripts/verify.sh` must report zero `WARN` and zero `FAIL` on the validated physical target.
 
-**Last complete accepted physical aggregate: `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
+**Last complete accepted physical aggregate: `PASS=258 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
