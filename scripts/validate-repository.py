@@ -296,9 +296,9 @@ for row in lock_rows:
                 f"{uuid}: {url!r}"
             )
 
-        if sha256 != "-":
+        if not re.fullmatch(r"[0-9a-f]{64}", sha256):
             fail(
-                f"GitHub commit SHA-256 field must be '-': "
+                f"invalid GitHub archive SHA-256 pin: "
                 f"{uuid}: {sha256!r}"
             )
 

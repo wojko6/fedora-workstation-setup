@@ -95,6 +95,10 @@ echo "=== EXTENSION SECURITY FIXTURES ==="
 python3 scripts/test_extension_security.py
 
 echo
+echo "=== GITHUB ARCHIVE SECURITY FIXTURES ==="
+python3 scripts/test_github_archive_security.py
+
+echo
 echo "=== EXTENSION TREE INTEGRITY FIXTURES ==="
 python3 scripts/test_extension_tree_integrity.py
 

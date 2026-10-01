@@ -9,6 +9,7 @@ TREE_LOCK="$ROOT_DIR/gnome/extensions-tree-lock.tsv"
 TREE_HELPER="$ROOT_DIR/scripts/extension_tree_integrity.py"
 EGO_VERIFIER="$ROOT_DIR/scripts/verify_ego_extension.py"
 GITHUB_METADATA_PREPARER="$ROOT_DIR/scripts/prepare_github_extension_metadata.py"
+GITHUB_ARCHIVE_VERIFIER="$ROOT_DIR/scripts/verify_github_archive.py"
 
 command -v gnome-extensions >/dev/null 2>&1 || {
   echo "ERROR: gnome-extensions command is unavailable." >&2
@@ -30,6 +31,10 @@ command -v python3 >/dev/null 2>&1 || { echo "ERROR: python3 is required." >&2; 
 }
 [[ -f "$GITHUB_METADATA_PREPARER" ]] || {
   echo "ERROR: missing $GITHUB_METADATA_PREPARER" >&2
+  exit 1
+}
+[[ -f "$GITHUB_ARCHIVE_VERIFIER" ]] || {
+  echo "ERROR: missing $GITHUB_ARCHIVE_VERIFIER" >&2
   exit 1
 }
 [[ -f "$TREE_HELPER" ]] || {
@@ -159,12 +164,13 @@ install_ego() {
 }
 
 install_github_commit() {
-  local uuid="$1" runtime_version="$2" repo_url="$3" commit="$4"
-  local dest parent archive stage backup
+  local uuid="$1" runtime_version="$2" repo_url="$3" commit="$4" expected_sha256="$5"
+  local dest parent archive stage backup repo_name
 
   [[ -n "$runtime_version" && -n "$repo_url" && -n "$commit" ]] || return 2
 
   repo_url="${repo_url%.git}"
+  repo_name="${repo_url##*/}"
 
   if [[ "$repo_url" != https://github.com/*/* ]]; then
     echo "WARN: unsupported GitHub source URL for $uuid: $repo_url" >&2
@@ -186,8 +192,12 @@ install_github_commit() {
     return 1
   fi
 
-  if ! tar -tzf "$archive" >/dev/null 2>&1; then
-    echo "WARN: downloaded GitHub archive is invalid for $uuid." >&2
+  if ! python3 "$GITHUB_ARCHIVE_VERIFIER" \
+      --archive "$archive" \
+      --sha256 "$expected_sha256" \
+      --repo-name "$repo_name" \
+      --commit "$commit"; then
+    echo "WARN: GitHub archive security verification failed for $uuid." >&2
     return 1
   fi
 
@@ -269,7 +279,8 @@ install_user_extension() {
         "$uuid" \
         "$expected_version" \
         "${urls[$uuid]:-}" \
-        "$source_ref"
+        "$source_ref" \
+        "${lock_hashes[$uuid]:-}"
       ;;
 
     ego)

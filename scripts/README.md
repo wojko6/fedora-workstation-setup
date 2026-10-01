@@ -71,11 +71,13 @@ System localization helpers:
 - `inventory-extensions.sh`
 - `validate-repository.py`
 - `verify_ego_extension.py` — SHA-256 and strict JSON verification for pinned EGO archives.
+- `verify_github_archive.py` — fail-closed SHA-256 plus archive-root/path validation for pinned GitHub commit archives before extraction.
 - `prepare_github_extension_metadata.py` — strict JSON validation and deterministic metadata preparation for pinned GitHub extension sources.
 - `test_extension_security.py` — negative fixtures for EGO checksum, UUID, JSON, runtime-version and GNOME compatibility enforcement.
+- `test_github_archive_security.py` — positive/negative fixtures for GitHub archive SHA-256 enforcement, archive structure and verifier-before-extraction ordering.
 - `test_github_metadata_security.py` — negative fixtures for pinned GitHub metadata handling.
-- `verify-ding-system-monitor-menu.sh` — validates the exact DING v97 System Monitor action/menu integration and required desktop file.
-- `test_ding_system_monitor_menu.py` — static fixture and integration-contract tests for the DING System Monitor customization.
+- `verify-ding-system-monitor-menu.sh` — validates the DING v99 managed-system path, ownership/SELinux state, exact tree hash, Polish menu and System Monitor integration.
+- `test_ding_system_monitor_menu.py` — static fixture and integration-contract tests for the managed-system DING v99 lifecycle.
 - `test_tailscale_firewall_policy.py` — exact-state, fallback-isolation and rollback fixtures for the dedicated Tailscale firewalld zone.
 
 Do not add ad-hoc one-off scripts unless they are part of the documented restore, audit, or validation workflow.
