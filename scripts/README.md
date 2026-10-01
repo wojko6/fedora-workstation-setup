@@ -15,6 +15,8 @@ The scripts directory contains the operational entrypoints used to build, restor
 - `setup-repositories.sh`
 - `install-packages.sh`
 - `install-flatpaks.sh`
+- `install-geforce-now.sh` — installs and verifies the official GeForce NOW user Flatpak.
+- `install-theme-switcher.sh` — installs the pinned GNOME/GTK Theme Switcher and reviewed Polish desktop metadata.
 - `install-extensions.sh`
 - `setup-ddcutil.sh`
 - `install-localizations.sh`
@@ -33,7 +35,7 @@ The top-level `install.sh` orchestrates these stages. Individual stages should r
 
 ## Localization
 
-`install-localizations.sh` is the general localization pipeline. It manages **26 localization targets/operations**: three generic gettext targets, 16 specialized GNOME-extension stages, six application/system stages (Papers/Nautilus, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks), and one selective extension display-name stage. Customized DING v99 is intentionally handled outside this pipeline as one deterministic managed-system tree.
+`install-localizations.sh` is the general localization pipeline. It manages **29 localization targets/operations**: three generic gettext targets, 18 specialized GNOME-extension stages, six application/system stages (Papers/Nautilus, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks), one RPM application-menu localization stage, and one selective extension display-name stage. Customized DING v99 is intentionally handled outside this pipeline as one deterministic managed-system tree.
 
 Dedicated `verify-*-localization.sh` scripts validate exact-version, completion-overlay, and system-localization targets and are wired into `verify.sh`. `test_localization_consistency.py` enforces repository-wide Polish gettext metadata and a small set of reviewed terminology invariants without flattening context-sensitive translations.
 
@@ -42,8 +44,13 @@ The Bluetooth Battery Meter helper pair installs and verifies the v46/v49 BudsLi
 - `install-bluetooth-battery-meter-localization.sh`
 - `verify-bluetooth-battery-meter-localization.sh`
 - `install-clipboard-indicator-localization.sh` / `verify-clipboard-indicator-localization.sh` — Clipboard Indicator v71 64-entry Polish completion over all exact upstream untranslated/fuzzy entries, including an explicit smoke test for the visually discovered residual description.
-- `install-blur-my-shell-localization.sh` / `verify-blur-my-shell-localization.sh` — Blur my Shell v72 61-entry Polish completion plus two pipeline UI source patches over the audited physical EGO build.
-- `install-arcmenu-localization.sh` / `verify-arcmenu-localization.sh` — ArcMenu v74 / 70.0 exact-version gettext-domain binding fix over the fingerprint-pinned upstream Polish catalog; no duplicate repository catalog is installed.
+- `install-blur-my-shell-localization.sh` / `verify-blur-my-shell-localization.sh` — Blur my Shell v72 62-entry Polish completion plus two pipeline UI source patches over the audited physical EGO build.
+- `install-arcmenu-localization.sh` / `verify-arcmenu-localization.sh` — ArcMenu v74 / 70.0 gettext-domain binding fix plus one-entry completion overlay.
+- `install-caffeine-localization.sh` / `verify-caffeine-localization.sh` — Caffeine v60 5-entry completion.
+- `install-gsconnect-localization.sh` / `verify-gsconnect-localization.sh` — GSConnect v73 22-entry managed catalog plus gettext-domain and RunCommand fixes.
+- `install-tiling-shell-localization.sh` / `verify-tiling-shell-localization.sh` — Tiling Shell v76 / 17.3 17-entry completion plus editor-legend gettext wiring.
+- `install-appindicator-localization.sh` / `verify-appindicator-localization.sh` — AppIndicator v64 / Fedora 44 7-entry completion.
+- `install-rpm-desktop-localizations.sh` / `verify-rpm-desktop-localizations.sh` — deterministic Polish metadata for 9 audited RPM application-menu launchers.
 
 - `install-extension-manager-localization.sh` / `verify-extension-manager-localization.sh` — Extension Manager 0.6.5 Flatpak Locale one-entry contextual completion (`None` → `Brak`) pinned to the audited Locale commit and pristine catalog hash.
 - `install-helium-localization.sh` / `verify-helium-localization.sh` — Helium 0.18.1.1 / Chromium 154.0.8037.57 36-entry Polish DataPack v5 completion plus DNF5 post-transaction persistence.
@@ -65,7 +72,7 @@ System localization helpers:
 
 - `apply-space-bar-localization.py`
 - `gsconnect_runcommand_names.py` — safely localizes the five audited GSConnect v73 factory RunCommand display names in per-device GSettings while preserving UUIDs, command lines, and user-renamed/custom commands.
-- `ptyxis_desktop_actions.py` — deterministically reconstructs the audited Ptyxis desktop launcher with Polish names for its three GNOME Shell actions; refuses changed action lists, names, commands, or pre-existing Polish action labels.
+- `ptyxis_desktop_actions.py` — deterministically reconstructs the audited Ptyxis desktop launcher with Polish main `GenericName`/`Comment` metadata and names for its three GNOME Shell actions; refuses changed action lists, names, commands, or pre-existing Polish action labels.
 - `ptyxis_resource_audit.py` — extracts the eight audited Ptyxis preference/profile/shortcut/custom-link/palette-preview GResources and requires every translatable msgid to be present in the installed Polish catalog; only three reviewed technical identity labels are allowed to equal their source. Dynamic C-generated labels such as `Add Link`, `Add Profile`, `Show Fewer Palettes`, and `Select Font` are smoke-tested separately.
 - `generate-dhruva-emoji-pl.py`
 - `inventory-extensions.sh`

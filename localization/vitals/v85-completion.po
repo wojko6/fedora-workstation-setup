@@ -365,3 +365,48 @@ msgstr "Uwzględnij CMB0"
 
 msgid "Include macsmc-battery"
 msgstr "Uwzględnij macsmc-battery"
+
+msgid "%s and above"
+msgstr "%s i więcej"
+
+msgid "%s (unavailable)"
+msgstr "%s (niedostępne)"
+
+msgid "All sensors colors"
+msgstr "Kolory wszystkich czujników"
+
+msgid "%s colors"
+msgstr "Kolory %s"
+
+msgid "%s colors (unavailable)"
+msgstr "Kolory %s (niedostępne)"
+
+msgid "Color applies at this value and up to the next breakpoint"
+msgstr "Kolor obowiązuje od tej wartości do następnego progu"
+
+msgid "Band color"
+msgstr "Kolor zakresu"
+
+msgid "Remove breakpoint"
+msgstr "Usuń próg"
+
+msgid "Add breakpoint"
+msgstr "Dodaj próg"
+
+msgid "Remove color scale"
+msgstr "Usuń skalę kolorów"
+
+msgid "Apply a color scale to all sensors or one sensor"
+msgstr "Zastosuj skalę kolorów do wszystkich czujników lub jednego czujnika"
+
+msgid "N/A"
+msgstr "Brak danych"
+
+msgid "Average"
+msgstr "Średnia"
+
+msgid "Minimum"
+msgstr "Minimum"
+
+msgid "Maximum"
+msgstr "Maksimum"

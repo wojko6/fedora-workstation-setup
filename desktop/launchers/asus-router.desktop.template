@@ -1,7 +1,9 @@
 [Desktop Entry]
 Type=Application
 Name=ASUS Router SSH
+Name[pl]=Router ASUS — SSH
 Comment=Connect to an ASUS router over SSH
+Comment[pl]=Połącz się z routerem ASUS przez SSH
 Exec=__DDTERM_BIN__ -- ssh -o IdentitiesOnly=yes -o PreferredAuthentications=publickey -o PasswordAuthentication=no -i __SSH_KEY__ -p __SSH_PORT__ __SSH_USER__@__ROUTER_HOST__
 Icon=utilities-terminal
 Terminal=false

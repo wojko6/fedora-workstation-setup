@@ -95,6 +95,10 @@ echo "=== POLISH LOCALIZATION: Dhruva ==="
 bash "$ROOT_DIR/scripts/install-dhruva-localization.sh"
 
 echo
+echo "=== POLISH LOCALIZATION: Caffeine v60 completion ==="
+bash "$ROOT_DIR/scripts/install-caffeine-localization.sh"
+
+echo
 echo "=== POLISH LOCALIZATION: GSConnect v73 completion ==="
 bash "$ROOT_DIR/scripts/install-gsconnect-localization.sh"
 
@@ -169,6 +173,14 @@ bash "$ROOT_DIR/scripts/install-helium-localization.sh"
 echo
 echo "=== POLISH LOCALIZATION: GNOME Tweaks 49.0 ==="
 bash "$ROOT_DIR/scripts/install-gnome-tweaks-localization.sh"
+
+echo
+echo "=== POLISH LOCALIZATION: AppIndicator v64 / Fedora 44 ==="
+bash "$ROOT_DIR/scripts/install-appindicator-localization.sh"
+
+echo
+echo "=== POLISH LOCALIZATION: RPM application menu entries ==="
+bash "$ROOT_DIR/scripts/install-rpm-desktop-localizations.sh"
 
 echo
 echo "=== POLISH EXTENSION DISPLAY NAMES ==="

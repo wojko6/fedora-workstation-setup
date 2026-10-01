@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Physical baseline refreshed and accepted 2026-10-01; DING v99 migrated from the per-user auto-update path to a root-owned managed-system tree and physically/visually accepted; Recovery and Stability Gates remain passed; full physical verifier clean at PASS=266 WARN=0 FAIL=0 SKIP=0
+**Status:** Physical baseline refreshed and accepted 2026-10-01; DING v99 migrated from the per-user auto-update path to a root-owned managed-system tree and physically/visually accepted; Recovery and Stability Gates remain passed; full physical verifier clean at PASS=277 WARN=0 FAIL=0 SKIP=0
 
 **Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
 
@@ -25,11 +25,23 @@ The eight `SKIP` results are intentional environment-specific exclusions rather 
 After the 2026-10-01 DING lifecycle acceptance and reconciliation of incidental Dhruva/Space Bar desired-state drift, the physical-workstation verifier completed with:
 
 ```text
-PASS=266 WARN=0 FAIL=0 SKIP=0
+PASS=277 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
 This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes ArcMenu v74 / 70.0 with its exact-version gettext-domain binding fix, GSConnect v73 and ddterm v73 localization, the fully accepted Clipboard Indicator v71 64-entry completion, DING v99 in the managed system scope with its complete Polish desktop menu and `Monitor systemu` integration, Helium 0.18.1.1 / Chromium 154.0.8037.57 with strict 36-entry DataPack verification, the dedicated `workstation-tailscale` DROP policy, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, deterministic whole-tree integrity verification for all 21 enabled per-user GNOME extensions, and an independent exact managed-tree hash for DING. Ptyxis 50.1 remains fully physically accepted from the 2026-09-24 audit cycle. Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
+
+## 2026-10-01 localization and restore completion
+
+The final 2026-10-01 audit closed the remaining accepted Polish localization and restore-policy gaps. Current managed completion counts are Caffeine v60 = 5, ArcMenu v74 = 1, GSConnect v73 = 22, Tiling Shell v76 / 17.3 = 17, Blur my Shell v72 = 62, Vitals v85 = 134, and AppIndicator v64 = 7.
+
+Ptyxis 50.1 also manages its Polish main desktop GenericName and Comment metadata. Nine audited RPM application-menu launchers are reconstructed deterministically with reviewed Polish metadata.
+
+The restore path includes GeForce NOW, the pinned GNOME/GTK Theme Switcher, and the deterministic desktop policy: ASUS SSH when private configuration exists, Steam, Brave Origin, and GeForce NOW as physical launchers, with Home and Trash supplied by DING. VMware remains intentionally outside the clean-restore desired state.
+
+Manual timestamped audit backups were preserved outside active extension trees before regenerating extensions-tree-lock.tsv, so the accepted hashes represent reproducible managed state.
+
+Final direct physical-host verification: PASS=277 WARN=0 FAIL=0 SKIP=0, VERIFY_RC=0.
 
 ## 2026-10-01 DING v99 managed-system acceptance
 
@@ -198,7 +210,7 @@ Papers 49.8 uses a minimal completion overlay for the Nautilus document-properti
 
 Plymouth offline-update localization is now fully physically validated. During a real Fedora offline-update cycle on **2026-09-22**, the physical workstation displayed the update screen in Polish, including `Instalowanie aktualizacji…`, `Nie należy wyłączać komputera`, and translated progress text (`Ukończono 13%` was observed). This closes the previous evidence gap between technically verified initramfs contents and actual user-visible runtime behavior.
 
-`scripts/install-localizations.sh` now manages 26 localization targets/operations: three generic gettext targets, 16 specialized GNOME-extension stages, six application/system stages (Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks), and one selective extension display-name stage. DING v99 is built and verified separately as a managed-system extension. Dedicated localization verifiers are integrated into the main `scripts/verify.sh`. GSConnect v73, ddterm v73, and the complete Ptyxis 50.1 localization passed their dedicated physical checks and visual acceptance, and the final 2026-09-24 full physical verifier completed cleanly at `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
+`scripts/install-localizations.sh` now manages 29 localization targets/operations: three generic gettext targets, 18 specialized GNOME-extension stages, six application/system stages (Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks), one RPM application-menu localization stage, and one selective extension display-name stage. DING v99 is built and verified separately as a managed-system extension. Dedicated localization verifiers are integrated into the main `scripts/verify.sh`. GSConnect v73, ddterm v73, and the complete Ptyxis 50.1 localization passed their dedicated physical checks and visual acceptance, and the final 2026-09-24 full physical verifier completed cleanly at `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
 
 ## GSConnect/ddterm v73 localization promotion — 2026-09-24
 
@@ -482,7 +494,7 @@ bash scripts/verify.sh
 
 ## Current confidence
 
-The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, system-localization, GNOME Weather, localization, D-H4 integrity, DING menu, application-cleanup, User Themes and selective extension-display-name changes. The current complete physical-host aggregate, refreshed on 2026-09-26, is `PASS=258 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The accepted repository-trust layer verifies reviewed source URLs, local OpenPGP trust-anchor material, full fingerprints, package-signature enforcement, expected package signer identity, and COPR package scoping. ArcMenu v74, GSConnect v73, DING v97, Helium 0.18.1.1, GNOME Tweaks 49.0, and the remaining managed localization targets are physically accepted; the GNOME Tweaks `Hinting` override is visually confirmed, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the private Weather location remains part of the verified local desired state without publishing its identifying data.
+The repository has passed a clean-room functional restore test for Fedora 44 / GNOME 50.4 and a zero-warning, zero-failure physical-host verification on the Fedora 44 / GNOME 50.5 workstation after the accepted security, networking, extension, system-localization, GNOME Weather, localization, D-H4 integrity, DING menu, application-cleanup, User Themes and selective extension-display-name changes. The current complete physical-host aggregate, refreshed on 2026-10-01, is `PASS=277 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. The accepted repository-trust layer verifies reviewed source URLs, local OpenPGP trust-anchor material, full fingerprints, package-signature enforcement, expected package signer identity, and COPR package scoping. ArcMenu v74, GSConnect v73, DING v99, Helium 0.18.1.1, GNOME Tweaks 49.0, and the remaining managed localization targets are physically accepted; the GNOME Tweaks `Hinting` override is visually confirmed, Bluetooth Battery Meter v49 is source-pinned with its validated EGO archive, and the private Weather location remains part of the verified local desired state without publishing its identifying data.
 
 This does not make the repository a full disk backup. Personal files, credentials, SSH private keys, Wi-Fi secrets, browser profiles, password-manager data, Tailscale node identity, private signing keys, and other private state must be restored separately.
 
@@ -559,4 +571,4 @@ The tested baseline is considered accepted when required packages, repositories,
 
 `scripts/verify.sh` must report zero `WARN` and zero `FAIL` on the validated physical target.
 
-**Last complete accepted physical aggregate: `PASS=258 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**
+**Last complete accepted physical aggregate: `PASS=277 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.**

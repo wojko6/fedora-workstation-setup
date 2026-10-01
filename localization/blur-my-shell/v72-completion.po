@@ -207,3 +207,6 @@ msgid_plural "%d effects"
 msgstr[0] "%d efekt"
 msgstr[1] "%d efekty"
 msgstr[2] "%d efektów"
+
+msgid "Unknown effect, "
+msgstr "Nieznany efekt, "

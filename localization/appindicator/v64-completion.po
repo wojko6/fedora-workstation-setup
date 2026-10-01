@@ -1,0 +1,33 @@
+# AppIndicator v64 / Fedora 44 Polish completion overlay.
+msgid ""
+msgstr ""
+"Project-Id-Version: AppIndicator v64 Polish completion\n"
+"PO-Revision-Date: 2026-10-01\n"
+"Last-Translator: fedora-workstation-setup project\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+msgid "General"
+msgstr "Ogólne"
+
+msgid "Add X11 legacy tray icons to the panel area"
+msgstr "Dodaj starsze ikony zasobnika X11 do panelu"
+
+msgid "Compact Mode"
+msgstr "Tryb kompaktowy"
+
+msgid "Puts tray indicators closer together"
+msgstr "Umieszcza wskaźniki zasobnika bliżej siebie"
+
+msgid "Desaturation"
+msgstr "Zmniejszenie nasycenia"
+
+msgid "Icon Size"
+msgstr "Rozmiar ikon"
+
+msgid "Tray Horizontal Alignment"
+msgstr "Poziome wyrównanie zasobnika"

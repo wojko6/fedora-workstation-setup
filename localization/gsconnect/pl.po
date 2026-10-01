@@ -90,3 +90,9 @@ msgstr "Nie udało się sparować z %s"
 
 msgid "Device clocks are out of sync"
 msgstr "Zegary urządzeń nie są zsynchronizowane"
+
+msgid "GSConnect Preferences"
+msgstr "Preferencje GSConnect"
+
+msgid "Copy Text"
+msgstr "Kopiuj tekst"

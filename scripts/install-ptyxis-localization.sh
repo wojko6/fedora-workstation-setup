@@ -9,11 +9,13 @@ TARGET_MO="/usr/share/locale/pl/LC_MESSAGES/ptyxis.mo"
 BACKUP_MO="${TARGET_MO}.fedora-workstation-setup.upstream.bak"
 DESKTOP_FILE="/usr/share/applications/org.gnome.Ptyxis.desktop"
 DESKTOP_BACKUP="${DESKTOP_FILE}.fedora-workstation-setup.upstream.bak"
+LOCAL_DESKTOP="$HOME/.local/share/applications/org.gnome.Ptyxis.desktop"
 EXPECTED_DESKTOP_SHA256="8c596c2aff40ac062f61e6c541f0bccfa62091ce8503d63e2306d2e0a97f2b88"
+EXPECTED_LEGACY_DESKTOP_SHA256="9d7c3d9a309a03e858cec7f6ff38e4aafd3871a665a835959ef16d26966120c7"
 DESKTOP_PATCHER="$ROOT_DIR/scripts/ptyxis_desktop_actions.py"
 RESOURCE_AUDITOR="$ROOT_DIR/scripts/ptyxis_resource_audit.py"
 
-for cmd in rpm msgfmt gettext cmp sudo sha256sum python3; do
+for cmd in rpm msgfmt gettext cmp sudo sha256sum python3 date mkdir mv chmod; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "FAIL: required command not found: $cmd" >&2
         exit 1
@@ -94,22 +96,51 @@ fi
 
 python3 "$DESKTOP_PATCHER" --input "$DESKTOP_BACKUP" --output "$tmp_desktop"
 
+# A per-user desktop entry shadows the system desktop file. Migrate it only
+# when it is byte-identical to the new repository-managed desired state.
+if [[ -f "$LOCAL_DESKTOP" ]] && ! cmp -s "$tmp_desktop" "$LOCAL_DESKTOP"; then
+    echo "FAIL: local Ptyxis desktop override differs from repository-managed expected state" >&2
+    echo "INFO: refusing to remove or overwrite $LOCAL_DESKTOP" >&2
+    exit 1
+fi
+
 if ! cmp -s "$tmp_desktop" "$DESKTOP_FILE"; then
     read -r desktop_hash _ < <(sha256sum "$DESKTOP_FILE")
-    if [[ "$desktop_hash" != "$EXPECTED_DESKTOP_SHA256" ]]; then
-        echo "FAIL: Ptyxis desktop file differs from both audited pristine and expected localized state" >&2
+
+    if [[ "$desktop_hash" != "$EXPECTED_DESKTOP_SHA256" &&
+          "$desktop_hash" != "$EXPECTED_LEGACY_DESKTOP_SHA256" ]]; then
+        echo "FAIL: Ptyxis desktop file differs from pristine, accepted legacy-localized, and expected current states" >&2
+        echo "INFO: current SHA-256: $desktop_hash" >&2
         exit 1
     fi
 
     sudo install -m 0644 "$tmp_desktop" "$DESKTOP_FILE"
+
     if command -v restorecon >/dev/null 2>&1; then
         sudo restorecon "$DESKTOP_FILE"
     fi
 fi
 
 if ! cmp -s "$tmp_desktop" "$DESKTOP_FILE"; then
-    echo "FAIL: installed Ptyxis desktop actions differ from repository-managed expected state" >&2
+    echo "FAIL: installed Ptyxis desktop metadata/actions differ from repository-managed expected state" >&2
     exit 1
+fi
+
+if [[ -f "$LOCAL_DESKTOP" ]]; then
+    BACKUP_ROOT="$HOME/.local/state/fedora-workstation-setup/backups"
+    LOCAL_BACKUP="$BACKUP_ROOT/ptyxis-desktop-override-migration-$(date +%Y%m%d-%H%M%S)-$$"
+
+    mkdir -p "$LOCAL_BACKUP"
+    chmod 0700 "$BACKUP_ROOT" "$LOCAL_BACKUP"
+
+    mv "$LOCAL_DESKTOP"        "$LOCAL_BACKUP/org.gnome.Ptyxis.desktop"
+
+    echo "Backup: $LOCAL_BACKUP/org.gnome.Ptyxis.desktop"
+    echo "PASS: redundant per-user Ptyxis desktop override deactivated"
+fi
+
+if command -v update-desktop-database >/dev/null 2>&1; then
+    update-desktop-database "$HOME/.local/share/applications"         >/dev/null 2>&1 || true
 fi
 
 if command -v desktop-file-validate >/dev/null 2>&1; then
@@ -193,6 +224,6 @@ Show Fewer Palettes|Pokaż mniej palet
 Select Font|Wybierz czcionkę
 EOF
 
-echo "PASS: Ptyxis 50.1 Polish catalog, complete audited preferences/profile resources, and GNOME Shell desktop-action localization installed"
-echo "INFO: launcher actions: New Window -> Nowe okno; New Tab -> Nowa karta; Preferences -> Preferencje"
+echo "PASS: Ptyxis 50.1 Polish catalog, complete audited preferences/profile resources, and GNOME Shell desktop metadata/action localization installed"
+echo "INFO: launcher: Comment/GenericName + New Window/New Tab/Preferences are repository-managed"
 echo "INFO: reopen the GNOME app grid; sign out/in only if Shell still caches the old desktop-action labels"

@@ -15,20 +15,23 @@ Repository-managed localization/integration currently covers:
 - Dhruva
 - Background Logo
 - Browser Switcher
-- ArcMenu v74 / 70.0 upstream Polish catalog with repository-managed exact-version gettext-domain binding fix
-- GSConnect v73 20-entry managed catalog (14 audited gaps + 6 reviewed RunCommand editor corrections), Shell gettext-domain fixes, and safe localization of five factory RunCommand names
-- Tiling Shell v76 / 17.3 completion overlay
+- ArcMenu v74 / 70.0 upstream Polish catalog with repository-managed exact-version gettext-domain binding fix and 1-entry completion
+- Caffeine v60 5-entry completion overlay
+- AppIndicator v64 / Fedora 44 7-entry completion overlay
+- 9 audited RPM application-menu launchers with deterministic Polish metadata reconstruction
+- GSConnect v73 22-entry managed catalog (14 audited gaps + 6 reviewed RunCommand editor corrections), Shell gettext-domain fixes, and safe localization of five factory RunCommand names
+- Tiling Shell v76 / 17.3 17-entry completion overlay plus editor-legend gettext wiring
 - Just Perfection v37 full Polish localization
 - Spotlight v15 / 2026.15 Polish localization and gettext integration
 - Space Bar v39 controlled Polish localization
 - Bluetooth Battery Meter v46/v49 BudsLink Companion completion overlay
-- Vitals v85 Polish completion overlay
+- Vitals v85 134-entry Polish completion overlay plus gettext-managed displayed `N/A` value
 - ddterm v73 18-entry Polish completion plus localized metadata description
 - Advanced Media Controller v31 / 6.5 full Polish catalog
 - Papers 49.8 / Nautilus document-properties completion overlay
 - Plymouth offline-update Polish locale persistence in initramfs
 - Ptyxis 50.1 complete audited Polish localization covering main-window/menu, terminal/search/inspector/title UI, eight preferences/profile/shortcut/custom-link/palette resources, four dynamic C-generated labels, libadwaita About-dialog integration, and GNOME Shell desktop actions
-- Blur my Shell v72 61-entry completion plus exact-version pipeline UI patches
+- Blur my Shell v72 62-entry completion plus exact-version pipeline UI patches
 - Clipboard Indicator v71 64-entry completion overlay
 - Extension Manager 0.6.5 contextual `None` → `Brak` completion
 - Helium 0.18.1.1 36-entry Chromium DataPack v5 completion with DNF5 post-transaction persistence
@@ -36,7 +39,7 @@ Repository-managed localization/integration currently covers:
 
 Dhruva remains the largest accepted case: 393 gettext messages, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
-`scripts/install-localizations.sh` currently manages **26 localization targets/operations**: three generic gettext targets, 16 specialized GNOME-extension stages, six application/system stages (Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks), and one selective extension display-name stage. DING v99 is intentionally built and verified separately as one managed-system tree. Dedicated verifiers for the version-pinned targets are wired into the main `scripts/verify.sh` so restore drift is detected instead of silently accepted.
+`scripts/install-localizations.sh` currently manages **29 localization targets/operations**: three generic gettext targets, 18 specialized GNOME-extension stages, six application/system stages (Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks), one RPM application-menu localization stage, and one selective extension display-name stage. DING v99 is intentionally built and verified separately as one managed-system tree. Dedicated verifiers for the version-pinned targets are wired into the main `scripts/verify.sh` so restore drift is detected instead of silently accepted.
 
 ## 2026-10-01 DING v99 managed-system acceptance
 
@@ -335,7 +338,7 @@ PASS=236 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-The 2026-09-21 localization closure run remains a historical dedicated checkpoint at `PASS=236 WARN=0 FAIL=0 SKIP=0`. On 2026-09-24, GSConnect v73 and ddterm v73 were promoted and the complete physical verifier reached `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. On 2026-09-25, ArcMenu v74, the completed DING v97 desktop-menu catalog, GSConnect v73, and Helium 0.18.1.1 were revalidated together; the full physical summary remained `PASS=256 WARN=0 FAIL=0 SKIP=0`. On 2026-09-26, User Themes v79 / 50.4 and the selective Polish extension-display-name pass were physically accepted and the full verifier advanced to `PASS=258 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. On 2026-10-01, DING v99 was migrated to the managed-system path and physically/visually accepted; after unrelated desired-state reconciliation the full verifier advanced to `PASS=266 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. That 2026-10-01 result is the current accepted physical-host aggregate. VSCodium remains intentionally deferred and outside the reproducible localization claim.
+The 2026-09-21 localization closure run remains a historical dedicated checkpoint at `PASS=236 WARN=0 FAIL=0 SKIP=0`. On 2026-09-24, GSConnect v73 and ddterm v73 were promoted and the complete physical verifier reached `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. On 2026-09-25, ArcMenu v74, the completed DING v97 desktop-menu catalog, GSConnect v73, and Helium 0.18.1.1 were revalidated together; the full physical summary remained `PASS=256 WARN=0 FAIL=0 SKIP=0`. On 2026-09-26, User Themes v79 / 50.4 and the selective Polish extension-display-name pass were physically accepted and the full verifier advanced to `PASS=258 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. On 2026-10-01, DING v99 was migrated to the managed-system path and physically/visually accepted; after unrelated desired-state reconciliation the full verifier advanced to `PASS=266 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. A later 2026-10-01 localization and desktop-restore completion pass advanced the current accepted physical-host aggregate to `PASS=277 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. VSCodium remains intentionally deferred and outside the reproducible localization claim.
 
 The historical clean-room VM result remains unchanged:
 

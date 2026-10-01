@@ -291,10 +291,7 @@ SECURITY_POSTURE_VERIFY="$ROOT_DIR/scripts/verify-security-posture.sh"
 if [[ ! -f "$SECURITY_POSTURE_VERIFY" ]]; then
   bad "explicit security posture verifier missing"
 else
-  security_posture_output="$(bash "$SECURITY_POSTURE_VERIFY" 2>&1)"
-  security_posture_rc=$?
-  printf '%s\n' "$security_posture_output"
-  if (( security_posture_rc == 0 )); then
+  if bash "$SECURITY_POSTURE_VERIFY"; then
     ok "explicit security posture verification passed"
   else
     bad "explicit security posture verification failed"
@@ -515,6 +512,19 @@ verify_translation \
   "monitor-smart-saver"
 
 echo
+echo "=== CAFFEINE POLISH LOCALIZATION ==="
+if caffeine_verify_output="$(bash "$ROOT_DIR/scripts/verify-caffeine-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$caffeine_verify_output"; then
+    skip "Caffeine Polish localization: extension not installed"
+  else
+    ok "Caffeine v60 Polish localization matches repository completion"
+  fi
+else
+  printf '%s\n' "$caffeine_verify_output"
+  bad "Caffeine Polish localization missing, incomplete, or differs"
+fi
+
+echo
 echo "=== GSCONNECT POLISH LOCALIZATION ==="
 if gsconnect_verify_output="$(bash "$ROOT_DIR/scripts/verify-gsconnect-localization.sh" 2>&1)"; then
   if grep -q '^SKIP:' <<<"$gsconnect_verify_output"; then
@@ -598,7 +608,7 @@ if arcmenu_verify_output="$(bash "$ROOT_DIR/scripts/verify-arcmenu-localization.
   if grep -q '^SKIP:' <<<"$arcmenu_verify_output"; then
     skip "ArcMenu Polish localization: extension not installed"
   else
-    ok "ArcMenu v74 / 70.0 Polish gettext binding fix matches repository"
+    ok "ArcMenu v74 / 70.0 Polish gettext binding and completion match repository"
   fi
 else
   printf '%s\n' "$arcmenu_verify_output"
@@ -870,6 +880,29 @@ else
 fi
 
 echo
+echo "=== APPINDICATOR POLISH LOCALIZATION ==="
+if appindicator_verify_output="$(bash "$ROOT_DIR/scripts/verify-appindicator-localization.sh" 2>&1)"; then
+  if grep -q '^SKIP:' <<<"$appindicator_verify_output"; then
+    skip "AppIndicator Polish localization: package not installed"
+  else
+    ok "AppIndicator v64 / Fedora 44 Polish localization matches repository"
+  fi
+else
+  printf '%s\n' "$appindicator_verify_output"
+  bad "AppIndicator Polish localization missing, incomplete, or differs"
+fi
+
+echo
+echo "=== RPM APPLICATION-MENU POLISH LOCALIZATION ==="
+if rpm_desktop_output="$(bash "$ROOT_DIR/scripts/verify-rpm-desktop-localizations.sh" 2>&1)"; then
+  printf '%s\n' "$rpm_desktop_output"
+  ok "RPM application-menu Polish localization matches repository"
+else
+  printf '%s\n' "$rpm_desktop_output"
+  bad "RPM application-menu Polish localization missing or differs"
+fi
+
+echo
 echo "=== PTYXIS POLISH LOCALIZATION ==="
 PTYXIS_VERIFY="$ROOT_DIR/scripts/verify-ptyxis-localization.sh"
 if [[ ! -f "$PTYXIS_VERIFY" ]]; then
@@ -892,8 +925,35 @@ else
 fi
 
 echo
+echo "=== GEFORCE NOW ==="
+if geforce_now_output="$(bash "$ROOT_DIR/scripts/verify-geforce-now.sh" 2>&1)"; then
+  printf '%s\n' "$geforce_now_output"
+  ok "official GeForce NOW user Flatpak matches repository policy"
+else
+  printf '%s\n' "$geforce_now_output"
+  bad "GeForce NOW user Flatpak missing or differs"
+fi
+
+echo
+echo "=== GNOME / GTK THEME SWITCHER ==="
+
+THEME_SWITCHER_VERIFY="$ROOT_DIR/scripts/verify-theme-switcher.sh"
+
+if [[ ! -f "$THEME_SWITCHER_VERIFY" ]]; then
+  bad "GNOME/GTK Theme Switcher verifier missing"
+elif bash "$THEME_SWITCHER_VERIFY"; then
+  ok "GNOME/GTK Theme Switcher matches pinned upstream and Polish desktop metadata"
+else
+  bad "GNOME/GTK Theme Switcher missing or drifted"
+fi
+
+echo
 echo "=== DESKTOP LAUNCHERS ==="
-if [[ -f "$HOME/Pulpit/Counter-Strike 2.desktop" ]]; then ok "desktop launcher: Counter-Strike 2.desktop"; else warn "desktop launcher missing: Counter-Strike 2.desktop"; fi
+if [[ -f "$HOME/.local/share/applications/Counter-Strike 2.desktop" ]]; then
+  ok "application launcher: Counter-Strike 2.desktop"
+else
+  bad "application launcher missing: Counter-Strike 2.desktop"
+fi
 ASUS_CONF="$ROOT_DIR/desktop/launchers/asus-router.conf"
 ASUS_TEMPLATE="$ROOT_DIR/desktop/launchers/asus-router.desktop.template"
 ASUS_RENDERER="$ROOT_DIR/scripts/render-asus-launcher.py"
@@ -939,6 +999,14 @@ else
   else
     printf 'INFO: ASUS launcher not managed without private configuration\n'
   fi
+fi
+
+echo
+echo "=== DESKTOP RESTORE POLICY ==="
+if bash "$ROOT_DIR/scripts/verify-desktop-restore-policy.sh"; then
+  ok "desktop restore policy is deterministic and data-preserving"
+else
+  bad "desktop restore policy verification failed"
 fi
 
 echo

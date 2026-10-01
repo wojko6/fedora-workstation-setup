@@ -88,6 +88,8 @@ stages=(
   scripts/setup-repositories.sh
   scripts/install-packages.sh
   scripts/install-flatpaks.sh
+  scripts/install-geforce-now.sh
+  scripts/install-theme-switcher.sh
   scripts/install-ding-managed-system.sh
   scripts/install-extensions.sh
   scripts/setup-ddcutil.sh

@@ -76,7 +76,10 @@ use-old-grid-icon=true
 
 [org/gnome/shell/extensions/ding]
 check-x11wayland=true
-
+show-home=true
+show-network-volumes=false
+show-trash=true
+show-volumes=false
 [org/gnome/shell/extensions/just-perfection]
 accent-color-icon=true
 animation=5
