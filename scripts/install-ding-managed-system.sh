@@ -17,7 +17,7 @@ die() {
 
 (( EUID != 0 )) || die "run as the desktop user, not as root"
 
-for cmd in python3 sudo cp mv rm mkdir chown date; do
+for cmd in python3 sudo cp mv rm mkdir chown date restorecon; do
     command -v "$cmd" >/dev/null 2>&1 || die "required command missing: $cmd"
 done
 
@@ -65,6 +65,12 @@ SYSTEM_PARENT="$(dirname "$SYSTEM_DEST")"
 [[ "$SYSTEM_DEST" == "/usr/local/share/gnome-shell/extensions/$UUID" ]] ||
     die "unexpected managed DING destination: $SYSTEM_DEST"
 
+data_dirs="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+case ":$data_dirs:" in
+    *:/usr/local/share:*) ;;
+    *) die "/usr/local/share is not present in XDG_DATA_DIRS: $data_dirs" ;;
+esac
+
 BUILD_ROOT="$(mktemp -d)"
 SYSTEM_STAGE="$SYSTEM_PARENT/.ding-system-stage.$$"
 BACKUP_ROOT="$HOME/.local/state/fedora-workstation-setup/backups"
@@ -91,6 +97,7 @@ rollback() {
         sudo mkdir -p "$SYSTEM_PARENT"
         sudo cp -a "$BACKUP/system" "$SYSTEM_DEST"
         sudo chown -R root:root "$SYSTEM_DEST"
+        sudo restorecon -RF "$SYSTEM_DEST" >/dev/null
     fi
 
     rm -rf "$USER_DIR" "$UPDATE_DIR"
@@ -187,6 +194,7 @@ sudo rm -rf "$SYSTEM_STAGE"
 sudo mkdir -p "$SYSTEM_STAGE"
 sudo cp -a "$BUILD_ROOT/ding/." "$SYSTEM_STAGE/"
 sudo chown -R root:root "$SYSTEM_STAGE"
+sudo restorecon -RF "$SYSTEM_STAGE" >/dev/null
 
 stage_sha="$(python3 "$TREE_HELPER" hash --path "$SYSTEM_STAGE")"
 [[ "$stage_sha" == "$EXPECTED_TREE_SHA256" ]] ||
@@ -200,6 +208,7 @@ echo
 echo "=== COMMIT MIGRATION ==="
 sudo rm -rf "$SYSTEM_DEST"
 sudo mv "$SYSTEM_STAGE" "$SYSTEM_DEST"
+sudo restorecon -RF "$SYSTEM_DEST" >/dev/null
 
 rm -rf "$USER_DIR"
 rm -rf "$UPDATE_DIR"
