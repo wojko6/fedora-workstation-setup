@@ -21,4 +21,9 @@ decision that followed, and the way the result was validated.
    Exact-version localization, metadata fingerprinting, GNOME Shell cache
    diagnosis, deterministic extension-tree locks and physical visual acceptance.
 
+4. [SELinux, syslog-ng and PCRE2 JIT](04-selinux-pcre2-execmem.md)  
+   Audit-driven AVC diagnosis, minimal reproduction, Fedora source-RPM build
+   inspection, same-binary SELinux-domain A/B testing and a least-privilege
+   verifier design that preserves Enforcing mode.
+
 The broader project overview remains in [../CASE-STUDY.md](../CASE-STUDY.md).

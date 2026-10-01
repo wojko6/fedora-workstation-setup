@@ -24,6 +24,7 @@ poedit
 python3-gobject
 flatpak
 firewalld
+audit
 iw
 libselinux-utils
 libdnf5-plugin-actions
