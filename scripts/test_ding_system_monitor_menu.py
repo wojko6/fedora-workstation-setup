@@ -24,7 +24,7 @@ DING_PO = ROOT / "localization" / "ding" / "pl.po"
 UUID = "ding@rastersoft.com"
 VERSION = "99"
 ARCHIVE_SHA = "f5f80d3371f00b7f3fd073d33c90f1c18750f006a284e76f37c1973685a33acc"
-TREE_SHA = "f24e5d056ede9a74436eeaff2aa3fb2d6e3e7758f0fa5cd21f69db49f5446c7e"
+TREE_SHA = "08a0c6e4ecb72c8e4693134c061cedfc88090054c98179de3dfd2fac2669a714"
 SYSTEM_PATH = "/usr/local/share/gnome-shell/extensions/ding@rastersoft.com"
 
 with MANIFEST.open(encoding="utf-8", newline="") as fh:
