@@ -57,7 +57,7 @@ if [[ -f "$COLLECTOR_CONF" ]]; then
     fail "ASUS Edge collector source must be one Tailscale IPv4 /32 in $COLLECTOR_CONF."
 
   [[ "$COLLECTOR_PORT" =~ ^[0-9]+$ ]] &&
-    (( COLLECTOR_PORT >= 1 && COLLECTOR_PORT <= 65535 )) ||
+    (( 10#$COLLECTOR_PORT >= 1 && 10#$COLLECTOR_PORT <= 65535 )) ||
     fail "invalid ASUS Edge collector TCP port: $COLLECTOR_PORT"
 
   collector_rich_rule="rule family=\"ipv4\" source address=\"$collector_source\" port port=\"$COLLECTOR_PORT\" protocol=\"tcp\" accept"
