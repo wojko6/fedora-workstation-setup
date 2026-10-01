@@ -36,7 +36,21 @@ Repository-managed localization/integration currently covers:
 
 Dhruva remains the largest accepted case: 393 gettext messages, 20 source patches, and generated Polish CLDR metadata for 1907 emoji.
 
-`scripts/install-localizations.sh` currently manages **27 localization targets/operations**: four generic gettext targets, 16 specialized GNOME-extension stages, six application/system stages (Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks), and one selective extension display-name stage. Dedicated verifiers for the version-pinned targets are wired into the main `scripts/verify.sh` so restore drift is detected instead of silently accepted.
+`scripts/install-localizations.sh` currently manages **26 localization targets/operations**: three generic gettext targets, 16 specialized GNOME-extension stages, six application/system stages (Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks), and one selective extension display-name stage. DING v99 is intentionally built and verified separately as one managed-system tree. Dedicated verifiers for the version-pinned targets are wired into the main `scripts/verify.sh` so restore drift is detected instead of silently accepted.
+
+## 2026-10-01 DING v99 managed-system acceptance
+
+The recurring loss of DING's repository-managed Polish desktop-menu coverage and `Monitor systemu` action was traced to normal per-user extension updates replacing the customized tree with pristine upstream v99. The accepted fix does not disable GNOME extension updates globally. Instead, only DING is moved to the system data path under `/usr/local/share/gnome-shell/extensions/`, while the remaining extensions stay per-user.
+
+The exact official v99 archive is SHA-256 pinned, pristine metadata/menu/Polish-catalog fingerprints are verified before modification, the repository Polish catalog and exact v99 System Monitor patch are applied, schemas are compiled, and system-scope permissions are normalized before the final deterministic tree hash is calculated.
+
+Accepted managed DING tree:
+
+```text
+08a0c6e4ecb72c8e4693134c061cedfc88090054c98179de3dfd2fac2669a714
+```
+
+After migration and a GNOME logout/login, DING v99 was `ACTIVE` from the system path, its per-user and pending-update copies were absent, the desktop context menu was visually confirmed in Polish, and the dedicated verifier passed. After restoring unrelated incidental Dhruva and Space Bar desired-state drift, the full workstation verifier completed at `PASS=266 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
 
 ## 2026-09-26 User Themes and extension display-name acceptance
 
@@ -321,7 +335,7 @@ PASS=236 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-The 2026-09-21 localization closure run remains a historical dedicated checkpoint at `PASS=236 WARN=0 FAIL=0 SKIP=0`. On 2026-09-24, GSConnect v73 and ddterm v73 were promoted and the complete physical verifier reached `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. On 2026-09-25, ArcMenu v74, the completed DING v97 desktop-menu catalog, GSConnect v73, and Helium 0.18.1.1 were revalidated together; the full physical summary remained `PASS=256 WARN=0 FAIL=0 SKIP=0`. On 2026-09-26, User Themes v79 / 50.4 and the selective Polish extension-display-name pass were physically accepted and the full verifier advanced to `PASS=258 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. That 2026-09-26 result is the current accepted physical-host aggregate. VSCodium remains intentionally deferred and outside the reproducible localization claim.
+The 2026-09-21 localization closure run remains a historical dedicated checkpoint at `PASS=236 WARN=0 FAIL=0 SKIP=0`. On 2026-09-24, GSConnect v73 and ddterm v73 were promoted and the complete physical verifier reached `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. On 2026-09-25, ArcMenu v74, the completed DING v97 desktop-menu catalog, GSConnect v73, and Helium 0.18.1.1 were revalidated together; the full physical summary remained `PASS=256 WARN=0 FAIL=0 SKIP=0`. On 2026-09-26, User Themes v79 / 50.4 and the selective Polish extension-display-name pass were physically accepted and the full verifier advanced to `PASS=258 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. On 2026-10-01, DING v99 was migrated to the managed-system path and physically/visually accepted; after unrelated desired-state reconciliation the full verifier advanced to `PASS=266 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. That 2026-10-01 result is the current accepted physical-host aggregate. VSCodium remains intentionally deferred and outside the reproducible localization claim.
 
 The historical clean-room VM result remains unchanged:
 

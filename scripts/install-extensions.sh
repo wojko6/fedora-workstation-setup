@@ -325,6 +325,23 @@ check_installed_tree_integrity() {
   python3 "$TREE_HELPER" check-one     --lock "$TREE_LOCK"     --uuid "$uuid"     --version "$expected_version"     --path "$ext_dir"
 }
 
+metadata_version_from_path() {
+  local metadata="$1"
+
+  python3 - "$metadata" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+data = json.loads(path.read_text(encoding="utf-8"))
+version = data.get("version")
+if isinstance(version, bool) or not isinstance(version, (int, str)):
+    raise SystemExit(1)
+print(version)
+PY
+}
+
 missing=0
 while IFS= read -r uuid; do
   [[ -z "$uuid" || "$uuid" == \#* ]] && continue
@@ -332,10 +349,31 @@ while IFS= read -r uuid; do
   location="${locations[$uuid]:-}"
   expected_version="${versions[$uuid]:-}"
 
+  if [[ "$location" == /usr/local/share/gnome-shell/extensions/* ]]; then
+    managed_path="$location"
+
+    if [[ ! -d "$managed_path" || ! -f "$managed_path/metadata.json" ]]; then
+      printf 'MISS(managed-system): %s — run the managed-system installer.\n' "$uuid"
+      missing=$((missing + 1))
+      continue
+    fi
+
+    managed_version="$(metadata_version_from_path "$managed_path/metadata.json" 2>/dev/null || true)"
+    if ! version_matches "$managed_version" "$expected_version"; then
+      printf 'DRIFT(managed-system): %s expected runtime version %s, found %s\n' \
+        "$uuid" "$expected_version" "${managed_version:-unknown}"
+      missing=$((missing + 1))
+      continue
+    fi
+
+    printf 'OK(managed-system): %s (runtime version %s)\n' "$uuid" "$managed_version"
+    continue
+  fi
+
   if gnome-extensions info "$uuid" >/dev/null 2>&1; then
     current_version="$(installed_version "$uuid")"
 
-    if [[ "$location" != /usr/share/* && -n "$expected_version" ]]; then
+    if [[ "$location" == "~/.local/share/gnome-shell/extensions/"* && -n "$expected_version" ]]; then
       needs_restore=0
 
       if ! version_matches "$current_version" "$expected_version"; then
@@ -375,15 +413,20 @@ while IFS= read -r uuid; do
 
     printf 'OK:   %s%s\n' "$uuid" \
       "${current_version:+ (runtime version $current_version)}"
-    ext_dir="$HOME/.local/share/gnome-shell/extensions/$uuid"
-    if [[ -d "$ext_dir" ]] && ! compile_extension_schemas "$uuid" "$ext_dir"; then
-      missing=$((missing + 1))
+    if [[ "$location" == "~/.local/share/gnome-shell/extensions/"* ]]; then
+      ext_dir="$HOME/.local/share/gnome-shell/extensions/$uuid"
+      if [[ -d "$ext_dir" ]] && ! compile_extension_schemas "$uuid" "$ext_dir"; then
+        missing=$((missing + 1))
+      fi
     fi
     continue
   fi
 
   if [[ "$location" == /usr/share/* ]]; then
     printf 'MISS(system): %s — install via Fedora package manager.\n' "$uuid"
+    missing=$((missing + 1))
+  elif [[ "$location" == /usr/local/share/gnome-shell/extensions/* ]]; then
+    printf 'MISS(managed-system): %s — run the managed-system installer.\n' "$uuid"
     missing=$((missing + 1))
   elif install_user_extension "$uuid" "$expected_version"; then
     printf 'DONE: %s\n' "$uuid"

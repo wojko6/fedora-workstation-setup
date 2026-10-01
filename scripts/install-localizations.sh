@@ -68,11 +68,6 @@ install_translation() {
 }
 
 install_translation \
-    "ding" \
-    "ding@rastersoft.com" \
-    "ding"
-
-install_translation \
     "display-brightness-ddcutil" \
     "display-brightness-ddcutil@themightydeity.github.com" \
     "display-brightness-ddcutil"

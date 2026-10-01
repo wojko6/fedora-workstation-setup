@@ -4,7 +4,7 @@ This directory contains reviewed local patches that are required to reproduce th
 
 ## GNOME extensions
 
-`gnome-extensions/` contains version-specific source patches for reviewed GNOME extensions. Most are localization patches; `gnome-extensions/ding/desktopMenu-system-monitor.patch` is the audited DING v97 functional customization that adds the `Monitor systemu` desktop context-menu action.
+`gnome-extensions/` contains version-specific source patches for reviewed GNOME extensions. Most are localization patches; `gnome-extensions/ding/v99-desktopMenu-system-monitor.patch` is the active exact-version DING v99 functional customization that adds the `Monitor systemu` desktop context-menu action. The older v97 patch was retired when DING moved to the managed-system v99 build.
 
 ## GNOME Keyring
 

@@ -500,11 +500,6 @@ verify_translation() {
 }
 
 verify_translation \
-  "ding" \
-  "ding@rastersoft.com" \
-  "ding"
-
-verify_translation \
   "display-brightness-ddcutil" \
   "display-brightness-ddcutil@themightydeity.github.com" \
   "display-brightness-ddcutil"
@@ -886,14 +881,14 @@ else
 fi
 
 echo
-echo "=== DING SYSTEM MONITOR MENU ==="
+echo "=== DING V99 MANAGED SYSTEM EXTENSION ==="
 DING_SYSTEM_MONITOR_VERIFY="$ROOT_DIR/scripts/verify-ding-system-monitor-menu.sh"
 if [[ ! -f "$DING_SYSTEM_MONITOR_VERIFY" ]]; then
   bad "DING System Monitor menu verifier missing"
 elif bash "$DING_SYSTEM_MONITOR_VERIFY"; then
-  ok "DING System Monitor desktop-menu integration matches repository"
+  ok "DING v99 managed-system tree, Polish menu and System Monitor integration match repository"
 else
-  bad "DING System Monitor desktop-menu integration missing or drifted"
+  bad "DING v99 managed-system state missing or drifted"
 fi
 
 echo
