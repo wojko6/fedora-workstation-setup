@@ -3,13 +3,15 @@ set -Eeuo pipefail
 
 ZONE="workstation-tailscale"
 IFACE="tailscale0"
+COLLECTOR_CONF="${SYSLOG_NG_COLLECTOR_CONF:-/etc/syslog-ng/conf.d/asus-edge-collector.conf}"
+COLLECTOR_PORT="${SYSLOG_NG_COLLECTOR_PORT:-6514}"
 
 fail() {
   echo "ERROR: $*" >&2
   return 1
 }
 
-for cmd in ip rpm systemctl firewall-cmd sudo; do
+for cmd in ip rpm systemctl firewall-cmd sudo sed sort; do
   command -v "$cmd" >/dev/null 2>&1 ||
     fail "required command not found: $cmd"
 done
@@ -18,6 +20,46 @@ rpm -q firewalld >/dev/null 2>&1 ||
   fail "firewalld package is not installed."
 rpm -q tailscale >/dev/null 2>&1 ||
   fail "tailscale package is not installed."
+
+
+collector_source=""
+collector_rich_rule=""
+
+validate_ipv4_32() {
+  local cidr="$1"
+  local ip="${cidr%/32}"
+  local a b c d
+
+  [[ "$cidr" == */32 ]] || return 1
+  IFS=. read -r a b c d <<<"$ip"
+  [[ -n "${a:-}" && -n "${b:-}" && -n "${c:-}" && -n "${d:-}" ]] || return 1
+
+  local octet
+  for octet in "$a" "$b" "$c" "$d"; do
+    [[ "$octet" =~ ^[0-9]{1,3}$ ]] || return 1
+    (( 10#$octet >= 0 && 10#$octet <= 255 )) || return 1
+  done
+}
+
+if [[ -f "$COLLECTOR_CONF" ]]; then
+  mapfile -t collector_sources < <(
+    sed -nE 's/^[[:space:]]*netmask\("([0-9]{1,3}(\.[0-9]{1,3}){3}\/32)"\);[[:space:]]*$/\1/p' "$COLLECTOR_CONF" |
+      sort -u
+  )
+
+  (( ${#collector_sources[@]} == 1 )) ||
+    fail "expected exactly one IPv4 /32 netmask in $COLLECTOR_CONF for the ASUS Edge collector."
+
+  collector_source="${collector_sources[0]}"
+  validate_ipv4_32 "$collector_source" ||
+    fail "invalid ASUS Edge collector source CIDR in $COLLECTOR_CONF: $collector_source"
+
+  [[ "$COLLECTOR_PORT" =~ ^[0-9]+$ ]] &&
+    (( COLLECTOR_PORT >= 1 && COLLECTOR_PORT <= 65535 )) ||
+    fail "invalid ASUS Edge collector TCP port: $COLLECTOR_PORT"
+
+  collector_rich_rule="rule family=\"ipv4\" source address=\"$collector_source\" port port=\"$COLLECTOR_PORT\" protocol=\"tcp\" accept"
+fi
 
 if ! systemctl is-active --quiet firewalld; then
   echo "Starting and enabling firewalld"
@@ -185,6 +227,10 @@ clear_zone_state
 sudo firewall-cmd --permanent --zone="$ZONE" --set-target=DROP >/dev/null
 sudo firewall-cmd --permanent --zone="$ZONE" --add-interface="$IFACE" >/dev/null
 
+if [[ -n "$collector_rich_rule" ]]; then
+  sudo firewall-cmd --permanent --zone="$ZONE"     --add-rich-rule="$collector_rich_rule" >/dev/null
+fi
+
 permanent_interfaces="$(
   sudo firewall-cmd --permanent --zone="$ZONE" --list-interfaces |
     tr ' ' '\n' |
@@ -200,7 +246,7 @@ permanent_target="$(
 [[ "$permanent_target" == "DROP" ]] ||
   fail "permanent zone target drift: expected DROP, found '${permanent_target:-unknown}'."
 
-for option in   --list-services   --list-ports   --list-protocols   --list-source-ports   --list-forward-ports   --list-sources   --list-icmp-blocks   --list-rich-rules; do
+for option in   --list-services   --list-ports   --list-protocols   --list-source-ports   --list-forward-ports   --list-sources   --list-icmp-blocks; do
   if [[ -n "$(
     sudo firewall-cmd --permanent --zone="$ZONE" "$option" 2>/dev/null |
       xargs
@@ -208,6 +254,19 @@ for option in   --list-services   --list-ports   --list-protocols   --list-sourc
     fail "unexpected permanent state remains in zone '$ZONE': $option"
   fi
 done
+
+permanent_rich_rules="$(
+  sudo firewall-cmd --permanent --zone="$ZONE" --list-rich-rules 2>/dev/null |
+    sed '/^$/d' |
+    sort
+)"
+if [[ -n "$collector_rich_rule" ]]; then
+  [[ "$permanent_rich_rules" == "$collector_rich_rule" ]] ||
+    fail "permanent collector rich-rule drift in zone '$ZONE'."
+else
+  [[ -z "$permanent_rich_rules" ]] ||
+    fail "unexpected permanent rich rules remain in zone '$ZONE'."
+fi
 
 if sudo firewall-cmd --permanent --zone="$ZONE" --query-forward >/dev/null 2>&1; then
   fail "forwarding must be disabled in zone '$ZONE'."
@@ -227,6 +286,19 @@ runtime_target="$(
 [[ "$runtime_target" == "DROP" ]] ||
   fail "runtime zone target drift: expected DROP, found '${runtime_target:-unknown}'."
 
+runtime_rich_rules="$(
+  sudo firewall-cmd --zone="$ZONE" --list-rich-rules 2>/dev/null |
+    sed '/^$/d' |
+    sort
+)"
+if [[ -n "$collector_rich_rule" ]]; then
+  [[ "$runtime_rich_rules" == "$collector_rich_rule" ]] ||
+    fail "runtime collector rich-rule drift in zone '$ZONE'."
+else
+  [[ -z "$runtime_rich_rules" ]] ||
+    fail "unexpected runtime rich rules remain in zone '$ZONE'."
+fi
+
 if ip link show "$IFACE" >/dev/null 2>&1; then
   active_zone="$(
     sudo firewall-cmd --get-zone-of-interface="$IFACE" 2>/dev/null || true
@@ -241,4 +313,9 @@ trap - ERR
 
 echo "PASS: Tailscale interface is bound to dedicated firewalld zone: $ZONE"
 echo "PASS: target = DROP"
-echo "PASS: services, ports, protocols, sources, forwarding and masquerade are absent"
+echo "PASS: services, explicit ports, protocols, sources, forwarding and masquerade are absent"
+if [[ -n "$collector_rich_rule" ]]; then
+  echo "PASS: ASUS Edge collector ingress is restricted to one private /32 source on TCP/$COLLECTOR_PORT"
+else
+  echo "PASS: no inbound rich-rule exception is configured"
+fi
