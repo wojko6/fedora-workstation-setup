@@ -31,6 +31,46 @@ if name == "getenforce":
     print(env("SEC_TEST_SELINUX", "Enforcing"))
     raise SystemExit(0)
 
+if name == "sudo":
+    if args and args[0] == "-n":
+        args = args[1:]
+    if not args:
+        raise SystemExit(1)
+    os.execvp(args[0], args)
+
+if name == "ausearch":
+    mode = env("SEC_TEST_AUSEARCH_MODE", "zero")
+    known = (
+        'type=AVC msg=audit(1.000:1): avc:  denied  { execmem } for '
+        'pid=123 comm="syslog-ng-main" '
+        'scontext=system_u:system_r:syslogd_t:s0 '
+        'tcontext=system_u:system_r:syslogd_t:s0 '
+        'tclass=process permissive=0'
+    )
+    if mode == "zero":
+        print("<no matches>")
+        raise SystemExit(1)
+    if mode == "known":
+        print(known)
+        raise SystemExit(0)
+    if mode == "known-repeat":
+        print(known)
+        print(known.replace("pid=123", "pid=124"))
+        raise SystemExit(0)
+    if mode == "unexpected":
+        print(
+            'type=AVC msg=audit(1.000:2): avc:  denied  { read } for '
+            'pid=999 comm="unexpected" '
+            'scontext=system_u:system_r:syslogd_t:s0 '
+            'tcontext=system_u:object_r:etc_t:s0 '
+            'tclass=file permissive=0'
+        )
+        raise SystemExit(0)
+    if mode == "fail":
+        print("ausearch: simulated audit log read failure", file=sys.stderr)
+        raise SystemExit(1)
+    raise SystemExit(2)
+
 if name == "journalctl":
     if "-n" in args:
         print("boot journal readable")
@@ -52,11 +92,16 @@ if name == "systemctl":
             print("not-found")
         raise SystemExit(0)
     if args and args[0] == "is-active":
+        if unit == "syslog-ng.service":
+            state = env("SEC_TEST_SYSLOG_NG_ACTIVE", "active")
+            print(state)
+            raise SystemExit(0 if state == "active" else 3)
         if unit == "sshd.service":
-            print(env("SEC_TEST_SSH_ACTIVE", "inactive"))
-        else:
-            print("inactive")
-        raise SystemExit(0 if env("SEC_TEST_SSH_ACTIVE", "inactive") == "active" else 3)
+            state = env("SEC_TEST_SSH_ACTIVE", "inactive")
+            print(state)
+            raise SystemExit(0 if state == "active" else 3)
+        print("inactive")
+        raise SystemExit(3)
     if args and args[0] == "is-enabled":
         if unit == "sshd.service":
             state = env("SEC_TEST_SSH_ENABLED", "disabled")
@@ -74,6 +119,8 @@ if name == "ss":
 if name == "rpm":
     if args[:2] == ["-q", "akmod-nvidia"]:
         raise SystemExit(0)
+    if args[:2] == ["-q", "syslog-ng"]:
+        raise SystemExit(0 if env("SEC_TEST_SYSLOG_NG_INSTALLED", "1") == "1" else 1)
     if args[:2] == ["-q", "openssh-server"]:
         raise SystemExit(0 if env("SEC_TEST_OPENSSH_SERVER_INSTALLED", "0") == "1" else 1)
     raise SystemExit(1)
@@ -224,6 +271,8 @@ raise SystemExit(127)
 COMMANDS = [
     "systemd-detect-virt",
     "getenforce",
+    "ausearch",
+    "sudo",
     "journalctl",
     "systemctl",
     "ss",
@@ -247,8 +296,16 @@ def write_mock_bin(root: Path) -> Path:
     return bindir
 
 
-def run_case(root: Path, *, create_cert: bool = True, **overrides: str):
+def run_case(
+    root: Path,
+    *,
+    create_cert: bool = True,
+    remove_ausearch: bool = False,
+    **overrides: str,
+):
     bindir = write_mock_bin(root)
+    if remove_ausearch:
+        (bindir / "ausearch").unlink()
     lockdown = root / "lockdown"
     lockdown.write_text("none [integrity] confidentiality\n", encoding="utf-8")
     cert = root / "public_key.der"
@@ -313,12 +370,43 @@ with tempfile.TemporaryDirectory(prefix="security-posture-tests-") as td:
         "SELinux state is not Enforcing",
     )
 
-    case = base / "avc"
+    case = base / "known-syslog-ng-execmem"
+    case.mkdir()
+    expect_pass(
+        "single documented syslog-ng PCRE2 execmem denial",
+        run_case(case, SEC_TEST_AUSEARCH_MODE="known"),
+    )
+
+    case = base / "repeated-known-execmem"
     case.mkdir()
     expect_fail(
-        "current-boot AVC denial",
-        run_case(case, SEC_TEST_AVC_COUNT="2"),
-        "WARN: SELinux AVC denials observed",
+        "repeated documented syslog-ng execmem denial",
+        run_case(case, SEC_TEST_AUSEARCH_MODE="known-repeat"),
+        "WARN: documented syslog-ng/PCRE2 execmem denial repeated",
+    )
+
+    case = base / "unexpected-avc"
+    case.mkdir()
+    expect_fail(
+        "unexpected current-boot AVC denial",
+        run_case(case, SEC_TEST_AUSEARCH_MODE="unexpected"),
+        "WARN: unexpected SELinux audit denials observed",
+    )
+
+    case = base / "ausearch-failure"
+    case.mkdir()
+    expect_fail(
+        "ausearch command failure",
+        run_case(case, SEC_TEST_AUSEARCH_MODE="fail"),
+        "WARN: authoritative ausearch evidence unavailable",
+    )
+
+    case = base / "ausearch-unavailable"
+    case.mkdir()
+    expect_fail(
+        "ausearch tooling unavailable",
+        run_case(case, remove_ausearch=True),
+        "WARN: authoritative ausearch tooling unavailable",
     )
 
     case = base / "openssh-server-installed"
