@@ -96,7 +96,7 @@ migration = MIGRATE.read_text(encoding="utf-8")
 for phrase in (
     "managed-system-extensions.tsv",
     "build-ding-v99-managed-tree.sh",
-    "BACKUP_CURRENT_STATE" if False else "=== BACKUP CURRENT STATE ===",
+    "=== BACKUP CURRENT STATE ===",
     "rollback()",
     "ROLLBACK=COMPLETED",
     "/usr/local/share/gnome-shell/extensions/",
