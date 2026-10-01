@@ -283,7 +283,9 @@ fi
 sudo firewall-cmd --reload >/dev/null
 
 runtime_target="$(
-  sudo firewall-cmd --zone="$ZONE" --get-target 2>/dev/null || true
+  sudo firewall-cmd --zone="$ZONE" --list-all 2>/dev/null |
+    sed -nE 's/^[[:space:]]*target:[[:space:]]*//p' |
+    head -n 1
 )"
 [[ "$runtime_target" == "DROP" ]] ||
   fail "runtime zone target drift: expected DROP, found '${runtime_target:-unknown}'."
