@@ -237,6 +237,22 @@ else
 fi
 
 echo
+echo "=== SYSTEM-SCOPE PERMISSIONS ==="
+chmod -R u=rwX,go=rX "$STAGE"
+
+if find "$STAGE" -type f ! -perm -004 -print -quit | grep -q .; then
+    echo "ERROR: managed DING tree contains a file that is not world-readable" >&2
+    exit 1
+fi
+
+if find "$STAGE" -type d ! -perm -005 -print -quit | grep -q .; then
+    echo "ERROR: managed DING tree contains a directory that is not world-readable/executable" >&2
+    exit 1
+fi
+
+echo "PASS: managed DING permissions normalized for system scope"
+
+echo
 echo "=== FINAL METADATA ==="
 python3 - "$STAGE/metadata.json" <<'PY'
 from pathlib import Path
