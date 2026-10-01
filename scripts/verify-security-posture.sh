@@ -42,21 +42,98 @@ else
   bad "getenforce unavailable"
 fi
 
-if command -v journalctl >/dev/null 2>&1 &&
-   journalctl -b -n 1 --no-pager >/dev/null 2>&1; then
-  avc_count="$(
-    journalctl -b --no-pager -o cat 2>/dev/null |
-      grep -Eic 'avc:[[:space:]]+denied' || true
-  )"
-  if [[ "$avc_count" =~ ^[0-9]+$ ]] && (( avc_count == 0 )); then
-    ok "no SELinux AVC denials observed in current boot journal"
-  elif [[ "$avc_count" =~ ^[0-9]+$ ]]; then
-    warn "SELinux AVC denials observed in current boot journal: $avc_count"
-  else
-    bad "unable to evaluate current-boot SELinux AVC count"
+is_known_syslog_ng_execmem() {
+  local record="$1"
+
+  [[ "$record" == type=AVC* ]] || return 1
+  grep -Eq 'avc:[[:space:]]+denied[[:space:]]+\\{[[:space:]]*execmem[[:space:]]*\\}' <<<"$record" || return 1
+  grep -Eq 'comm="?syslog-ng-main"?' <<<"$record" || return 1
+  grep -Fq 'scontext=system_u:system_r:syslogd_t:s0' <<<"$record" || return 1
+  grep -Fq 'tcontext=system_u:system_r:syslogd_t:s0' <<<"$record" || return 1
+  grep -Fq 'tclass=process' <<<"$record" || return 1
+  grep -Fq 'permissive=0' <<<"$record" || return 1
+
+  command -v rpm >/dev/null 2>&1 || return 1
+  rpm -q syslog-ng >/dev/null 2>&1 || return 1
+  command -v systemctl >/dev/null 2>&1 || return 1
+  systemctl is-active --quiet syslog-ng.service >/dev/null 2>&1 || return 1
+}
+
+audit_output=""
+audit_rc=127
+audit_method=""
+
+if command -v ausearch >/dev/null 2>&1; then
+  if (( EUID == 0 )); then
+    audit_output="$(ausearch -m AVC,USER_AVC,SELINUX_ERR,USER_SELINUX_ERR -ts boot --raw 2>&1)"
+    audit_rc=$?
+    audit_method="ausearch"
+  elif command -v sudo >/dev/null 2>&1; then
+    audit_output="$(sudo ausearch -m AVC,USER_AVC,SELINUX_ERR,USER_SELINUX_ERR -ts boot --raw 2>&1)"
+    audit_rc=$?
+    audit_method="sudo ausearch"
   fi
+fi
+
+audit_authoritative=0
+if (( audit_rc == 0 )); then
+  audit_authoritative=1
+elif (( audit_rc == 1 )) && grep -Fq '<no matches>' <<<"$audit_output"; then
+  audit_authoritative=1
+fi
+
+if (( audit_authoritative )); then
+  audit_records="$(
+    grep -E '^type=(AVC|USER_AVC|SELINUX_ERR|USER_SELINUX_ERR)[[:space:]]' <<<"$audit_output" ||
+      true
+  )"
+
+  known_execmem=0
+  unexpected_avc=0
+
+  while IFS= read -r record; do
+    [[ -z "$record" ]] && continue
+    if is_known_syslog_ng_execmem "$record"; then
+      known_execmem=$((known_execmem + 1))
+    else
+      unexpected_avc=$((unexpected_avc + 1))
+    fi
+  done <<<"$audit_records"
+
+  if (( unexpected_avc > 0 )); then
+    warn "unexpected SELinux audit denials observed in current boot: $unexpected_avc"
+  elif (( known_execmem > 1 )); then
+    warn "documented syslog-ng/PCRE2 execmem denial repeated in current boot: $known_execmem"
+  elif (( known_execmem == 1 )); then
+    ok "only documented syslog-ng/PCRE2 execmem denial observed in authoritative current-boot audit evidence"
+  else
+    ok "no SELinux AVC/USER_AVC denials observed in authoritative current-boot audit evidence"
+  fi
+
+  printf 'INFO: SELinux denial evidence source: %s\n' "$audit_method"
 else
-  bad "current-boot journal unavailable for SELinux AVC verification"
+  if [[ -n "$audit_method" ]]; then
+    warn "authoritative ausearch evidence unavailable (exit=$audit_rc); using journal fallback"
+  else
+    warn "authoritative ausearch tooling unavailable; using journal fallback"
+  fi
+
+  if command -v journalctl >/dev/null 2>&1 &&
+     journalctl -b -n 1 --no-pager >/dev/null 2>&1; then
+    avc_count="$(
+      journalctl -b --no-pager -o cat 2>/dev/null |
+        grep -Eic 'avc:[[:space:]]+denied' || true
+    )"
+    if [[ "$avc_count" =~ ^[0-9]+$ ]] && (( avc_count == 0 )); then
+      printf 'INFO: journal fallback observed no current-boot AVC denials\n'
+    elif [[ "$avc_count" =~ ^[0-9]+$ ]]; then
+      warn "SELinux AVC denials observed in current-boot journal fallback: $avc_count"
+    else
+      bad "unable to evaluate current-boot SELinux AVC journal fallback"
+    fi
+  else
+    bad "current-boot journal unavailable for SELinux AVC fallback verification"
+  fi
 fi
 
 echo
