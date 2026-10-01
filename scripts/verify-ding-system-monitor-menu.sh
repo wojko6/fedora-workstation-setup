@@ -3,37 +3,109 @@ set -Eeuo pipefail
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 UUID="ding@rastersoft.com"
-EXPECTED_VERSION="97"
-EXT_DIR="$HOME/.local/share/gnome-shell/extensions/$UUID"
-TARGET="$EXT_DIR/app/desktopMenu.js"
-PATCH_FILE="$ROOT_DIR/patches/gnome-extensions/ding/desktopMenu-system-monitor.patch"
+MANIFEST="$ROOT_DIR/gnome/managed-system-extensions.tsv"
+TREE_HELPER="$ROOT_DIR/scripts/extension_tree_integrity.py"
 DESKTOP_FILE="/usr/share/applications/org.gnome.SystemMonitor.desktop"
-DING_MO="$EXT_DIR/locale/pl/LC_MESSAGES/ding.mo"
+USER_DIR="$HOME/.local/share/gnome-shell/extensions/$UUID"
+UPDATE_DIR="$HOME/.local/share/gnome-shell/extension-updates/$UUID"
 
-for path in "$TARGET" "$PATCH_FILE" "$DESKTOP_FILE" "$DING_MO"; do
-  [[ -f "$path" ]] || {
-    echo "FAIL: required DING System Monitor verification file missing: $path" >&2
-    exit 1
-  }
+for path in "$MANIFEST" "$TREE_HELPER" "$DESKTOP_FILE"; do
+    [[ -f "$path" ]] || {
+        echo "FAIL: required DING managed-system verification file missing: $path" >&2
+        exit 1
+    }
 done
 
-version="$(
-  python3 - "$EXT_DIR/metadata.json" <<'PY'
+readarray -t row < <(
+    python3 - "$MANIFEST" "$UUID" <<'PY'
+import csv
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+uuid = sys.argv[2]
+
+with path.open(encoding="utf-8", newline="") as fh:
+    rows = [r for r in csv.DictReader(fh, delimiter="\t") if r.get("uuid") == uuid]
+
+if len(rows) != 1:
+    raise SystemExit(f"expected exactly one managed-system row for {uuid}, found {len(rows)}")
+
+r = rows[0]
+for key in ("runtime_version", "shell_major", "managed_tree_sha256", "location"):
+    value = (r.get(key) or "").strip()
+    if not value:
+        raise SystemExit(f"missing {key} for {uuid}")
+    print(value)
+PY
+)
+
+[[ "${#row[@]}" -eq 4 ]] || {
+    echo "FAIL: managed-system manifest parse failed" >&2
+    exit 1
+}
+
+EXPECTED_VERSION="${row[0]}"
+SHELL_MAJOR="${row[1]}"
+EXPECTED_TREE_SHA256="${row[2]}"
+EXT_DIR="${row[3]}"
+TARGET="$EXT_DIR/app/desktopMenu.js"
+DING_MO="$EXT_DIR/locale/pl/LC_MESSAGES/ding.mo"
+
+for path in "$EXT_DIR/metadata.json" "$TARGET" "$DING_MO"; do
+    [[ -f "$path" ]] || {
+        echo "FAIL: required managed DING file missing: $path" >&2
+        exit 1
+    }
+done
+
+[[ ! -e "$USER_DIR" ]] || {
+    echo "FAIL: per-user DING copy still exists: $USER_DIR" >&2
+    exit 1
+}
+
+[[ ! -e "$UPDATE_DIR" ]] || {
+    echo "FAIL: pending per-user DING update still exists: $UPDATE_DIR" >&2
+    exit 1
+}
+
+owner="$(stat -c '%U:%G' "$EXT_DIR")"
+[[ "$owner" == "root:root" ]] || {
+    echo "FAIL: managed DING directory must be root:root, found $owner" >&2
+    exit 1
+}
+
+if find "$EXT_DIR" \( ! -user root -o ! -group root \) -print -quit | grep -q .; then
+    echo "FAIL: managed DING tree contains non-root-owned entries" >&2
+    exit 1
+fi
+
+python3 - "$EXT_DIR/metadata.json" "$UUID" "$EXPECTED_VERSION" "$SHELL_MAJOR" <<'PY'
 import json
 import sys
 from pathlib import Path
 
-metadata = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-version = metadata.get("version")
-if isinstance(version, bool) or not isinstance(version, (int, str)):
-    raise SystemExit(1)
-print(version)
-PY
-)"
+path, uuid, version, shell_major = sys.argv[1:5]
+data = json.loads(Path(path).read_text(encoding="utf-8"))
 
-[[ "$version" == "$EXPECTED_VERSION" ]] || {
-  echo "FAIL: DING runtime version drift: expected $EXPECTED_VERSION, found ${version:-unknown}" >&2
-  exit 1
+if data.get("uuid") != uuid:
+    raise SystemExit(f"FAIL: DING UUID mismatch: {data.get('uuid')!r}")
+if str(data.get("version")) != version:
+    raise SystemExit(
+        f"FAIL: DING runtime version drift: expected {version}, found {data.get('version')!r}"
+    )
+if shell_major not in [str(v) for v in data.get("shell-version", [])]:
+    raise SystemExit(f"FAIL: DING does not declare GNOME Shell {shell_major}")
+if data.get("name") != "Ikony pulpitu NG (DING)":
+    raise SystemExit(
+        f"FAIL: DING managed Polish display name drift: {data.get('name')!r}"
+    )
+PY
+
+actual_tree_sha="$(python3 "$TREE_HELPER" hash --path "$EXT_DIR")"
+[[ "$actual_tree_sha" == "$EXPECTED_TREE_SHA256" ]] || {
+    echo "FAIL: DING managed tree integrity drift: expected $EXPECTED_TREE_SHA256, found $actual_tree_sha" >&2
+    exit 1
 }
 
 python3 - "$TARGET" <<'PY'
@@ -42,40 +114,61 @@ import sys
 
 text = Path(sys.argv[1]).read_text(encoding="utf-8")
 
-action = """        this._addNewAction('open-system-monitor', null, () => {
-            const desktopFile = GioUnix.DesktopAppInfo.new('org.gnome.SystemMonitor.desktop');
-            if (desktopFile) {
-                const context = Gdk.Display.get_default().get_app_launch_context();
-                context.set_timestamp(Gdk.CURRENT_TIME);
-                desktopFile.launch([], context);
-            }
-        });
-"""
+required = [
+    "this._addNewAction('open-system-monitor', null, () => {",
+    "GioUnix.DesktopAppInfo.new('org.gnome.SystemMonitor.desktop')",
+    "this._newMenuElement(_('System Monitor'), 'open-system-monitor', section);",
+]
 
-menu = """        this._newMenuElement(_('System Monitor'), "open-system-monitor", section);
-"""
-
-if text.count(action) != 1:
-    raise SystemExit("FAIL: DING System Monitor action block missing, duplicated, or drifted")
-if text.count(menu) != 1:
-    raise SystemExit("FAIL: DING System Monitor menu entry missing, duplicated, or drifted")
-if text.count("org.gnome.SystemMonitor.desktop") != 1:
-    raise SystemExit("FAIL: unexpected GNOME System Monitor desktop-file reference count")
+for token in required:
+    if text.count(token) != 1:
+        raise SystemExit(
+            f"FAIL: DING System Monitor integration token count is not exactly one: {token}"
+        )
 PY
 
 python3 - "$DING_MO" <<'PY'
 import gettext
 import sys
 
+expected = {
+    "Arrange Icons": "Rozmieść ikony",
+    "Arrange By...": "Sortuj według...",
+    "Show Desktop in Files": "Wyświetl pulpit w menedżerze plików",
+    "Change Background…": "Zmień tło…",
+    "Desktop Icons Settings": "Ustawienia ikon pulpitu",
+    "Display Settings": "Ustawienia ekranu",
+    "Keep Arranged...": "Autorozmieszczanie",
+    "Keep Stacked by type...": "Grupowanie według typu...",
+    "Sort Home/Drives/Trash...": "Sortuj katalog domowy/dyski/kosz...",
+    "System Monitor": "Monitor systemu",
+}
+
 with open(sys.argv[1], "rb") as fh:
     tr = gettext.GNUTranslations(fh)
 
-actual = tr.gettext("System Monitor")
-if actual != "Monitor systemu":
-    raise SystemExit(
-        "FAIL: DING runtime localization for 'System Monitor': "
-        f"expected 'Monitor systemu', got {actual!r}"
-    )
+for msgid, msgstr in expected.items():
+    actual = tr.gettext(msgid)
+    if actual != msgstr:
+        raise SystemExit(
+            f"FAIL: DING Polish runtime label drift for {msgid!r}: "
+            f"expected {msgstr!r}, found {actual!r}"
+        )
 PY
 
-echo "PASS: DING v97 System Monitor desktop-menu integration and Polish label match repository"
+if gnome-extensions info "$UUID" >/dev/null 2>&1; then
+    runtime_path="$(
+        gnome-extensions info "$UUID" 2>/dev/null |
+        sed -nE 's/^[[:space:]]*(Path|Ścieżka):[[:space:]]*//p' |
+        head -n 1
+    )"
+
+    [[ "$runtime_path" == "$EXT_DIR" ]] || {
+        echo "FAIL: GNOME runtime still resolves DING from ${runtime_path:-unknown}; sign out/in after migration" >&2
+        exit 1
+    }
+fi
+
+echo "PASS: DING v99 managed-system tree = $actual_tree_sha"
+echo "PASS: DING per-user copy and pending update are absent"
+echo "PASS: DING Polish desktop menu and System Monitor integration match repository"
