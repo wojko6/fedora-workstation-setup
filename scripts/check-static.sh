@@ -135,4 +135,8 @@ echo "=== SECURITY POSTURE / FAIL-CLOSED FIXTURES ==="
 python3 scripts/test_verify_security_posture.py
 
 echo
+echo "=== SYSLOG-NG TAILSCALE READINESS FIXTURES ==="
+python3 scripts/test_syslog_ng_tailscale_readiness.py
+
+echo
 echo "=== STATIC CHECKS: PASS ==="
