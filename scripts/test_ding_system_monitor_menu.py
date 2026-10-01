@@ -101,6 +101,8 @@ for phrase in (
     "ROLLBACK=COMPLETED",
     "/usr/local/share/gnome-shell/extensions/",
     "extension-updates",
+    'normalized="${entry%/}"',
+    '[[ "$normalized" == "/usr/local/share" ]]',
     "sudo chown -R root:root",
     "MIGRATION_REQUIRED=YES",
 ):
@@ -110,6 +112,8 @@ for phrase in (
 verify = VERIFY.read_text(encoding="utf-8")
 for phrase in (
     "managed-system-extensions.tsv",
+    'normalized="${entry%/}"',
+    '[[ "$normalized" == "/usr/local/share" ]]',
     "per-user DING copy still exists",
     "pending per-user DING update still exists",
     "root:root",
@@ -160,6 +164,7 @@ for msgid, msgstr in required_translations.items():
 print("PASS: DING v99 source and final managed-tree pins are explicit")
 print("PASS: DING moved out of per-user source/tree/display-name manifests")
 print("PASS: v99 builder is exact/fail-closed and non-mutating")
+print("PASS: migration normalizes trailing slashes in XDG_DATA_DIRS")
 print("PASS: migration is backup/rollback aware and clears stale per-user updates")
 print("PASS: verifier enforces system scope, ownership, tree integrity and Polish UI")
 print("PASS: restore ordering prevents ordinary extension installer from replacing DING")
