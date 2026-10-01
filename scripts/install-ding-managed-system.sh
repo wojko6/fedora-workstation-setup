@@ -83,7 +83,7 @@ rollback() {
     local rc="$1"
     trap - ERR
     echo
-    echo "ERROR: migration failed; restoring previous DING state." >&2
+    echo "ERROR: migration failed after live mutation began; restoring previous DING state." >&2
 
     sudo rm -rf "$SYSTEM_STAGE" "$SYSTEM_DEST" >/dev/null 2>&1 || true
 
@@ -109,7 +109,19 @@ rollback() {
     echo "BACKUP=$BACKUP" >&2
     exit "$rc"
 }
-trap 'rollback $?' ERR
+
+on_error() {
+    local rc="$1"
+
+    if (( MUTATION_STARTED )); then
+        rollback "$rc"
+    fi
+
+    trap - ERR
+    echo "ERROR: pre-mutation validation failed; live DING was not changed." >&2
+    exit "$rc"
+}
+trap 'on_error $?' ERR
 
 echo "=== DING V99 SYSTEM-MANAGED MIGRATION ==="
 
