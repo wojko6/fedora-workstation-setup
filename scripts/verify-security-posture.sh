@@ -46,7 +46,7 @@ is_known_syslog_ng_execmem() {
   local record="$1"
 
   [[ "$record" == type=AVC* ]] || return 1
-  grep -Eq 'avc:[[:space:]]+denied[[:space:]]+\\{[[:space:]]*execmem[[:space:]]*\\}' <<<"$record" || return 1
+  grep -Eq 'avc:[[:space:]]+denied[[:space:]]+\{[[:space:]]*execmem[[:space:]]*\}' <<<"$record" || return 1
   grep -Eq 'comm="?syslog-ng-main"?' <<<"$record" || return 1
   grep -Fq 'scontext=system_u:system_r:syslogd_t:s0' <<<"$record" || return 1
   grep -Fq 'tcontext=system_u:system_r:syslogd_t:s0' <<<"$record" || return 1
