@@ -25,7 +25,7 @@ rpm -q tailscale >/dev/null 2>&1 ||
 collector_source=""
 collector_rich_rule=""
 
-validate_ipv4_32() {
+validate_tailscale_ipv4_32() {
   local cidr="$1"
   local ip="${cidr%/32}"
   local a b c d
@@ -39,6 +39,8 @@ validate_ipv4_32() {
     [[ "$octet" =~ ^[0-9]{1,3}$ ]] || return 1
     (( 10#$octet >= 0 && 10#$octet <= 255 )) || return 1
   done
+
+  (( 10#$a == 100 && 10#$b >= 64 && 10#$b <= 127 )) || return 1
 }
 
 if [[ -f "$COLLECTOR_CONF" ]]; then
@@ -51,8 +53,8 @@ if [[ -f "$COLLECTOR_CONF" ]]; then
     fail "expected exactly one IPv4 /32 netmask in $COLLECTOR_CONF for the ASUS Edge collector."
 
   collector_source="${collector_sources[0]}"
-  validate_ipv4_32 "$collector_source" ||
-    fail "invalid ASUS Edge collector source CIDR in $COLLECTOR_CONF: $collector_source"
+  validate_tailscale_ipv4_32 "$collector_source" ||
+    fail "ASUS Edge collector source must be one Tailscale IPv4 /32 in $COLLECTOR_CONF."
 
   [[ "$COLLECTOR_PORT" =~ ^[0-9]+$ ]] &&
     (( COLLECTOR_PORT >= 1 && COLLECTOR_PORT <= 65535 )) ||
