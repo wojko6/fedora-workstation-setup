@@ -9,6 +9,20 @@ DESKTOP_FILE="/usr/share/applications/org.gnome.SystemMonitor.desktop"
 USER_DIR="$HOME/.local/share/gnome-shell/extensions/$UUID"
 UPDATE_DIR="$HOME/.local/share/gnome-shell/extension-updates/$UUID"
 
+command -v restorecon >/dev/null 2>&1 || {
+    echo "FAIL: restorecon is required for DING SELinux label verification" >&2
+    exit 1
+}
+
+data_dirs="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+case ":$data_dirs:" in
+    *:/usr/local/share:*) ;;
+    *)
+        echo "FAIL: /usr/local/share is not present in XDG_DATA_DIRS: $data_dirs" >&2
+        exit 1
+        ;;
+esac
+
 for path in "$MANIFEST" "$TREE_HELPER" "$DESKTOP_FILE"; do
     [[ -f "$path" ]] || {
         echo "FAIL: required DING managed-system verification file missing: $path" >&2
@@ -79,6 +93,13 @@ if find "$EXT_DIR" \( ! -user root -o ! -group root \) -print -quit | grep -q .;
     echo "FAIL: managed DING tree contains non-root-owned entries" >&2
     exit 1
 fi
+
+label_drift="$(restorecon -nRFv "$EXT_DIR" 2>/dev/null || true)"
+[[ -z "$label_drift" ]] || {
+    printf '%s\n' "$label_drift" >&2
+    echo "FAIL: managed DING tree has SELinux label drift" >&2
+    exit 1
+}
 
 python3 - "$EXT_DIR/metadata.json" "$UUID" "$EXPECTED_VERSION" "$SHELL_MAJOR" <<'PY'
 import json
@@ -170,5 +191,6 @@ if gnome-extensions info "$UUID" >/dev/null 2>&1; then
 fi
 
 echo "PASS: DING v99 managed-system tree = $actual_tree_sha"
+echo "PASS: DING system scope, root ownership and SELinux labels are correct"
 echo "PASS: DING per-user copy and pending update are absent"
 echo "PASS: DING Polish desktop menu and System Monitor integration match repository"
