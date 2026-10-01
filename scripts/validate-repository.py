@@ -13,6 +13,7 @@ ENABLED = ROOT / "gnome" / "enabled-extensions.txt"
 INVENTORY = ROOT / "gnome" / "extensions-inventory.tsv"
 TREE_LOCK = ROOT / "gnome" / "extensions-tree-lock.tsv"
 LOCK = ROOT / "gnome" / "extensions-lock.tsv"
+MANAGED_SYSTEM = ROOT / "gnome" / "managed-system-extensions.tsv"
 WEATHER_LOCATIONS_EXAMPLE = ROOT / "gnome" / "weather-locations.example.tsv"
 INSTALLER = ROOT / "install.sh"
 RPM_REQUIRED = ROOT / "packages" / "rpm.txt"
@@ -27,12 +28,21 @@ EXPECTED_LOCK_HEADER = [
     "sha256",
 ]
 EXPECTED_TREE_LOCK_HEADER = ["uuid", "runtime_version", "tree_sha256"]
+EXPECTED_MANAGED_SYSTEM_HEADER = [
+    "uuid",
+    "runtime_version",
+    "shell_major",
+    "archive_sha256",
+    "managed_tree_sha256",
+    "location",
+]
 REJECTED_EXTENSIONS = {
     "mediacontrols@cliffniff.github.com": "rejected for the GNOME 50 baseline",
     "dash2dock-lite@icedman.github.com": "conflicts with the canonical Dhruva dock",
 }
 USER_PREFIX = "~/.local/share/gnome-shell/extensions/"
 SYSTEM_PREFIX = "/usr/share/gnome-shell/extensions/"
+MANAGED_SYSTEM_PREFIX = "/usr/local/share/gnome-shell/extensions/"
 
 errors: list[str] = []
 
@@ -85,6 +95,18 @@ def load_tree_lock() -> tuple[list[str], list[dict[str, str]]]:
         return [], []
 
     with TREE_LOCK.open(encoding="utf-8", newline="") as fh:
+        reader = csv.DictReader(fh, delimiter="\t")
+        header = reader.fieldnames or []
+        rows = [dict(row) for row in reader]
+    return header, rows
+
+
+def load_managed_system() -> tuple[list[str], list[dict[str, str]]]:
+    if not MANAGED_SYSTEM.is_file():
+        fail(f"missing {MANAGED_SYSTEM.relative_to(ROOT)}")
+        return [], []
+
+    with MANAGED_SYSTEM.open(encoding="utf-8", newline="") as fh:
         reader = csv.DictReader(fh, delimiter="\t")
         header = reader.fieldnames or []
         rows = [dict(row) for row in reader]
@@ -192,6 +214,7 @@ enabled = load_enabled()
 header, rows = load_inventory()
 lock_header, lock_rows = load_lock()
 tree_lock_header, tree_lock_rows = load_tree_lock()
+managed_header, managed_rows = load_managed_system()
 validate_weather_locations()
 validate_entrypoints()
 
@@ -203,6 +226,9 @@ if lock_header and lock_header != EXPECTED_LOCK_HEADER:
 
 if tree_lock_header and tree_lock_header != EXPECTED_TREE_LOCK_HEADER:
     fail(f"unexpected extension tree-lock header: {tree_lock_header!r}")
+
+if managed_header and managed_header != EXPECTED_MANAGED_SYSTEM_HEADER:
+    fail(f"unexpected managed-system extension header: {managed_header!r}")
 
 for uuid, count in Counter(enabled).items():
     if count != 1:
@@ -339,6 +365,72 @@ for row in tree_lock_rows:
             f"{uuid}: {tree_sha256!r}"
         )
 
+managed_uuids = [row.get("uuid", "").strip() for row in managed_rows]
+for uuid, count in Counter(managed_uuids).items():
+    if not uuid:
+        fail("managed-system manifest contains an empty UUID")
+    elif count != 1:
+        fail(f"duplicate managed-system UUID: {uuid} ({count} rows)")
+
+managed_uuid_set = set(managed_uuids)
+
+for row in managed_rows:
+    uuid = row.get("uuid", "").strip()
+    runtime_version = row.get("runtime_version", "").strip()
+    shell_major = row.get("shell_major", "").strip()
+    archive_sha256 = row.get("archive_sha256", "").strip()
+    managed_tree_sha256 = row.get("managed_tree_sha256", "").strip()
+    location = row.get("location", "").strip()
+
+    if not uuid:
+        continue
+
+    inventory_row = inventory_by_uuid.get(uuid)
+    if inventory_row is None:
+        fail(f"managed-system UUID missing from inventory: {uuid}")
+        continue
+
+    if uuid not in enabled:
+        fail(f"managed-system UUID is not enabled: {uuid}")
+
+    inventory_version = inventory_row.get("version", "").strip()
+    inventory_location = inventory_row.get("location", "").strip()
+
+    if runtime_version != inventory_version:
+        fail(
+            f"managed-system runtime mismatch: {uuid}: "
+            f"manifest={runtime_version!r} inventory={inventory_version!r}"
+        )
+
+    if not shell_major.isdigit():
+        fail(f"invalid managed-system shell major: {uuid}: {shell_major!r}")
+
+    if not re.fullmatch(r"[0-9a-f]{64}", archive_sha256):
+        fail(f"invalid managed-system archive SHA-256: {uuid}")
+
+    if not re.fullmatch(r"[0-9a-f]{64}", managed_tree_sha256):
+        fail(f"invalid managed-system tree SHA-256: {uuid}")
+
+    expected_location = f"{MANAGED_SYSTEM_PREFIX}{uuid}"
+    if location != expected_location:
+        fail(
+            f"unexpected managed-system manifest location: "
+            f"{uuid}: {location!r}"
+        )
+
+    if inventory_location != location:
+        fail(
+            f"managed-system inventory location mismatch: "
+            f"{uuid}: manifest={location!r} inventory={inventory_location!r}"
+        )
+
+    if uuid in lock_uuid_set:
+        fail(f"managed-system extension must not appear in user source lock: {uuid}")
+
+    if uuid in tree_lock_uuid_set:
+        fail(f"managed-system extension must not appear in user tree lock: {uuid}")
+
+
 for uuid in enabled:
     if uuid not in inventory_by_uuid:
         fail(f"enabled extension missing from inventory: {uuid}")
@@ -355,6 +447,11 @@ for uuid in enabled:
     if location.startswith(USER_PREFIX) and uuid not in tree_lock_uuid_set:
         fail(
             f"enabled user extension missing tree-integrity lock: {uuid}"
+        )
+
+    if location.startswith(MANAGED_SYSTEM_PREFIX) and uuid not in managed_uuid_set:
+        fail(
+            f"enabled managed-system extension missing managed manifest: {uuid}"
         )
 
 for row in rows:
@@ -389,6 +486,14 @@ for row in rows:
     elif location.startswith(SYSTEM_PREFIX):
         if location != f"{SYSTEM_PREFIX}{uuid}":
             fail(f"unexpected system extension location: {uuid}: {location}")
+    elif location.startswith(MANAGED_SYSTEM_PREFIX):
+        if not version.isdigit():
+            fail(
+                f"managed-system extension must have a numeric runtime version pin: "
+                f"{uuid}: {version!r}"
+            )
+        if location != f"{MANAGED_SYSTEM_PREFIX}{uuid}":
+            fail(f"unexpected managed-system extension location: {uuid}: {location}")
     else:
         fail(f"unsupported inventory location: {uuid}: {location!r}")
 
@@ -404,10 +509,12 @@ print(f"enabled_extensions={len(enabled)}")
 print(f"inventory_rows={len(rows)}")
 print(f"extension_lock_rows={len(lock_rows)}")
 print(f"extension_tree_lock_rows={len(tree_lock_rows)}")
+print(f"managed_system_rows={len(managed_rows)}")
 print("PASS: enabled extension list and inventory are internally consistent")
 print("PASS: extension source locks are internally consistent")
 print("PASS: extension tree-integrity locks are complete and internally consistent")
 print("PASS: rejected/conflicting extensions are absent from desired state")
 print("PASS: user extension pins and portable inventory paths are valid")
+print("PASS: managed-system extension pins and locations are internally consistent")
 print("PASS: public GNOME Weather location example is structurally valid")
 print("PASS: required and absent RPM manifests are internally consistent")
