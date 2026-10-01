@@ -61,6 +61,73 @@ is_known_syslog_ng_execmem() {
   systemctl is-active --quiet syslog-ng.service >/dev/null 2>&1 || return 1
 }
 
+is_systemd_rfkill_capability_candidate() {
+  local record="$1"
+
+  [[ "$record" == type=AVC* ]] || return 1
+  grep -Eq 'avc:[[:space:]]+denied[[:space:]]+\{[[:space:]]*(dac_override|dac_read_search)[[:space:]]*\}' <<<"$record" || return 1
+  grep -Eq 'comm="?systemd-rfkill"?' <<<"$record" || return 1
+  grep -Fq 'scontext=system_u:system_r:systemd_rfkill_t:s0' <<<"$record" || return 1
+  grep -Fq 'tcontext=system_u:system_r:systemd_rfkill_t:s0' <<<"$record" || return 1
+  grep -Fq 'tclass=capability' <<<"$record" || return 1
+  grep -Fq 'permissive=0' <<<"$record" || return 1
+}
+
+audit_serial_from_record() {
+  local record="$1"
+  sed -nE 's/.*msg=audit\([^:]+:([0-9]+)\):.*/\1/p' <<<"$record"
+}
+
+audit_event_by_serial() {
+  local serial="$1"
+
+  if [[ "$audit_method" == "ausearch" ]]; then
+    ausearch -a "$serial" -ts boot -i 2>/dev/null
+  elif [[ "$audit_method" == "sudo ausearch" ]]; then
+    sudo ausearch -a "$serial" -ts boot -i 2>/dev/null
+  else
+    return 1
+  fi
+}
+
+is_current_write_only_sysfs_uevent_inode() {
+  local inode="$1"
+  local match=""
+
+  [[ "$inode" =~ ^[0-9]+$ ]] || return 1
+  command -v find >/dev/null 2>&1 || return 1
+
+  match="$(
+    find /sys/module /sys/bus -xdev       -type f       -name uevent       -inum "$inode"       -perm /200       ! -perm /400       -print -quit 2>/dev/null ||
+      true
+  )"
+
+  [[ -n "$match" ]]
+}
+
+is_known_systemd_rfkill_write_only_uevent_event() {
+  local event="$1"
+  local path_line inode avc_count
+
+  grep -Eq '^type=PROCTITLE .*proctitle=.*/usr/lib/systemd/systemd-rfkill([[:space:]]|$)' <<<"$event" || return 1
+  grep -Eq '^type=SYSCALL .*syscall=(openat|openat2) .*success=no .*exit=EACCES.*comm=systemd-rfkill .*subj=system_u:system_r:systemd_rfkill_t:s0' <<<"$event" || return 1
+
+  path_line="$(
+    grep -E '^type=PATH .*name=/proc/self/fd/[0-9]+ .*mode=file,200 .*obj=system_u:object_r:sysfs_t:s0' <<<"$event" |
+      head -n 1
+  )"
+  [[ -n "$path_line" ]] || return 1
+
+  inode="$(sed -nE 's/.* inode=([0-9]+) .*/\1/p' <<<"$path_line")"
+  is_current_write_only_sysfs_uevent_inode "$inode" || return 1
+
+  avc_count="$(grep -Ec '^type=AVC ' <<<"$event" || true)"
+  [[ "$avc_count" == "2" ]] || return 1
+
+  grep -Eq '^type=AVC .*denied[[:space:]]+\{[[:space:]]*dac_override[[:space:]]*\} .*comm="?systemd-rfkill"? .*scontext=system_u:system_r:systemd_rfkill_t:s0 .*tcontext=system_u:system_r:systemd_rfkill_t:s0 .*tclass=capability .*permissive=0' <<<"$event" || return 1
+  grep -Eq '^type=AVC .*denied[[:space:]]+\{[[:space:]]*dac_read_search[[:space:]]*\} .*comm="?systemd-rfkill"? .*scontext=system_u:system_r:systemd_rfkill_t:s0 .*tcontext=system_u:system_r:systemd_rfkill_t:s0 .*tclass=capability .*permissive=0' <<<"$event" || return 1
+}
+
 audit_output=""
 audit_rc=127
 audit_method=""
@@ -91,25 +158,55 @@ if (( audit_authoritative )); then
   )"
 
   known_execmem=0
+  known_rfkill_events=0
   unexpected_avc=0
+  declare -A rfkill_candidate_counts=()
 
   while IFS= read -r record; do
     [[ -z "$record" ]] && continue
+
     if is_known_syslog_ng_execmem "$record"; then
       known_execmem=$((known_execmem + 1))
-    else
-      unexpected_avc=$((unexpected_avc + 1))
+      continue
     fi
+
+    if is_systemd_rfkill_capability_candidate "$record"; then
+      serial="$(audit_serial_from_record "$record")"
+      if [[ -n "$serial" ]]; then
+        rfkill_candidate_counts["$serial"]=$(( ${rfkill_candidate_counts["$serial"]:-0} + 1 ))
+        continue
+      fi
+    fi
+
+    unexpected_avc=$((unexpected_avc + 1))
   done <<<"$audit_records"
+
+  for serial in "${!rfkill_candidate_counts[@]}"; do
+    event="$(audit_event_by_serial "$serial" || true)"
+    if [[ -n "$event" ]] &&
+       is_known_systemd_rfkill_write_only_uevent_event "$event"; then
+      known_rfkill_events=$((known_rfkill_events + 1))
+    else
+      unexpected_avc=$((unexpected_avc + rfkill_candidate_counts["$serial"]))
+    fi
+  done
 
   if (( unexpected_avc > 0 )); then
     warn "unexpected SELinux audit denials observed in current boot: $unexpected_avc"
-  elif (( known_execmem > 1 )); then
-    warn "documented syslog-ng/PCRE2 execmem denial repeated in current boot: $known_execmem"
-  elif (( known_execmem == 1 )); then
-    ok "only documented syslog-ng/PCRE2 execmem denial observed in authoritative current-boot audit evidence"
   else
-    ok "no SELinux AVC/USER_AVC denials observed in authoritative current-boot audit evidence"
+    if (( known_execmem > 1 )); then
+      warn "documented syslog-ng/PCRE2 execmem denial repeated in current boot: $known_execmem"
+    elif (( known_execmem == 1 )); then
+      ok "documented syslog-ng/PCRE2 execmem denial observed once in authoritative current-boot audit evidence"
+    fi
+
+    if (( known_rfkill_events > 0 )); then
+      ok "context-validated systemd-rfkill write-only sysfs uevent denials observed: $known_rfkill_events event(s)"
+    fi
+
+    if (( known_execmem == 0 && known_rfkill_events == 0 )); then
+      ok "no SELinux AVC/USER_AVC denials observed in authoritative current-boot audit evidence"
+    fi
   fi
 
   printf 'INFO: SELinux denial evidence source: %s\n' "$audit_method"

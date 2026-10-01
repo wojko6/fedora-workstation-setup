@@ -47,6 +47,44 @@ if name == "ausearch":
         'tcontext=system_u:system_r:syslogd_t:s0 '
         'tclass=process permissive=0'
     )
+
+    rfkill_avc = lambda serial, cap: (
+        f'type=AVC msg=audit(2.000:{serial}): avc:  denied  {{ {cap} }} for '
+        'pid=859 comm="systemd-rfkill" '
+        f'capability={cap} '
+        'scontext=system_u:system_r:systemd_rfkill_t:s0 '
+        'tcontext=system_u:system_r:systemd_rfkill_t:s0 '
+        'tclass=capability permissive=0'
+    )
+
+    def rfkill_event(serial, inode, *, valid=True):
+        mode_field = "file,200" if valid else "file,644"
+        obj = "system_u:object_r:sysfs_t:s0" if valid else "system_u:object_r:etc_t:s0"
+        return [
+            f'type=PROCTITLE msg=audit(2.000:{serial}) : proctitle=/usr/lib/systemd/systemd-rfkill',
+            f'type=PATH msg=audit(2.000:{serial}) : item=0 name=/proc/self/fd/8 '
+            f'inode={inode} dev=00:1a mode={mode_field} ouid=root ogid=root '
+            f'rdev=00:00 obj={obj} nametype=NORMAL',
+            f'type=SYSCALL msg=audit(2.000:{serial}) : arch=x86_64 syscall=openat '
+            'success=no exit=EACCES a0=AT_FDCWD items=1 ppid=1 pid=859 '
+            'comm=systemd-rfkill exe=/usr/lib/systemd/systemd-rfkill '
+            'subj=system_u:system_r:systemd_rfkill_t:s0',
+            rfkill_avc(serial, "dac_override"),
+            rfkill_avc(serial, "dac_read_search"),
+        ]
+
+    if "-a" in args:
+        serial = args[args.index("-a") + 1]
+        if mode in {"rfkill-known", "rfkill-known-two"}:
+            inode = "54891" if serial == "73" else "55397"
+            print("\n".join(rfkill_event(serial, inode, valid=True)))
+            raise SystemExit(0)
+        if mode == "rfkill-bad-context":
+            print("\n".join(rfkill_event(serial, "54891", valid=False)))
+            raise SystemExit(0)
+        print("<no matches>")
+        raise SystemExit(1)
+
     if mode == "zero":
         print("<no matches>")
         raise SystemExit(1)
@@ -56,6 +94,20 @@ if name == "ausearch":
     if mode == "known-repeat":
         print(known)
         print(known.replace("pid=123", "pid=124"))
+        raise SystemExit(0)
+    if mode == "rfkill-known":
+        print(rfkill_avc("73", "dac_override"))
+        print(rfkill_avc("73", "dac_read_search"))
+        raise SystemExit(0)
+    if mode == "rfkill-known-two":
+        print(known)
+        for serial in ("73", "74"):
+            print(rfkill_avc(serial, "dac_override"))
+            print(rfkill_avc(serial, "dac_read_search"))
+        raise SystemExit(0)
+    if mode == "rfkill-bad-context":
+        print(rfkill_avc("73", "dac_override"))
+        print(rfkill_avc("73", "dac_read_search"))
         raise SystemExit(0)
     if mode == "unexpected":
         print(
@@ -70,6 +122,13 @@ if name == "ausearch":
         print("ausearch: simulated audit log read failure", file=sys.stderr)
         raise SystemExit(1)
     raise SystemExit(2)
+
+if name == "find":
+    if "-inum" in args and env("SEC_TEST_RFKILL_FIND", "1") == "1":
+        inode = args[args.index("-inum") + 1]
+        print(f"/sys/module/mock-{inode}/uevent")
+        raise SystemExit(0)
+    raise SystemExit(1)
 
 if name == "journalctl":
     if "-n" in args:
@@ -279,6 +338,7 @@ COMMANDS = [
     "getenforce",
     "ausearch",
     "sudo",
+    "find",
     "journalctl",
     "systemctl",
     "ss",
@@ -400,6 +460,40 @@ with tempfile.TemporaryDirectory(prefix="security-posture-tests-") as td:
         "repeated documented syslog-ng execmem denial",
         run_case(case, SEC_TEST_AUSEARCH_MODE="known-repeat"),
         "WARN: documented syslog-ng/PCRE2 execmem denial repeated",
+    )
+
+    case = base / "rfkill-known"
+    case.mkdir()
+    expect_pass(
+        "context-validated systemd-rfkill write-only sysfs denial",
+        run_case(case, SEC_TEST_AUSEARCH_MODE="rfkill-known"),
+    )
+
+    case = base / "rfkill-known-two-plus-syslog"
+    case.mkdir()
+    expect_pass(
+        "physical-style syslog-ng plus two rfkill uevent events",
+        run_case(case, SEC_TEST_AUSEARCH_MODE="rfkill-known-two"),
+    )
+
+    case = base / "rfkill-bad-context"
+    case.mkdir()
+    expect_fail(
+        "systemd-rfkill capability denial without write-only sysfs context",
+        run_case(case, SEC_TEST_AUSEARCH_MODE="rfkill-bad-context"),
+        "WARN: unexpected SELinux audit denials observed",
+    )
+
+    case = base / "rfkill-unresolved-inode"
+    case.mkdir()
+    expect_fail(
+        "systemd-rfkill denial with unresolved uevent inode",
+        run_case(
+            case,
+            SEC_TEST_AUSEARCH_MODE="rfkill-known",
+            SEC_TEST_RFKILL_FIND="0",
+        ),
+        "WARN: unexpected SELinux audit denials observed",
     )
 
     case = base / "unexpected-avc"
