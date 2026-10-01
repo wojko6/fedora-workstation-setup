@@ -133,6 +133,88 @@ else
 fi
 
 echo
+echo "=== SYSLOG-NG TAILSCALE COLLECTOR ==="
+SYSLOG_NG_COLLECTOR_CONF="/etc/syslog-ng/conf.d/asus-edge-collector.conf"
+SYSLOG_NG_DROPIN="/etc/systemd/system/syslog-ng.service.d/20-asus-edge-tailscale.conf"
+
+if [[ ! -f "$SYSLOG_NG_COLLECTOR_CONF" ]]; then
+  skip "ASUS Edge syslog-ng collector config not present"
+else
+  if rpm -q syslog-ng >/dev/null 2>&1; then
+    ok "syslog-ng collector package installed"
+  else
+    bad "syslog-ng collector package missing"
+  fi
+
+  if systemctl is-enabled syslog-ng.service >/dev/null 2>&1; then
+    ok "syslog-ng collector service enabled"
+  else
+    bad "syslog-ng collector service is not enabled"
+  fi
+
+  if systemctl is-active syslog-ng.service >/dev/null 2>&1; then
+    ok "syslog-ng collector service active"
+  else
+    bad "syslog-ng collector service is not active"
+  fi
+
+  if [[ -f "$SYSLOG_NG_DROPIN" ]]; then
+    ok "syslog-ng Tailscale readiness drop-in installed"
+  else
+    bad "syslog-ng Tailscale readiness drop-in missing"
+  fi
+
+  if [[ -f "$SYSLOG_NG_DROPIN" ]] &&
+     grep -Fxq 'ExecStartPre=/usr/bin/tailscale wait --timeout=60s' "$SYSLOG_NG_DROPIN"; then
+    ok "syslog-ng waits for Tailscale readiness"
+  else
+    bad "syslog-ng Tailscale wait guard missing"
+  fi
+
+  ts_ip="$(tailscale ip -4 2>/dev/null | awk 'NF { print; exit }')"
+  if [[ "$ts_ip" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
+    ok "current Tailscale IPv4 available for collector verification"
+
+    if [[ -f "$SYSLOG_NG_DROPIN" ]] &&
+       grep -Fxq "ExecStartPre=/usr/bin/tailscale ip --assert=$ts_ip" "$SYSLOG_NG_DROPIN"; then
+      ok "syslog-ng Tailscale IPv4 assertion matches current node address"
+    else
+      bad "syslog-ng Tailscale IPv4 assertion missing or stale"
+    fi
+
+    if ss -H -lnt 2>/dev/null | awk -v addr="$ts_ip:6514" '
+      $4 == addr { found=1 }
+      END { exit found ? 0 : 1 }
+    '; then
+      ok "syslog-ng collector listening on Tailscale IPv4 TCP/6514"
+    else
+      bad "syslog-ng collector not listening on Tailscale IPv4 TCP/6514"
+    fi
+  else
+    bad "current Tailscale IPv4 unavailable for collector verification"
+  fi
+
+  syslog_ng_restarts="$(systemctl show syslog-ng.service -p NRestarts --value 2>/dev/null || true)"
+  if [[ "$syslog_ng_restarts" == "0" ]]; then
+    ok "syslog-ng automatic restart count is zero"
+  else
+    bad "syslog-ng automatic restart count is ${syslog_ng_restarts:-unknown}"
+  fi
+
+  syslog_ng_boot_errors="$(
+    journalctl -b -u syslog-ng.service --no-pager 2>/dev/null |
+      grep -Ei 'Cannot assign requested address|Error binding socket|Failed to start|Start request repeated' ||
+      true
+  )"
+  if [[ -z "$syslog_ng_boot_errors" ]]; then
+    ok "syslog-ng current boot has no bind/start-limit errors"
+  else
+    printf '%s\n' "$syslog_ng_boot_errors"
+    bad "syslog-ng current boot contains bind/start-limit errors"
+  fi
+fi
+
+echo
 echo "=== SECURITY HARDENING ==="
 LLMNR_CONF="/etc/systemd/resolved.conf.d/10-disable-llmnr.conf"
 if [[ -f "$LLMNR_CONF" ]] && grep -Eq '^[[:space:]]*LLMNR[[:space:]]*=[[:space:]]*no[[:space:]]*$' "$LLMNR_CONF"; then

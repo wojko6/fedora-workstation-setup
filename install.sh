@@ -99,6 +99,7 @@ stages=(
   network/wifi-power-save.sh
   network/firewall-zone.sh
   network/tailscale-firewall-zone.sh
+  system/syslog-ng-tailscale-readiness.sh
   security/disable-llmnr.sh
   security/kernel-hardening.sh
   security/disable-wsdd.sh
