@@ -66,10 +66,18 @@ SYSTEM_PARENT="$(dirname "$SYSTEM_DEST")"
     die "unexpected managed DING destination: $SYSTEM_DEST"
 
 data_dirs="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
-case ":$data_dirs:" in
-    *:/usr/local/share:*) ;;
-    *) die "/usr/local/share is not present in XDG_DATA_DIRS: $data_dirs" ;;
-esac
+data_dir_present=0
+IFS=':' read -r -a data_dir_entries <<< "$data_dirs"
+for entry in "${data_dir_entries[@]}"; do
+    normalized="${entry%/}"
+    if [[ "$normalized" == "/usr/local/share" ]]; then
+        data_dir_present=1
+        break
+    fi
+done
+
+(( data_dir_present )) ||
+    die "/usr/local/share is not present in XDG_DATA_DIRS: $data_dirs"
 
 BUILD_ROOT="$(mktemp -d)"
 SYSTEM_STAGE="$SYSTEM_PARENT/.ding-system-stage.$$"
