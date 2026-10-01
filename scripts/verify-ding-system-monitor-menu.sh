@@ -15,13 +15,20 @@ command -v restorecon >/dev/null 2>&1 || {
 }
 
 data_dirs="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
-case ":$data_dirs:" in
-    *:/usr/local/share:*) ;;
-    *)
-        echo "FAIL: /usr/local/share is not present in XDG_DATA_DIRS: $data_dirs" >&2
-        exit 1
-        ;;
-esac
+data_dir_present=0
+IFS=':' read -r -a data_dir_entries <<< "$data_dirs"
+for entry in "${data_dir_entries[@]}"; do
+    normalized="${entry%/}"
+    if [[ "$normalized" == "/usr/local/share" ]]; then
+        data_dir_present=1
+        break
+    fi
+done
+
+if (( ! data_dir_present )); then
+    echo "FAIL: /usr/local/share is not present in XDG_DATA_DIRS: $data_dirs" >&2
+    exit 1
+fi
 
 for path in "$MANIFEST" "$TREE_HELPER" "$DESKTOP_FILE"; do
     [[ -f "$path" ]] || {
