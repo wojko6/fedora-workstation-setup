@@ -214,6 +214,43 @@ Several decisions made the change safer:
 - verify behavior after reboot;
 - add automated checks so the policy cannot silently regress.
 
+## 2026-10-01 scoped collector exception
+
+The original 2026-09-24 isolation baseline intentionally had no inbound rich
+rules. A later ASUS Edge logging integration introduced one justified inbound
+path: the router must reach the Fedora syslog-ng TLS collector on TCP/6514.
+
+Live firewalld inspection showed that this was implemented as a single
+source-restricted rich rule rather than a broad zone port:
+
+```text
+source: one Tailscale IPv4 /32
+destination: Fedora workstation
+protocol: TCP
+port: 6514
+action: accept
+```
+
+Both runtime and permanent state contained the same rule, while
+`--list-ports` remained empty. The nftables translation placed the exception
+inside `filter_IN_workstation-tailscale_allow`; unrelated input on
+`tailscale0` still falls through to the zone's DROP decision.
+
+A repository audit then found an important reproducibility bug: the original
+exact-state installer removed every rich rule and verified that none existed.
+Re-running it would therefore have deleted the legitimate collector exception.
+
+The corrected design keeps the public repository free of private Tailnet
+addresses. When the private
+`/etc/syslog-ng/conf.d/asus-edge-collector.conf` exists, the firewall stage
+extracts its single Tailscale `/32` `netmask()`, validates that the source is
+inside the Tailscale IPv4 range, and converges to exactly one TCP collector
+rich rule. Without the private collector configuration, rich rules remain
+empty.
+
+This preserves the original least-privilege boundary while making the later
+logging dependency reproducible.
+
 ## Why this case study matters
 
 This is a compact network-security story with observable evidence:
