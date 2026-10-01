@@ -87,6 +87,9 @@ for phrase in (
     "--fuzz=0",
     "grep -Eqi 'offset|fuzz'",
     "Polish DING menu coverage",
+    "SYSTEM-SCOPE PERMISSIONS",
+    'chmod -R u=rwX,go=rX "$STAGE"',
+    "managed DING permissions normalized for system scope",
     "NO_LIVE_MUTATION=YES",
 ):
     if phrase not in builder:
@@ -97,6 +100,7 @@ for phrase in (
     "managed-system-extensions.tsv",
     "build-ding-v99-managed-tree.sh",
     "=== BACKUP CURRENT STATE ===",
+    "set -euo pipefail",
     "rollback()",
     "ROLLBACK=COMPLETED",
     "/usr/local/share/gnome-shell/extensions/",
@@ -163,7 +167,7 @@ for msgid, msgstr in required_translations.items():
 
 print("PASS: DING v99 source and final managed-tree pins are explicit")
 print("PASS: DING moved out of per-user source/tree/display-name manifests")
-print("PASS: v99 builder is exact/fail-closed and non-mutating")
+print("PASS: v99 builder is exact/fail-closed, permission-normalized and non-mutating")
 print("PASS: migration normalizes trailing slashes in XDG_DATA_DIRS")
 print("PASS: migration is backup/rollback aware and clears stale per-user updates")
 print("PASS: verifier enforces system scope, ownership, tree integrity and Polish UI")
