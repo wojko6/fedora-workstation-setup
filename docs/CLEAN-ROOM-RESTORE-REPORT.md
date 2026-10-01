@@ -45,7 +45,7 @@ Checking only whether an extension is installed is insufficient. The verifier no
 
 ### Dhruva source pinning
 
-Follow-up validation established that Dhruva runtime version 17 / 2.0 is not the EGO v16 package. The reproducible source for the accepted workstation state is upstream GitHub commit `f8121f68fcef48c0324e8cd87fd30bf9a2131962`. The restore path therefore uses an explicit source lock instead of mapping runtime version 17 to the older EGO v16 archive.
+Follow-up validation established that Dhruva runtime version 17 / 2.0 is not the EGO v16 package. The reproducible source for the accepted workstation state is upstream GitHub commit `f8121f68fcef48c0324e8cd87fd30bf9a2131962`. The restore path therefore uses an explicit source lock instead of mapping runtime version 17 to the older EGO v16 archive. The GitHub commit archive is additionally pinned by reviewed SHA-256 and verified before extraction, closing the remaining gap between commit identity and the bytes consumed by restore.
 
 ### GNOME wallpaper
 
