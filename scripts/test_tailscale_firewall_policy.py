@@ -113,8 +113,22 @@ if zone is not None:
     })
 
     if "--get-target" in args:
-        print(data["target"])
+        if "--permanent" in args:
+            print(data["target"])
+            raise SystemExit(0)
+        raise SystemExit(1)
+
+    if "--list-all" in args:
+        print(f"{zone} (active)")
+        print(f"  target: {data['target']}")
+        print("  interfaces: " + " ".join(data["interfaces"]))
+        print("  services: " + " ".join(data["services"]))
+        print("  ports: " + " ".join(data["ports"]))
+        print("  rich rules:")
+        for rule in data["rich_rules"]:
+            print(f"    {rule}")
         raise SystemExit(0)
+
     if "--query-forward" in args:
         raise SystemExit(0 if data["forward"] else 1)
     if "--query-masquerade" in args:
@@ -306,9 +320,17 @@ def write_mock_bin(root: Path) -> Path:
         path.chmod(path.stat().st_mode | stat.S_IXUSR)
     return bindir
 
-def run_case(tmp: Path, state, *, fail_active=False):
+def run_case(tmp: Path, state, *, fail_active=False, collector_source=None):
     state_path = tmp / "state.json"
     log_path = tmp / "mutations.log"
+    collector_conf = tmp / "asus-edge-collector.conf"
+    if collector_source is not None:
+        collector_conf.write_text(
+            'filter f_asus_edge_router {\n'
+            f'    netmask("{collector_source}");\n'
+            '};\n',
+            encoding="utf-8",
+        )
     state_path.write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
     log_path.write_text("", encoding="utf-8")
     bindir = write_mock_bin(tmp)
@@ -317,6 +339,7 @@ def run_case(tmp: Path, state, *, fail_active=False):
     env["PATH"] = f"{bindir}:{env['PATH']}"
     env["TS_FW_TEST_STATE"] = str(state_path)
     env["TS_FW_TEST_LOG"] = str(log_path)
+    env["SYSLOG_NG_COLLECTOR_CONF"] = str(collector_conf)
     if fail_active:
         env["TS_FW_TEST_FAIL_ACTIVE"] = "1"
 
@@ -397,5 +420,50 @@ with tempfile.TemporaryDirectory(prefix="tailscale-firewall-policy-tests-") as t
         raise SystemExit("FAIL: rollback did not restore previous interface zone")
 
     print("PASS: rollback restores previous zone state and interface assignment")
+
+    case3 = base / "collector"
+    case3.mkdir()
+    result, state, _mutations = run_case(
+        case3,
+        dirty_state(),
+        collector_source="100.64.0.10/32",
+    )
+    if result.returncode != 0:
+        raise SystemExit(
+            "FAIL: collector-aware Tailscale zone did not converge\n"
+            f"stdout:\n{result.stdout}\n"
+            f"stderr:\n{result.stderr}"
+        )
+
+    expected_rule = (
+        'rule family="ipv4" source address="100.64.0.10/32" '
+        'port port="6514" protocol="tcp" accept'
+    )
+    ts_zone = state["zones"][ZONE]
+    if ts_zone["rich_rules"] != [expected_rule]:
+        raise SystemExit(
+            "FAIL: collector rich-rule exact-state mismatch: "
+            f"{ts_zone['rich_rules']}"
+        )
+    if ts_zone["ports"]:
+        raise SystemExit("FAIL: collector ingress must not become a broad explicit port")
+
+    print("PASS: collector ingress converged to one source-restricted TCP/6514 rich rule")
+    print("PASS: collector ingress did not broaden the zone's explicit port state")
+
+    case4 = base / "invalid-collector-source"
+    case4.mkdir()
+    original = dirty_state()
+    result, state, _mutations = run_case(
+        case4,
+        original,
+        collector_source="192.0.2.10/32",
+    )
+    if result.returncode == 0:
+        raise SystemExit("FAIL: non-Tailscale collector source unexpectedly accepted")
+    if "source must be one Tailscale IPv4 /32" not in (result.stdout + result.stderr):
+        raise SystemExit("FAIL: invalid collector source rejection reason missing")
+
+    print("PASS: collector source outside Tailscale IPv4 range rejected")
 
 print("=== TAILSCALE FIREWALL POLICY TESTS: PASS ===")

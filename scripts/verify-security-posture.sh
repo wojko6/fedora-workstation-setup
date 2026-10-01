@@ -25,6 +25,8 @@ AKMOD_CERT="${VERIFY_AKMOD_CERT:-/etc/pki/akmods/certs/public_key.der}"
 ZONE="workstation-kdeconnect"
 TAILSCALE_ZONE="workstation-tailscale"
 TAILSCALE_IFACE="tailscale0"
+SYSLOG_NG_COLLECTOR_CONF="${SYSLOG_NG_COLLECTOR_CONF:-/etc/syslog-ng/conf.d/asus-edge-collector.conf}"
+SYSLOG_NG_COLLECTOR_PORT="${SYSLOG_NG_COLLECTOR_PORT:-6514}"
 
 echo "=== EXPLICIT SECURITY POSTURE ==="
 printf 'Virtualization: %s\n' "$virt"
@@ -406,6 +408,50 @@ else
   echo
   echo "--- TAILSCALE FIREWALL EXACT STATE ---"
 
+  collector_rich_rule=""
+  collector_policy_valid=1
+
+  validate_tailscale_ipv4_32() {
+    local cidr="$1"
+    local ip="${cidr%/32}"
+    local a b c d
+
+    [[ "$cidr" == */32 ]] || return 1
+    IFS=. read -r a b c d <<<"$ip"
+    [[ -n "${a:-}" && -n "${b:-}" && -n "${c:-}" && -n "${d:-}" ]] || return 1
+
+    local octet
+    for octet in "$a" "$b" "$c" "$d"; do
+      [[ "$octet" =~ ^[0-9]{1,3}$ ]] || return 1
+      (( 10#$octet >= 0 && 10#$octet <= 255 )) || return 1
+    done
+
+    (( 10#$a == 100 && 10#$b >= 64 && 10#$b <= 127 )) || return 1
+  }
+
+  if [[ -f "$SYSLOG_NG_COLLECTOR_CONF" ]]; then
+    mapfile -t collector_sources < <(
+      sed -nE 's/^[[:space:]]*netmask\("([0-9]{1,3}(\.[0-9]{1,3}){3}\/32)"\);[[:space:]]*$/\1/p' "$SYSLOG_NG_COLLECTOR_CONF" |
+        sort -u
+    )
+
+    if (( ${#collector_sources[@]} != 1 )); then
+      bad "ASUS Edge collector config must contain exactly one IPv4 /32 netmask"
+      collector_policy_valid=0
+    elif ! validate_tailscale_ipv4_32 "${collector_sources[0]}"; then
+      bad "ASUS Edge collector source must be one Tailscale IPv4 /32"
+      collector_policy_valid=0
+    elif [[ ! "$SYSLOG_NG_COLLECTOR_PORT" =~ ^[0-9]+$ ]] ||
+         (( 10#$SYSLOG_NG_COLLECTOR_PORT < 1 || 10#$SYSLOG_NG_COLLECTOR_PORT > 65535 )); then
+      bad "ASUS Edge collector TCP port is invalid"
+      collector_policy_valid=0
+    else
+      collector_source="${collector_sources[0]}"
+      collector_rich_rule="rule family=\"ipv4\" source address=\"$collector_source\" port port=\"$SYSLOG_NG_COLLECTOR_PORT\" protocol=\"tcp\" accept"
+      ok "ASUS Edge collector firewall source derived from private syslog-ng configuration"
+    fi
+  fi
+
   if ! firewall-cmd --permanent --get-zones 2>/dev/null |
       tr ' ' '\n' |
       grep -Fxq "$TAILSCALE_ZONE"; then
@@ -478,8 +524,7 @@ else
         --list-source-ports \
         --list-forward-ports \
         --list-sources \
-        --list-icmp-blocks \
-        --list-rich-rules; do
+        --list-icmp-blocks; do
         extra="$(
           firewall-cmd "${scope_args[@]}" --zone="$TAILSCALE_ZONE" "$option" 2>/dev/null |
             xargs
@@ -490,6 +535,25 @@ else
           bad "$scope Tailscale-zone $option contains unexpected state: $extra"
         fi
       done
+
+      rich_rules="$(
+        firewall-cmd "${scope_args[@]}" --zone="$TAILSCALE_ZONE" --list-rich-rules 2>/dev/null |
+          sed '/^$/d' |
+          sort
+      )"
+      if (( ! collector_policy_valid )); then
+        bad "$scope Tailscale-zone collector rich-rule cannot be verified from invalid private collector configuration"
+      elif [[ -n "$collector_rich_rule" ]]; then
+        if [[ "$rich_rules" == "$collector_rich_rule" ]]; then
+          ok "$scope Tailscale-zone has only the source-restricted TCP/$SYSLOG_NG_COLLECTOR_PORT collector exception"
+        else
+          bad "$scope Tailscale-zone collector rich-rule drift"
+        fi
+      elif [[ -z "$rich_rules" ]]; then
+        ok "$scope Tailscale-zone rich rules empty"
+      else
+        bad "$scope Tailscale-zone contains unexpected rich rules"
+      fi
     done
 
     if command -v ip >/dev/null 2>&1 &&

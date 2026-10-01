@@ -56,7 +56,7 @@ The physical-host desired state includes:
 
 - required RPM packages and external repositories;
 - Tailscale package and `tailscaled` service state;
-- dedicated `workstation-tailscale` firewalld exact-state policy for `tailscale0` (`DROP`, no services/ports/forwarding/masquerade);
+- dedicated `workstation-tailscale` firewalld exact-state policy for `tailscale0` (`DROP`, no services or broad explicit ports, no forwarding/masquerade, plus at most one source-restricted TCP collector rich rule derived from the private ASUS Edge syslog-ng configuration);
 - disabled LLMNR and disabled GNOME/GVfs WS-Discovery;
 - `kernel.kptr_restrict=1` in persistent and runtime state;
 - Secure Boot enabled with a signed NVIDIA kernel module;

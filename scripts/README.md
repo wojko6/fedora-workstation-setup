@@ -24,7 +24,7 @@ The scripts directory contains the operational entrypoints used to build, restor
 - `install-dhruva-config.sh`
 - `manage-weather-locations.py` — libgweather-backed installer/verifier for reviewed custom GNOME Weather locations.
 - `../network/firewall-zone.sh` — exact-state trusted-Wi-Fi firewalld policy for `workstation-kdeconnect`.
-- `../network/tailscale-firewall-zone.sh` — exact-state `workstation-tailscale` policy that binds `tailscale0` to a DROP-by-default zone without explicit inbound services or ports.
+- `../network/tailscale-firewall-zone.sh` — exact-state `workstation-tailscale` policy that binds `tailscale0` to a DROP-by-default zone without broad inbound services or ports; when the private ASUS Edge collector config exists, it derives the single Tailscale `/32` source locally and permits only that source to the collector TCP port.
 - `../system/syslog-ng-tailscale-readiness.sh` — conditional ASUS Edge collector integration that installs a systemd readiness drop-in only when the private local collector configuration exists; it derives the current Tailscale IPv4 locally and prevents syslog-ng from binding before Tailscale is ready.
 
 The top-level `install.sh` orchestrates these stages. Individual stages should remain safe to inspect and, where practical, safe to rerun.

@@ -25,7 +25,7 @@ Expected current physical-workstation characteristics include Fedora 44, GNOME 5
 
 The trusted Wi-Fi identity is local recovery input, not public desired-state data. On a physical host the restore preflight requires a reviewed `TRUSTED_WIFI_UUID` before any setup stages run. The firewall stage refuses an active/default-route Wi-Fi profile with a different UUID and manages `workstation-kdeconnect` as exact state with only `dhcpv6-client`, `mdns`, and `kdeconnect`; SSH and forwarding are not part of the accepted zone policy.
 
-A separate restore stage creates `workstation-tailscale` as exact state and permanently binds `tailscale0` to it. The zone uses target `DROP` and carries no allowed services, explicit ports, protocols, sources, forwarding, masquerade, ICMP inversion, or rich rules. Tailscale authentication/node identity remains private and is not automated; the permanent firewalld binding can be prepared before that identity is restored.
+A separate restore stage creates `workstation-tailscale` as exact state and permanently binds `tailscale0` to it. The zone uses target `DROP` and carries no allowed services, broad explicit ports, protocols, sources, forwarding, masquerade, or ICMP inversion. If the private `/etc/syslog-ng/conf.d/asus-edge-collector.conf` exists, the stage derives its single Tailscale IPv4 `/32` `netmask()` and restores exactly one rich-rule exception to the collector TCP port (6514 by default). If the collector config is absent, rich rules remain empty. The real source address remains private recovery data and is never committed. Tailscale authentication/node identity remains private and is not automated; the permanent firewalld binding can be prepared before that identity is restored.
 
 ## Acceptance and verification
 
