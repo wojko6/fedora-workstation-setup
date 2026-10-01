@@ -113,8 +113,22 @@ if zone is not None:
     })
 
     if "--get-target" in args:
-        print(data["target"])
+        if "--permanent" in args:
+            print(data["target"])
+            raise SystemExit(0)
+        raise SystemExit(1)
+
+    if "--list-all" in args:
+        print(f"{zone} (active)")
+        print(f"  target: {data['target']}")
+        print("  interfaces: " + " ".join(data["interfaces"]))
+        print("  services: " + " ".join(data["services"]))
+        print("  ports: " + " ".join(data["ports"]))
+        print("  rich rules:")
+        for rule in data["rich_rules"]:
+            print(f"    {rule}")
         raise SystemExit(0)
+
     if "--query-forward" in args:
         raise SystemExit(0 if data["forward"] else 1)
     if "--query-masquerade" in args:
