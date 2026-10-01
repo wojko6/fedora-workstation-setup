@@ -18,7 +18,9 @@ The scripts directory contains the operational entrypoints used to build, restor
 - `install-extensions.sh`
 - `setup-ddcutil.sh`
 - `install-localizations.sh`
-- `install-ding-system-monitor-menu.sh` — applies the audited DING v97 desktop-menu patch that adds `Monitor systemu` and fails closed on version/source drift.
+- `build-ding-v99-managed-tree.sh` — non-mutating, fail-closed builder for the exact reviewed DING v99 system tree.
+- `install-ding-managed-system.sh` — backs up and migrates DING from per-user scope to the root-owned managed-system path, clears stale pending updates, restores SELinux labels, and rolls back on post-mutation failure.
+- `install-ding-system-monitor-menu.sh` — compatibility wrapper that delegates to the managed-system DING installer.
 - `install-launchers.sh`
 - `install-weather-locations.sh` — restores reviewed custom GNOME Weather locations in the user session.
 - `install-dhruva-config.sh`
@@ -31,7 +33,7 @@ The top-level `install.sh` orchestrates these stages. Individual stages should r
 
 ## Localization
 
-`install-localizations.sh` is the single localization pipeline. It manages **27 localization targets/operations**: four generic gettext targets, 16 specialized GNOME-extension stages, six application/system stages (Papers/Nautilus, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks), and one selective extension display-name stage.
+`install-localizations.sh` is the general localization pipeline. It manages **26 localization targets/operations**: three generic gettext targets, 16 specialized GNOME-extension stages, six application/system stages (Papers/Nautilus, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks), and one selective extension display-name stage. Customized DING v99 is intentionally handled outside this pipeline as one deterministic managed-system tree.
 
 Dedicated `verify-*-localization.sh` scripts validate exact-version, completion-overlay, and system-localization targets and are wired into `verify.sh`. `test_localization_consistency.py` enforces repository-wide Polish gettext metadata and a small set of reviewed terminology invariants without flattening context-sensitive translations.
 
