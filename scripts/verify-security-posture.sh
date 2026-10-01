@@ -442,7 +442,7 @@ else
       bad "ASUS Edge collector source must be one Tailscale IPv4 /32"
       collector_policy_valid=0
     elif [[ ! "$SYSLOG_NG_COLLECTOR_PORT" =~ ^[0-9]+$ ]] ||
-         (( SYSLOG_NG_COLLECTOR_PORT < 1 || SYSLOG_NG_COLLECTOR_PORT > 65535 )); then
+         (( 10#$SYSLOG_NG_COLLECTOR_PORT < 1 || 10#$SYSLOG_NG_COLLECTOR_PORT > 65535 )); then
       bad "ASUS Edge collector TCP port is invalid"
       collector_policy_valid=0
     else
