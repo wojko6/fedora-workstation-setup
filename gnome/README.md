@@ -67,9 +67,17 @@ scripts/verify.sh
 
 If the private local file is absent, restore and verification report that no private Weather location was requested and continue without exposing or inventing location data.
 
-The custom-location mechanism was physically validated on the Fedora 44 / GNOME 50.5 workstation, including correction of an early coordinate-unit error and a duplicate-name migration edge case. At the Weather-integration checkpoint the full verifier completed with `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0` while the private location file was present. The current project-wide physical baseline is `PASS=258 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`, refreshed on 2026-09-26 after the User Themes and selective extension display-name localization acceptance; see `PROJECT-STATUS.md` for the latest aggregate.
+The custom-location mechanism was physically validated on the Fedora 44 / GNOME 50.5 workstation, including correction of an early coordinate-unit error and a duplicate-name migration edge case. At the Weather-integration checkpoint the full verifier completed with `PASS=231 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0` while the private location file was present. The current project-wide physical baseline is `PASS=266 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`, refreshed on 2026-10-01 after the DING v99 lifecycle acceptance; see `PROJECT-STATUS.md` for the latest aggregate.
 
 
-## DING v97 System Monitor desktop menu
+## DING v99 managed-system deployment
 
-The accepted Fedora 44 / GNOME 50.5 state includes a repository-managed DING v97 desktop-background context-menu entry named `Monitor systemu`. The 2026-09-25 consistency pass also completed the observed desktop background menu and `Sortuj według...` submenu in Polish. The action launches `org.gnome.SystemMonitor.desktop`, is restored through `scripts/install-ding-system-monitor-menu.sh`, verified by `scripts/verify-ding-system-monitor-menu.sh`, and the final accepted D-H4 tree hash for `ding@rastersoft.com` is `f1ec256c26a42371ab80cd331a82efafe42766c1d5608a953fad14fa8512ca73`.
+DING is intentionally the one customized extension removed from GNOME Shell's per-user auto-update path. The accepted Fedora 44 / GNOME 50.5 state installs `ding@rastersoft.com` v99 under `/usr/local/share/gnome-shell/extensions/` as a root-owned system extension. The exact official EGO v99 archive is SHA-256 pinned before extraction; the builder then applies the repository Polish catalog and exact `Monitor systemu` patch, compiles schemas, normalizes permissions for system scope, and verifies the deterministic managed tree.
+
+Accepted managed tree SHA-256:
+
+```text
+08a0c6e4ecb72c8e4693134c061cedfc88090054c98179de3dfd2fac2669a714
+```
+
+`scripts/install-ding-managed-system.sh` performs the backup/migration/rollback workflow and requires both the per-user DING tree and any pending per-user DING update to be absent after commit. `scripts/install-ding-system-monitor-menu.sh` remains only as a compatibility wrapper. `scripts/verify-ding-system-monitor-menu.sh` validates the system path, root ownership, SELinux labels, managed-tree hash, Polish menu coverage, System Monitor action, and runtime path after logout/login.
