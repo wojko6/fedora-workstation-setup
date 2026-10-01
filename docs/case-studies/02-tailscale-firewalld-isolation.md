@@ -251,6 +251,18 @@ empty.
 This preserves the original least-privilege boundary while making the later
 logging dependency reproducible.
 
+Physical acceptance also exercised the failure path. An initial run detected a
+runtime-target verification incompatibility and rolled the firewall back
+without losing the existing collector rule. After changing runtime target
+inspection to use firewalld's `--list-all` output and tightening the CI mock,
+a second physical run converged successfully.
+
+The final end-to-end test generated a unique syslog marker on the ASUS Edge
+router after the exact-state policy was applied. The marker was written to the
+Fedora collector log while syslog-ng remained active and listening on
+TCP/6514. This proves that the least-privilege exception is not only
+syntactically present but functionally carries the intended logging flow.
+
 ## Why this case study matters
 
 This is a compact network-security story with observable evidence:
