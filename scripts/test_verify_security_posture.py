@@ -250,6 +250,13 @@ if name == "firewall-cmd":
     if "--query-icmp-block-inversion" in args:
         raise SystemExit(1)
 
+    if "--list-rich-rules" in args:
+        if zone == "workstation-tailscale":
+            print(env("SEC_TEST_TS_RICH_RULE", ""))
+        else:
+            print("")
+        raise SystemExit(0)
+
     for option in [
         "--list-ports",
         "--list-protocols",
@@ -257,7 +264,6 @@ if name == "firewall-cmd":
         "--list-forward-ports",
         "--list-sources",
         "--list-icmp-blocks",
-        "--list-rich-rules",
     ]:
         if option in args:
             print("")
@@ -301,6 +307,7 @@ def run_case(
     *,
     create_cert: bool = True,
     remove_ausearch: bool = False,
+    collector_source: str | None = None,
     **overrides: str,
 ):
     bindir = write_mock_bin(root)
@@ -312,10 +319,20 @@ def run_case(
     if create_cert:
         cert.write_bytes(b"fixture certificate")
 
+    collector_conf = root / "asus-edge-collector.conf"
+    if collector_source is not None:
+        collector_conf.write_text(
+            'filter f_asus_edge_router {\n'
+            f'    netmask("{collector_source}");\n'
+            '};\n',
+            encoding="utf-8",
+        )
+
     env = os.environ.copy()
     env["PATH"] = f"{bindir}:{env['PATH']}"
     env["VERIFY_LOCKDOWN_FILE"] = str(lockdown)
     env["VERIFY_AKMOD_CERT"] = str(cert)
+    env["SYSLOG_NG_COLLECTOR_CONF"] = str(collector_conf)
     env.update(overrides)
 
     return subprocess.run(
@@ -475,6 +492,33 @@ with tempfile.TemporaryDirectory(prefix="security-posture-tests-") as td:
         "Tailscale active-zone drift",
         run_case(case, SEC_TEST_TS_ACTIVE_ZONE="FedoraWorkstation"),
         "active Tailscale zone drift",
+    )
+
+    case = base / "tailscale-collector-rich-rule"
+    case.mkdir()
+    collector_rule = (
+        'rule family="ipv4" source address="100.64.0.10/32" '
+        'port port="6514" protocol="tcp" accept'
+    )
+    expect_pass(
+        "source-restricted Tailscale syslog collector ingress",
+        run_case(
+            case,
+            collector_source="100.64.0.10/32",
+            SEC_TEST_TS_RICH_RULE=collector_rule,
+        ),
+    )
+
+    case = base / "tailscale-collector-rich-rule-drift"
+    case.mkdir()
+    expect_fail(
+        "Tailscale collector rich-rule drift",
+        run_case(
+            case,
+            collector_source="100.64.0.10/32",
+            SEC_TEST_TS_RICH_RULE="",
+        ),
+        "Tailscale-zone collector rich-rule drift",
     )
 
     case = base / "large-mok-output"
