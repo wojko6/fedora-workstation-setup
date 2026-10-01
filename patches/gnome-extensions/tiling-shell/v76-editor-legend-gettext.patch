@@ -1,0 +1,29 @@
+--- a/components/editor/editorDialog.js
++++ b/components/editor/editorDialog.js
+@@ -68,7 +68,7 @@
+     const suggestion1 = new St.BoxLayout();
+     suggestion1.add_child(
+       new St.Label({
+-        text: "LEFT CLICK",
++        text: _("LEFT CLICK"),
+         xAlign: Clutter.ActorAlign.CENTER,
+         yAlign: Clutter.ActorAlign.CENTER,
+         styleClass: "button kbd",
+@@ -88,7 +88,7 @@
+     const suggestion2 = new St.BoxLayout();
+     suggestion2.add_child(
+       new St.Label({
+-        text: "LEFT CLICK",
++        text: _("LEFT CLICK"),
+         xAlign: Clutter.ActorAlign.CENTER,
+         yAlign: Clutter.ActorAlign.CENTER,
+         styleClass: "button kbd",
+@@ -127,7 +127,7 @@
+     const suggestion3 = new St.BoxLayout();
+     suggestion3.add_child(
+       new St.Label({
+-        text: "RIGHT CLICK",
++        text: _("RIGHT CLICK"),
+         xAlign: Clutter.ActorAlign.CENTER,
+         yAlign: Clutter.ActorAlign.CENTER,
+         styleClass: "button kbd",

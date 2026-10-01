@@ -371,8 +371,26 @@ def run_case(
     **overrides: str,
 ):
     bindir = write_mock_bin(root)
+    bash_env = None
     if remove_ausearch:
         (bindir / "ausearch").unlink()
+
+        # Keep this fixture hermetic even when the host itself has ausearch
+        # installed later in PATH. BASH_ENV overrides the Bash `command`
+        # builtin only for this test process, so `command -v ausearch`
+        # deterministically behaves as if the tool were unavailable.
+        bash_env = root / "bash-env"
+        bash_env.write_text(
+            """command() {
+  if [[ "$1" == "-v" && "${2:-}" == "ausearch" ]]; then
+    return 1
+  fi
+  builtin command "$@"
+}
+""",
+            encoding="utf-8",
+        )
+
     lockdown = root / "lockdown"
     lockdown.write_text("none [integrity] confidentiality\n", encoding="utf-8")
     cert = root / "public_key.der"
@@ -390,6 +408,10 @@ def run_case(
 
     env = os.environ.copy()
     env["PATH"] = f"{bindir}:{env['PATH']}"
+
+    if bash_env is not None:
+        env["BASH_ENV"] = str(bash_env)
+
     env["VERIFY_LOCKDOWN_FILE"] = str(lockdown)
     env["VERIFY_AKMOD_CERT"] = str(cert)
     env["SYSLOG_NG_COLLECTOR_CONF"] = str(collector_conf)

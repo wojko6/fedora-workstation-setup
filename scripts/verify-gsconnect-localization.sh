@@ -26,7 +26,7 @@ EXPECTED_PREFS_SHA="d5c073a134d912411d4317d29e5a33131d71854471f58035cdb2cfabd334
 EXPECTED_CONFIG_SHA="a90f3a914ab72bf7d72ce303008ef19c1904105abad691403172aeee996df6ee"
 EXPECTED_SETUP_SHA="3e2980b4eba74a93e46208e0dfa7b5fe4c6f80f071ab2e1298deac0dd9506a45"
 EXPECTED_UPSTREAM_MO_SHA="ac830d12a1e851b79438e18b5b6abf42cca6df10e02c176bba934af734235384"
-EXPECTED_COMPLETION_ENTRIES="20"
+EXPECTED_COMPLETION_ENTRIES="22"
 
 if [[ ! -d "$EXT_DIR" ]]; then
     echo "SKIP: GSConnect extension not installed: $UUID"
@@ -156,6 +156,8 @@ upstream_path, installed_path = sys.argv[1:]
 expected = {
     "Connectivity Report": "Raport łączności",
     "Display connectivity status": "Wyświetlanie stanu łączności",
+    "GSConnect Preferences": "Preferencje GSConnect",
+    "Copy Text": "Kopiuj tekst",
 }
 
 reviewed_overrides = {

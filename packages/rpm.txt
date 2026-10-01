@@ -22,6 +22,7 @@ poedit
 
 # Administration / development
 python3-gobject
+gtk4
 flatpak
 firewalld
 audit
@@ -126,3 +127,9 @@ unoconv
 rpmfusion-free-release
 rpmfusion-nonfree-release
 cldr-emoji-annotation
+
+# Additional applications required by managed desktop localization
+tigervnc
+scrcpy
+java-latest-openjdk-devel
+java-25-openjdk-devel

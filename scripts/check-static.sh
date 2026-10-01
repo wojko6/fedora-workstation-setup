@@ -119,6 +119,10 @@ echo "=== ASUS LAUNCHER CONFIG SECURITY FIXTURES ==="
 python3 scripts/test_asus_launcher_config.py
 
 echo
+echo "=== DESKTOP RESTORE POLICY ==="
+bash scripts/verify-desktop-restore-policy.sh
+
+echo
 echo "=== INSTALLER PREFLIGHT SECURITY FIXTURES ==="
 python3 scripts/test_install_preflight.py
 

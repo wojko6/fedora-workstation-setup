@@ -1,0 +1,32 @@
+# Caffeine v60 Polish completion overlay.
+# Completes the five gettext gaps confirmed on the audited v60 build.
+msgid ""
+msgstr ""
+"Project-Id-Version: Caffeine v60 Polish completion\n"
+"PO-Revision-Date: 2026-10-01\n"
+"Last-Translator: fedora-workstation-setup project\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+msgid "Show quick settings toggle"
+msgstr "Pokaż przełącznik w szybkich ustawieniach"
+
+msgid "Enable or disable the toggle in the quick settings menu"
+msgstr "Włącza lub wyłącza przełącznik w menu szybkich ustawień"
+
+msgid "Enable when an app is playing media"
+msgstr "Włącz, gdy program odtwarza multimedia"
+
+msgid "Automatically enable when an app reports playback"
+msgstr "Automatycznie włączaj, gdy program zgłasza odtwarzanie"
+
+msgid ""
+"Allow turning off screen when Caffeine is enabled\n"
+"This may disable manual suspend / shutdown"
+msgstr ""
+"Zezwala na wygaszenie ekranu, gdy rozszerzenie Caffeine jest włączone\n"
+"Może to uniemożliwić ręczne usypianie / wyłączanie systemu"

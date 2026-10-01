@@ -6,6 +6,7 @@ UUID="spotlight@nin"
 DOMAIN="spotlight"
 EXPECTED_VERSION="15"
 EXPECTED_VERSION_NAME="2026.15"
+EXPECTED_APPEARANCE_SHA="b26ef47c1c5052ef6791a750045162ac5548c4f509a061cd6d963a2e8f456d2d"
 EXPECTED_TRANSLATED="22"
 SOURCE_PO="$ROOT_DIR/localization/spotlight/pl.po"
 PATCH_DIR="$ROOT_DIR/patches/gnome-extensions/spotlight"
@@ -19,7 +20,7 @@ if [[ ! -d "$EXT_DIR" ]]; then
   exit 0
 fi
 
-for cmd in python3 msgfmt patch; do
+for cmd in python3 msgfmt patch sha256sum; do
   command -v "$cmd" >/dev/null 2>&1 || {
     echo "FAIL: required command unavailable: $cmd" >&2
     exit 1
@@ -65,6 +66,12 @@ PY
 )
 [[ "$backup_version" == "$EXPECTED_VERSION" && "$backup_version_name" == "$EXPECTED_VERSION_NAME" ]] || {
   echo "FAIL: Spotlight pristine backup does not match v15 / 2026.15" >&2
+  exit 1
+}
+
+backup_appearance_sha="$(sha256sum "$BACKUP_DIR/prefs/appearancePage.js" | awk '{print $1}')"
+[[ "$backup_appearance_sha" == "$EXPECTED_APPEARANCE_SHA" ]] || {
+  echo "FAIL: Spotlight pristine appearancePage.js fingerprint differs: $backup_appearance_sha" >&2
   exit 1
 }
 

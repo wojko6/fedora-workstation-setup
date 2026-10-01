@@ -79,3 +79,9 @@ msgstr "Szczegółowy"
 #: dist/prefs.js:1027
 msgid "Follow currently selected layout"
 msgstr "Uwzględniaj aktualnie wybrany układ"
+
+msgid "LEFT CLICK"
+msgstr "LEWY PRZYCISK"
+
+msgid "RIGHT CLICK"
+msgstr "PRAWY PRZYCISK"

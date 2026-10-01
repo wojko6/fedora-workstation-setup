@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=Counter-Strike 2
 Comment=Play this game on Steam
+Comment[pl]=Uruchom tę grę w Steam
 Exec=steam steam://rungameid/730
 Icon=steam_icon_730
 Terminal=false

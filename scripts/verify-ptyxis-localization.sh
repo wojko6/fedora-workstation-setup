@@ -9,6 +9,7 @@ TARGET_MO="/usr/share/locale/pl/LC_MESSAGES/ptyxis.mo"
 LIBADWAITA_MO="/usr/share/locale/pl/LC_MESSAGES/libadwaita.mo"
 DESKTOP_FILE="/usr/share/applications/org.gnome.Ptyxis.desktop"
 DESKTOP_BACKUP="${DESKTOP_FILE}.fedora-workstation-setup.upstream.bak"
+LOCAL_DESKTOP="$HOME/.local/share/applications/org.gnome.Ptyxis.desktop"
 EXPECTED_DESKTOP_SHA256="8c596c2aff40ac062f61e6c541f0bccfa62091ce8503d63e2306d2e0a97f2b88"
 DESKTOP_PATCHER="$ROOT_DIR/scripts/ptyxis_desktop_actions.py"
 RESOURCE_AUDITOR="$ROOT_DIR/scripts/ptyxis_resource_audit.py"
@@ -65,7 +66,12 @@ fi
 
 python3 "$DESKTOP_PATCHER" --input "$DESKTOP_BACKUP" --output "$tmp_desktop"
 if ! cmp -s "$tmp_desktop" "$DESKTOP_FILE"; then
-    echo "FAIL: Ptyxis GNOME Shell desktop-action localization differs from repository-managed expected state" >&2
+    echo "FAIL: Ptyxis GNOME Shell desktop metadata/actions differ from repository-managed expected state" >&2
+    exit 1
+fi
+
+if [[ -e "$LOCAL_DESKTOP" ]]; then
+    echo "FAIL: per-user Ptyxis desktop override still shadows the repository-managed system launcher: $LOCAL_DESKTOP" >&2
     exit 1
 fi
 
@@ -181,4 +187,4 @@ _Credits|_Zasługi
 _Legal|_Kwestie prawne
 EOF
 
-echo "PASS: Ptyxis 50.1 Polish catalog, complete audited preference/profile resources, libadwaita About strings, and GNOME Shell desktop actions match repository"
+echo "PASS: Ptyxis 50.1 Polish catalog, complete audited preference/profile resources, libadwaita About strings, and GNOME Shell desktop metadata/actions match repository"

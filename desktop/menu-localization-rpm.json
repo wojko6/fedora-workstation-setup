@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "desktop": "btop.desktop",
+      "source": "/usr/share/applications/btop.desktop",
+      "sha256": "60277c5bee574d48e46b0991360c69876dbf3283a485412f89f8d00af0fa157e",
+      "owner": "btop-1.4.7-1.fc44.x86_64",
+      "translations": {
+        "GenericName": "Monitor systemu",
+        "Comment": "Monitor zasobów pokazujący użycie i statystyki procesora, pamięci, dysków, sieci i procesów"
+      }
+    },
+    {
+      "desktop": "net.poedit.Poedit.desktop",
+      "source": "/usr/share/applications/net.poedit.Poedit.desktop",
+      "sha256": "bde90000746e2390bfe7564e724bd2a0005931a7d0183e7d6612868c99431430",
+      "owner": "poedit-3.9.1-1.fc44.x86_64",
+      "translations": {
+        "GenericName": "Edytor tłumaczeń"
+      }
+    },
+    {
+      "desktop": "gns3.desktop",
+      "source": "/usr/share/applications/gns3.desktop",
+      "sha256": "69f2a3aafedb9657241e5053f4f66107742e8bb590bd6596d14e81503a76c0ba",
+      "owner": "gns3-gui-2.2.61-1.fc44.noarch",
+      "translations": {
+        "Comment": "Graficzny symulator sieci GNS3"
+      }
+    },
+    {
+      "desktop": "vncviewer.desktop",
+      "source": "/usr/share/applications/vncviewer.desktop",
+      "sha256": "9e5341db0a2e3f8b199bcab0eb2582cdd58765526b991731720e567ce6e1e2c2",
+      "owner": "tigervnc-1.16.2-4.fc44.x86_64",
+      "translations": {
+        "GenericName": "Przeglądarka zdalnego pulpitu",
+        "Comment": "Połącz się z serwerem VNC i wyświetl zdalny pulpit"
+      }
+    },
+    {
+      "desktop": "java-latest-openjdk-jconsole.desktop",
+      "source": "/usr/share/applications/java-latest-openjdk-jconsole.desktop",
+      "sha256": "8cb2aec634f6581a6d84bee7a8f06132e900b1714bdb8845d2623ad2cd8f4035",
+      "owner": "java-latest-openjdk-devel-27.0.0.0.35-0.0.1.0.ea.fc44.x86_64",
+      "translations": {
+        "Name": "Konsola monitorowania i zarządzania OpenJDK 27 dla x86_64",
+        "Comment": "Monitoruj aplikacje OpenJDK i zarządzaj nimi"
+      }
+    },
+    {
+      "desktop": "java-25-openjdk-jconsole.desktop",
+      "source": "/usr/share/applications/java-25-openjdk-jconsole.desktop",
+      "sha256": "edb9635f567d990d62f8a2d6e0631c7623bfe10a064c319065f9367825c25971",
+      "owner": "java-25-openjdk-devel-25.0.4.1.1-1.1.fc44.x86_64",
+      "translations": {
+        "Name": "Konsola monitorowania i zarządzania OpenJDK 25 dla x86_64",
+        "Comment": "Monitoruj aplikacje OpenJDK i zarządzaj nimi"
+      }
+    },
+    {
+      "desktop": "virtualbox.desktop",
+      "source": "/usr/share/applications/virtualbox.desktop",
+      "sha256": "1d4e9f4f55c69e8529a8182a0ec28bc96c0cca4454fd754f1fbc5527bac093cd",
+      "owner": "VirtualBox-7.2.18-1.fc44.x86_64",
+      "optional_in_vm": true,
+      "translations": {
+        "GenericName": "Oprogramowanie do wirtualizacji"
+      }
+    },
+    {
+      "desktop": "scrcpy.desktop",
+      "source": "/usr/share/applications/scrcpy.desktop",
+      "sha256": "608a068e994c40ebb78d9ecdfacb69ec2581c758374bf9454477124b075ed49b",
+      "owner": "scrcpy-4.1-2.fc44.x86_64",
+      "translations": {
+        "GenericName": "Zdalne sterowanie Androidem",
+        "Comment": "Wyświetlaj ekran urządzenia z Androidem i steruj nim"
+      }
+    },
+    {
+      "desktop": "scrcpy-console.desktop",
+      "source": "/usr/share/applications/scrcpy-console.desktop",
+      "sha256": "42438c932fbdab10bb3035591a6dd77b84fe9ef79faeb291cfef1f232ef91552",
+      "owner": "scrcpy-4.1-2.fc44.x86_64",
+      "translations": {
+        "GenericName": "Zdalne sterowanie Androidem",
+        "Comment": "Wyświetlaj ekran urządzenia z Androidem i steruj nim"
+      }
+    }
+  ]
+}

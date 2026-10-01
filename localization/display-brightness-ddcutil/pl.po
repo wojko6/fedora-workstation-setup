@@ -129,3 +129,9 @@ msgstr "Szczegółowe debugowanie"
 
 msgid "White Backlight"
 msgstr "Białe podświetlenie"
+
+msgid "Need to enable (\"All\" slider)"
+msgstr "Należy włączyć (suwak „Wszystkie”)"
+
+msgid "Need to disable (Only \"All\" slider)"
+msgstr "Należy wyłączyć (tylko suwak „Wszystkie”)"

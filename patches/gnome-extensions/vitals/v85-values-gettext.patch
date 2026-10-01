@@ -1,0 +1,19 @@
+--- a/values.js
++++ b/values.js
+@@ -25,6 +25,7 @@
+ */
+ 
+ import GObject from 'gi://GObject';
++import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
+ 
+ import {sensorCatalog, colorsKeyForSensor} from './helpers/catalog.js';
+ import {getUsageColor} from './helpers/colors.js';
+@@ -59,7 +60,7 @@
+     _legible(value, sensorClass, type, sensorKey = null) {
+         let unit = 1000;
+         if (value === null)
+-            return { text: 'N/A', style: '' };
++            return { text: _('N/A'), style: '' };
+         let use_higher_precision = this._settings.get_boolean('use-higher-precision');
+         let memory_measurement = this._settings.get_int('memory-measurement')
+         let storage_measurement = this._settings.get_int('storage-measurement')

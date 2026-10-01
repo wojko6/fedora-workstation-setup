@@ -82,9 +82,9 @@ audit_event_by_serial() {
   local serial="$1"
 
   if [[ "$audit_method" == "ausearch" ]]; then
-    ausearch -a "$serial" -ts boot -i 2>/dev/null
+    env LC_ALL=C LANG=C ausearch -a "$serial" -ts boot -i 2>/dev/null
   elif [[ "$audit_method" == "sudo ausearch" ]]; then
-    sudo ausearch -a "$serial" -ts boot -i 2>/dev/null
+    sudo env LC_ALL=C LANG=C ausearch -a "$serial" -ts boot -i 2>/dev/null
   else
     return 1
   fi
@@ -134,11 +134,11 @@ audit_method=""
 
 if command -v ausearch >/dev/null 2>&1; then
   if (( EUID == 0 )); then
-    audit_output="$(ausearch -m AVC,USER_AVC,SELINUX_ERR,USER_SELINUX_ERR -ts boot --raw 2>&1)"
+    audit_output="$(env LC_ALL=C LANG=C ausearch -m AVC,USER_AVC,SELINUX_ERR,USER_SELINUX_ERR -ts boot --raw 2>&1)"
     audit_rc=$?
     audit_method="ausearch"
   elif command -v sudo >/dev/null 2>&1; then
-    audit_output="$(sudo ausearch -m AVC,USER_AVC,SELINUX_ERR,USER_SELINUX_ERR -ts boot --raw 2>&1)"
+    audit_output="$(sudo env LC_ALL=C LANG=C ausearch -m AVC,USER_AVC,SELINUX_ERR,USER_SELINUX_ERR -ts boot --raw 2>&1)"
     audit_rc=$?
     audit_method="sudo ausearch"
   fi
