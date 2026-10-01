@@ -124,8 +124,8 @@ is_known_systemd_rfkill_write_only_uevent_event() {
   avc_count="$(grep -Ec '^type=AVC ' <<<"$event" || true)"
   [[ "$avc_count" == "2" ]] || return 1
 
-  grep -Eq '^type=AVC .*denied[[:space:]]+\{[[:space:]]*dac_override[[:space:]]*\} .*comm=systemd-rfkill .*scontext=system_u:system_r:systemd_rfkill_t:s0 .*tcontext=system_u:system_r:systemd_rfkill_t:s0 .*tclass=capability .*permissive=0' <<<"$event" || return 1
-  grep -Eq '^type=AVC .*denied[[:space:]]+\{[[:space:]]*dac_read_search[[:space:]]*\} .*comm=systemd-rfkill .*scontext=system_u:system_r:systemd_rfkill_t:s0 .*tcontext=system_u:system_r:systemd_rfkill_t:s0 .*tclass=capability .*permissive=0' <<<"$event" || return 1
+  grep -Eq '^type=AVC .*denied[[:space:]]+\{[[:space:]]*dac_override[[:space:]]*\} .*comm="?systemd-rfkill"? .*scontext=system_u:system_r:systemd_rfkill_t:s0 .*tcontext=system_u:system_r:systemd_rfkill_t:s0 .*tclass=capability .*permissive=0' <<<"$event" || return 1
+  grep -Eq '^type=AVC .*denied[[:space:]]+\{[[:space:]]*dac_read_search[[:space:]]*\} .*comm="?systemd-rfkill"? .*scontext=system_u:system_r:systemd_rfkill_t:s0 .*tcontext=system_u:system_r:systemd_rfkill_t:s0 .*tclass=capability .*permissive=0' <<<"$event" || return 1
 }
 
 audit_output=""
