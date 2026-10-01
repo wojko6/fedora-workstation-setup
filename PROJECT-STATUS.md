@@ -1,6 +1,6 @@
 # Project Status
 
-**Status:** Physical baseline refreshed and accepted 2026-09-26; User Themes v79 / 50.4 Polish localization and selective Polish display names for ten descriptive GNOME extensions physically accepted; Recovery and Stability Gates remain passed; full physical verifier clean at PASS=258 WARN=0 FAIL=0 SKIP=0
+**Status:** Physical baseline refreshed and accepted 2026-10-01; DING v99 migrated from the per-user auto-update path to a root-owned managed-system tree and physically/visually accepted; Recovery and Stability Gates remain passed; full physical verifier clean at PASS=266 WARN=0 FAIL=0 SKIP=0
 
 **Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
 
@@ -22,14 +22,22 @@ PASS=147 WARN=0 FAIL=0 SKIP=8
 
 The eight `SKIP` results are intentional environment-specific exclusions rather than unresolved warnings.
 
-After the 2026-09-26 localization acceptance, including User Themes v79 / 50.4, selective Polish extension display names, ArcMenu v74, DING v97 desktop-menu completion, GSConnect v73 verification, Helium 0.18.1.1 re-audit, and restoration of the accepted Space Bar desired-state value, the physical-workstation verifier completed with:
+After the 2026-10-01 DING lifecycle acceptance and reconciliation of incidental Dhruva/Space Bar desired-state drift, the physical-workstation verifier completed with:
 
 ```text
-PASS=258 WARN=0 FAIL=0 SKIP=0
+PASS=266 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes ArcMenu v74 / 70.0 with its exact-version gettext-domain binding fix, GSConnect v73 and ddterm v73 localization, the fully accepted Clipboard Indicator v71 64-entry completion, the completed DING v97 desktop background menu and Arrange By submenu in Polish, Helium 0.18.1.1 / Chromium 154.0.8037.57 with strict 36-entry DataPack verification, the dedicated `workstation-tailscale` DROP policy, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, and D-H4 deterministic whole-tree integrity verification for every enabled user GNOME extension. Ptyxis 50.1 remains fully physically accepted from the 2026-09-24 audit cycle. Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
+This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes ArcMenu v74 / 70.0 with its exact-version gettext-domain binding fix, GSConnect v73 and ddterm v73 localization, the fully accepted Clipboard Indicator v71 64-entry completion, DING v99 in the managed system scope with its complete Polish desktop menu and `Monitor systemu` integration, Helium 0.18.1.1 / Chromium 154.0.8037.57 with strict 36-entry DataPack verification, the dedicated `workstation-tailscale` DROP policy, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, deterministic whole-tree integrity verification for all 21 enabled per-user GNOME extensions, and an independent exact managed-tree hash for DING. Ptyxis 50.1 remains fully physically accepted from the 2026-09-24 audit cycle. Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
+
+## 2026-10-01 DING v99 managed-system acceptance
+
+A recurring lifecycle failure was traced to GNOME Shell's normal per-user extension update path replacing repository-managed DING customizations with pristine upstream v99 bytes. The accepted design moves only DING to the system data path under `/usr/local/share/gnome-shell/extensions/`; all other extensions remain per-user.
+
+The managed builder verifies the exact official v99 archive SHA-256, pristine metadata/menu/catalog fingerprints, the repository Polish catalog and exact System Monitor patch, compiles schemas, normalizes system-scope permissions before hashing, and produces deterministic tree SHA-256 `08a0c6e4ecb72c8e4693134c061cedfc88090054c98179de3dfd2fac2669a714`. Migration removes the old per-user DING copy and any pending per-user DING update, preserves rollback backups, restores SELinux labels, and requires a GNOME logout/login before runtime-path acceptance.
+
+Post-login validation confirmed DING v99 is `ACTIVE` from the managed-system path, the per-user and pending-update copies are absent, the Polish desktop menu and `Monitor systemu` action are present, and the full physical verifier completed at `PASS=266 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
 
 ## 2026-09-26 localization acceptance
 
@@ -48,7 +56,7 @@ PASS=258 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-All 22 enabled user-extension trees match the accepted integrity lock in this final state.
+All 21 enabled per-user extension trees match the accepted user integrity lock, and DING v99 independently matches the managed-system tree lock in this final state.
 
 ## Current desired state
 
@@ -69,9 +77,9 @@ The physical-host desired state includes:
 - GSConnect D-Bus integration and KDE Connect firewalld service;
 - repository-managed Polish localization verification;
 - extension version pinning and drift detection;
-- fail-closed source locking for enabled user extensions, including SHA-256 pins for EGO archives and an exact GitHub commit pin for Dhruva;
-- deterministic whole-tree SHA-256 integrity locks for all 22 enabled user extensions, with same-version drift detection and restore enforcement;
-- a version-pinned DING v97 desktop-menu customization that adds `Monitor systemu`, launches `org.gnome.SystemMonitor.desktop`, is restored by `install.sh`, verified explicitly, and is covered by the D-H4 tree lock;
+- fail-closed source locking for enabled per-user extensions, including SHA-256 pins for EGO archives and an exact GitHub commit pin for Dhruva;
+- deterministic whole-tree SHA-256 integrity locks for all 21 enabled per-user extensions, with same-version drift detection and restore enforcement;
+- DING v99 installed as a root-owned managed-system extension under `/usr/local/share/gnome-shell/extensions/ding@rastersoft.com`, built from the exact audited EGO archive, normalized for system-scope permissions, pinned to managed-tree SHA-256 `08a0c6e4ecb72c8e4693134c061cedfc88090054c98179de3dfd2fac2669a714`, with per-user and pending-update copies required absent;
 - `gnome-system-monitor` as an explicit RPM desired-state dependency;
 - strict JSON metadata validation for EGO and pinned GitHub extension sources.
 
@@ -190,7 +198,7 @@ Papers 49.8 uses a minimal completion overlay for the Nautilus document-properti
 
 Plymouth offline-update localization is now fully physically validated. During a real Fedora offline-update cycle on **2026-09-22**, the physical workstation displayed the update screen in Polish, including `Instalowanie aktualizacji…`, `Nie należy wyłączać komputera`, and translated progress text (`Ukończono 13%` was observed). This closes the previous evidence gap between technically verified initramfs contents and actual user-visible runtime behavior.
 
-`scripts/install-localizations.sh` now manages 27 localization targets/operations: four generic gettext targets, 16 specialized GNOME-extension stages, six application/system stages (Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks), and one selective extension display-name stage. Dedicated localization verifiers are integrated into the main `scripts/verify.sh`. GSConnect v73, ddterm v73, and the complete Ptyxis 50.1 localization passed their dedicated physical checks and visual acceptance, and the final 2026-09-24 full physical verifier completed cleanly at `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
+`scripts/install-localizations.sh` now manages 26 localization targets/operations: three generic gettext targets, 16 specialized GNOME-extension stages, six application/system stages (Papers, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks), and one selective extension display-name stage. DING v99 is built and verified separately as a managed-system extension. Dedicated localization verifiers are integrated into the main `scripts/verify.sh`. GSConnect v73, ddterm v73, and the complete Ptyxis 50.1 localization passed their dedicated physical checks and visual acceptance, and the final 2026-09-24 full physical verifier completed cleanly at `PASS=256 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
 
 ## GSConnect/ddterm v73 localization promotion — 2026-09-24
 
