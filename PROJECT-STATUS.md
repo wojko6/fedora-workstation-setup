@@ -87,9 +87,16 @@ and NVIDIA open-kernel-module 615.71.09
 which is not inherently a failure in the NVIDIA open-module
 automatic notifier path; loaded module parameters remain to be
 checked. No successful resume was observed and the root cause
-is **unconfirmed**. Until further evidence/reversible testing,
-**avoid suspend** and do not promote KDE for power-management
-acceptance. See the 2026-10-10 worklog.
+is **unconfirmed**. A supervised nonpersistent switch to `s2idle` followed by
+`rtcwake -m mem -s 45` produced a successful kernel
+`PM: suspend entry (s2idle)` at 15:30:27 and
+`PM: suspend exit` at 15:31:15. The operator confirmed both screens
+and KDE resumed. Subsequent checks reported `active` for NetworkManager,
+Tailscale, Grafana, ASUS router monitoring and Pi-hole API tunnel, plus
+zero failed system and user services. **One s2idle suspend/resume test
+passed; deep remains failed.** This is a temporary sysfs selection
+and resets at reboot. Repeatability and root cause remain unverified;
+KDE power-management acceptance is pending. See the 2026-10-10 worklog.
 
 ## 2026-10-01 localization and restore completion
 
