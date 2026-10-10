@@ -40,13 +40,35 @@ user failed-unit lists were empty after a fresh KDE login. The NVIDIA,
 Tailscale, authorized ASUS administrative Wi-Fi access and four dependent
 ASUS monitoring/sync user services had successful observed runtime checks.
 
-The day's diagnostics also captured one GNOME Shell SIGABRT while changing
-sessions; its root cause is not yet proven. A recurring AK820 keyboard boot
+The 2026-10-10 GNOME fallback attempt **failed** with a blank display /
+login loop. Logs show the prior KDE logind session removed while KDE graphical
+targets/processes persisted in the user systemd manager. GNOME's
+`gnome-session-init-worker` then aborted with **`A graphical session is
+already running!`**. The old KDE session was subsequently recovered from TTY3
+by terminating the failed logind graphical session and stopping only the stale
+KWin/Plasma user services; a fresh Plasma login succeeded. An Xwayland Video
+Bridge startup abort was recovered through a targeted service restart.
+Twenty-four DrKonqi processor instances timed out during the crash burst;
+their failed states were reviewed and reset without deleting journal/coredump
+evidence. Final checks reported **zero failed system units and zero failed user
+units**. These observations indicate *current KDE recovery*, **not** a proven
+fix for GNOME/KDE session switching.
+
+Bounded post-recovery checks also found running GDM, NetworkManager,
+Tailscale, Grafana, Blackbox Exporter, ASUS router monitoring and Pi-hole
+API tunnel. RouterCloud sync completed successfully, and the latest five
+checked collector/import/backup jobs had `Result=success` and
+`ExecMainStatus=0`. Data integrity/backup restoration were not validated.
+A Brave Origin/standard-Brave normal-mode browsing timeout remains deferred;
+an additional standard Brave RPM was installed by explicit local operator
+choice during diagnosis. GDM auto-login was disabled during recovery, with
+its original configuration backed up. A recurring AK820 keyboard boot
 enumeration issue was narrowed to a rear USB path containing an intermediate
 Genesys Logic hub. The keyboard currently works on a separate side port,
 but cold-boot regression testing remains pending.
 
-**Acceptance boundary:** Issue #12's full GNOME/KDE coexistence,
+**Acceptance boundary:** The GNOME login/session-switching fallback criterion
+is currently **FAILED**. Issue #12's full GNOME/KDE coexistence,
 rollback, portal/keyring/audio and reproducible KDE restore validation has
 not yet completed. The existing accepted GNOME desired-state and historical
 full-verifier results are **not** reclassified as KDE verification.
