@@ -12,6 +12,14 @@ The goal of this repository is to rebuild the workstation after a clean Fedora i
 - Lenovo Legion 5 15ACH6H
 - Wi-Fi: Realtek RTL8852AE (`rtw89_8852ae`)
 
+> **2026-10-10 desktop pilot:** KDE Plasma 6.7.5 / Wayland is now running
+> successfully on the physical Fedora 44 workstation. This is an operational
+> smoke-test checkpoint, **not** a new reproducible desired-state baseline.
+> GNOME/GDM remain installed; KDE full coexistence and restore gates are
+> still open under [Issue #12](https://github.com/wojko6/fedora-workstation-setup/issues/12).
+> See [today's worklog](docs/WORKLOG-2026-10-10.md) for verified evidence,
+> remaining GNOME Shell coredump investigation, and USB keyboard follow-up.
+
 ## Engineering roadmap
 
 The current accepted production baseline remains **Fedora 44 / GNOME Shell 50.5 / Wayland**.
