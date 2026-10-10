@@ -75,6 +75,22 @@ full-verifier results are **not** reclassified as KDE verification.
 See [docs/WORKLOG-2026-10-10.md](docs/WORKLOG-2026-10-10.md).
 Localization review is deferred to the next Fedora/KDE release cycle.
 
+## 2026-10-10 suspend/resume regression (open blocker)
+
+After the recovered KDE session, the physical Lenovo Legion 5
+experienced black screens on **both displays** after attempting to
+wake from suspend and required a hard reset. The previous boot's
+system log reached `PM: suspend entry (deep)` at **14:54:04**
+and NVIDIA open-kernel-module 615.71.09
+`Lost display notification` warning at **14:54:07**.
+`nvidia-suspend.service` was skipped by an execution condition,
+which is not inherently a failure in the NVIDIA open-module
+automatic notifier path; loaded module parameters remain to be
+checked. No successful resume was observed and the root cause
+is **unconfirmed**. Until further evidence/reversible testing,
+**avoid suspend** and do not promote KDE for power-management
+acceptance. See the 2026-10-10 worklog.
+
 ## 2026-10-01 localization and restore completion
 
 The final 2026-10-01 audit closed the remaining accepted Polish localization and restore-policy gaps. Current managed completion counts are Caffeine v60 = 5, ArcMenu v74 = 1, GSConnect v73 = 22, Tiling Shell v76 / 17.3 = 17, Blur my Shell v72 = 62, Vitals v85 = 134, and AppIndicator v64 = 7.
