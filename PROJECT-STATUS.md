@@ -31,6 +31,28 @@ VERIFY_RC=0
 
 This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes ArcMenu v74 / 70.0 with its exact-version gettext-domain binding fix, GSConnect v73 and ddterm v73 localization, the fully accepted Clipboard Indicator v71 64-entry completion, DING v99 in the managed system scope with its complete Polish desktop menu and `Monitor systemu` integration, Helium 0.18.1.1 / Chromium 154.0.8037.57 with strict 36-entry DataPack verification, the dedicated `workstation-tailscale` DROP policy, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, deterministic whole-tree integrity verification for all 21 enabled per-user GNOME extensions, and an independent exact managed-tree hash for DING. Ptyxis 50.1 remains fully physically accepted from the 2026-09-24 audit cycle. Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
 
+## 2026-10-10 KDE operational pilot (not desired-state promotion)
+
+KDE Plasma 6.7.5 / Wayland was installed and operated successfully on the
+physical Fedora 44 workstation. GNOME remains installed as fallback and
+GDM remains the display manager. KWin and Plasma Shell were active; system and
+user failed-unit lists were empty after a fresh KDE login. The NVIDIA,
+Tailscale, authorized ASUS administrative Wi-Fi access and four dependent
+ASUS monitoring/sync user services had successful observed runtime checks.
+
+The day's diagnostics also captured one GNOME Shell SIGABRT while changing
+sessions; its root cause is not yet proven. A recurring AK820 keyboard boot
+enumeration issue was narrowed to a rear USB path containing an intermediate
+Genesys Logic hub. The keyboard currently works on a separate side port,
+but cold-boot regression testing remains pending.
+
+**Acceptance boundary:** Issue #12's full GNOME/KDE coexistence,
+rollback, portal/keyring/audio and reproducible KDE restore validation has
+not yet completed. The existing accepted GNOME desired-state and historical
+full-verifier results are **not** reclassified as KDE verification.
+See [docs/WORKLOG-2026-10-10.md](docs/WORKLOG-2026-10-10.md).
+Localization review is deferred to the next Fedora/KDE release cycle.
+
 ## 2026-10-01 localization and restore completion
 
 The final 2026-10-01 audit closed the remaining accepted Polish localization and restore-policy gaps. Current managed completion counts are Caffeine v60 = 5, ArcMenu v74 = 1, GSConnect v73 = 22, Tiling Shell v76 / 17.3 = 17, Blur my Shell v72 = 62, Vitals v85 = 134, and AppIndicator v64 = 7.
