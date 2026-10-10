@@ -31,7 +31,7 @@ This directory contains the reviewed operational and validation documentation fo
 - [WORKLOG-2026-09-25.md](WORKLOG-2026-09-25.md) — ArcMenu v74, DING v97 menu completion, GSConnect v73 consistency validation, Helium 0.18.1.1 re-audit, and final zero-warning physical acceptance.
 - [WORKLOG-2026-09-26.md](WORKLOG-2026-09-26.md) — User Themes v79 localization, selective Polish extension display names, GNOME metadata-cache diagnosis, tree-lock promotion, desired-state reconciliation, and PASS=258 physical acceptance.
 - [WORKLOG-2026-10-01.md](WORKLOG-2026-10-01.md) — syslog-ng/Tailscale boot-race remediation plus the DING v99 managed-system lifecycle migration and final PASS=266 physical acceptance.
-- [WORKLOG-2026-10-10.md](WORKLOG-2026-10-10.md) — Fedora 44 KDE Plasma 6.7.5 physical pilot, network/admin allowlist validation, GNOME Shell abort investigation and AK820 USB diagnostics; promotion remains pending.
+- [WORKLOG-2026-10-10.md](WORKLOG-2026-10-10.md) — Fedora 44 KDE Plasma 6.7.5 pilot, failed GNOME fallback, KDE/Xwayland recovery, DrKonqi timeout closure, ASUS service audit, deferred Brave issue, and AK820 USB diagnostics; promotion remains pending.
 
 ## Verification entrypoints
 
