@@ -31,6 +31,64 @@ VERIFY_RC=0
 
 This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes ArcMenu v74 / 70.0 with its exact-version gettext-domain binding fix, GSConnect v73 and ddterm v73 localization, the fully accepted Clipboard Indicator v71 64-entry completion, DING v99 in the managed system scope with its complete Polish desktop menu and `Monitor systemu` integration, Helium 0.18.1.1 / Chromium 154.0.8037.57 with strict 36-entry DataPack verification, the dedicated `workstation-tailscale` DROP policy, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, deterministic whole-tree integrity verification for all 21 enabled per-user GNOME extensions, and an independent exact managed-tree hash for DING. Ptyxis 50.1 remains fully physically accepted from the 2026-09-24 audit cycle. Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
 
+## 2026-10-11 NVIDIA downgrade and KDE screen-lock regression (partial mitigation; open)
+
+After severe suspend/resume black-screen failures in the KDE Wayland pilot
+with NVIDIA 615.71.09, the physical Fedora 44 Lenovo Legion 5 was
+**manually downgraded to NVIDIA Open 610.57.04** from verified, signed
+RPM Fusion Fedora 44 RPMs. A 12-package 615 recovery set and three cached
+kernel-specific 615 kmod RPMs were backed up and checked locally outside Git.
+The initial automated approach failed before any RPM transaction because of
+invalid DNF5 option ordering; after recovery of the unchanged 615 installation,
+the actual interactive TTY downgrade completed successfully. The faulty
+automation script was disabled and has **not** been accepted as a runbook.
+
+After reboot, `nvidia-smi` reported NVIDIA-SMI/KMD **610.57.04**,
+`modinfo` reported signed `610.57.04` with `Dual MIT/GPL` license,
+and KDE / Wayland, KWin/Plasma, NetworkManager and Tailscale were operational.
+The active sleep selection was `s2idle [deep]`. Two supervised deep/RTC
+suspend cycles returned to a usable desktop:
+
+- **12:17:14** `PM: suspend entry (deep)` → **12:17:53**
+  `PM: suspend exit`;
+- **12:31:50** `PM: suspend entry (deep)` → **12:33:57**
+  `PM: suspend exit`.
+
+**Critical residual defect:** in **both** cycles the KDE
+`kscreenlocker_greet` process crashed with SIGSEGV a few seconds after
+the kernel resumed (12:17:59 and 12:34:03). Each failure mapped to
+`libPlasmaQuick.so.6.7.5` at relative offset `0x36fe1`, symbol
+`PlasmaQuick::SharedQmlEngine::rootObject() const`; KWin restarted the
+lock greeter. Numerous Qt applications reported
+`There are no outputs - creating placeholder screen` during the
+display-output reinitialization. A normal `Meta+L` lock/unlock test
+passed without a matching new crash. The KDE/Qt `rpm -V` integrity audit
+passed, and inspected kernel wake windows did **not** show the previous
+615 NVRM/GSP failures.
+
+The workstation is deliberately operated with the **lid closed**, only
+an external **DP-2 2560×1440 @ 180 Hz** display enabled, and the
+internal `eDP-1` disabled. A libddcutil/PowerDevil
+`DDCA_EVENT_DISPLAY_CONNECTED` event involved the **internal** eDP
+panel; a physical external-DP disconnect is **not** proven. The exact
+root cause remains unknown. KScreenLocker 6.7.5 intentionally disables
+process dumpability, so no full credential-bearing core dump was collected.
+The user submitted [KDE Bug #526934](https://bugs.kde.org/show_bug.cgi?id=526934)
+and enabled daily change-only monitoring. The local investigation stays
+open under [Issue #51](https://github.com/wojko6/fedora-workstation-setup/issues/51).
+
+**Acceptance boundary:** NVIDIA 610 is a successful operational rollback
+and has **2/2 observed successful deep GPU resumes**, but KDE
+screen-lock recovery **failed 2/2**; this is **not** final suspend/resume
+acceptance. No `s2idle` regression series for 610, no full KDE
+coexistence/clean-room restore and no new physical-host verifier aggregate
+were accepted. Potential re-upgrade to 615 during future DNF maintenance
+has not yet been assessed with a verified version-lock policy. The
+canonical GNOME 50.5 desired state and historical
+`PASS=277 WARN=0 FAIL=0 SKIP=0` acceptance remain unchanged.
+See [docs/WORKLOG-2026-10-11.md](docs/WORKLOG-2026-10-11.md)
+and [KDE Bug #526934](https://bugs.kde.org/show_bug.cgi?id=526934).
+
 ## 2026-10-10 KDE operational pilot (not desired-state promotion)
 
 KDE Plasma 6.7.5 / Wayland was installed and operated successfully on the
