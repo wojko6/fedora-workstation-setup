@@ -32,6 +32,7 @@ This directory contains the reviewed operational and validation documentation fo
 - [WORKLOG-2026-09-26.md](WORKLOG-2026-09-26.md) — User Themes v79 localization, selective Polish extension display names, GNOME metadata-cache diagnosis, tree-lock promotion, desired-state reconciliation, and PASS=258 physical acceptance.
 - [WORKLOG-2026-10-01.md](WORKLOG-2026-10-01.md) — syslog-ng/Tailscale boot-race remediation plus the DING v99 managed-system lifecycle migration and final PASS=266 physical acceptance.
 - [WORKLOG-2026-10-10.md](WORKLOG-2026-10-10.md) — Fedora 44 KDE Plasma 6.7.5 pilot, failed GNOME fallback, KDE/Xwayland recovery, DrKonqi timeout closure, ASUS service audit, deferred Brave issue, and AK820 USB diagnostics; promotion remains pending.
+- [WORKLOG-2026-10-11.md](WORKLOG-2026-10-11.md) — signed NVIDIA 610.57.04 rollback with an offline 615 recovery set, DNF/GDM recovery incident, two successful deep GPU resumes, reproducible PlasmaQuick screen-lock SIGSEGV (2/2), and upstream KDE Bug #526934; KDE desired-state promotion remains pending.
 
 ## Verification entrypoints
 
