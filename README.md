@@ -22,8 +22,20 @@ The goal of this repository is to rebuild the workstation after a clean Fedora i
 > connectivity remains a separate deferred issue.
 > GNOME/GDM remain installed; KDE full coexistence and restore gates are
 > still open under [Issue #12](https://github.com/wojko6/fedora-workstation-setup/issues/12).
-> See [today's worklog](docs/WORKLOG-2026-10-10.md) for the incident,
+> See the [2026-10-10 worklog](docs/WORKLOG-2026-10-10.md) for the incident,
 > recovery evidence, open issues, and USB keyboard follow-up.
+
+> **2026-10-11 NVIDIA / suspend update:** the current physical KDE Wayland
+> session uses the signed NVIDIA **610.57.04 Open** driver after a verified
+> rollback from 615.71.09. Two controlled `deep` suspend/resume cycles
+> restored the GPU and desktop, but **both** triggered a repeatable
+> `kscreenlocker_greet` SIGSEGV in PlasmaQuick 6.7.5. The workaround is
+> only a **partial mitigation**, not KDE power-management acceptance.
+> Preserve the operator's closed-lid external DP-2 2560×1440@180 Hz setup;
+> upstream [KDE Bug #526934](https://bugs.kde.org/show_bug.cgi?id=526934)
+> and local [Issue #51](https://github.com/wojko6/fedora-workstation-setup/issues/51)
+> remain open. See [2026-10-11 worklog](docs/WORKLOG-2026-10-11.md).
+> GNOME 50.5 remains the accepted reproducible baseline.
 
 ## Engineering roadmap
 
@@ -65,7 +77,7 @@ GSConnect was validated beyond shell-extension state: its user D-Bus service was
 
 The workstation also defines a dedicated `workstation-tailscale` firewalld zone for `tailscale0`. Its base policy is `target=DROP` with no firewalld services, broad explicit ports, protocols, sources, forwarding, masquerade, or ICMP inversion. When the private ASUS Edge syslog-ng collector configuration is present, the exact state contains one narrowly derived rich-rule exception: the single Tailscale `/32` source declared by the collector may reach its TCP collector port (6514 by default). No private Tailnet address is stored in the public repository. This prevents unrelated Tailscale traffic from falling through to Fedora's broader `FedoraWorkstation` default-zone policy while preserving outbound/established Tailscale connectivity and the explicit logging path. A live 2026-09-24 A/B test changed remote TCP/1716 and TCP/27036 from `open` to `filtered`, the dedicated-zone assignment persisted across reboot, and the final physical verifier accepted both runtime and permanent Tailscale-zone state.
 
-The physical validation also includes reproducible LLMNR disablement, kernel pointer hardening, disabled GNOME/GVfs WS-Discovery, the physically accepted D-H1 trusted-Wi-Fi firewalld boundary, the D-H2/D-H3 fail-closed verifier layer, D-H4 whole-tree GNOME-extension integrity, and the version-pinned DING v99 managed-system deployment that launches GNOME System Monitor. The active Wi-Fi profile is gated by reviewed NetworkManager UUID and uses the dedicated `workstation-kdeconnect` zone in exact state with only `dhcpv6-client`, `mdns`, and `kdeconnect`; SSH, forwarding, masquerade, explicit ports/protocols/sources and rich rules are absent, while `kdeconnect` is removed from every other permanent zone. The verifier also checks SELinux/AVC state, disabled SSH service/socket and TCP/22 listener state, kernel lockdown, NVIDIA/MOK signing evidence, runtime/permanent firewalld exact state, required RPM/repository/Tailscale/Flatpak state, 21 enabled per-user extension trees against `gnome/extensions-tree-lock.tsv` plus the managed-system DING tree against `gnome/managed-system-extensions.tsv`; the physical target is accepted only with zero FAIL and zero WARN. The workstation also remained operational after the NVIDIA 615.71.09 update, with an active Secure Boot path and signed NVIDIA kernel module, plus reproducible DDC/CI support for external-monitor brightness control. LUKS remains explicitly deferred; the repository does not claim full-disk encryption for the current installation.
+The physical validation also includes reproducible LLMNR disablement, kernel pointer hardening, disabled GNOME/GVfs WS-Discovery, the physically accepted D-H1 trusted-Wi-Fi firewalld boundary, the D-H2/D-H3 fail-closed verifier layer, D-H4 whole-tree GNOME-extension integrity, and the version-pinned DING v99 managed-system deployment that launches GNOME System Monitor. The active Wi-Fi profile is gated by reviewed NetworkManager UUID and uses the dedicated `workstation-kdeconnect` zone in exact state with only `dhcpv6-client`, `mdns`, and `kdeconnect`; SSH, forwarding, masquerade, explicit ports/protocols/sources and rich rules are absent, while `kdeconnect` is removed from every other permanent zone. The verifier also checks SELinux/AVC state, disabled SSH service/socket and TCP/22 listener state, kernel lockdown, NVIDIA/MOK signing evidence, runtime/permanent firewalld exact state, required RPM/repository/Tailscale/Flatpak state, 21 enabled per-user extension trees against `gnome/extensions-tree-lock.tsv` plus the managed-system DING tree against `gnome/managed-system-extensions.tsv`; the physical target is accepted only with zero FAIL and zero WARN. A historical smoke test after the NVIDIA 615.71.09 update also confirmed an active Secure Boot path and signed module, plus reproducible DDC/CI support for external-monitor brightness control. This does not describe the current runtime driver, which was subsequently rolled back to 610.57.04 on 2026-10-11. LUKS remains explicitly deferred; the repository does not claim full-disk encryption for the current installation.
 
 NordVPN, gNordVPN-Local, and Freon are intentionally absent from the current workstation desired state. Tailscale remains the supported overlay/VPN component tracked by the repository.
 
