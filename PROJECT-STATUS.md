@@ -31,6 +31,48 @@ VERIFY_RC=0
 
 This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes ArcMenu v74 / 70.0 with its exact-version gettext-domain binding fix, GSConnect v73 and ddterm v73 localization, the fully accepted Clipboard Indicator v71 64-entry completion, DING v99 in the managed system scope with its complete Polish desktop menu and `Monitor systemu` integration, Helium 0.18.1.1 / Chromium 154.0.8037.57 with strict 36-entry DataPack verification, the dedicated `workstation-tailscale` DROP policy, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, deterministic whole-tree integrity verification for all 21 enabled per-user GNOME extensions, and an independent exact managed-tree hash for DING. Ptyxis 50.1 remains fully physically accepted from the 2026-09-24 audit cycle. Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
 
+## 2026-10-13 repeat NVIDIA update regression — operational recovery, not final acceptance
+
+On 2026-10-13, DNF5 history transaction **118** replaced the manually
+recovered NVIDIA **610.57.04** stack with **615.71.09** and installed kernel
+**7.2.9-201**. No NVIDIA version lock had been set. After another failed
+display/suspend recovery, selected previous-boot logs showed a
+`nvidia-modeset` `Lost display notification` warning, KWin inhibitor
+timeout, and `PM: suspend entry (deep)` without a matching normal exit
+in the inspected excerpt. The subsequent reboot was observed; the precise
+failure stage and exclusive driver causation remain unproven.
+
+The operator reverified **12** archived NVIDIA 610 Fedora 44 RPMs, confirmed
+a DNF5 `--assumeno downgrade --allowerasing` transaction of **12 NVIDIA
+downgrades plus removal of only the conflicting 615 kernel-specific kmod**,
+then completed that transaction. The default boot kernel was deliberately
+returned to **7.2.9-200** with its already-built **610.57.04** module.
+Following restart, live `nvidia-smi` and the kernel NVIDIA module both
+reported **610.57.04**; KDE / Wayland was available with no failed
+system/user units in the observed checkpoint.
+
+A KDE-controlled monitor-off/on test passed, followed by **one** explicit
+`deep` sleep/resume cycle: `PM: suspend entry (deep)` at **12:25:57**
+and `PM: suspend exit` at **12:26:40**. Systemd confirmed successful return.
+Ten DNF5 NVIDIA **610.57.04** version locks were then verified;
+`installonly_limit` was changed from 3 to **5**,
+`protect_running_kernel=1` remained enabled, and `/boot` had
+**997 MB free** out of 2.0 GB. Retaining five kernels does **not**
+indefinitely protect a specific old kernel or guarantee newer kernels
+will build against the locked driver.
+
+**Acceptance boundary:** this is a successful bounded operational recovery,
+**not** proof of long-term stability, isolated root cause or a fix for
+the 2026-10-11 repeatable KDE screen-lock `kscreenlocker_greet` SIGSEGV.
+The October 13 operator log excerpt did not specifically test the greeter;
+KDE Issue #51 / upstream Bug #526934 stay open. No new
+GNOME/KDE clean-room promotion or full physical-verifier acceptance is
+claimed; the accepted Fedora 44 / GNOME 50.5 baseline and historical
+`PASS=277 WARN=0 FAIL=0 SKIP=0` remain unchanged.
+
+See [worklog 2026-10-13](docs/WORKLOG-2026-10-13.md) and
+[incident report](docs/incidents/2026-10-13-nvidia-615-resume-regression.md).
+
 ## 2026-10-11 NVIDIA downgrade and KDE screen-lock regression (partial mitigation; open)
 
 After severe suspend/resume black-screen failures in the KDE Wayland pilot
