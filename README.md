@@ -37,6 +37,22 @@ The goal of this repository is to rebuild the workstation after a clean Fedora i
 > remain open. See [2026-10-11 worklog](docs/WORKLOG-2026-10-11.md).
 > GNOME 50.5 remains the accepted reproducible baseline.
 
+> **2026-10-13 NVIDIA recovery update:** a DNF5 update reinstalled NVIDIA
+> **615.71.09** and kernel **7.2.9-201** while no NVIDIA version lock was
+> configured; a new display/suspend recovery failure followed. The operator
+> restored the 12 verified NVIDIA **610.57.04** RPMs, removed only the
+> conflicting 615 kmod, selected the retained kernel **7.2.9-200** and
+> added **10 exact-version DNF5 locks**. After reboot, KDE Wayland and one
+> screen-off/on plus one `deep` sleep/resume test succeeded; journal confirmed
+> `PM: suspend exit`. DNF5 `installonly_limit=5` now keeps more fallback
+> kernels (not a permanent pin). **Both kernel and driver changed**, so
+> attribution remains open; prior KDE `kscreenlocker_greet` crashes remain
+> unresolved under [Issue #51](https://github.com/wojko6/fedora-workstation-setup/issues/51)
+> and [KDE Bug #526934](https://bugs.kde.org/show_bug.cgi?id=526934).
+> See [2026-10-13 worklog](docs/WORKLOG-2026-10-13.md) and
+> [incident report](docs/incidents/2026-10-13-nvidia-615-resume-regression.md).
+> GNOME 50.5 remains the accepted reproducible baseline.
+
 ## Engineering roadmap
 
 The current accepted production baseline remains **Fedora 44 / GNOME Shell 50.5 / Wayland**.
