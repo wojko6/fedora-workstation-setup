@@ -19,6 +19,10 @@ The target release becomes the new project baseline only after:
 
 Do not change the documented accepted baseline before the physical acceptance run.
 
+## Non-promoted Fedora 45 KDE pilot — 2026-11-04
+
+An independent Fedora 44 KDE workstation pilot recorded read-only Fedora 45/NVIDIA 620.70.06 package preflight findings. The [dated B1–B8 evidence note](upgrade-preflights/2026-11-04-fedora45-nvidia620.md) reports a DNF5 transaction that resolves with NVIDIA 615 (not deployed), plus a separate local repository of 16 NVIDIA 620 RPMs (metadata/checksums only). **The full B9 Fedora 45 + NVIDIA 620 solver was not run.** The VPCS COPR returned a Fedora 45 404, and a later physical observation reported Secure Boot **disabled**, unlike earlier checkpoints. Accordingly this pilot remains `INSTALLATION_GATE=HOLD` and **does not change** the accepted Fedora/GNOME baseline or this runbook's acceptance requirements.
+
 ## 1. Pre-upgrade gate
 
 Start from the canonical checkout:
