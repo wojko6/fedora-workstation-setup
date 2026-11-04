@@ -9,6 +9,7 @@ This directory contains the reviewed operational and validation documentation fo
 - [DISASTER-RECOVERY.md](DISASTER-RECOVERY.md) — offline disaster-recovery strategy and validated recovery generations.
 - [DISASTER-RECOVERY-RUNBOOK.md](DISASTER-RECOVERY-RUNBOOK.md) — detailed total-failure recovery runbook from Live USB through final verification.
 - [UPGRADE.md](UPGRADE.md) — controlled Fedora major-upgrade lifecycle, clean-room gate, physical acceptance, and rollback rules.
+- [upgrade-preflights/2026-11-04-fedora45-nvidia620.md](upgrade-preflights/2026-11-04-fedora45-nvidia620.md) — operator-reported Fedora 45 KDE/NVIDIA 620 B1–B8 preflight, VPCS/scrcpy ABI, unresolved B9 and installation HOLD (not accepted baseline).
 
 ## Desktop environments and localization
 
