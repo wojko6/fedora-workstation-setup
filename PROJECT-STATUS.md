@@ -31,6 +31,12 @@ VERIFY_RC=0
 
 This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes ArcMenu v74 / 70.0 with its exact-version gettext-domain binding fix, GSConnect v73 and ddterm v73 localization, the fully accepted Clipboard Indicator v71 64-entry completion, DING v99 in the managed system scope with its complete Polish desktop menu and `Monitor systemu` integration, Helium 0.18.1.1 / Chromium 154.0.8037.57 with strict 36-entry DataPack verification, the dedicated `workstation-tailscale` DROP policy, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, deterministic whole-tree integrity verification for all 21 enabled per-user GNOME extensions, and an independent exact managed-tree hash for DING. Ptyxis 50.1 remains fully physically accepted from the 2026-09-24 audit cycle. Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
 
+## 2026-11-04 — physical KDE operating observation and Fedora 45 HOLD
+
+The operator reported Fedora 44 running **KDE Plasma 6.8.2 / Wayland** with NVIDIA **610.57.04** still pinned by ten versionlocks. An earlier monitor-after-resume defect improved following the separately reported NVIDIA VRAM temporary-file configuration (`/var/tmp`); that bounded recovery is not full suspend/resume certification. A later `mokutil` check showed **SecureBoot disabled**, in contrast with earlier checkpoint observations; the cause and timing are not established and no BIOS/firmware change is implied here.
+
+[Fedora 45 / NVIDIA 620 preflight B1–B8](docs/upgrade-preflights/2026-11-04-fedora45-nvidia620.md) found a local 16-RPM set for 620.70.06 and a separate candidate solver with 615.78.08; the full Fedora 45+620 B9 solver **was not run**. `FEDORA_UPGRADE_STARTED=NO`, `INSTALLATION_GATE=HOLD`. This does not supersede the accepted Fedora 44/GNOME 50.5 reproducible baseline, the earlier KDE screen-lock findings, or the need for full KDE/DP/resume acceptance and independent target-release restore.
+
 ## 2026-10-13 repeat NVIDIA update regression — operational recovery, not final acceptance
 
 On 2026-10-13, DNF5 history transaction **118** replaced the manually
