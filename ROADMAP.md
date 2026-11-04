@@ -30,6 +30,10 @@ VERIFY_RC=0
 Future work must preserve this baseline unless a new one is deliberately
 promoted through the documented validation process.
 
+## Operating pilot update — 2026-11-04 (non-promoted)
+
+The operator's physical workstation is reported on Fedora 44 / **KDE Plasma 6.8.2** / NVIDIA **610.57.04**, while this repository's *accepted reproducible* restore baseline remains Fedora 44 / GNOME 50.5. A separate [Fedora 45/NVIDIA 620 B1–B8 preflight](docs/upgrade-preflights/2026-11-04-fedora45-nvidia620.md) is source/package evidence only; **B9 not executed**, major upgrade **HOLD**, KDE desired-state promotion pending. Record future acceptance and rollback evidence before updating baseline pins.
+
 ## Roadmap principles
 
 1. Preserve the accepted GNOME workstation before adding new features.

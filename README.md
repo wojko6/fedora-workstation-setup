@@ -53,6 +53,8 @@ The goal of this repository is to rebuild the workstation after a clean Fedora i
 > [incident report](docs/incidents/2026-10-13-nvidia-615-resume-regression.md).
 > GNOME 50.5 remains the accepted reproducible baseline.
 
+> **2026-11-04 operator checkpoint (not a promoted baseline):** the physical Fedora 44 session was reported as **KDE Plasma 6.8.2 / Wayland**, with NVIDIA **610.57.04** and ten exact-version DNF5 locks retained. A later `mokutil --sb-state` read reported **SecureBoot disabled** (earlier readings differed; no cause or time of change proven). Recent NVIDIA `/var/tmp` VRAM-state remediation restored the external display after a reported resume check, but **full regression, clean-room acceptance and promotion of KDE are not certified**. The [Fedora 45/NVIDIA 620 preflight](docs/upgrade-preflights/2026-11-04-fedora45-nvidia620.md) covers package checks B1–B8 only; full B9 was **not run** and installation remains **HOLD**. The dated October KDE/NVIDIA evidence above is historical, not a claim that Plasma is still 6.7.5.
+
 ## Engineering roadmap
 
 The current accepted production baseline remains **Fedora 44 / GNOME Shell 50.5 / Wayland**.
