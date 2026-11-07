@@ -59,6 +59,13 @@ The goal of this repository is to rebuild the workstation after a clean Fedora i
 
 > **2026-11-07 update-maintenance checkpoint (no package changes):** the operator's read-only Fedora 44 / Plasma 6.8.2 audit found ten NVIDIA 610.57.04 versionlocks and **no enabled Fedora 45 test repository** in the current host listing. A nine-package DNF5 `--assumeno` trial, with one new `python3-filelock` dependency and no removals, was **not executed**. Four Flatpak updates were listed; none installed. KWin/Mesa/NVIDIA/kernel changes and Fedora 45 remain **HOLD**. See [the 2026-11-07 closeout](docs/WORKLOG-2026-11-07.md). The accepted reproducible GNOME baseline is unchanged.
 
+> **Optional software evaluation list (2026-11-07):** a single
+> [test watchlist](docs/TEST-WATCHLIST.md) now tracks candidate desktop tools,
+> Android/Fedora integrations, local AI improvements and homelab experiments.
+> It records priorities, safe trial boundaries and existing project issues.
+> Being listed does **not** authorize installation, enable network access,
+> grant permissions or change the accepted desktop baseline.
+
 ## Engineering roadmap
 
 The current accepted production baseline remains **Fedora 44 / GNOME Shell 50.5 / Wayland**.

@@ -21,6 +21,10 @@ This directory contains the reviewed operational and validation documentation fo
 - [../gnome/README.md](../gnome/README.md) — GNOME desired-state policy, extension inventory, and Dhruva handling.
 - [Issue #12](https://github.com/wojko6/fedora-workstation-setup/issues/12) — planned GNOME + KDE Plasma coexistence design; GNOME remains the accepted baseline until KDE passes validation.
 
+## Experimental software and integrations
+
+- [TEST-WATCHLIST.md](TEST-WATCHLIST.md) — central cross-project candidate list (NectarLink, local AI/MCP, monitoring, KDE tools and model experiments), priorities, safety gates and existing issue links; **not** an approved deployment plan.
+
 ## Portfolio case studies
 
 - [case-studies/README.md](case-studies/README.md) — recruiter-friendly case studies covering reproducible workstation engineering, Tailscale/firewalld isolation, and GNOME localization/integrity debugging.

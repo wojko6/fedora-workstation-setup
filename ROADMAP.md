@@ -40,6 +40,17 @@ The physical Fedora 44 / Plasma 6.8.2 operating pilot gained two visually accept
 
 **Roadmap gate unchanged:** continue selective updates only after dry-run review. KWin/Mesa/NVIDIA/kernel, Fedora 45 and the upstream Tahoe theme are **HOLD** on the production KDE desktop; issue #12 KDE coexistence, issue #14 lifecycle and issue #51 suspend/resume remain the existing tracking channels. Do not promote KDE or change accepted GNOME pins based solely on this operator-confirmed visual/metadata checkpoint.
 
+## Cross-project test candidates (non-operational)
+
+The single [`docs/TEST-WATCHLIST.md`](docs/TEST-WATCHLIST.md) catalogs optional
+external applications and experiment candidates for the Fedora desktop,
+local AI assistant and ASUS homelab. It uses four explicit evaluation statuses,
+P1–P3 priorities, existing issue links and narrow first-test/rollback gates.
+Items such as NectarLink and the read-only MCP proposal **are not accepted
+installations** and do not override the accepted GNOME baseline, the KDE
+operational HOLD decisions or the production ASUS roadmap. No new issue is
+required merely to record a candidate.
+
 ## Roadmap principles
 
 1. Preserve the accepted GNOME workstation before adding new features.
