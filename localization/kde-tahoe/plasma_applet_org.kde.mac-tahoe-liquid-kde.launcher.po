@@ -1,0 +1,140 @@
+msgid ""
+msgstr "Project-Id-Version: MacTahoe Liquid KDE\nLanguage: pl\nLanguage-Team: Polish\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+msgctxt "@info:status"
+msgid "No matches"
+msgstr "Brak wyników"
+
+msgctxt "@item:inmenu Open icon chooser dialog"
+msgid "Choose…"
+msgstr "Wybierz…"
+
+msgctxt "@item:inmenu Reset icon to default"
+msgid "Clear Icon"
+msgstr "Przywróć domyślną ikonę"
+
+msgid "Add to Favorites"
+msgstr "Dodaj do ulubionych"
+
+msgid "Apps"
+msgstr "Aplikacje"
+
+msgid "Compact list items"
+msgstr "Kompaktowe elementy listy"
+
+msgid "Default"
+msgstr "Domyślnie"
+
+msgid "Edit Applications..."
+msgstr "Edytuj aplikacje..."
+
+msgid "Edit Applications…"
+msgstr "Edytuj aplikacje…"
+
+msgid "Edit…"
+msgstr "Edytuj…"
+
+msgid "Enabled"
+msgstr "Włączone"
+
+msgid "Favorites"
+msgstr "Ulubione"
+
+msgid "Floating"
+msgstr "Pływający"
+
+msgid "General"
+msgstr "Ogólne"
+
+msgid "Grid icon size:"
+msgstr "Rozmiar ikon w siatce:"
+
+msgid "Grids and lists"
+msgstr "Siatki i listy"
+
+msgid "Horizontal Center"
+msgstr "Wyśrodkowanie w poziomie"
+
+msgid "Huge"
+msgstr "Bardzo duży"
+
+msgid "Icon:"
+msgstr "Ikona:"
+
+msgid "Large"
+msgstr "Duży"
+
+msgid "Launcher Positioning:"
+msgstr "Położenie menu aplikacji:"
+
+msgid "Launcher options"
+msgstr "Opcje menu aplikacji"
+
+msgid "Launcher preset:"
+msgstr "Wariant wyglądu menu:"
+
+msgid "Lists:"
+msgstr "Listy:"
+
+msgid "Medium"
+msgstr "Średni"
+
+msgid "Number of columns in grid"
+msgstr "Liczba kolumn siatki"
+
+msgid "Number of rows in grid"
+msgstr "Liczba wierszy siatki"
+
+msgid "Offset Panel (0 is Default):"
+msgstr "Odsunięcie od panelu (0 = domyślnie):"
+
+msgid "Offset Screen Edge (0 is Default):"
+msgstr "Odsunięcie od krawędzi ekranu (0 = domyślnie):"
+
+msgid "On All Activities"
+msgstr "We wszystkich aktywnościach"
+
+msgid "On the Current Activity"
+msgstr "W bieżącej aktywności"
+
+msgid "Preset 1 — Tahoe"
+msgstr "Wariant 1 — Tahoe"
+
+msgid "Preset 2 — Golden Gate"
+msgstr "Wariant 2 — Golden Gate"
+
+msgid "Remove from Favorites"
+msgstr "Usuń z ulubionych"
+
+msgid "Screen Center"
+msgstr "Środek ekranu"
+
+msgid "Session Actions"
+msgstr "Działania sesji"
+
+msgid "Show apps in a grid"
+msgstr "Pokaż aplikacje w siatce"
+
+msgid "Show apps in a list"
+msgstr "Pokaż aplikacje na liście"
+
+msgid "Show in Favorites"
+msgstr "Pokaż w ulubionych"
+
+msgid "Show list item description"
+msgstr "Pokaż opisy elementów listy"
+
+msgid "Show session actions button (shutdown, restart, logout)"
+msgstr "Pokaż przycisk działań sesji (wyłączenie, ponowne uruchomienie, wylogowanie)"
+
+msgid "Small"
+msgstr "Mały"
+
+msgid "Suggestions"
+msgstr "Propozycje"
+
+msgid "Uninstall…"
+msgstr "Odinstaluj…"
+
+msgid "Use system font settings"
+msgstr "Użyj systemowych ustawień czcionki"

@@ -1,5 +1,7 @@
 # Polish localization status
 
+> **2026-11-07 KDE addendum (B291/B292):** optional Mac Tahoe Liquid KDE user-session localization was visually verified separately from the GNOME baseline: 54 Polish Global Menu messages and 45 Tahoe Launcher messages (99 total). Exact `.po` sources, verified `.mo` files, SHA-256 pins, and an opt-in user-only restore script are archived under [`localization/kde-tahoe/`](../localization/kde-tahoe/README.md). No existing GNOME acceptance metrics or KDE full promotion changed.
+
 This document tracks Polish localization coverage for GNOME Shell extensions and selected system UI components in the current Fedora 44 / GNOME 50.5 physical-workstation baseline.
 
 The repository carries its own localization only when upstream Polish support is missing, incomplete for the tested version, or user-visible strings are not exposed through a usable upstream Polish gettext path. Existing upstream translations remain attributed to their original projects and translators.

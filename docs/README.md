@@ -13,6 +13,8 @@ This directory contains the reviewed operational and validation documentation fo
 
 ## Desktop environments and localization
 
+- [../localization/kde-tahoe/README.md](../localization/kde-tahoe/README.md) — KDE Mac Tahoe Liquid B291/B292 Polish Global Menu + Launcher catalogs, hashes, user-only restore, and visual verification (2026-11-07; does not promote KDE baseline).
+
 - [LOCALIZATION-STATUS.md](LOCALIZATION-STATUS.md) — repository-managed Polish localization coverage, version pins, and verification strategy.
 - [../localization/STYLE-GUIDE.md](../localization/STYLE-GUIDE.md) — Polish UI terminology, gettext metadata, and context-sensitive consistency rules.
 - [gnome-extension-audit-2026-09-17.md](gnome-extension-audit-2026-09-17.md) — accepted GNOME extension compatibility refresh for Fedora 44 / GNOME 50.4.

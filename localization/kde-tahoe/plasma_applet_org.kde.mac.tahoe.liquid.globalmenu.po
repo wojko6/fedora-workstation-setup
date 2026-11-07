@@ -1,0 +1,175 @@
+# Polskie tłumaczenie dla Mac Tahoe Liquid KDE / globalmenu
+# Zgodne z publicznym szablonem po/de.po (2026-11-07).
+
+msgid ""
+msgstr ""
+"Project-Id-Version: MacTahoe Liquid KDE\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+msgid "%1 (%2 physical)"
+msgstr "%1 (%2 fizycznych)"
+
+msgid "About This Computer"
+msgstr "Informacje o tym komputerze"
+
+msgid "About This Computer:"
+msgstr "Informacje o tym komputerze:"
+
+msgid "About window:"
+msgstr "Okno informacji:"
+
+msgid "App Store:"
+msgstr "Centrum oprogramowania:"
+
+msgid "App Store…"
+msgstr "Centrum oprogramowania…"
+
+msgid "Appearance"
+msgstr "Wygląd"
+
+msgid "Chip"
+msgstr "Procesor"
+
+msgid "Choose…"
+msgstr "Wybierz…"
+
+msgid "Close"
+msgstr "Zamknij"
+
+msgid "Commands"
+msgstr "Polecenia"
+
+msgid "Copied"
+msgstr "Skopiowano"
+
+msgid "Copy details"
+msgstr "Kopiuj szczegóły"
+
+msgid "Cores"
+msgstr "Rdzenie"
+
+msgid "Enter Full Screen"
+msgstr "Przejdź do trybu pełnoekranowego"
+
+msgid "Exit Full Screen"
+msgstr "Wyjdź z trybu pełnoekranowego"
+
+msgid "Force Quit:"
+msgstr "Wymuszanie zakończenia:"
+
+msgid "Force Quit…"
+msgstr "Wymuś zakończenie…"
+
+msgid "Graphics"
+msgstr "Grafika"
+
+msgid "Lock Screen"
+msgstr "Zablokuj ekran"
+
+msgid "Lock Screen:"
+msgstr "Blokowanie ekranu:"
+
+msgid "Log Out %1…"
+msgstr "Wyloguj użytkownika %1…"
+
+msgid "Log Out:"
+msgstr "Wylogowanie:"
+
+msgid "Memory"
+msgstr "Pamięć"
+
+msgid "Menu Item Icons"
+msgstr "Ikony pozycji menu"
+
+msgid "Menu icon:"
+msgstr "Ikona menu:"
+
+msgid "Minimize"
+msgstr "Minimalizuj"
+
+msgid "More Info…"
+msgstr "Więcej informacji…"
+
+msgid "Network"
+msgstr "Sieć"
+
+msgid "Not Available"
+msgstr "Niedostępne"
+
+msgid "OS"
+msgstr "System operacyjny"
+
+msgid "Personal Computer"
+msgstr "Komputer osobisty"
+
+msgid "Report a Bug…"
+msgstr "Zgłoś błąd…"
+
+msgid "Restart:"
+msgstr "Ponowne uruchomienie:"
+
+msgid "Restart…"
+msgstr "Uruchom ponownie…"
+
+msgid "Restore"
+msgstr "Przywróć"
+
+msgid "Search"
+msgstr "Szukaj"
+
+msgid "Search…"
+msgstr "Szukaj…"
+
+msgid "Serial number"
+msgstr "Numer seryjny"
+
+msgid "Show full application menu"
+msgstr "Pokaż pełne menu aplikacji"
+
+msgid "Show menus for apps on different screens"
+msgstr "Pokazuj menu aplikacji z innych ekranów"
+
+msgid "Shut Down:"
+msgstr "Wyłączanie:"
+
+msgid "Shut Down…"
+msgstr "Wyłącz komputer…"
+
+msgid "Sleep"
+msgstr "Uśpij"
+
+msgid "Sleep:"
+msgstr "Uśpienie:"
+
+msgid "Startup disk"
+msgstr "Dysk startowy"
+
+msgid "System Menu"
+msgstr "Menu systemowe"
+
+msgid "System Settings:"
+msgstr "Ustawienia systemowe:"
+
+msgid "System Settings…"
+msgstr "Ustawienia systemowe…"
+
+msgid "Unknown"
+msgstr "Nieznane"
+
+msgid "Use single button for application menu"
+msgstr "Używaj jednego przycisku menu aplikacji"
+
+msgid "Use system font instead of SF Pro"
+msgstr "Użyj czcionki systemowej zamiast SF Pro"
+
+msgid "Zoom"
+msgstr "Powiększ"
+
+msgctxt "@info:usagetip"
+msgid "Open a menu"
+msgstr "Otwórz menu"
