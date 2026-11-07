@@ -37,4 +37,4 @@ See [../docs/LOCALIZATION-STATUS.md](../docs/LOCALIZATION-STATUS.md) for the acc
 
 ## KDE Plasma / Mac Tahoe Liquid — B291/B292 (2026-11-07)
 
-Two user-verified Polish gettext catalogs for the KDE Global Menu (54 messages) and Tahoe Launcher (45 messages) are archived as editable `.po` and exact working `.mo` files in [`kde-tahoe/`](kde-tahoe/). The [restore instructions](kde-tahoe/README.md) and dedicated opt-in installer do not require root, rebuild plasmoids, or modify Plasma panels. This is an operational KDE checkpoint, **not** an update to the accepted GNOME desired-state baseline or its full verifier totals.
+Two user-verified Polish gettext catalogs for the KDE Global Menu (54 messages) and Tahoe Launcher (45 messages) are archived as editable `.po` and exact working `.mo` files in [`kde-tahoe/`](kde-tahoe/README.md). The [restore instructions](kde-tahoe/README.md) and dedicated opt-in installer do not require root, rebuild plasmoids, or modify Plasma panels. This is an operational KDE checkpoint, **not** an update to the accepted GNOME desired-state baseline or its full verifier totals.

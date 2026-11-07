@@ -81,6 +81,10 @@ The earlier **2026-09-15** and **2026-09-17** generations remain documented as i
 This validates backup creation and artifact integrity. It does **not** claim that a full bare-metal restore from the private backup has been exercised. The repository-based clean-room restore is separately validated and documented in [`CLEAN-ROOM-RESTORE-REPORT.md`](CLEAN-ROOM-RESTORE-REPORT.md).
 
 
+## Optional KDE Tahoe translation recovery (operator checkpoint 2026-11-07)
+
+After a successful **accepted GNOME baseline restore**, a user who deliberately enables the separate KDE/Plasma pilot may optionally restore two Polish Mac Tahoe Liquid KDE catalogs from [`localization/kde-tahoe/`](../localization/kde-tahoe/README.md) using the dedicated opt-in user-only helper. This archival step restores **translations only**; it does not reinstall the Tahoe theme, Plasma widgets, KDE/KWin settings, GPU drivers or the configuration of the user's dock and panels, and does not satisfy KDE clean-room acceptance. Do not run optional KDE recovery during an unrelated total-failure rescue unless the core OS/storage recovery has succeeded first.
+
 ## Documentation roles
 
 The recovery documentation is intentionally split by purpose:

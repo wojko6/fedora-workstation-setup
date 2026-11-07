@@ -59,6 +59,31 @@ automatically:
 - `Dash` can mean the GNOME application dash or a line/dash indicator; those
   are different concepts.
 
+## KDE Tahoe menu terminology (B291/B292, 2026-11-07)
+
+The optional Mac Tahoe Liquid KDE translation catalogs are independent of the
+accepted GNOME localization pipeline. Tested UI strings include:
+
+| Original | Verified Polish UI | Context |
+| --- | --- | --- |
+| About This Computer | Informacje o tym komputerze | macOS-style system menu; not generic application About |
+| Apps | Aplikacje | Tahoe Launcher tab |
+| Favorites | Ulubione | Tahoe Launcher tab |
+| Suggestions | Propozycje | Tahoe Launcher tab |
+| Preset 1 — Tahoe | Wariant 1 — Tahoe | launcher style preset; `Tahoe` remains a proper name |
+| Show apps in a grid | Pokaż aplikacje w siatce | launcher display action |
+
+Do not generalize these translations to every GNOME component: the chosen
+wording is context-sensitive. Both KDE domains use gettext `Language: pl`;
+physical user sessions report `pl_PL.UTF-8`. Their accepted `.mo` bytes,
+editable `.po` and hashes are archived in
+[`localization/kde-tahoe/`](kde-tahoe/README.md). Unlike the GNOME
+managed-tree targets, these are **user-local catalog installs**, not a
+replacement of source QML/C++ or a promoted desktop state. A new Tahoe
+version needs re-audit of domains/messages and a fresh visual review;
+`scripts/verify.sh` remains the GNOME baseline verifier and does not
+certify the KDE desktop.
+
 ## GNOME extension display names
 
 Descriptive extension names may be localized when they function primarily as

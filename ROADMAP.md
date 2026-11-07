@@ -34,6 +34,12 @@ promoted through the documented validation process.
 
 The operator's physical workstation is reported on Fedora 44 / **KDE Plasma 6.8.2** / NVIDIA **610.57.04**, while this repository's *accepted reproducible* restore baseline remains Fedora 44 / GNOME 50.5. A separate [Fedora 45/NVIDIA 620 B1–B8 preflight](docs/upgrade-preflights/2026-11-04-fedora45-nvidia620.md) is source/package evidence only; **B9 not executed**, major upgrade **HOLD**, KDE desired-state promotion pending. Record future acceptance and rollback evidence before updating baseline pins.
 
+## 2026-11-07 KDE localization and update gate — documentation-only checkpoint
+
+The physical Fedora 44 / Plasma 6.8.2 operating pilot gained two visually accepted Polish user-level gettext catalogs for Mac Tahoe Liquid KDE (B291/B292, 54 + 45 strings). Their `.po`/`.mo` archives and an opt-in restore helper are preserved under [`localization/kde-tahoe/`](localization/kde-tahoe/README.md), independently from the accepted GNOME installer and verifier. On the same date, a read-only DNF5 audit reported ten NVIDIA 610.57.04 versionlocks, nine bounded utility upgrades + one dependency in an `--assumeno` trial, and four pending Flatpak updates; **nothing was installed**. The [2026-11-07 worklog](docs/WORKLOG-2026-11-07.md) holds exact evidence and the deferred next-session review.
+
+**Roadmap gate unchanged:** continue selective updates only after dry-run review. KWin/Mesa/NVIDIA/kernel, Fedora 45 and the upstream Tahoe theme are **HOLD** on the production KDE desktop; issue #12 KDE coexistence, issue #14 lifecycle and issue #51 suspend/resume remain the existing tracking channels. Do not promote KDE or change accepted GNOME pins based solely on this operator-confirmed visual/metadata checkpoint.
+
 ## Roadmap principles
 
 1. Preserve the accepted GNOME workstation before adding new features.

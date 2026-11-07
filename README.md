@@ -57,6 +57,8 @@ The goal of this repository is to rebuild the workstation after a clean Fedora i
 
 > **2026-11-07 optional KDE UI localization (B291/B292):** Polish Mac Tahoe Liquid Global Menu (54 messages) and Launcher (45 messages) were installed and visually checked on the active KDE session. The four verified `.po`/`.mo` files and a user-only, opt-in restore script are archived in [`localization/kde-tahoe/`](localization/kde-tahoe/README.md). This is not a KDE clean-room acceptance or a change of the accepted GNOME baseline.
 
+> **2026-11-07 update-maintenance checkpoint (no package changes):** the operator's read-only Fedora 44 / Plasma 6.8.2 audit found ten NVIDIA 610.57.04 versionlocks and **no enabled Fedora 45 test repository** in the current host listing. A nine-package DNF5 `--assumeno` trial, with one new `python3-filelock` dependency and no removals, was **not executed**. Four Flatpak updates were listed; none installed. KWin/Mesa/NVIDIA/kernel changes and Fedora 45 remain **HOLD**. See [the 2026-11-07 closeout](docs/WORKLOG-2026-11-07.md). The accepted reproducible GNOME baseline is unchanged.
+
 ## Engineering roadmap
 
 The current accepted production baseline remains **Fedora 44 / GNOME Shell 50.5 / Wayland**.

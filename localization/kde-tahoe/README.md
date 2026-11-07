@@ -25,7 +25,12 @@ pozwalające na dalsze aktualizacje i poprawki. **Nie modyfikowano**
 ## Archiwum
 
 Każda domena ma dokładnie dwa pliki w tym katalogu: edytowalne `.po`
-i działające, skompilowane `.mo`. Poniżej SHA-256 rzeczywistych plików:
+i działające, skompilowane `.mo`. Zgodność sum SHA-256 obu źródeł `.po`
+z tym archiwum została ponownie sprawdzona 2026-11-07. Pliki `.mo` to
+**wzorcowe, sprawdzone na pulpicie artefakty** — po ręcznej edycji `.po`
+trzeba ponownie przeprowadzić walidację tłumaczeń i test wizualny; nie
+należy zakładać, że każda ponowna kompilacja da binarnie identyczny plik.
+Poniżej SHA-256 rzeczywistych plików:
 
 | Plik | SHA-256 |
 | --- | --- |

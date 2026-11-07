@@ -23,6 +23,12 @@ Do not change the documented accepted baseline before the physical acceptance ru
 
 An independent Fedora 44 KDE workstation pilot recorded read-only Fedora 45/NVIDIA 620.70.06 package preflight findings. The [dated B1–B8 evidence note](upgrade-preflights/2026-11-04-fedora45-nvidia620.md) reports a DNF5 transaction that resolves with NVIDIA 615 (not deployed), plus a separate local repository of 16 NVIDIA 620 RPMs (metadata/checksums only). **The full B9 Fedora 45 + NVIDIA 620 solver was not run.** The VPCS COPR returned a Fedora 45 404, and a later physical observation reported Secure Boot **disabled**, unlike earlier checkpoints. Accordingly this pilot remains `INSTALLATION_GATE=HOLD` and **does not change** the accepted Fedora/GNOME baseline or this runbook's acceptance requirements.
 
+## 2026-11-07 — Fedora 44 active-host inventory (does not release HOLD)
+
+The operator confirmed Fedora 44 / Plasma 6.8.2 and ten **NVIDIA 610.57.04 exact versionlocks**. Enabled repositories in the current host listing were Fedora 44 and its configured external providers; neither Fedora 45 nor `nv620-lab` appeared. This is separate from earlier isolated Fedora 45 solver experiments. Available update candidates included NVIDIA 615.78.08, KWin 6.8.2-3, Mesa 26.2.6 and kernel-related packages. A selective DNF5 `--assumeno` utility trial planned nine upgrades plus one new `python3-filelock` dependency and **was canceled by design**. No installation, kernel/driver transition, or Fedora release upgrade occurred. See [2026-11-07 worklog](WORKLOG-2026-11-07.md).
+
+**Current action:** keep `INSTALLATION_GATE=HOLD`; no unconditional system upgrade. Any future Fedora 45 transition still requires a separate valid target-release transaction, NVIDIA/graphics compatibility evidence, signed module/security posture verification, independent rollback readiness, and the unchanged clean-room/physical promotion criteria below. Do not treat a package listing or a successful user-local Tahoe localization as an upgrade authorization.
+
 ## 1. Pre-upgrade gate
 
 Start from the canonical checkout:

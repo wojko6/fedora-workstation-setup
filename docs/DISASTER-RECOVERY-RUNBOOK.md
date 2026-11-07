@@ -487,6 +487,10 @@ A future controlled spare-disk restore test would close that remaining disaster-
                   accept or investigate
 ```
 
+## Optional KDE desktop note (not part of disaster recovery acceptance)
+
+The operator-confirmed KDE Plasma 6.8.2 session and Mac Tahoe Liquid B291/B292 Polish catalog backup are documented in [`localization/kde-tahoe/`](../localization/kde-tahoe/README.md). These are **not** a substitute for the accepted Fedora/GNOME disaster recovery baseline or a validated full KDE restore. Following a successful core recovery, a separately approved KDE rebuild may use `bash scripts/install-kde-tahoe-localizations.sh --verify` and then `--install` to restore **only** translations. This does not restore dock placement, themes, external display or NVIDIA/KWin components.
+
 ## Related documents
 
 - [DISASTER-RECOVERY.md](DISASTER-RECOVERY.md) — recovery architecture, retained generations, and backup contents.

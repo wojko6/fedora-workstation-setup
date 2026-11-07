@@ -35,6 +35,9 @@ The top-level `install.sh` orchestrates these stages. Individual stages should r
 
 ## Localization
 
+**Optional KDE Tahoe UI (2026-11-07, B291/B292):** `install-kde-tahoe-localizations.sh` offers `--verify` (read-only SHA-256 checks and on-disk catalog comparison) and `--install` (user-only locale files, backup of a differing existing catalog). It restores exactly two verified Global Menu / Launcher `.mo` files from [`localization/kde-tahoe/`](../localization/kde-tahoe/README.md). Do **not** invoke it from the GNOME baseline installer or verifier; KDE full reproduction is not certified. No `sudo`, panel changes, KWin operations, C++ rebuild, or automatic logout is performed.
+
+
 `install-localizations.sh` is the general localization pipeline. It manages **29 localization targets/operations**: three generic gettext targets, 18 specialized GNOME-extension stages, six application/system stages (Papers/Nautilus, Plymouth, Ptyxis, Extension Manager, Helium, and GNOME Tweaks), one RPM application-menu localization stage, and one selective extension display-name stage. Customized DING v99 is intentionally handled outside this pipeline as one deterministic managed-system tree.
 
 Dedicated `verify-*-localization.sh` scripts validate exact-version, completion-overlay, and system-localization targets and are wired into `verify.sh`. `test_localization_consistency.py` enforces repository-wide Polish gettext metadata and a small set of reviewed terminology invariants without flattening context-sensitive translations.

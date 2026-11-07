@@ -1,6 +1,6 @@
 # Polish localization status
 
-> **2026-11-07 KDE addendum (B291/B292):** optional Mac Tahoe Liquid KDE user-session localization was visually verified separately from the GNOME baseline: 54 Polish Global Menu messages and 45 Tahoe Launcher messages (99 total). Exact `.po` sources, verified `.mo` files, SHA-256 pins, and an opt-in user-only restore script are archived under [`localization/kde-tahoe/`](../localization/kde-tahoe/README.md). No existing GNOME acceptance metrics or KDE full promotion changed.
+> **2026-11-07 KDE addendum (B291/B292):** optional Mac Tahoe Liquid KDE user-session localization was visually verified separately from the GNOME baseline: 54 Polish Global Menu messages and 45 Tahoe Launcher messages (99 total). Exact `.po` sources, verified `.mo` files, SHA-256 pins, and an opt-in user-only restore script are archived under [`localization/kde-tahoe/`](../localization/kde-tahoe/README.md). The `.po` SHA-256 values were checked against the repository entries; the working `.mo` artifacts are authoritative for exact replay. After installation and a new KDE session, operator screenshots confirmed Polish top-bar system menu and launcher (including `Aplikacje`, `Ulubione`, `Propozycje`). No existing GNOME acceptance metrics or KDE full promotion changed. This KDE helper is intentionally **not wired into** the GNOME `scripts/install-localizations.sh` pipeline.
 
 This document tracks Polish localization coverage for GNOME Shell extensions and selected system UI components in the current Fedora 44 / GNOME 50.5 physical-workstation baseline.
 
