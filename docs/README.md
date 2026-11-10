@@ -13,6 +13,7 @@ This directory contains the reviewed operational and validation documentation fo
 
 ## Desktop environments and localization
 
+- [kde-localization-audit-2026-11-10.md](kde-localization-audit-2026-11-10.md) — Fedora 45 KDE Flex Hub / Panel Colorizer localization audit and staged/apply evidence, partial visual acceptance, unresolved English weather metrics, KDE session incident and phase-7 HOLD.
 - [../localization/kde-tahoe/README.md](../localization/kde-tahoe/README.md) — KDE Mac Tahoe Liquid B291/B292 Polish Global Menu + Launcher catalogs, hashes, user-only restore, and visual verification (2026-11-07; does not promote KDE baseline).
 
 - [LOCALIZATION-STATUS.md](LOCALIZATION-STATUS.md) — repository-managed Polish localization coverage, version pins, and verification strategy.
@@ -41,7 +42,7 @@ This directory contains the reviewed operational and validation documentation fo
 - [WORKLOG-2026-10-10.md](WORKLOG-2026-10-10.md) — Fedora 44 KDE Plasma 6.7.5 pilot, failed GNOME fallback, KDE/Xwayland recovery, DrKonqi timeout closure, ASUS service audit, deferred Brave issue, and AK820 USB diagnostics; promotion remains pending.
 - [WORKLOG-2026-10-11.md](WORKLOG-2026-10-11.md) — signed NVIDIA 610.57.04 rollback with an offline 615 recovery set, DNF/GDM recovery incident, two successful deep GPU resumes, reproducible PlasmaQuick screen-lock SIGSEGV (2/2), and upstream KDE Bug #526934; KDE desired-state promotion remains pending.
 - [WORKLOG-2026-10-13.md](WORKLOG-2026-10-13.md) — DNF re-upgrade to NVIDIA 615, repeat black-screen diagnosis, verified 610 rollback, ten DNF version locks, selected recovery kernel, and one successful deep resume.
-- [WORKLOG-2026-11-10.md](WORKLOG-2026-11-10.md) — physical Fedora 45 migration, recovery checkpoints, NVIDIA 620 deep resume warning, ASUS/Pi-hole Loki/Grafana ingestion, VirtualBox UEFI start and KDE IMSettings cleanup; full reproducible-baseline promotion remains HOLD.
+- [WORKLOG-2026-11-10.md](WORKLOG-2026-11-10.md) — physical Fedora 45 migration, recovery checkpoints, NVIDIA 620 deep resume warning, ASUS/Pi-hole ingestion, VirtualBox UEFI start, IMSettings cleanup and KDE Polish localization phases 4–7; full reproducible-baseline promotion remains HOLD.
 - [WORKLOG-2026-11-07.md](WORKLOG-2026-11-07.md) — KDE Tahoe B291/B292 Polish UI verification and archive, Fedora 44/DNF5/Flatpak no-change inventory, nine-upgrade dry run, and the explicit 2026-11-08 update deferral.
 - [incidents/2026-10-13-nvidia-615-resume-regression.md](incidents/2026-10-13-nvidia-615-resume-regression.md) — detailed incident evidence, rollback procedure, bounded validation and unresolved KDE screen-lock risks.
 
