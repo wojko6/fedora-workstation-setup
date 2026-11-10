@@ -1,5 +1,8 @@
 # Disaster Recovery Runbook
 
+> **2026-11-10 physical-host checkpoint:** Fedora 45/KDE/NVIDIA 620 is now running after an operator-confirmed upgrade. Retained Fedora 44 restic/Btrfs backup generations underwent structural and bounded subset checks, **not a complete off-host or bare-metal restoration**. Treat the Fedora 44/GNOME reproducible baseline and older DR examples below as historical; do not auto-apply historical system identifiers, device names or release-specific packages to the current laptop. See [the dated upgrade worklog](WORKLOG-2026-11-10.md). No recovery command in this document is authorized for unattended execution.
+>
+
 This runbook describes the **public, machine-agnostic recovery procedure** for the Fedora workstation after a severe or total failure. It complements [DISASTER-RECOVERY.md](DISASTER-RECOVERY.md), which documents the recovery strategy and retained backup generations, and [RESTORE.md](RESTORE.md), which documents the normal clean rebuild path.
 
 The runbook intentionally omits private identifiers, real UUID/PARTUUID values, raw disk captures, credentials, and copy-paste destructive partitioning commands. Those belong only to the private offline recovery set.
