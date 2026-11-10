@@ -1,0 +1,47 @@
+{
+  "generated_at": "2026-11-10T17:11:57.447372+01:00",
+  "environment": {
+    "fedora": "44",
+    "plasma": "6.8.2",
+    "session": "wayland"
+  },
+  "file_root": "$HOME/.local/share/plasma/plasmoids/Plasma.Flex.Hub",
+  "provenance": "SHA-256 from verified local patch generator. Absolute local backup paths deliberately omitted for public repository.",
+  "files": [
+    {
+      "relative_path": "contents/ui/FullRepresentation.qml",
+      "sha256_before": "b6214bbc4775805bc6d6137676f0a5928145cfaf73e11900a0a0ef44a73e992e",
+      "sha256_after": "649fc0d065d4316c4437d3edd175cef6738518b67c74efb215bf2fbcc7cba412"
+    },
+    {
+      "relative_path": "contents/ui/components/ItemNetwork.qml",
+      "sha256_before": "5362ca0886d1a7cfa5ce33cc62d6ccd07d871b98264ee8da278b74c0b812ae0c",
+      "sha256_after": "5b9c070490f58305f3d5214caaf7f7de11fcdddc7574380dd3ff6e3303e65d82"
+    },
+    {
+      "relative_path": "contents/ui/components/ItemBluetooth.qml",
+      "sha256_before": "5cc1be6621a57712180781414392e876a4ae21b86a2e39225aac19944231bef6",
+      "sha256_after": "65402a0bd3e9b7db28d48fc8217bde67159872bf43d5aba1d68a37f7914a73f0"
+    },
+    {
+      "relative_path": "contents/ui/components/BrightnessDinamic.qml",
+      "sha256_before": "da9a89a86a23eb0ad5bae533a8d48a47529682789f4ac69d751f4223d276835c",
+      "sha256_after": "27e66c14c515700c267722dae6cbf3c8bba8cd3b2fd4644f8dd6352ead96e860"
+    },
+    {
+      "relative_path": "contents/ui/components/BrightnessVertical.qml",
+      "sha256_before": "b7e4e42680ec69b451bb776cf84c9fe95fe6925edaf7d99856a895860fb6837b",
+      "sha256_after": "05aa1594f18fc5ab8854899c99f2cccd441b180debde03c7b69c83b2530765f7"
+    },
+    {
+      "relative_path": "contents/ui/components/Volumen&Brightness.qml",
+      "sha256_before": "899b362737c1bfa8c6a6b430c0ad9e2dc936ebfa51c7006fcefd724ac04bb1fa",
+      "sha256_after": "017f44752ae3f2bf6f43355fd059604e649b20df46c6deed2a84a3375c51131e"
+    },
+    {
+      "relative_path": "contents/ui/components/SourceBrightnessPlasma64orPlus.qml",
+      "sha256_before": "e98a30aa902dbe5c04d9a38b4d9e86e504d803951629e2dfea5c83ccb13701d",
+      "sha256_after": "395155e255bec0544ca44a82b84c85cdd5028da8be4473d0783a0c9edaf35927"
+    }
+  ]
+}

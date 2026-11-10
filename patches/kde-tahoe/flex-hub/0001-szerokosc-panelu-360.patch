@@ -1,0 +1,11 @@
+--- a/contents/ui/FullRepresentation.qml
++++ b/contents/ui/FullRepresentation.qml
+@@ -70,7 +70,7 @@
+ 
+     // ─── Dimensiones ─────────────────────────────────────────────────────────
+     property bool sideBarEnabled: false
+-    property int widthFactor: Kirigami.Units.gridUnit * 4
++    property int widthFactor: Math.round((360 - spacing * 5) / 4)
+     property int heightFactor: Kirigami.Units.gridUnit * 4
+     property int footer_height: 32
+     property int spacing: Kirigami.Units.gridUnit / 2

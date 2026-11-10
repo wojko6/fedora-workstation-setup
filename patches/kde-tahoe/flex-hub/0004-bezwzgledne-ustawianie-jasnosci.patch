@@ -1,0 +1,50 @@
+--- a/contents/ui/components/SourceBrightnessPlasma64orPlus.qml
++++ b/contents/ui/components/SourceBrightnessPlasma64orPlus.qml
+@@ -21,10 +21,10 @@
+     property int realValueSlider: 0
+     property int cnValue: displayModelConnections.brightness
+     property var mainScreen: displayModelConnections.screenBrightnessInfo[0]
+-    property var valueSlider: mainScreen.brightness /20
+-    property var maxSlider: mainScreen.maxBrightness /20
++    property var valueSlider: mainScreen && mainScreen.maxBrightness > 0 ? mainScreen.brightness * 100 / mainScreen.maxBrightness : 100
++    property var maxSlider: 100
+     property bool readyData: false
+-    readonly property int brightnessMin: (maxSlider.maxBrightness / 200)
++    readonly property int brightnessMin: 1
+ 
+     property bool activeNightLight: nightLightControl.inhibited
+ 
+@@ -43,13 +43,14 @@
+         property var screenBrightnessInfo: []
+ 
+         function update() {
+-            const [labelRole, brightnessRole, maxBrightnessRole] = ["label", "brightness", "maxBrightness"].map(
++            const [labelRole, brightnessRole, maxBrightnessRole, displayNameRole] = ["label", "brightness", "maxBrightness", "displayName"].map(
+                 (roleName) => target.KItemModels.KRoleNames.role(roleName));
+ 
+             screenBrightnessInfo = [...Array(target.rowCount()).keys()].map((i) => { // for each display index
+                 const modelIndex = target.index(i, 0);
+                 return {
+                     label: target.data(modelIndex, labelRole),
++                    displayName: target.data(modelIndex, displayNameRole),
+                                                                             brightness: target.data(modelIndex, brightnessRole),
+                                                                             maxBrightness: target.data(modelIndex, maxBrightnessRole),
+                 };
+@@ -67,9 +68,14 @@
+     }
+ 
+     onRealValueSliderChanged: {
+-        var delta = realValueSlider - valueSlider
+-        screenBrightnessControl.adjustBrightnessStep(
+-            delta < 0 ? ScreenBrightnessControl.Decrease : ScreenBrightnessControl.Increase) ;
++        if (!mainScreen || !mainScreen.displayName ||
++            !(mainScreen.maxBrightness > 0)) {
++            return;
++        }
++
++        const percent = Math.max(1, Math.min(100, realValueSlider));
++        const target = Math.round(mainScreen.maxBrightness * percent / 100);
++        screenBrightnessControl.setBrightness(mainScreen.displayName, target);
+     }
+ 
+     DBus.Properties {

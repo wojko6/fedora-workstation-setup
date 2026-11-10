@@ -1,0 +1,42 @@
+--- a/contents/ui/components/ItemNetwork.qml
++++ b/contents/ui/components/ItemNetwork.qml
+@@ -1,7 +1,17 @@
+ import QtQuick
++import QtQuick.Controls as QQC2
+ import "../lib" as Lib
+ 
+ Item {
++
++    // Fedora Tahoe: pelna nazwa po najechaniu
++    HoverHandler {
++        id: fullNameHover
++    }
++
++    QQC2.ToolTip.text: network.ssidName || ""
++    QQC2.ToolTip.visible: fullNameHover.hovered && (network.ssidName || "").length > 0
++    QQC2.ToolTip.delay: 550
+     SourceNetwork {
+         id: network
+     }
+--- a/contents/ui/components/ItemBluetooth.qml
++++ b/contents/ui/components/ItemBluetooth.qml
+@@ -1,9 +1,19 @@
+ import QtQuick
++import QtQuick.Controls as QQC2
+ import "../lib" as Lib
+ import "../js/funcs.js" as Funcs
+ import org.kde.bluezqt 1.0 as BluezQt
+ 
+ Item {
++
++    // Fedora Tahoe: pelna nazwa po najechaniu
++    HoverHandler {
++        id: fullNameHover
++    }
++
++    QQC2.ToolTip.text: item.sub || ""
++    QQC2.ToolTip.visible: fullNameHover.hovered && (item.sub || "").length > 0
++    QQC2.ToolTip.delay: 550
+     property QtObject btManager : BluezQt.Manager
+ 
+     property bool mouseAreaActive:  parent.mouseAreaActive

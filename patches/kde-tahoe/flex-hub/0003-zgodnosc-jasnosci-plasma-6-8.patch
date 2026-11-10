@@ -1,0 +1,48 @@
+--- a/contents/ui/components/BrightnessDinamic.qml
++++ b/contents/ui/components/BrightnessDinamic.qml
+@@ -32,7 +32,12 @@
+         onDataChanged: {
+             const value = data(index(0, 0), Sensors.SensorDataModel.Value);
+             if (value !== undefined && value !== null) {
+-                if (value.indexOf("6.4") >= 0) {
++                const versionParts = String(value).match(/(\d+)\.(\d+)/);
++                if (versionParts && (
++                    Number(versionParts[1]) > 6 ||
++                    (Number(versionParts[1]) === 6 &&
++                     Number(versionParts[2]) >= 4)
++                )) {
+                     code = sourceBrightnessPlasma64orPlusQml;
+                 } else {
+                     code = sourceBrightnessQML;
+--- a/contents/ui/components/BrightnessVertical.qml
++++ b/contents/ui/components/BrightnessVertical.qml
+@@ -36,7 +36,12 @@
+         onDataChanged: {
+             const value = data(index(0, 0), Sensors.SensorDataModel.Value);
+             if (value !== undefined && value !== null) {
+-                if (value.indexOf("6.4") >= 0) {
++                const versionParts = String(value).match(/(\d+)\.(\d+)/);
++                if (versionParts && (
++                    Number(versionParts[1]) > 6 ||
++                    (Number(versionParts[1]) === 6 &&
++                     Number(versionParts[2]) >= 4)
++                )) {
+                     code = sourceBrightnessPlasma64orPlusQml;
+                 } else {
+                     code = sourceBrightnessQML;
+--- a/contents/ui/components/Volumen&Brightness.qml
++++ b/contents/ui/components/Volumen&Brightness.qml
+@@ -32,7 +32,12 @@
+        onDataChanged: {
+            const value = data(index(0, 0), Sensors.SensorDataModel.Value);
+            if (value !== undefined && value !== null) {
+-               if (value.indexOf("6.4") >= 0) {
++               const versionParts = String(value).match(/(\d+)\.(\d+)/);
++                if (versionParts && (
++                    Number(versionParts[1]) > 6 ||
++                    (Number(versionParts[1]) === 6 &&
++                     Number(versionParts[2]) >= 4)
++                )) {
+                    code = sourceBrightnessPlasma64orPlusQml;
+                } else {
+                    code = sourceBrightnessQML;
