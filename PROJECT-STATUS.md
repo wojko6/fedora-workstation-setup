@@ -1,10 +1,25 @@
 # Project Status
 
-**Status:** Physical baseline refreshed and accepted 2026-10-01; DING v99 migrated from the per-user auto-update path to a root-owned managed-system tree and physically/visually accepted; Recovery and Stability Gates remain passed; full physical verifier clean at PASS=277 WARN=0 FAIL=0 SKIP=0
+**Status (2026-11-10):** Physical workstation upgraded to **Fedora 45 / KDE Plasma 6.8.2 / NVIDIA 620.70.06**; bounded boot, display, telemetry, VirtualBox firmware and S3 resume checks passed. One NVIDIA memory allocation warning remains under observation. **Fedora 45 clean-room and complete desired-state promotion remain HOLD.**
 
-**Baseline:** Fedora 44 · GNOME Shell 50.5 · Wayland
+**Running host:** Fedora 45 · KDE Plasma 6.8.2 · Wayland · kernel 7.3.3-300.fc45.x86_64  
+**Last accepted reproducible restore baseline (historical):** Fedora 44 · GNOME Shell 50.5 · Wayland
 
 **Validation environments:** Oracle VirtualBox clean-room VM and physical Lenovo Legion 5 15ACH6H
+
+## 2026-11-10 — physical Fedora 45 migration (bounded operational acceptance)
+
+The operator reported a successfully completed controlled Fedora 44 → **45 offline upgrade** and active KDE Plasma 6.8.2/Wayland on the Lenovo Legion 5 with **NVIDIA 620.70.06 Open Kernel Module**. The new Fedora 45 kernel was **7.3.3-300.fc45.x86_64**; the external DisplayPort monitor and dock operated after reboot. Previously pinned Fedora 44 NVIDIA 610.57.04 versionlocks are historical and were removed for this migration, not silently retained. See [the dated migration worklog](docs/WORKLOG-2026-11-10.md).
+
+Before the transition, separate Btrfs snapshots, a new local restic snapshot and earlier independent external backups were preserved. Structural and bounded sample integrity checks passed; **a full off-host/bare-metal restore was not attempted**. The project has **not** rerun its Fedora 44/GNOME 50.5 full verifier or clean-room install against the new Fedora 45/KDE host. In particular, the historical `PASS=277 WARN=0 FAIL=0 SKIP=0` aggregate below **must not be presented as Fedora 45 validation**.
+
+A real **deep/S3 suspend/resume** returned to the KDE session, with NVIDIA suspend/resume systemd units completing and the external DisplayPort monitor remaining enabled. One `NV_ERR_NO_MEMORY` allocation warning appeared immediately before suspend; no other NVIDIA Xid or matching SELinux AVC was found in the inspected interval. `SUSPEND_RESUME=PASS_WITH_WARNING`, not a multi-cycle regression certification.
+
+The existing ASUS syslog-ng feed was made visible in Loki/Grafana by a new, ACL-restricted Alloy router-log file source. Query-time checks showed **66 router entries** and an existing Pi-hole log-volume chart of approximately **17.2k entries** in the selected period. These are bounded query/UI observations, not durability or completeness guarantees; **router-side production configuration was not modified**.
+
+VirtualBox 7.2.22 loaded all three host kernel modules; a test VM reached EFI firmware, but a near-empty VDI had no bootable operating system. A KDE-only XDG autostart override (`Hidden=true`) disabled the unsupported IMSettings starter, leaving **zero failed user units** in the checked session. A subsequent normal login should verify persistence.
+
+**Decision:** `FEDORA45_PHYSICAL_HOST=PASS_BOUNDED`; `FEDORA45_REPRODUCIBLE_RESTORE_BASELINE=HOLD`; no rollback indicated by present evidence, but preserve pre-upgrade recovery sets and monitor the NVIDIA warning. Historical October and early-November HOLD entries below remain time-scoped evidence.
 
 ## Objective
 
@@ -29,7 +44,7 @@ PASS=277 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current complete accepted physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state. It includes ArcMenu v74 / 70.0 with its exact-version gettext-domain binding fix, GSConnect v73 and ddterm v73 localization, the fully accepted Clipboard Indicator v71 64-entry completion, DING v99 in the managed system scope with its complete Polish desktop menu and `Monitor systemu` integration, Helium 0.18.1.1 / Chromium 154.0.8037.57 with strict 36-entry DataPack verification, the dedicated `workstation-tailscale` DROP policy, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, deterministic whole-tree integrity verification for all 21 enabled per-user GNOME extensions, and an independent exact managed-tree hash for DING. Ptyxis 50.1 remains fully physically accepted from the 2026-09-24 audit cycle. Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
+This is the last fully accepted **historical** Fedora 44 / GNOME 50.5 physical-host aggregate, not a Fedora 45/KDE full verification. It includes ArcMenu v74 / 70.0 with its exact-version gettext-domain binding fix, GSConnect v73 and ddterm v73 localization, the fully accepted Clipboard Indicator v71 64-entry completion, DING v99 in the managed system scope with its complete Polish desktop menu and `Monitor systemu` integration, Helium 0.18.1.1 / Chromium 154.0.8037.57 with strict 36-entry DataPack verification, the dedicated `workstation-tailscale` DROP policy, D-H1 trusted-firewall controls, D-H2/D-H3 explicit fail-closed security verification, deterministic whole-tree integrity verification for all 21 enabled per-user GNOME extensions, and an independent exact managed-tree hash for DING. Ptyxis 50.1 remains fully physically accepted from the 2026-09-24 audit cycle. Bluetooth Battery Meter v49 remains both the active runtime and reproducible restore pin, and the private GNOME Weather custom location remains reproducibly verified through libgweather without publishing its identifying data. No warnings, failures, or environment skips remain in the physical acceptance run.
 
 ## 2026-11-07 — Mac Tahoe Polish localization and safe-update inventory (KDE operating pilot)
 
