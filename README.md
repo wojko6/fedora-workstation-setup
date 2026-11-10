@@ -4,7 +4,16 @@ Reproducible setup for my Fedora workstation.
 
 The goal of this repository is to rebuild the workstation after a clean Fedora installation without restoring an old system image. It documents and automates packages, GNOME configuration, extensions, desktop launchers, networking fixes, selected security hardening, and repository-managed localization.
 
-## Current baseline
+## Current physical workstation — 2026-11-10
+
+- **Running OS:** Fedora **45**, kernel **7.3.3-300.fc45.x86_64**
+- **Session:** KDE Plasma **6.8.2**, Wayland
+- **GPU:** NVIDIA RTX 3060 Laptop GPU, **620.70.06 Open Kernel Module** (working external DisplayPort output)
+- **Hardware:** Lenovo Legion 5 15ACH6H; Realtek RTL8852AE Wi-Fi
+- **Post-upgrade:** physical boot, telemetry ingestion, VirtualBox UEFI start and one S3 suspend/resume cycle passed with a single NVIDIA memory-allocation warning; see [the 2026-11-10 worklog](docs/WORKLOG-2026-11-10.md).
+- **Not yet validated:** clean-room Fedora 45 restore, complete Fedora 45/KDE desired-state verification, full VirtualBox guest OS boot, repeated GPU sleep cycles, or bare-metal recovery.
+
+## Last fully validated reproducible restore baseline (historical)
 
 - Fedora 44
 - GNOME 50.5
@@ -68,7 +77,7 @@ The goal of this repository is to rebuild the workstation after a clean Fedora i
 
 ## Engineering roadmap
 
-The current accepted production baseline remains **Fedora 44 / GNOME Shell 50.5 / Wayland**.
+The last fully accepted **repository-managed reproducible restore baseline** remains **Fedora 44 / GNOME Shell 50.5 / Wayland**. This is distinct from the physically running Fedora 45 / KDE Wayland session recorded on 2026-11-10.
 
 The canonical technical roadmap is maintained in [ROADMAP.md](ROADMAP.md).
 It separates near-term hardening, recurring lifecycle maintenance, major
@@ -96,7 +105,7 @@ PASS=277 WARN=0 FAIL=0 SKIP=0
 VERIFY_RC=0
 ```
 
-This is the current complete accepted physical-host aggregate for Fedora 44 / GNOME 50.5. It includes the accepted localization state, explicit live security-posture verification, fail-closed required-state enforcement, deterministic whole-tree integrity verification for 21 enabled per-user GNOME extensions, ArcMenu v74 / 70.0 with the audited gettext-domain binding fix, GSConnect v73, and DING v99 migrated to a root-owned managed-system tree under `/usr/local/share/gnome-shell/extensions/`. The DING v99 build is source-archive SHA-256 pinned, permission-normalized before hashing, carries the repository Polish menu plus `Monitor systemu` integration, rejects stale per-user/pending-update copies, and is accepted at managed-tree SHA-256 `08a0c6e4ecb72c8e4693134c061cedfc88090054c98179de3dfd2fac2669a714`. A private GNOME Weather custom location remains part of the validated physical desired state, while its identifying name and coordinates are intentionally excluded from the public repository.
+This is the last complete accepted historical physical-host aggregate for the Fedora 44 / GNOME 50.5 desired state; it has not been re-run as a Fedora 45/KDE acceptance. It includes the accepted localization state, explicit live security-posture verification, fail-closed required-state enforcement, deterministic whole-tree integrity verification for 21 enabled per-user GNOME extensions, ArcMenu v74 / 70.0 with the audited gettext-domain binding fix, GSConnect v73, and DING v99 migrated to a root-owned managed-system tree under `/usr/local/share/gnome-shell/extensions/`. The DING v99 build is source-archive SHA-256 pinned, permission-normalized before hashing, carries the repository Polish menu plus `Monitor systemu` integration, rejects stale per-user/pending-update copies, and is accepted at managed-tree SHA-256 `08a0c6e4ecb72c8e4693134c061cedfc88090054c98179de3dfd2fac2669a714`. A private GNOME Weather custom location remains part of the validated physical desired state, while its identifying name and coordinates are intentionally excluded from the public repository.
 
 External RPM repository trust is also fail-closed: RPM Fusion, Brave, Helium COPR, and VPCS COPR are checked against reviewed source locations, local trust-anchor material, full OpenPGP fingerprints, package-signature verification, expected package signers, and COPR package scopes. Repository changes are guarded by a static validation workflow. The same `scripts/check-static.sh` entrypoint is used locally and in GitHub Actions to validate Bash syntax, error-level ShellCheck findings, Python syntax, gettext catalogs, JSON files, and desired-state inventory consistency.
 
