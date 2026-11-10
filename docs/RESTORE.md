@@ -1,5 +1,9 @@
 # Restore procedure
 
+## 2026-11-10 current-host notice
+
+The **running workstation is now Fedora 45 / KDE Plasma 6.8.2 / Wayland / NVIDIA 620.70.06**. The repository installer and full verifier documented below remain tied to the **historically validated Fedora 44/GNOME 50.5 desired state**. Do **not** run the Fedora 44 `install.sh` against the Fedora 45 KDE host as an unreviewed restore procedure. A Fedora 45 clean-room replay and corresponding desired-state promotion are still pending; see [the migration worklog](WORKLOG-2026-11-10.md) and [upgrade runbook](UPGRADE.md).
+
 ## Objective
 
 Rebuild the workstation from a clean Fedora installation using reviewed configuration rather than restoring an opaque full-system snapshot.
@@ -21,7 +25,7 @@ The repository must not contain passwords, Wi-Fi PSKs, private SSH keys, authent
 
 ## Current baseline checks
 
-**Scope clarification (2026-11-07):** the following checks describe the **accepted reproducible GNOME 50.5 desired state**, not a claim that GNOME is the currently visible desktop session. The operator is using a Fedora 44 / KDE Plasma 6.8.2 Wayland pilot; that KDE session has not received the full clean-room/physical restore acceptance gate. Two opt-in, user-level Mac Tahoe Liquid KDE Polish catalogs are independently backed up under [`localization/kde-tahoe/`](../localization/kde-tahoe/README.md). They are **not installed by the GNOME baseline** `install.sh`; to restore them separately after KDE is deliberately enabled, use `bash scripts/install-kde-tahoe-localizations.sh --verify`, then with operator approval `--install`. No current-session graphics settings, theme or panel layout are restored by this translation-only helper.
+**Scope clarification (2026-11-07):** the following checks describe the **accepted reproducible GNOME 50.5 desired state**, not a claim that GNOME is the currently visible desktop session. At the dated 2026-11-07 checkpoint the operator was using a Fedora 44 / KDE Plasma 6.8.2 Wayland pilot; the subsequent live upgrade to Fedora 45 on 2026-11-10 has not delivered a full clean-room/physical restore acceptance gate. Two opt-in, user-level Mac Tahoe Liquid KDE Polish catalogs are independently backed up under [`localization/kde-tahoe/`](../localization/kde-tahoe/README.md). They are **not installed by the GNOME baseline** `install.sh`; to restore them separately after KDE is deliberately enabled, use `bash scripts/install-kde-tahoe-localizations.sh --verify`, then with operator approval `--install`. No current-session graphics settings, theme or panel layout are restored by this translation-only helper.
 
 
 Expected characteristics of the accepted reproducible GNOME baseline include Fedora 44, GNOME 50.5, Wayland, and Wi-Fi power saving disabled for the selected NetworkManager Wi-Fi profile. This is a desired-state requirement, not an assertion that GNOME is the currently running desktop.
