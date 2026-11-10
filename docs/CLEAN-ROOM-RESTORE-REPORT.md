@@ -1,5 +1,7 @@
 # Clean-room Restore Validation Report
 
+> **Historical evidence notice (2026-11-10):** the clean-room results in this report validate the earlier Fedora 44/GNOME restore procedure, **not** the Fedora 45/KDE physical workstation migrated on 2026-11-10. No Fedora 45 clean-room rebuild has been confirmed; the new target baseline is not promoted. See [2026-11-10 worklog](WORKLOG-2026-11-10.md).
+
 ## Scope
 
 This report documents the clean Fedora restore test performed for `fedora-workstation-setup`. The test was designed to expose assumptions that can remain hidden when restore scripts are developed only on an already-configured workstation.
