@@ -8,8 +8,8 @@ This directory contains the reviewed operational and validation documentation fo
 - [CLEAN-ROOM-RESTORE-REPORT.md](CLEAN-ROOM-RESTORE-REPORT.md) — clean-room restore validation and lessons learned.
 - [DISASTER-RECOVERY.md](DISASTER-RECOVERY.md) — offline disaster-recovery strategy and validated recovery generations.
 - [DISASTER-RECOVERY-RUNBOOK.md](DISASTER-RECOVERY-RUNBOOK.md) — detailed total-failure recovery runbook from Live USB through final verification.
-- [UPGRADE.md](UPGRADE.md) — controlled Fedora major-upgrade lifecycle, clean-room gate, physical acceptance, and rollback rules.
-- [upgrade-preflights/2026-11-04-fedora45-nvidia620.md](upgrade-preflights/2026-11-04-fedora45-nvidia620.md) — operator-reported Fedora 45 KDE/NVIDIA 620 B1–B8 preflight, VPCS/scrcpy ABI, unresolved B9 and installation HOLD (not accepted baseline).
+- [UPGRADE.md](UPGRADE.md) — controlled Fedora major-upgrade lifecycle and dated 2026-11-10 physical-host migration, with clean-room/reproducible-baseline gate still open.
+- [upgrade-preflights/2026-11-04-fedora45-nvidia620.md](upgrade-preflights/2026-11-04-fedora45-nvidia620.md) — historical 2026-11-04 B1–B8 Fedora 45/KDE/NVIDIA 620 preflight; B9 and HOLD describe that date, superseded as physical-host state by the actual 2026-11-10 upgrade (clean-room promotion still pending).
 
 ## Desktop environments and localization
 
@@ -32,7 +32,7 @@ This directory contains the reviewed operational and validation documentation fo
 ## Project status
 
 - [../ROADMAP.md](../ROADMAP.md) — canonical technical roadmap, sequencing and promotion gates.
-- [../PROJECT-STATUS.md](../PROJECT-STATUS.md) — current accepted physical-host baseline and remaining work.
+- [../PROJECT-STATUS.md](../PROJECT-STATUS.md) — current physical Fedora 45/KDE state, distinct from the last fully accepted historical Fedora 44/GNOME restore baseline.
 - [WORKLOG-2026-09-22.md](WORKLOG-2026-09-22.md) — day-close worklog recording the physical visual validation of Polish Plymouth offline updates.
 - [WORKLOG-2026-09-24.md](WORKLOG-2026-09-24.md) — roadmap setup, Tailscale firewalld isolation, GSConnect/ddterm v73 maintenance, complete Ptyxis 50.1 localization closure, and final physical acceptance.
 - [WORKLOG-2026-09-25.md](WORKLOG-2026-09-25.md) — ArcMenu v74, DING v97 menu completion, GSConnect v73 consistency validation, Helium 0.18.1.1 re-audit, and final zero-warning physical acceptance.
@@ -41,6 +41,7 @@ This directory contains the reviewed operational and validation documentation fo
 - [WORKLOG-2026-10-10.md](WORKLOG-2026-10-10.md) — Fedora 44 KDE Plasma 6.7.5 pilot, failed GNOME fallback, KDE/Xwayland recovery, DrKonqi timeout closure, ASUS service audit, deferred Brave issue, and AK820 USB diagnostics; promotion remains pending.
 - [WORKLOG-2026-10-11.md](WORKLOG-2026-10-11.md) — signed NVIDIA 610.57.04 rollback with an offline 615 recovery set, DNF/GDM recovery incident, two successful deep GPU resumes, reproducible PlasmaQuick screen-lock SIGSEGV (2/2), and upstream KDE Bug #526934; KDE desired-state promotion remains pending.
 - [WORKLOG-2026-10-13.md](WORKLOG-2026-10-13.md) — DNF re-upgrade to NVIDIA 615, repeat black-screen diagnosis, verified 610 rollback, ten DNF version locks, selected recovery kernel, and one successful deep resume.
+- [WORKLOG-2026-11-10.md](WORKLOG-2026-11-10.md) — physical Fedora 45 migration, recovery checkpoints, NVIDIA 620 deep resume warning, ASUS/Pi-hole Loki/Grafana ingestion, VirtualBox UEFI start and KDE IMSettings cleanup; full reproducible-baseline promotion remains HOLD.
 - [WORKLOG-2026-11-07.md](WORKLOG-2026-11-07.md) — KDE Tahoe B291/B292 Polish UI verification and archive, Fedora 44/DNF5/Flatpak no-change inventory, nine-upgrade dry run, and the explicit 2026-11-08 update deferral.
 - [incidents/2026-10-13-nvidia-615-resume-regression.md](incidents/2026-10-13-nvidia-615-resume-regression.md) — detailed incident evidence, rollback procedure, bounded validation and unresolved KDE screen-lock risks.
 
