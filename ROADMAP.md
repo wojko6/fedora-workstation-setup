@@ -1,7 +1,8 @@
 # Fedora Workstation Engineering Roadmap
 
 **Status:** active roadmap  
-**Current accepted baseline:** Fedora 44 / GNOME Shell 50.5 / Wayland  
+**Current physical host (2026-11-10):** Fedora 45 / KDE Plasma 6.8.2 / NVIDIA 620.70.06  
+**Last accepted reproducible baseline:** Fedora 44 / GNOME Shell 50.5 / Wayland (historical; Fedora 45 promotion pending)  
 **Umbrella tracker:** [Issue #17](https://github.com/wojko6/fedora-workstation-setup/issues/17)
 
 This document is the canonical technical roadmap for the Fedora workstation
@@ -13,14 +14,14 @@ what is already physically accepted.
 
 The roadmap must never blur planned work into the accepted desired state.
 
-## Current accepted baseline
+## Last fully validated reproducible baseline (historical)
 
 ~~~text
 Fedora 44
 GNOME Shell 50.5
 Wayland
 
-PASS=258
+PASS=277
 WARN=0
 FAIL=0
 SKIP=0
@@ -29,6 +30,12 @@ VERIFY_RC=0
 
 Future work must preserve this baseline unless a new one is deliberately
 promoted through the documented validation process.
+
+## 2026-11-10 — operating system upgrade complete; desired-state migration remains open
+
+The physical workstation now boots **Fedora 45**, kernel **7.3.3-300.fc45.x86_64**, with KDE Plasma 6.8.2/Wayland and NVIDIA **620.70.06 Open**. Verified bounded postflight includes a functional external monitor, S3 suspend/resume with one NVIDIA `NV_ERR_NO_MEMORY` warning, a running local ASUS/Pi-hole Alloy → Loki → Grafana pipeline, VirtualBox kernel modules and UEFI VM start, and zero failed user units after the IMSettings XDG override. [Worklog](docs/WORKLOG-2026-11-10.md).
+
+**Do not equate successful physical upgrade with reproducible baseline promotion.** Issue #13's operating-system-transition gate has advanced, but the Fedora 45 clean-room rebuild, revised manifests/verifier, full security/desktop acceptance and proven independent restore **remain open**. GNOME 50.5 clean-room and `PASS=277` evidence below is historical. No new issue is created for this documentation-only reconciliation.
 
 ## Operating pilot update — 2026-11-04 (non-promoted)
 
