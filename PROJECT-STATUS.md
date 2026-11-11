@@ -7,6 +7,10 @@
 
 **Validation environments:** Oracle VirtualBox clean-room VM and physical Lenovo Legion 5 15ACH6H
 
+## 2026-11-11 — native AppBay / Krema launchpad (user-interface checkpoint)
+
+The operator confirmed a macOS-like native **Plasma AppBay** grid running under `plasmashell` on Fedora 45 / KDE Plasma 6.8.2 / Wayland. A local `Kicker.RootModel.onRefreshed` handler rebuilt the full initial grid after a controlled Plasma reload (log: `root=13 source=154 grid=154`). Search, page navigation, `Esc` and native activation through the already pinned **Krema** launcher were visibly validated. The dock launcher now invokes the existing widget action via D-Bus rather than launching `plasmawindowed`; the registered applet ID **100** is installation-specific, not a portable restore pin. The extra compact icon was hidden without removing the applet, and AppBay's Favorites dock was disabled. There was no measured 180 FPS or clean-room KDE restore. See [the detailed AppBay integration record](docs/kde-appbay-krema-launchpad-2026-11-11.md) and [November 11 worklog](docs/WORKLOG-2026-11-11.md). `APPBAY_KREMA_NATIVE_UI=PASS_BOUNDED`; `FEDORA45_REPRODUCIBLE_RESTORE_BASELINE=HOLD`.
+
 ## 2026-11-10 — physical Fedora 45 migration (bounded operational acceptance)
 
 The operator reported a successfully completed controlled Fedora 44 → **45 offline upgrade** and active KDE Plasma 6.8.2/Wayland on the Lenovo Legion 5 with **NVIDIA 620.70.06 Open Kernel Module**. The new Fedora 45 kernel was **7.3.3-300.fc45.x86_64**; the external DisplayPort monitor and dock operated after reboot. Previously pinned Fedora 44 NVIDIA 610.57.04 versionlocks are historical and were removed for this migration, not silently retained. See [the dated migration worklog](docs/WORKLOG-2026-11-10.md).
