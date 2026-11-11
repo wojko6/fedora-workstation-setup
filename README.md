@@ -13,6 +13,8 @@ The goal of this repository is to rebuild the workstation after a clean Fedora i
 - **Post-upgrade:** physical boot, telemetry ingestion, VirtualBox UEFI start and one S3 suspend/resume cycle passed with a single NVIDIA memory-allocation warning; see [the 2026-11-10 worklog](docs/WORKLOG-2026-11-10.md).
 - **Not yet validated:** clean-room Fedora 45 restore, complete Fedora 45/KDE desired-state verification, full VirtualBox guest OS boot, repeated GPU sleep cycles, or bare-metal recovery.
 
+> **2026-11-11 login-manager checkpoint:** the physical Fedora 45 / Plasma 6.8.2 host now runs **SDDM 0.21.0 with a locally adapted MacTahoe Qt 6 greeter** rather than GDM. The operator confirmed a real reboot, the login screen on the external DisplayPort monitor, successful authentication to KDE Wayland and `sddm.service` enabled/active. This is **bounded physical acceptance**, not a clean-room-restorable Fedora 45/KDE baseline. See [the MacTahoe SDDM field report](docs/kde-mactahoe-sddm-2026-11-11.md).
+
 ## Last fully validated reproducible restore baseline (historical)
 
 - Fedora 44
