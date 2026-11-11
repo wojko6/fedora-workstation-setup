@@ -13,6 +13,8 @@ This directory contains the reviewed operational and validation documentation fo
 
 ## Desktop environments and localization
 
+- [WORKLOG-2026-11-11.md](WORKLOG-2026-11-11.md) — operator-confirmed KDE localization phases 7–9, Plasma applet configuration sidebar width change, post-install hash evidence and remaining validation gates (2026-11-11; not a clean-room acceptance).
+
 - [kde-localization-audit-2026-11-10.md](kde-localization-audit-2026-11-10.md) — Fedora 45 KDE Flex Hub / Panel Colorizer localization audit and staged/apply evidence, partial visual acceptance, unresolved English weather metrics, KDE session incident and phase-7 HOLD.
 - [../localization/kde-tahoe/README.md](../localization/kde-tahoe/README.md) — KDE Mac Tahoe Liquid B291/B292 Polish Global Menu + Launcher catalogs, hashes, user-only restore, and visual verification (2026-11-07; does not promote KDE baseline).
 
