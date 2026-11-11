@@ -13,6 +13,10 @@ This directory contains the reviewed operational and validation documentation fo
 
 ## Desktop environments and localization
 
+- [kde-mactahoe-sddm-2026-11-11.md](kde-mactahoe-sddm-2026-11-11.md) — Fedora 45 MacTahoe SDDM v0.4 rollout, Plasma 6.8 QML workaround, external DP configuration, real-boot authentication evidence and GDM fallback (not exercised); reproducible restore remains HOLD.
+
+- [kde-finder-lab-2026-11-11.md](kde-finder-lab-2026-11-11.md) — pinned Finder KDE fork built on Fedora 45 with Qt 6.11.2/KF6 6.31; compiler/linkage checks PASS, GUI and installation unconfirmed, stock Dolphin preserved.
+
 - [kde-appbay-krema-launchpad-2026-11-11.md](kde-appbay-krema-launchpad-2026-11-11.md) — native Plasma AppBay + Krema dock activation, model-refresh fix, known failed standalone-window workarounds and operator-verified UI acceptance (Fedora 45, 2026-11-11; restore promotion remains HOLD).
 - [WORKLOG-2026-11-11.md](WORKLOG-2026-11-11.md) — operator-confirmed KDE localization phases 7–9, AppBay native Launchpad + Krema integration, Plasma applet configuration sidebar width change, post-install hash evidence and remaining validation gates (2026-11-11; not a clean-room acceptance).
 
