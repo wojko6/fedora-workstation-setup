@@ -1,5 +1,7 @@
 # KDE Plasma Polish localization — 2026-11-10 field audit
 
+> **Later evidence (2026-11-11):** phases 7–9 were subsequently applied and checked on the physical Fedora 45 workstation; the phase-7 settings labels and phase-9 Panel Colorizer category labels are visibly confirmed. The statements below about phase 7 being *prepared only* describe the **historical state on 2026-11-10**, not the later state. See the [dated November 11 follow-up](WORKLOG-2026-11-11.md) for current evidence, remaining gaps and the separate RPM-owned Plasma sidebar-width change.
+
 > **Environment observed:** Fedora 45, KDE Plasma 6.8.2 / Wayland, user-installed Plasma Flex Hub and Panel Colorizer, with Mac Tahoe-style user widgets.  
 > **Evidence class:** operator-provided read-only audit archives, command output, selected QML excerpts, and UI screenshots. Installer/script tests are distinct from physical UI acceptance.  
 > **Scope and decision:** user-scoped, separately approved localization changes only. WordCraft is explicitly excluded from local translation work while upstream changes frequently. No issue was opened. This audit does **not** promote Fedora 45/KDE to a reproducible workstation baseline.
