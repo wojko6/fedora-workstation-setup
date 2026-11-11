@@ -12,9 +12,7 @@ existing project issues rather than copying their implementation checklists.
 It does **not** replace [`ROADMAP.md`](../ROADMAP.md), accepted configuration
 files, or the ASUS repository's roadmap, and creates no new GitHub issues.
 
-The currently used workstation is Fedora 44 / KDE Plasma 6.8.2 / Wayland
-with NVIDIA 610.57.04 versionlocks; the repository's fully accepted,
-reproducible restore baseline remains Fedora 44 / GNOME 50.5. Items below
+**2026-11-10 state:** the physical workstation now runs **Fedora 45 / KDE Plasma 6.8.2 / Wayland** with **NVIDIA 620.70.06 Open**. The former Fedora 44 / NVIDIA 610.57.04 versionlocks are a historical 2026-11-07 checkpoint; the last fully accepted **reproducible** baseline remains Fedora 44 / GNOME 50.5 pending target clean-room verification. See [migration worklog](WORKLOG-2026-11-10.md). Items below
 are **not installed, tested or accepted merely because they appear here**.
 
 ## How to read and update this list

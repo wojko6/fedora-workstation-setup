@@ -19,6 +19,14 @@ The target release becomes the new project baseline only after:
 
 Do not change the documented accepted baseline before the physical acceptance run.
 
+## 2026-11-10 — physical Fedora 45 upgrade completed, promotion still pending
+
+**Current physical-host state supersedes the earlier preflight HOLD, but not this runbook's reproducibility gate.** On 2026-11-10 the operator completed a controlled offline Fedora 44 → **45** upgrade. Post-reboot evidence shows kernel `7.3.3-300.fc45.x86_64`, **KDE Plasma 6.8.2/Wayland**, NVIDIA **620.70.06 Open**, functioning external DisplayPort, working existing system services, Alloy/Loki/Grafana logging, and an EFI VirtualBox test VM launch. An actual S3/deep suspend/resume succeeded **with one NVIDIA `NV_ERR_NO_MEMORY` warning**. The KDE IMSettings autostart failure was cleared via a per-user `Hidden=true` override.
+
+**Pre-upgrade protection:** local Btrfs snapshots, restic structural and bounded sample checks, and separately retained independent backup generations. **Not established:** full bare-metal restore, target-release clean-room rebuilding, Fedora 45-specific packages/extension/localization verifier acceptance, comprehensive Secure Boot signing re-audit, VirtualBox guest OS boot, or multi-cycle suspend stability.
+
+**Decision:** `PHYSICAL_FEDORA45_UPGRADE=PASS_BOUNDED`; `REPRODUCIBLE_FEDORA45_BASELINE=HOLD`. Do not use the historical Fedora 44/GNOME full verifier as evidence of Fedora 45/KDE acceptance. Keep pre-upgrade recovery material; see the [dated worklog](WORKLOG-2026-11-10.md) and [recovery note](DISASTER-RECOVERY.md). No additional DNF transaction is authorized by this documentation.
+
 ## Non-promoted Fedora 45 KDE pilot — 2026-11-04
 
 An independent Fedora 44 KDE workstation pilot recorded read-only Fedora 45/NVIDIA 620.70.06 package preflight findings. The [dated B1–B8 evidence note](upgrade-preflights/2026-11-04-fedora45-nvidia620.md) reports a DNF5 transaction that resolves with NVIDIA 615 (not deployed), plus a separate local repository of 16 NVIDIA 620 RPMs (metadata/checksums only). **The full B9 Fedora 45 + NVIDIA 620 solver was not run.** The VPCS COPR returned a Fedora 45 404, and a later physical observation reported Secure Boot **disabled**, unlike earlier checkpoints. Accordingly this pilot remains `INSTALLATION_GATE=HOLD` and **does not change** the accepted Fedora/GNOME baseline or this runbook's acceptance requirements.
@@ -27,7 +35,7 @@ An independent Fedora 44 KDE workstation pilot recorded read-only Fedora 45/NVID
 
 The operator confirmed Fedora 44 / Plasma 6.8.2 and ten **NVIDIA 610.57.04 exact versionlocks**. Enabled repositories in the current host listing were Fedora 44 and its configured external providers; neither Fedora 45 nor `nv620-lab` appeared. This is separate from earlier isolated Fedora 45 solver experiments. Available update candidates included NVIDIA 615.78.08, KWin 6.8.2-3, Mesa 26.2.6 and kernel-related packages. A selective DNF5 `--assumeno` utility trial planned nine upgrades plus one new `python3-filelock` dependency and **was canceled by design**. No installation, kernel/driver transition, or Fedora release upgrade occurred. See [2026-11-07 worklog](WORKLOG-2026-11-07.md).
 
-**Current action:** keep `INSTALLATION_GATE=HOLD`; no unconditional system upgrade. Any future Fedora 45 transition still requires a separate valid target-release transaction, NVIDIA/graphics compatibility evidence, signed module/security posture verification, independent rollback readiness, and the unchanged clean-room/physical promotion criteria below. Do not treat a package listing or a successful user-local Tahoe localization as an upgrade authorization.
+**Action at the 2026-11-07 checkpoint (historical):** keep `INSTALLATION_GATE=HOLD`; no unconditional system upgrade. Any future Fedora 45 transition still requires a separate valid target-release transaction, NVIDIA/graphics compatibility evidence, signed module/security posture verification, independent rollback readiness, and the unchanged clean-room/physical promotion criteria below. Do not treat a package listing or a successful user-local Tahoe localization as an upgrade authorization.
 
 ## 1. Pre-upgrade gate
 

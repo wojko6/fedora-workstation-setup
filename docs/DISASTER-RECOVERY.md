@@ -14,17 +14,23 @@ The offline backup is intentionally **not stored in Git**.
 
 For the detailed incident sequence—triage, path selection, integrity checks, storage identification, Btrfs restore, boot/EFI reconciliation, first boot, and final acceptance—use [DISASTER-RECOVERY-RUNBOOK.md](DISASTER-RECOVERY-RUNBOOK.md).
 
+## 2026-11-10 — newer pre-upgrade recovery checkpoints (bounded verification)
+
+The 2026-09-21 generation below remains **historically validated evidence**, but it is **not the latest recovery material** prepared for the currently running Fedora 45 host. Before the **2026-11-10 Fedora 44 → 45 physical upgrade**, the operator retained independent prior external restic backups, created separate **read-only Btrfs root/home/machines snapshots**, and recorded a newer local restic snapshot. Its repository structure, a **bounded 1% data subset** and selected recovered-file hashes were checked successfully. This supports rollback *preparation* but **does not prove an off-host, complete or bootable restore**. Private identifiers, repository addresses, passphrases and actual backup contents remain outside this public documentation.
+
+**Preservation rule:** do not automatically delete the Fedora 44 recovery sets while Fedora 45/KDE long-term acceptance and a clean-room reconstruction remain open. Details of individual recovery generations are recorded in the private engineering log. See [2026-11-10 physical upgrade worklog](WORKLOG-2026-11-10.md) and [upgrade policy](UPGRADE.md).
+
 ## Validated recovery sets
 
 Validated recovery generations documented by this project include:
 
 - **2026-09-15** — original validated recovery set;
 - **2026-09-17** — refreshed recovery set after the earlier Fedora 44 / GNOME 50.4 accepted state;
-- **2026-09-21** — current validated recovery set created after the Fedora 44 / GNOME 50.5 physical verifier completed at `PASS=236 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
+- **2026-09-21** — historically validated recovery set created after the Fedora 44 / GNOME 50.5 physical verifier completed at `PASS=236 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`.
 
-The workstation desired-state baseline has since advanced and was most recently re-accepted on 2026-09-26 at `PASS=258 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. No newer private offline DR generation has been created yet, so the 2026-09-21 set remains the latest validated recovery artifact generation rather than a snapshot of every later desired-state change.
+The workstation desired-state baseline has since advanced and was most recently re-accepted on 2026-09-26 at `PASS=258 WARN=0 FAIL=0 SKIP=0`, `VERIFY_RC=0`. This was the latest validated generation **at the time of the 2026-09-26 checkpoint**; later backup sets are separately bounded by the 2026-11-10 update above and must not be conflated with this historical manifest.
 
-The latest 2026-09-21 recovery set contains:
+The historical 2026-09-21 recovery set contains:
 
 - a read-only Btrfs snapshot stream for the root filesystem;
 - a read-only Btrfs snapshot stream for the home filesystem;
@@ -41,7 +47,7 @@ The latest 2026-09-21 recovery set contains:
 
 The Btrfs streams and the `/boot` and EFI archives were compressed with Zstandard. Every compressed artifact passed `zstd -t`. The completed 2026-09-21 set was then verified against a **21-entry** `SHA256SUMS` manifest; every entry passed and the verification command returned `SHA256_VERIFY_RC=0`.
 
-The latest set occupies approximately **164 GiB** on the external recovery drive. It was created as a new dated generation rather than overwriting the documented earlier recovery generations. Backup creation and artifact integrity are validated; a full bare-metal restore onto an empty physical disk is still not claimed as exercised.
+The 2026-09-21 set occupies approximately **164 GiB** on the external recovery drive. It was created as a new dated generation rather than overwriting the documented earlier recovery generations. Backup creation and artifact integrity are validated; a full bare-metal restore onto an empty physical disk is still not claimed as exercised.
 
 ## Security and privacy boundary
 
