@@ -13,6 +13,12 @@ The operator changed the physical Fedora 45 / KDE Plasma 6.8.2 workstation's dis
 
 See [the SDDM technical record](docs/kde-mactahoe-sddm-2026-11-11.md) and [November 11 worklog](docs/WORKLOG-2026-11-11.md). `SDDM_REAL_LOGIN=PASS_OPERATOR_PHYSICAL`; `FEDORA45_REPRODUCIBLE_RESTORE_BASELINE=HOLD`.
 
+## 2026-11-11 — Finder KDE compile-only lab and KScreenLocker visual acceptance
+
+The operator built the pinned [Finder KDE](https://github.com/jingledingle521/finder-kde) Dolphin fork on Fedora 45 (Qt 6.11.2 / KF6 6.31; `BUILD_RC=0`). Built private libraries resolved from the lab tree, and the stock `org.kde.dolphin.desktop` default handler remained unchanged. No system install, xdg-desktop-portal integration, AirDrop, cloud connection or confirmed GUI runtime has been evidenced. See [Finder KDE lab report](docs/kde-finder-lab-2026-11-11.md).
+
+Separately, the operator selected the Tahoe wallpaper for **KScreenLocker** and visually accepted the lock screen, clarifying that the avatar is gold. No additional styling work is requested; the SDDM greeter and KDE lock screen remain distinct components. See [MacTahoe SDDM / KScreenLocker report](docs/kde-mactahoe-sddm-2026-11-11.md). `FEDORA45_REPRODUCIBLE_RESTORE_BASELINE=HOLD`.
+
 ## 2026-11-11 — native AppBay / Krema launchpad (user-interface checkpoint)
 
 The operator confirmed a macOS-like native **Plasma AppBay** grid running under `plasmashell` on Fedora 45 / KDE Plasma 6.8.2 / Wayland. A local `Kicker.RootModel.onRefreshed` handler rebuilt the full initial grid after a controlled Plasma reload (log: `root=13 source=154 grid=154`). Search, page navigation, `Esc` and native activation through the already pinned **Krema** launcher were visibly validated. The dock launcher now invokes the existing widget action via D-Bus rather than launching `plasmawindowed`; the registered applet ID **100** is installation-specific, not a portable restore pin. The extra compact icon was hidden without removing the applet, and AppBay's Favorites dock was disabled. There was no measured 180 FPS or clean-room KDE restore. See [the detailed AppBay integration record](docs/kde-appbay-krema-launchpad-2026-11-11.md) and [November 11 worklog](docs/WORKLOG-2026-11-11.md). `APPBAY_KREMA_NATIVE_UI=PASS_BOUNDED`; `FEDORA45_REPRODUCIBLE_RESTORE_BASELINE=HOLD`.

@@ -37,6 +37,12 @@ Two `sddm-helper` warnings reported locale `C` with ASCII encoding; Qt automatic
 
 The real greeter showed a white account avatar and brighter cyan password-field styling than the test preview. These are **cosmetic follow-ups**, not blockers. Power-button actions (sleep, reboot, shutdown), password-rejection UI and session persistence across multiple boots were **not independently tested**.
 
+## KScreenLocker visual follow-up — separate from SDDM
+
+KScreenLocker is the KDE **session lock screen** and is independent of the SDDM login greeter. The operator chose the MacTahoe background in Plasma's Screen Locking appearance settings and supplied a photograph showing the Tahoe wallpaper, clock, Polish date and password prompt. The operator clarified that the avatar **is gold** (its lighter appearance was a camera artifact) and explicitly accepted the lock screen as-is. No custom lock-screen QML, changes to authentication, or additional styling patches were authorized or deployed. This is visual acceptance only, not a tested multi-cycle unlock/resume or clean-room restoration.
+
+**Gate:** `KSCREENLOCKER_TAHOE_VISUAL=PASS_OPERATOR`, `KSCREENLOCKER_FURTHER_CHANGES=NONE`.
+
 ## Recovery and gates
 
 Keep the earlier GDM installation and the operator's local pre-switch backup outside Git. If a future SDDM change prevents login, switch to a text TTY (often `Ctrl+Alt+F3`) and, from an authenticated administrator shell, restore GDM:
