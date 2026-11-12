@@ -20,7 +20,7 @@ if command -v rpm >/dev/null 2>&1; then
     key="$(printf '%s' "$name" | tr '[:lower:]-' '[:upper:]_')"
     # Query an explicit newline-delimited result; a package may have multiple arches
     # or kernel releases. Ignore localized "not installed" messages on rpm failure.
-    if versions="$(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}\\n' "$name" 2>/dev/null)"; then
+    if versions="$(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' "$name" 2>/dev/null)"; then
       versions="$(printf '%s\n' "$versions" | LC_ALL=C sort -u | paste -sd ';' -)"
       printf 'RPM_%s=%s\n' "$key" "${versions:-NOT_INSTALLED}"
     else
