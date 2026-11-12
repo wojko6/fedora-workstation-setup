@@ -1,16 +1,16 @@
 component	group	target	artifact_pin	status	next_validation
-fedora-45-core	os	Official Fedora 45 packages	PENDING	INVENTORY_REQUIRED	Rebuild in disposable VM
-plasma-wayland	session	KDE Plasma 6.8.2 / Wayland	PENDING	OPERATOR_RUNNING	Record exact RPM provenance and login flow
+fedora-45-core	os	Official Fedora 45 packages	observed:fedora45-kernel-7.3.3-300.fc45.x86_64	HOST_READ_ONLY_OBSERVED	Rebuild in disposable VM
+plasma-wayland	session	KDE Plasma 6.8.2 / Wayland	observed:plasma-workspace-6.8.2-1.fc45;kwin-6.8.2-3.fc45	HOST_READ_ONLY_OBSERVED	Record exact RPM provenance and login flow
 nvidia-open	display	Driver for physical Lenovo Legion target	PENDING	OPERATOR_RUNNING	Isolate VM-independent and hardware-specific checks
 xdg-portals	integration	Portal backends and app ID registration	PENDING	NOT_VALIDATED	Open/save dialogs and Flatpak
 mime-associations	integration	XDG defaults and Dolphin/Finder actions	PENDING	NOT_VALIDATED	Check no system Dolphin regression
-finder-lab	source-build	Custom Finder KDE LAB	PENDING	LOCAL_BUILD_ONLY	Pin commit, patches, dependencies, KIO behavior
+finder-lab	source-build	Custom Finder KDE LAB	PENDING	HOST_FILES_PRESENT_BUILD_UNPROMOTED	Pin commit, patches, dependencies, KIO behavior
 finder-p0a	patch	C++ network widget restore	PENDING	LOCAL_BUILD_GUI_PARTIAL	Network/home/SMB regression tests
 finder-p0b1	progress-style	Compact status progress QSS	PENDING	LOCAL_GUI_PASS	Integrate and pin accepted candidate
-finder-p0b2	search-style	Search style moved to launch-specific QSS	PENDING	LOCAL_BUILD_ONLY	GUI search controls and input tests
-graphite-charcoal-v04	theme	Candidate dark neutral QSS	PENDING	CANDIDATE_GUI_REVIEW	Eliminate violet-tinted sidebar; review properties
+finder-p0b2	search-style	Search style moved to launch-specific QSS	PENDING	HOST_TEST_BINARY_PRESENT_UNPROMOTED	GUI search controls and input tests
+graphite-charcoal-v04	theme	Candidate dark neutral QSS	candidate-sha256:e8d540fe94eb85a9ba1bbadf15a0733960fb594230b5fdd94aab3340f4a00e19	HOST_CANDIDATE_PRESENT_UNPROMOTED	Eliminate violet-tinted sidebar; review properties
 finder-properties	theme	KDE properties and metadata dialogs	PENDING	CANDIDATE_GUI_REVIEW	Verify tags, combo arrows, Filelight label
-krema-dock	dock	Krema launcher and pinned applications	PENDING	LOCAL_RUNTIME_ONLY	Pin version, launchers and click behavior
+krema-dock	dock	Krema launcher and pinned applications	PENDING	TOOL_PRESENT_NOT_PINNED	Pin version, launchers and click behavior
 appbay	launcher	Native Plasma applet integrated with Krema	PENDING	LOCAL_RUNTIME_ONLY	Dynamic applet discovery, no numeric ID pin
 flex-hub	widget	KDE widget with four local patches	PENDING	LOCAL_PATCH_ARCHIVED	Review patch provenance and API compatibility
 global-menu	panel	KDE Tahoe global menu	PENDING	LOCAL_RUNTIME_ONLY	Check menu routing and two-session behavior
