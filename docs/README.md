@@ -27,6 +27,10 @@ This directory contains the reviewed operational and validation documentation fo
 
 ## Experimental software and integrations
 
+- [opennow-pl-1.0.5-2026-11-12.md](opennow-pl-1.0.5-2026-11-12.md) — OpenNOW PL 1.0.5 audit, nine catalog edits, FPS Auto QML correction, patchelf 0.19.1 and final Wayland/Krema acceptance (2026-11-12).
+- [WORKLOG-2026-11-12.md](WORKLOG-2026-11-12.md) — dated OpenNOW final build v4.1, operator-confirmed application activation and remaining language/streaming gates.
+
+
 - [TEST-WATCHLIST.md](TEST-WATCHLIST.md) — central cross-project candidate list (NectarLink, local AI/MCP, monitoring, KDE tools and model experiments), priorities, safety gates and existing issue links; **not** an approved deployment plan.
 
 ## Portfolio case studies
