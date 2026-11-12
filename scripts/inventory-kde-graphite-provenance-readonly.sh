@@ -7,7 +7,7 @@ if [[ "${1:-}" != "--read-only" || $# -ne 1 ]]; then
   exit 2
 fi
 
-printf 'PROFILE=FEDORA45_KDE_GRAPHITE\nPHASE=PROVENANCE_INVENTORY_V01\nMODE=READ_ONLY\nACCEPTED_BASELINE=NO\n'
+printf 'PROFILE=FEDORA45_KDE_GRAPHITE\nPHASE=PROVENANCE_INVENTORY_V02\nMODE=READ_ONLY\nACCEPTED_BASELINE=NO\nRPM_MULTIARCH_SEPARATOR=SEMICOLON\nRPM_MISSING_SENTINEL=NOT_INSTALLED\n'
 
 if command -v rpm >/dev/null 2>&1; then
   for name in \
@@ -18,8 +18,14 @@ if command -v rpm >/dev/null 2>&1; then
     akmod-nvidia akmod-nvidia-open xorg-x11-drv-nvidia \
     xorg-x11-drv-nvidia-cuda kernel-core; do
     key="$(printf '%s' "$name" | tr '[:lower:]-' '[:upper:]_')"
-    version="$(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}' "$name" 2>/dev/null || true)"
-    printf 'RPM_%s=%s\n' "$key" "${version:-NOT_INSTALLED}"
+    # Query an explicit newline-delimited result; a package may have multiple arches
+    # or kernel releases. Ignore localized "not installed" messages on rpm failure.
+    if versions="$(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}\\n' "$name" 2>/dev/null)"; then
+      versions="$(printf '%s\n' "$versions" | LC_ALL=C sort -u | paste -sd ';' -)"
+      printf 'RPM_%s=%s\n' "$key" "${versions:-NOT_INSTALLED}"
+    else
+      printf 'RPM_%s=NOT_INSTALLED\n' "$key"
+    fi
   done
 else
   printf 'RPM=UNAVAILABLE\n'
