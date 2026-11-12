@@ -39,4 +39,16 @@ bash scripts/inventory-kde-graphite-readonly.sh --read-only
 
 It prints no config contents, credentials, UUIDs, hostnames, home-directory paths or tokens. Inspect output before pasting it into a public discussion. The results are hints for a later curated manifest, not an automatic trust source.
 
+## Bounded host inventory checkpoint — 2026-11-12
+
+The first read-only inventory completed on the physical Fedora 45/KDE Wayland host. Its reported package versions and the local Charcoal v0.4 candidate SHA-256 are recorded in [the dated inventory checkpoint](../../docs/kde-graphite-inventory-2026-11-12.md). This confirms host observations, **not** a reproducible install.
+
+The next opt-in **read-only** audit collects only a fixed list of RPM versions, the Finder source HEAD / count of tracked modifications (no file list or remote URL), and hashes of three local Finder artifacts:
+
+```bash
+bash scripts/inventory-kde-graphite-provenance-readonly.sh --read-only
+```
+
+Review the output before sharing. No raw configuration or private data export is intended.
+
 **Do not run** `./install.sh` as a substitute. No current branch has an approved Fedora 45 KDE installer.
