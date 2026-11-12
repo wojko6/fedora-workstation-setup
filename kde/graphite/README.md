@@ -51,4 +51,12 @@ bash scripts/inventory-kde-graphite-provenance-readonly.sh --read-only
 
 Review the output before sharing. No raw configuration or private data export is intended.
 
+## Phase 2 checkpoint and first VM plan
+
+- [2026-11-12 package and Finder provenance checkpoint](../../docs/kde-graphite-provenance-2026-11-12.md)
+- [Observed RPM records (not an install lock)](host-observed-rpms-2026-11-12.tsv)
+- [Clean-room VirtualBox plan (design, not executed)](../../docs/kde-graphite-clean-room-vm-plan.md)
+
+The provenance helper has been corrected to v0.2 to separate multiarch RPM entries with semicolons and to emit `NOT_INSTALLED` for unsuccessful queries. Run `bash scripts/inventory-kde-graphite-provenance-readonly.sh --read-only` again to verify that behavior on the actual host. The first v0.1 run did not perform any mutations, but its raw RPM formatting was ambiguous.
+
 **Do not run** `./install.sh` as a substitute. No current branch has an approved Fedora 45 KDE installer.
