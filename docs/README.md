@@ -13,6 +13,7 @@ This directory contains the reviewed operational and validation documentation fo
 
 ## Desktop environments and localization
 
+- [design/FEDORA-GRAPHITE-DESIGN-SYSTEM.md](design/FEDORA-GRAPHITE-DESIGN-SYSTEM.md) — proposed Fedora Graphite cross-desktop design system: neutral graphite + steel-blue visual language, coherent Qt/GTK/Electron/Flatpak interaction patterns, Finder Graphite reference pilot, accessibility, evidence gates and reversible rollouts. **Design proposal, not an installed or restore-validated system theme.**
 - [kde-appbay-krema-launchpad-2026-11-11.md](kde-appbay-krema-launchpad-2026-11-11.md) — native Plasma AppBay + Krema dock activation, model-refresh fix, known failed standalone-window workarounds and operator-verified UI acceptance (Fedora 45, 2026-11-11; restore promotion remains HOLD).
 - [WORKLOG-2026-11-11.md](WORKLOG-2026-11-11.md) — operator-confirmed KDE localization phases 7–9, AppBay native Launchpad + Krema integration, Plasma applet configuration sidebar width change, post-install hash evidence and remaining validation gates (2026-11-11; not a clean-room acceptance).
 
