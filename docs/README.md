@@ -27,7 +27,7 @@ This directory contains the reviewed operational and validation documentation fo
 
 ## Experimental software and integrations
 
-- [WORKLOG-2026-11-13.md](WORKLOG-2026-11-13.md) — Finder KDE LAB matte Graphite A/A.1 acceptance boundaries, A.3 theme-profile confounder, A.4 address-bar and A.5 external MIME editor visual-review gaps, and A.6/A.7/A.8 plan; deployment and Fedora 45/KDE restore promotion remain HOLD.
+- [WORKLOG-2026-11-14.md](WORKLOG-2026-11-14.md) — Finder Graphite A6587.1–A6587.4 operator build/crash/GUI boundaries, A6588 static dialog audit (12 categories), A6588.1 guided runtime audit pending, and Graphite OS design-only decision; default Finder and Fedora restore promotion remain HOLD.\n- [WORKLOG-2026-11-13.md](WORKLOG-2026-11-13.md) — Finder KDE LAB matte Graphite A/A.1 acceptance boundaries, A.3 theme-profile confounder, A.4 address-bar and A.5 external MIME editor visual-review gaps, and A.6/A.7/A.8 plan; deployment and Fedora 45/KDE restore promotion remain HOLD.
 
 - [opennow-pl-1.0.5-2026-11-12.md](opennow-pl-1.0.5-2026-11-12.md) — OpenNOW PL 1.0.5 audit, nine catalog edits, FPS Auto QML correction, patchelf 0.19.1 and final Wayland/Krema acceptance (2026-11-12).
 - [WORKLOG-2026-11-12.md](WORKLOG-2026-11-12.md) — dated OpenNOW final build v4.1, operator-confirmed application activation and remaining language/streaming gates.
