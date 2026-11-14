@@ -144,6 +144,8 @@ GNOME Shell extensions integrated by this repository remain the work of their re
 
 The repository stores the desired configuration, not private user data. Secrets, Wi-Fi credentials, SSH private keys, browser profiles, password-manager vaults, raw shell history, VPN authentication state, private/precise location data, and other sensitive state must never be committed.
 
+The proposed [Fedora Graphite Design System](docs/design/FEDORA-GRAPHITE-DESIGN-SYSTEM.md) defines a coherent visual and interaction direction for the physical KDE pilot: neutral graphite, restrained steel-blue accents, consistent toolbar/menu/navigation patterns, and accessibility-first cross-toolkit integration. Finder Graphite is an isolated local reference pilot, not a modification of the stock Dolphin. The design is **not** an installed theme, a completed cross-application conversion, or an accepted reproducible KDE restore baseline.
+
 ## Restore flow
 
 ```bash
