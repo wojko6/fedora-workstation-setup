@@ -53,6 +53,7 @@ This directory contains the reviewed operational and validation documentation fo
 - [WORKLOG-2026-11-10.md](WORKLOG-2026-11-10.md) — physical Fedora 45 migration, recovery checkpoints, NVIDIA 620 deep resume warning, ASUS/Pi-hole ingestion, VirtualBox UEFI start, IMSettings cleanup and KDE Polish localization phases 4–7; full reproducible-baseline promotion remains HOLD.
 - [WORKLOG-2026-11-07.md](WORKLOG-2026-11-07.md) — KDE Tahoe B291/B292 Polish UI verification and archive, Fedora 44/DNF5/Flatpak no-change inventory, nine-upgrade dry run, and the explicit 2026-11-08 update deferral.
 - [incidents/2026-10-13-nvidia-615-resume-regression.md](incidents/2026-10-13-nvidia-615-resume-regression.md) — detailed incident evidence, rollback procedure, bounded validation and unresolved KDE screen-lock risks.
+- [WORKLOG-2026-10-25.md](WORKLOG-2026-10-25.md) — separate Fedora-only OpenCode / Ollama / rootless Podman lab: V0.17.3 real SIGTERM and clean-copy recovery PASS; V0.18 prepared but not yet validated, deployment HOLD.
 
 ## Verification entrypoints
 
