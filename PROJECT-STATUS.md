@@ -1,5 +1,22 @@
 # Project Status
 
+> **Documentation reconciliation (2026-11-15; source review only):** The newest
+> recorded **physical Fedora 45/KDE** post-upgrade acceptance remains the
+> operator-reported [2026-11-10 checkpoint](docs/WORKLOG-2026-11-10.md), not a
+> new November 15 host measurement. [Finder Graphite worklogs for Nov 13/14](docs/WORKLOG-2026-11-14.md)
+> are published through [merged PR #59](https://github.com/wojko6/fedora-workstation-setup/pull/59);
+> A6588.1 dialog/process ownership review is unfinished, and neither the
+> default Finder nor a reproducible KDE restore has been promoted.
+> [Fedora-only coding-agent documentation #53](https://github.com/wojko6/fedora-workstation-setup/pull/53)
+> and the [Tailscale firewalld verifier correction #20](https://github.com/wojko6/fedora-workstation-setup/pull/20)
+> are source-merged, not evidence of a new workstation deployment.
+> Separate [Draft #57](https://github.com/wojko6/fedora-workstation-setup/pull/57)
+> and [Draft #58](https://github.com/wojko6/fedora-workstation-setup/pull/58)
+> remain unmerged; #58 targets a restore-design branch rather than `main`.
+> **Last accepted reproducible baseline: Fedora 44/GNOME 50.5 (historical);
+> Fedora 45 KDE clean-room restore: HOLD.**
+> [Reconciliation details](docs/audits/2026-11-15-documentation-consistency.md).
+
 **Status (2026-11-10):** Physical workstation upgraded to **Fedora 45 / KDE Plasma 6.8.2 / NVIDIA 620.70.06**; bounded boot, display, telemetry, VirtualBox firmware and S3 resume checks passed. One NVIDIA memory allocation warning remains under observation. **Fedora 45 clean-room and complete desired-state promotion remain HOLD.**
 
 **Running host:** Fedora 45 · KDE Plasma 6.8.2 · Wayland · kernel 7.3.3-300.fc45.x86_64  
