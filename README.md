@@ -4,6 +4,19 @@ Reproducible setup for my Fedora workstation.
 
 The goal of this repository is to rebuild the workstation after a clean Fedora installation without restoring an old system image. It documents and automates packages, GNOME configuration, extensions, desktop launchers, networking fixes, selected security hardening, and repository-managed localization.
 
+## Source-documentation checkpoint — 2026-11-15
+
+The physical workstation state below was **reported and boundedly checked on
+2026-11-10**, not newly measured today. Subsequent Finder Graphite experiments
+and the pending dialog-origin audit are documented in the [Nov 13](docs/WORKLOG-2026-11-13.md)
+and [Nov 14](docs/WORKLOG-2026-11-14.md) worklogs, published in
+[PR #59](https://github.com/wojko6/fedora-workstation-setup/pull/59).
+The [Nov 12 OpenNOW record](docs/WORKLOG-2026-11-12.md) is app-only.
+Source publication does not approve a system Dolphin replacement or establish
+a complete Fedora 45/KDE restore. The accepted **historical** reproducible
+baseline remains Fedora 44/GNOME 50.5. See the
+[documentation reconciliation](docs/audits/2026-11-15-documentation-consistency.md).
+
 ## Current physical workstation — 2026-11-10
 
 - **Running OS:** Fedora **45**, kernel **7.3.3-300.fc45.x86_64**

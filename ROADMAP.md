@@ -31,6 +31,23 @@ VERIFY_RC=0
 Future work must preserve this baseline unless a new one is deliberately
 promoted through the documented validation process.
 
+## 2026-11-15 — publication reconciliation and remaining desktop gates
+
+- **Published source evidence:** [Nov 13/14 Finder Graphite worklogs](docs/WORKLOG-2026-11-14.md)
+  are on `main` through [PR #59](https://github.com/wojko6/fedora-workstation-setup/pull/59).
+  These record bounded GUI work, an earlier actual crash and partial repairs,
+  with the A6588.1 runtime dialog-origin audit still pending.
+- **Separately pending:** [Draft PR #57](https://github.com/wojko6/fedora-workstation-setup/pull/57)
+  retains the SDDM/Finder source checkpoint; [Draft PR #58](https://github.com/wojko6/fedora-workstation-setup/pull/58)
+  targets the Fedora 45 Graphite restore-design feature branch, not `main`.
+  Do not infer those unpublished documents are accepted current-state evidence.
+- **Gate unchanged:** Fedora 45/KDE physical operations were last boundedly
+  documented on November 10. A repeated clean-room restore, complete desired-state
+  verifier, Finder default-launcher acceptance, and independent recovery proof
+  remain **HOLD**. No desktop install, source promotion or other runtime action
+  follows from this documentation reconciliation.
+- [Bounded cross-document review](docs/audits/2026-11-15-documentation-consistency.md).
+
 ## 2026-11-10 — operating system upgrade complete; desired-state migration remains open
 
 The physical workstation now boots **Fedora 45**, kernel **7.3.3-300.fc45.x86_64**, with KDE Plasma 6.8.2/Wayland and NVIDIA **620.70.06 Open**. Verified bounded postflight includes a functional external monitor, S3 suspend/resume with one NVIDIA `NV_ERR_NO_MEMORY` warning, a running local ASUS/Pi-hole Alloy → Loki → Grafana pipeline, VirtualBox kernel modules and UEFI VM start, and zero failed user units after the IMSettings XDG override. [Worklog](docs/WORKLOG-2026-11-10.md).
