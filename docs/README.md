@@ -45,6 +45,8 @@ This directory contains the reviewed operational and validation documentation fo
 
 - [../ROADMAP.md](../ROADMAP.md) — canonical technical roadmap, sequencing and promotion gates.
 - [../PROJECT-STATUS.md](../PROJECT-STATUS.md) — current physical Fedora 45/KDE state, distinct from the last fully accepted historical Fedora 44/GNOME restore baseline.
+- [audits/2026-11-15-documentation-consistency.md](audits/2026-11-15-documentation-consistency.md) — Nov 15 cross-document source/PR reconciliation; historical Fedora 44 restore remains accepted, Fedora 45 KDE clean-room restore and Finder promotion remain HOLD.
+
 - [WORKLOG-2026-09-22.md](WORKLOG-2026-09-22.md) — day-close worklog recording the physical visual validation of Polish Plymouth offline updates.
 - [WORKLOG-2026-09-24.md](WORKLOG-2026-09-24.md) — roadmap setup, Tailscale firewalld isolation, GSConnect/ddterm v73 maintenance, complete Ptyxis 50.1 localization closure, and final physical acceptance.
 - [WORKLOG-2026-09-25.md](WORKLOG-2026-09-25.md) — ArcMenu v74, DING v97 menu completion, GSConnect v73 consistency validation, Helium 0.18.1.1 re-audit, and final zero-warning physical acceptance.
@@ -53,15 +55,16 @@ This directory contains the reviewed operational and validation documentation fo
 - [WORKLOG-2026-10-10.md](WORKLOG-2026-10-10.md) — Fedora 44 KDE Plasma 6.7.5 pilot, failed GNOME fallback, KDE/Xwayland recovery, DrKonqi timeout closure, ASUS service audit, deferred Brave issue, and AK820 USB diagnostics; promotion remains pending.
 - [WORKLOG-2026-10-11.md](WORKLOG-2026-10-11.md) — signed NVIDIA 610.57.04 rollback with an offline 615 recovery set, DNF/GDM recovery incident, two successful deep GPU resumes, reproducible PlasmaQuick screen-lock SIGSEGV (2/2), and upstream KDE Bug #526934; KDE desired-state promotion remains pending.
 - [WORKLOG-2026-10-13.md](WORKLOG-2026-10-13.md) — DNF re-upgrade to NVIDIA 615, repeat black-screen diagnosis, verified 610 rollback, ten DNF version locks, selected recovery kernel, and one successful deep resume.
-- [WORKLOG-2026-11-10.md](WORKLOG-2026-11-10.md) — physical Fedora 45 migration, recovery checkpoints, NVIDIA 620 deep resume warning, ASUS/Pi-hole ingestion, VirtualBox UEFI start, IMSettings cleanup and KDE Polish localization phases 4–7; full reproducible-baseline promotion remains HOLD.
-- [WORKLOG-2026-11-07.md](WORKLOG-2026-11-07.md) — KDE Tahoe B291/B292 Polish UI verification and archive, Fedora 44/DNF5/Flatpak no-change inventory, nine-upgrade dry run, and the explicit 2026-11-08 update deferral.
-- [incidents/2026-10-13-nvidia-615-resume-regression.md](incidents/2026-10-13-nvidia-615-resume-regression.md) — detailed incident evidence, rollback procedure, bounded validation and unresolved KDE screen-lock risks.
 - [WORKLOG-2026-10-25.md](WORKLOG-2026-10-25.md) — separate Fedora-only OpenCode / Ollama / rootless Podman lab: V0.17.3 real SIGTERM and clean-copy recovery PASS; V0.18 prepared but not yet validated, deployment HOLD.
+- [WORKLOG-2026-11-07.md](WORKLOG-2026-11-07.md) — KDE Tahoe B291/B292 Polish UI verification and archive, Fedora 44/DNF5/Flatpak no-change inventory, nine-upgrade dry run, and the explicit 2026-11-08 update deferral.
+- [WORKLOG-2026-11-10.md](WORKLOG-2026-11-10.md) — physical Fedora 45 migration, recovery checkpoints, NVIDIA 620 deep resume warning, ASUS/Pi-hole ingestion, VirtualBox UEFI start, IMSettings cleanup and KDE Polish localization phases 4–7; full reproducible-baseline promotion remains HOLD.
+
+- [incidents/2026-10-13-nvidia-615-resume-regression.md](incidents/2026-10-13-nvidia-615-resume-regression.md) — detailed incident evidence, rollback procedure, bounded validation and unresolved KDE screen-lock risks.
 
 ## Verification entrypoints
 
 - `bash scripts/check-static.sh` — repository-only validation.
-- `bash scripts/verify.sh` — live physical-host verification after restore and GNOME session restart.
+- `bash scripts/verify.sh` — verifier for the historical GNOME-oriented managed desired state after the appropriate session restart; **not** a completed Fedora 45/KDE full-restore acceptance.
 - `bash scripts/audit-extension-runtime.sh` — extension-focused runtime audit.
 
 The public repository intentionally excludes credentials, machine secrets, private backup artifacts, and other sensitive user data.
