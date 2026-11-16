@@ -10,7 +10,7 @@
 
 > "The computer is connected to the network, but it cannot access the Internet."
 
-The goal was to contrast an IPv4 addressing or lease problem with the DNS-only failure from [INC-001 (Draft PR #63)](https://github.com/wojko6/fedora-workstation-setup/pull/63). The operator inspected the guest configuration, deliberately released its DHCP lease, diagnosed the consequences, requested a new lease, and verified recovery.
+The goal was to contrast an IPv4 addressing or lease problem with the DNS-only failure from [INC-001](INC-001-dns-resolution-failure-2026-11-16.md). The operator inspected the guest configuration, deliberately released its DHCP lease, diagnosed the consequences, requested a new lease, and verified recovery.
 
 ## Laboratory environment
 
