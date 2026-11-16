@@ -24,7 +24,8 @@
 | `xdg-mime query default inode/directory` | Disagreed earlier (Dolphin); `xdg-mime` emitted missing `qtpaths`; **do not treat this query as the sole oracle** |
 | Finder task grouping in Krema | **PASS (operator)** |
 | Meta+E | **PASS — operator confirmation (2026-11-16):** shortcut now opens Finder, rather than Dolphin |
-| Portal identity and relogin/long-running soak | **OPEN** |
+| Portal app-ID registration | **PASS (bounded retest, 2026-11-16):** desktop entry valid, portal service active, D-Bus registry request succeeded, no portal warning captured on a new Finder launch |
+| Relogin/long-running soak | **OPEN** |
 
 ## Integration incident and successful remedy
 
@@ -47,7 +48,7 @@ gio open "$HOME/Dokumenty"
 xdg-open "$HOME/Dokumenty"
 ```
 
-Expected user-level relationship: GIO default `finder-kde-lab-v19.desktop`; Krema pinned ID `org.brhett.finder.desktop`. `Meta+E` was separately confirmed by the operator; do not infer portal registration or every third-party file picker from these MIME results.
+Expected user-level relationship: GIO default `finder-kde-lab-v19.desktop`; Krema pinned ID `org.brhett.finder.desktop`. `Meta+E` and portal registry behavior were separately confirmed by the operator; do not infer every third-party file picker or post-relogin persistence from these MIME results.
 
 ## Recovery and safety
 
@@ -56,6 +57,8 @@ Expected user-level relationship: GIO default `finder-kde-lab-v19.desktop`; Krem
 - Pinning recovery: remove `applications:org.brhett.finder.desktop` in the Krema GUI and re-pin a desired application; do not overwrite the entire `PinnedLaunchers` list.
 - No `sudo`, system Dolphin removal or package-file patch is required for the accepted setup.
 - Preserve local source modifications and backup state; the repository has not imported the local LAB executable, user profiles or system configuration.
-- The session emitted a non-fatal portal warning: `Could not register app ID: App info not found for 'org.brhett.finder'`. Follow up separately if portal-dependent functionality fails. Functional open tests still passed.
+- **Historical incident:** the session originally emitted `Could not register app ID: App info not found for 'org.brhett.finder'` before the `org.brhett.finder.desktop` alias existed.
+- **2026-11-16 operator retest after installing the matching alias:** `desktop-file-validate` returned `DESKTOP_VALIDATE_RC=0`; `systemctl --user is-active xdg-desktop-portal.service` returned `active`; `org.freedesktop.host.portal.Registry.Register('org.brhett.finder', '{}')` returned `()`; launching Finder with stderr/stdout redirected to a temporary log returned `PORTAL_MESSAGES=NONE` after a 3-second observation. **App-ID registration = PASS_BOUNDED**. The alias is the plausible remedy, but this test does not establish behavior after a new login, all portal workflows, or a fresh process with no previously running Finder instance.
+- **Do not** restart or patch the XDG portal solely because of the historical warning; validate after relogin if it recurs.
 
 **Decision:** `FINDER_V19_PHYSICAL_APP_ACCEPTANCE=PASS_BOUNDED`; `FINDER_USER_MIME_GIO=PASS`; `FINDER_KREMA_TASK_GROUPING=PASS`; `FEDORA45_KDE_CLEAN_ROOM_RESTORE=HOLD`. Historical A6588.1 dialog ownership review is still unresolved; this bounded acceptance does not retroactively mark it PASS.
