@@ -23,7 +23,7 @@
 | `gio mime inode/directory` default | `finder-kde-lab-v19.desktop` |
 | `xdg-mime query default inode/directory` | Disagreed earlier (Dolphin); `xdg-mime` emitted missing `qtpaths`; **do not treat this query as the sole oracle** |
 | Finder task grouping in Krema | **PASS (operator)** |
-| Meta+E | **OPEN:** earlier directly launched Dolphin; no verified remapping yet |
+| Meta+E | **PASS — operator confirmation (2026-11-16):** shortcut now opens Finder, rather than Dolphin |
 | Portal identity and relogin/long-running soak | **OPEN** |
 
 ## Integration incident and successful remedy
@@ -47,7 +47,7 @@ gio open "$HOME/Dokumenty"
 xdg-open "$HOME/Dokumenty"
 ```
 
-Expected user-level relationship: GIO default `finder-kde-lab-v19.desktop`; Krema pinned ID `org.brhett.finder.desktop`. Do not infer `Meta+E`, portal registration or every third-party file picker from those results.
+Expected user-level relationship: GIO default `finder-kde-lab-v19.desktop`; Krema pinned ID `org.brhett.finder.desktop`. `Meta+E` was separately confirmed by the operator; do not infer portal registration or every third-party file picker from these MIME results.
 
 ## Recovery and safety
 
