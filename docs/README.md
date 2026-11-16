@@ -33,6 +33,7 @@ This directory contains the reviewed operational and validation documentation fo
 ## Practical IT Support labs
 
 - [INC-001 — DNS resolution failure (2026-11-16)](labs/helpdesk/INC-001-dns-resolution-failure-2026-11-16.md) — isolated Debian 13/VirtualBox NAT incident simulation, verified symptom/recovery, root-cause analysis, English Service Desk closure note and CV-safe lab description. **Training exercise, not a production incident.**
+- [INC-002 — DHCP client lease loss and network recovery (2026-11-16)](labs/helpdesk/INC-002-dhcp-lease-loss-and-recovery-2026-11-16.md) — VirtualBox NAT guest lease release/reacquisition, diagnosis and post-fix checks; during-outage ping failure operator-reported without captured console output. **Training exercise, not a production incident.**
 
 ## Experimental software and integrations
 
