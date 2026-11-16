@@ -1,5 +1,8 @@
 # Project Status
 
+> **2026-11-16 application update:** the operator confirmed Finder KDE LAB v1.9 as the **GIO default handler for user directories**, successful `gio open` and `xdg-open` dispatch, four bounded file-operation test groups, Polish UI v0.5, and Krema task grouping using the separate `org.brhett.finder.desktop` alias. The stock Dolphin RPM was retained. **This supersedes the Nov 15 *application-default HOLD* statement only; `Meta+E` remapping, portal identity, long-run validation and the Fedora 45/KDE clean-room restore are still open.** The previously accepted Fedora 44/GNOME reproducible baseline is unchanged. See [dated deployment report](docs/finder-kde-lab-deployment-2026-11-16.md) and [worklog](docs/WORKLOG-2026-11-16.md). Krema 0.13.0 Polish C++/QML localization is [being prepared](docs/krema-polish-localization-2026-11-16.md), not yet operator-accepted.
+
+
 > **Documentation reconciliation (2026-11-15; source review only):** The newest
 > recorded **physical Fedora 45/KDE** post-upgrade acceptance remains the
 > operator-reported [2026-11-10 checkpoint](docs/WORKLOG-2026-11-10.md), not a
