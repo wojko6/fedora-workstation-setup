@@ -6,7 +6,7 @@ The goal of this repository is to rebuild the workstation after a clean Fedora i
 
 ## 2026-11-16 — bounded Finder default and Krema integration
 
-The operator confirmed local Finder KDE LAB v1.9 Polish runtime, four functional test groups, GIO directory default handling (`finder-kde-lab-v19.desktop`), and a correctly grouped Krema dock pin (`org.brhett.finder.desktop`). Stock Dolphin remains installed; `Meta+E`, portal app ID and clean-room restore remain open. [Deployment and rollback details](docs/finder-kde-lab-deployment-2026-11-16.md) · [Krema Polish localization plan](docs/krema-polish-localization-2026-11-16.md). The Fedora 45/KDE reproducible baseline is still HOLD.
+The operator confirmed local Finder KDE LAB v1.9 Polish runtime, four functional test groups, GIO directory default handling (`finder-kde-lab-v19.desktop`), and a correctly grouped Krema dock pin (`org.brhett.finder.desktop`). Stock Dolphin remains installed; the operator separately confirmed `Meta+E` opens Finder, and a bounded portal app-ID registration retest passed (desktop entry valid, registry call succeeded, no portal warning in the captured launch log). Post-relogin/portal workflow testing and Fedora 45/KDE clean-room restore remain open. [Deployment and rollback details](docs/finder-kde-lab-deployment-2026-11-16.md) · [Krema Polish localization deployment](docs/krema-polish-localization-2026-11-16.md). The Fedora 45/KDE reproducible baseline is still HOLD.
 
 ## Source-documentation checkpoint — 2026-11-15
 
