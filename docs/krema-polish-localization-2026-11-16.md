@@ -38,6 +38,12 @@ An earlier user-local `.desktop` Polish override translated the application name
 | Window Preview | Podgląd okien | QML |
 | Separate pinned and running apps | Oddziel przypięte i uruchomione aplikacje | QML |
 
+## 2026-11-16 v0.1 catalog artifact checkpoint
+
+A **separate, not-yet-installed** Polish pilot archive was generated for the operator: `krema-pl-v0130-v01.zip`, containing an editable `krema.po` (**268 source-reviewed context/message entries**), a user-scope installer/rollback script and Polish operator README. In an isolated local harness, the script self-test and preflight/apply/status/rollback passed, and the catalog parsed/compiled using Babel; the physical Fedora `msgfmt` check and actual Krema UI reload remain pending. This archive is delivered separately, **not promoted into repository restore manifests or RPM packaging**. 
+
+Installation guard: `rpm -q --qf '%{VERSION}' krema` must be `0.13.0`; compile with `msgfmt --check --check-format`, deploy only to `$HOME/.local/share/locale/pl/LC_MESSAGES/krema.mo`. If a catalog exists, make an exact rollback backup. No automatic dock restart, no launcher rewrites or `kremarc` edits.
+
 ## Status and exclusions
 
 - Existing Krema/Finder task grouping is accepted: dock pin `org.brhett.finder.desktop`, directory handler `finder-kde-lab-v19.desktop`. Localization must not change either binding.
