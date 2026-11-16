@@ -26,6 +26,10 @@ This directory contains the reviewed operational and validation documentation fo
 - [../gnome/README.md](../gnome/README.md) — GNOME desired-state policy, extension inventory, and Dhruva handling.
 - [Issue #12](https://github.com/wojko6/fedora-workstation-setup/issues/12) — planned GNOME + KDE Plasma coexistence design; GNOME remains the accepted baseline until KDE passes validation.
 
+## Practical IT Support labs
+
+- [INC-001 — DNS resolution failure (2026-11-16)](labs/helpdesk/INC-001-dns-resolution-failure-2026-11-16.md) — isolated Debian 13/VirtualBox NAT incident simulation, verified symptom/recovery, root-cause analysis, English Service Desk closure note and CV-safe lab description. **Training exercise, not a production incident.**
+
 ## Experimental software and integrations
 
 - [WORKLOG-2026-11-15.md](WORKLOG-2026-11-15.md) — GitHub PR #20/#53/#59/#60 merge record, related ASUS/Engineering Ideas source merges and documentation reconciliation; no live Fedora changes, Finder/default restore HOLD.
