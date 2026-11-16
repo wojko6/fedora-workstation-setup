@@ -25,10 +25,12 @@ This directory contains the reviewed operational and validation documentation fo
 - [../gnome/README.md](../gnome/README.md) — GNOME desired-state policy, extension inventory, and Dhruva handling.
 - [Issue #12](https://github.com/wojko6/fedora-workstation-setup/issues/12) — planned GNOME + KDE Plasma coexistence design; GNOME remains the accepted baseline until KDE passes validation.
 
+- [kde-graphite-restore-plan.md](kde-graphite-restore-plan.md), [kde-graphite-inventory-2026-11-12.md](kde-graphite-inventory-2026-11-12.md), [kde-graphite-provenance-2026-11-12.md](kde-graphite-provenance-2026-11-12.md), [kde-graphite-clean-room-vm-plan.md](kde-graphite-clean-room-vm-plan.md) — unpromoted Fedora 45 KDE Graphite desktop-profile design, host inventory and planned disposable-VM restore checks, maintained on a separate feature branch.
+
 ## Experimental software and integrations
 
 - [opennow-pl-1.0.5-2026-11-12.md](opennow-pl-1.0.5-2026-11-12.md) — OpenNOW PL 1.0.5 audit, nine catalog edits, FPS Auto QML correction, patchelf 0.19.1 and final Wayland/Krema acceptance (2026-11-12).
-- [WORKLOG-2026-11-12.md](WORKLOG-2026-11-12.md) — dated OpenNOW final build v4.1, operator-confirmed application activation and remaining language/streaming gates.
+- [WORKLOG-2026-11-12.md](WORKLOG-2026-11-12.md) — dated OpenNOW v1.0.5 PL results, Finder Graphite P0-A/P0-B1/P0-B2 and Charcoal UI audit, and the Fedora 45/KDE Graphite read-only restore design/inventory; full clean-room acceptance remains HOLD.
 
 
 - [TEST-WATCHLIST.md](TEST-WATCHLIST.md) — central cross-project candidate list (NectarLink, local AI/MCP, monitoring, KDE tools and model experiments), priorities, safety gates and existing issue links; **not** an approved deployment plan.
