@@ -38,3 +38,7 @@ See [../docs/LOCALIZATION-STATUS.md](../docs/LOCALIZATION-STATUS.md) for the acc
 ## KDE Plasma / Mac Tahoe Liquid — B291/B292 (2026-11-07)
 
 Two user-verified Polish gettext catalogs for the KDE Global Menu (54 messages) and Tahoe Launcher (45 messages) are archived as editable `.po` and exact working `.mo` files in [`kde-tahoe/`](kde-tahoe/README.md). The [restore instructions](kde-tahoe/README.md) and dedicated opt-in installer do not require root, rebuild plasmoids, or modify Plasma panels. This is an operational KDE checkpoint, **not** an update to the accepted GNOME desired-state baseline or its full verifier totals.
+
+## KDE Konsole and KIO6 — user-local Polish overlays (2026-11-17)
+
+The operator confirmed the corrected Konsole 26.08.3 context menu using independent user-local `konsole.mo` (five translation replacements) and `kio6.mo` (two contextual singular/plural entries) overlays. They are **not** part of the historical GNOME managed installer or full KDE restore definition; the Python installer artifacts remain outside this repository. The Konsole catalog hash was verified by the operator; the post-install KIO6 catalog hashes were not supplied. See the [bounded acceptance, script fingerprints and rollback record](../docs/konsole-kio6-polish-overlays-2026-11-17.md). Fedora 45/KDE clean-room promotion remains **HOLD**.
