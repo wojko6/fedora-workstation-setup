@@ -45,7 +45,14 @@ Two additional gettext entries are added to the locally copied `kio6.mo`, each r
 
 For both entries the second and third Polish plural forms use the plural value above. The leading `&` preserves Qt/KDE mnemonic handling. This overlay affects shared KIO6 translations, not exclusively Konsole, and therefore must be checked after relevant framework updates.
 
-The KIO6 physical UI fix was explicitly accepted by the operator. **KIO6 source/overlay SHA-256 values are not yet recorded from the host**; do not infer them from the Konsole hash or claim a KIO6 post-install hash audit passed.
+The KIO6 physical UI fix was explicitly accepted by the operator. The operator subsequently supplied a complete read-only catalog/manifest audit on **2026-11-17**: **all six checks passed**, including the exact KIO6 system and user-overlay SHA-256 values. This closes the previously open catalog-integrity evidence gap without changing the limited visual-acceptance scope.
+
+| KIO6 artifact | Operator-reported SHA-256 |
+| --- | --- |
+| RPM-owned `kio6.mo` input | `bfb8cbb248f742639ae8b08b67110de7d969c0e98ca809bcf37bd891b774b3cd` |
+| User overlay `kio6.mo` | `830f4b62a05b2a35d54caa0721d563a092c46f89b1388888a2645c7f4c0f7e31` |
+
+The operator's read-back manifest identifies `kio6_pl_open_folder_overlay_v01`, the expected source and overlay catalog paths, both matching SHA-256 hashes and `entries_added: 2`. Audit results: `SYSTEM_HASH=PASS`, `OVERLAY_HASH=PASS`, `TOOL_ID=PASS`, `ENTRIES=PASS`, `SOURCE_PATH=PASS`, `OVERLAY_PATH=PASS`, and `KIO6_INTEGRITY=PASS`. No additional host changes were made during this read-only audit.
 
 ## Artifacts, script fingerprints and ownership
 
@@ -88,7 +95,7 @@ cat "$HOME/.local/share/kio6-pl-open-folder/manifest.json"
 konsole --separate
 ```
 
-Verify both `Podziel widok` and the Polish `Otwórz katalog w` context-menu label in a newly started Konsole process. In earlier tests the Konsole catalog matched v0.1 byte-for-byte; the KIO6 host catalog hash remains a documentation follow-up.
+Verify both `Podziel widok` and the Polish `Otwórz katalog w` context-menu label in a newly started Konsole process. The Konsole catalog matched v0.1 byte-for-byte in the earlier operator audit, and the subsequent KIO6 source/overlay catalog and manifest audit also passed all six checks.
 
 ## Fresh installation — **only** on a compatible, unmodified baseline
 
@@ -120,7 +127,7 @@ A missing manifest, mismatched owner/metadata, modified catalog or unexpected us
 
 - **PASS (operator-reported, bounded):** Konsole menu wording, including the KIO6-backed folder-open action.
 - **PASS (operator-provided hash evidence):** the Konsole catalog/manifest matches v0.1.
-- **NOT YET RECORDED:** KIO6 host source/overlay SHA-256 and final manifest readback.
+- **PASS (operator-provided hash and manifest evidence, 6/6):** the KIO6 system/overlay catalogs, versioned tool identifier, two entries and expected source/destination paths match v0.1.
 - **NOT TESTED:** every Konsole/KIO6 menu variant, multi-folder plural behavior across applications, clean-room restore and full Fedora 45/KDE verifier.
 - On an update to Konsole or KDE Frameworks, re-audit system source strings, KIO6 plural/context keys, system catalog hashes and any existing user overlay before replacing or removing anything. A user-local catalog can shadow new upstream translations.
 - Keep Fedora 45/KDE fully reproducible baseline **HOLD** pending a separate clean-room restore and full verifier run. This localized UI acceptance does not alter historical GNOME baseline counts.
