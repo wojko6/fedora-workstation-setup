@@ -13,6 +13,9 @@ This directory contains the reviewed operational and validation documentation fo
 
 ## Desktop environments and localization
 
+- [WORKLOG-2026-11-17.md](WORKLOG-2026-11-17.md) — operator-confirmed Fedora 45 Konsole 26.08.3 and KIO6 user-local Polish gettext overlays (five Konsole corrections, two contextual KIO6 singular/plural entries), SHA-256 and manifest checks. **Bounded UI acceptance, no system RPM edits; Fedora 45/KDE clean-room restore HOLD.**
+- [konsole-kio6-polish-overlays-2026-11-17.md](konsole-kio6-polish-overlays-2026-11-17.md) — version-scoped localization, reproducibility limits, hashes, audit and safe opt-in rollback.
+
 - [finder-kde-lab-deployment-2026-11-16.md](finder-kde-lab-deployment-2026-11-16.md) — operator-accepted Finder v1.9 localization, functional tests, user MIME default, KDE desktop registration, Krema task grouping, rollback and remaining gates. **Local application only; clean-room restore HOLD.**
 - [krema-polish-localization-2026-11-16.md](krema-polish-localization-2026-11-16.md) — version-pinned Krema 0.13.0 C++/QML i18n discovery, 268-entry user-local Polish PO/MO deployment, rollback and operator-confirmed bounded Polish UI acceptance.
 - [WORKLOG-2026-11-16.md](WORKLOG-2026-11-16.md) — final daily closeout: Finder v1.9 default/portal and Krema PL acceptance, Debian DNS/DHCP incidents INC-001/INC-002, four verified PR merges, and a clearly **unexecuted** CCNP networking lab queue.
