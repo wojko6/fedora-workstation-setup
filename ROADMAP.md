@@ -31,6 +31,14 @@ VERIFY_RC=0
 Future work must preserve this baseline unless a new one is deliberately
 promoted through the documented validation process.
 
+## 2026-11-20 — documentation reconciliation of PR #58 and Finder v1.9
+
+- [PR #58](https://github.com/wojko6/fedora-workstation-setup/pull/58) was **merged on 2026-11-16 to `feature/fedora45-kde-graphite-restore` only**, **not to `main`**. Its merge records source history for the feature branch; it does not promote the Graphite restore design to the accepted production baseline. [Draft PR #57](https://github.com/wojko6/fedora-workstation-setup/pull/57) remains **open/unmerged**.
+- On **2026-11-16**, the operator confirmed [Finder KDE LAB v1.9](docs/finder-kde-lab-deployment-2026-11-16.md) as the local GIO default for user directories, working `gio open`, `xdg-open` and `Meta+E`, and bounded portal app-ID registration. These measured application-default and launch checks supersede the **Nov 15 Finder-default HOLD** only in that tested scope. Dolphin's system RPM remained intact.
+- **Still HOLD:** persistence after relogin, additional portal behavior, extended Finder stability, A6588.1 dialog/process ownership, complete Fedora 45/KDE desired-state verification, independent recovery and clean-room restoration. The last accepted reproducible baseline remains **Fedora 44/GNOME**. No new host measurement or system change was performed for this documentation correction.
+
+The 2026-11-15 section below is intentionally preserved as a **dated historical checkpoint**: its then-pending PR #58 and Finder-default statements are not current.
+
 ## 2026-11-15 — publication reconciliation and remaining desktop gates
 
 - **Published source evidence:** [Nov 13/14 Finder Graphite worklogs](docs/WORKLOG-2026-11-14.md)
