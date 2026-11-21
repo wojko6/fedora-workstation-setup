@@ -31,7 +31,6 @@ VERIFY_RC=0
 Future work must preserve this baseline unless a new one is deliberately
 promoted through the documented validation process.
 
-## 2026-11-20 — documentation reconciliation of PR #58 and Finder v1.9
 ## 2026-11-21 — Krema Graphite Fan Stack integration gates (lab only)
 
 - **Operator evidence:** v0.5 showed the native Downloads fan with clipping/offset; v0.6 compiled but failed to open; v0.7 logged launcher click, match and `POPUP_VISIBLE=true` with a misaligned popup; v0.8 showed improved visual anchor placement but **the test harness crashed in its cleanup diagnostics** (`pilot: unbound variable`). The operator **manually restored** production Graphite Animation v0.1 and verified one live Krema process. `FAN_STACK_V08=LAB_ONLY`, **not accepted production behavior**.
@@ -40,6 +39,7 @@ promoted through the documented validation process.
 - **Gate 3 — runtime acceptance:** bounded repeated open/close, file actions, Escape/outside-click, window previews, clean single-instance shutdown/restart and logs/screenshots. No assumption that v0.8 passed clickability merely because a screenshot looked correct.
 - **Production boundary:** keep Graphite v0.1 active; do not overwrite the Krema RPM, the autostart drop-in or `kremarc` for this experiment. Fedora 45/KDE clean-room restore and desired-state promotion remain **HOLD**.
 
+## 2026-11-20 — documentation reconciliation of PR #58 and Finder v1.9
 
 - [PR #58](https://github.com/wojko6/fedora-workstation-setup/pull/58) was **merged on 2026-11-16 to `feature/fedora45-kde-graphite-restore` only**, **not to `main`**. Its merge records source history for the feature branch; it does not promote the Graphite restore design to the accepted production baseline. [Draft PR #57](https://github.com/wojko6/fedora-workstation-setup/pull/57) remains **open/unmerged**.
 - On **2026-11-16**, the operator confirmed [Finder KDE LAB v1.9](docs/finder-kde-lab-deployment-2026-11-16.md) as the local GIO default for user directories, working `gio open`, `xdg-open` and `Meta+E`, and bounded portal app-ID registration. These measured application-default and launch checks supersede the **Nov 15 Finder-default HOLD** only in that tested scope. Dolphin's system RPM remained intact.
