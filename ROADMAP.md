@@ -31,6 +31,14 @@ VERIFY_RC=0
 Future work must preserve this baseline unless a new one is deliberately
 promoted through the documented validation process.
 
+## 2026-11-21 — issue backlog reconciliation (GitHub-only)
+
+- [#15](https://github.com/wojko6/fedora-workstation-setup/issues/15) closed as **not planned**: do not modify VSCodium translations locally. This is a scope decision, not completed localization testing.
+- [#27](https://github.com/wojko6/fedora-workstation-setup/issues/27) and [#28](https://github.com/wojko6/fedora-workstation-setup/issues/28) were already closed **completed**; umbrella [#17](https://github.com/wojko6/fedora-workstation-setup/issues/17) is checked accordingly. Recurring [#14](https://github.com/wojko6/fedora-workstation-setup/issues/14) stays open.
+- [#12](https://github.com/wojko6/fedora-workstation-setup/issues/12), [#13](https://github.com/wojko6/fedora-workstation-setup/issues/13), [#32](https://github.com/wojko6/fedora-workstation-setup/issues/32) and [#51](https://github.com/wojko6/fedora-workstation-setup/issues/51) now distinguish dated Fedora 44/NVIDIA 615 investigations from the Fedora 45/NVIDIA 620 post-upgrade checkpoint. **Clean-room recovery, extended suspend testing and desired-state promotion remain HOLD.**
+- [#50](https://github.com/wojko6/fedora-workstation-setup/issues/50) remains a long-term architecture idea linked to existing restoration/migration issues; no duplicate implementation issue is needed.
+- [PR #57](https://github.com/wojko6/fedora-workstation-setup/pull/57) merged into `main`; superseded PRs #9 and #67 closed unmerged. No host-side or runtime change followed from this cleanup.
+
 ## 2026-11-21 — Krema Graphite Fan Stack integration gates (lab only)
 
 - **Operator evidence:** v0.5 showed the native Downloads fan with clipping/offset; v0.6 compiled but failed to open; v0.7 logged launcher click, match and `POPUP_VISIBLE=true` with a misaligned popup; v0.8 showed improved visual anchor placement but **the test harness crashed in its cleanup diagnostics** (`pilot: unbound variable`). The operator **manually restored** production Graphite Animation v0.1 and verified one live Krema process. `FAN_STACK_V08=LAB_ONLY`, **not accepted production behavior**.
