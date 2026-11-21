@@ -1,5 +1,29 @@
 # Project Status
 
+> **2026-11-21 Krema Graphite Fan Stack lab checkpoint (operator-reported):** The active production dock remains the isolated **Krema Graphite Animation v0.1** executable, not any Fan Stack pilot. Native Fan Stack **v0.5** opened but was offset/clipped; **v0.6** passed QML/build checks and started yet did not open (functional FAIL); **v0.7** recorded launcher click/match and visible popup (bounded functional PASS) but remained misaligned; **v0.8** looked better aligned in a screenshot, but the test harness aborted during diagnostics with `pilot: unbound variable` before automatic restoration (**AUTO_RESTORE_FAIL**). The operator then manually stopped the pilot, restarted the production user service, and confirmed `active`, the expected Graphite v0.1 executable, and **one** Krema process (**MANUAL_RESTORE=PASS**). v0.8 interaction completeness, repeatability, automatic rollback, long-run stability and installation remain **UNVERIFIED/HOLD**. `KREMA_GRAPHITE_V01=ACTIVE`; `FAN_STACK_V08=LAB_ONLY`; `AUTO_RESTORE_FIX=REQUIRED`. These bounded desktop checks do **not** promote the Fedora 45/KDE clean-room restore baseline.
+
+> **2026-11-20 documentation status reconciliation:** [PR #58](https://github.com/wojko6/fedora-workstation-setup/pull/58) was **merged on 2026-11-16 into `feature/fedora45-kde-graphite-restore`, not `main`**. [PR #57](https://github.com/wojko6/fedora-workstation-setup/pull/57) remains **OPEN/DRAFT and unmerged**. The dated 2026-11-15 reconciliation below is a **historical snapshot** and its then-pending PR #58 wording is not current. The separate operator-confirmed [2026-11-16 Finder v1.9 deployment report](docs/finder-kde-lab-deployment-2026-11-16.md) supersedes the Nov 15 Finder-default HOLD for user directories, `gio open` / `xdg-open`, and `Meta+E` in its tested scope only. Post-relogin persistence, remaining portal flows, A6588.1 dialog audit, extended runtime checks and **Fedora 45/KDE clean-room restore remain OPEN/HOLD**; the Fedora 44/GNOME reproducible baseline remains historical and unpromoted. This reconciliation is **documentation only**, not a new workstation test or promotion.
+
+> **2026-11-16 application update:** the operator confirmed Finder KDE LAB v1.9 as the **GIO default handler for user directories**, successful `gio open` and `xdg-open` dispatch, four bounded file-operation test groups, Polish UI v0.5, and Krema task grouping using the separate `org.brhett.finder.desktop` alias. The stock Dolphin RPM was retained. **This supersedes the Nov 15 *application-default HOLD* statement only; `Meta+E` now launches Finder (operator-confirmed); portal app-ID registration now passes a bounded D-Bus and launch-log retest; post-relogin persistence, other portal workflows, long-run validation and the Fedora 45/KDE clean-room restore are still open.** The previously accepted Fedora 44/GNOME reproducible baseline is unchanged. See [dated deployment report](docs/finder-kde-lab-deployment-2026-11-16.md) and [worklog](docs/WORKLOG-2026-11-16.md). Krema 0.13.0 Polish KI18n catalog (268 entries) was [installed user-locally](docs/krema-polish-localization-2026-11-16.md), passed catalog integrity checks, and the operator confirmed a working Polish UI. This is bounded runtime acceptance rather than exhaustive per-string coverage.
+
+
+> **Documentation reconciliation (2026-11-15; source review only):** The newest
+> recorded **physical Fedora 45/KDE** post-upgrade acceptance remains the
+> operator-reported [2026-11-10 checkpoint](docs/WORKLOG-2026-11-10.md), not a
+> new November 15 host measurement. [Finder Graphite worklogs for Nov 13/14](docs/WORKLOG-2026-11-14.md)
+> are published through [merged PR #59](https://github.com/wojko6/fedora-workstation-setup/pull/59);
+> A6588.1 dialog/process ownership review is unfinished, and neither the
+> default Finder nor a reproducible KDE restore has been promoted.
+> [Fedora-only coding-agent documentation #53](https://github.com/wojko6/fedora-workstation-setup/pull/53)
+> and the [Tailscale firewalld verifier correction #20](https://github.com/wojko6/fedora-workstation-setup/pull/20)
+> are source-merged, not evidence of a new workstation deployment.
+> Separate [Draft #57](https://github.com/wojko6/fedora-workstation-setup/pull/57)
+> and [Draft #58](https://github.com/wojko6/fedora-workstation-setup/pull/58)
+> remain unmerged; #58 targets a restore-design branch rather than `main`.
+> **Last accepted reproducible baseline: Fedora 44/GNOME 50.5 (historical);
+> Fedora 45 KDE clean-room restore: HOLD.**
+> [Reconciliation details](docs/audits/2026-11-15-documentation-consistency.md).
+
 **Status (2026-11-10):** Physical workstation upgraded to **Fedora 45 / KDE Plasma 6.8.2 / NVIDIA 620.70.06**; bounded boot, display, telemetry, VirtualBox firmware and S3 resume checks passed. One NVIDIA memory allocation warning remains under observation. **Fedora 45 clean-room and complete desired-state promotion remain HOLD.**
 
 **Running host:** Fedora 45 · KDE Plasma 6.8.2 · Wayland · kernel 7.3.3-300.fc45.x86_64  
@@ -7,17 +31,9 @@
 
 **Validation environments:** Oracle VirtualBox clean-room VM and physical Lenovo Legion 5 15ACH6H
 
-## 2026-11-11 — MacTahoe SDDM v0.4 (physical login acceptance)
+## 2026-11-12 — OpenNOW 1.0.5 Polish AppImage (local application acceptance)
 
-The operator changed the physical Fedora 45 / KDE Plasma 6.8.2 workstation's display manager from GDM to **SDDM 0.21.0**, using the locally adapted MacTahoe Qt 6 greeter `Fedora-MacTahoe-v04`. Staging, SDDM Wayland/KWin settings, external display configuration and theme selection passed local checks. An initial reboot showed Plasma Setup rather than the greeter; the exact intermediate resolution is not proven by shared terminal output. A later boot photo confirmed the MacTahoe login screen on the external DisplayPort monitor, and the operator **successfully authenticated to KDE Plasma Wayland**. Post-login checks: `sddm.service=enabled/active`, desktop `KDE`, session `wayland`, language `pl_PL.UTF-8`. Two helper-process `C`→`C.UTF-8` Qt warnings were non-blocking. The documented GDM TTY recovery was **not** executed. Physical login acceptance does **not** promote the Fedora 45/KDE reproducible restore baseline.
-
-See [the SDDM technical record](docs/kde-mactahoe-sddm-2026-11-11.md) and [November 11 worklog](docs/WORKLOG-2026-11-11.md). `SDDM_REAL_LOGIN=PASS_OPERATOR_PHYSICAL`; `FEDORA45_REPRODUCIBLE_RESTORE_BASELINE=HOLD`.
-
-## 2026-11-11 — Finder KDE compile-only lab and KScreenLocker visual acceptance
-
-The operator built the pinned [Finder KDE](https://github.com/jingledingle521/finder-kde) Dolphin fork on Fedora 45 (Qt 6.11.2 / KF6 6.31; `BUILD_RC=0`). Built private libraries resolved from the lab tree, and the stock `org.kde.dolphin.desktop` default handler remained unchanged. No system install, xdg-desktop-portal integration, AirDrop, cloud connection or confirmed GUI runtime has been evidenced. See [Finder KDE lab report](docs/kde-finder-lab-2026-11-11.md).
-
-Separately, the operator selected the Tahoe wallpaper for **KScreenLocker** and visually accepted the lock screen, clarifying that the avatar is gold. No additional styling work is requested; the SDDM greeter and KDE lock screen remain distinct components. See [MacTahoe SDDM / KScreenLocker report](docs/kde-mactahoe-sddm-2026-11-11.md). `FEDORA45_REPRODUCIBLE_RESTORE_BASELINE=HOLD`.
+A custom OpenNOW v1.0.5 Polish AppImage for Fedora 45/KDE/Wayland was built in an isolated lab from upstream commit `a9de957a5902c54186e9d4b44b1562f0b6beb951`. **4,180/4,180** localization keys match; the final candidate contains **nine** catalog changes plus a QML FPS Auto selector correction preserving `AUTO`/`fps=0` internally and **Automatycznie** visually. The operator reported **Qt/Rust build PASS**, **CI unit tests PASS**, **Wayland smoke PASS**, and confirmed the updated Polish-only AppImage launches from Krema. The official OpenNOW remained unchanged; no backup was made at the operator's request. **19** contextual localization items, one anomalous upstream fragment and a separately instrumented extended streaming test remain open. This app-only result does **not** promote the Fedora 45/KDE reproducible restore baseline. See [technical record](docs/opennow-pl-1.0.5-2026-11-12.md) and [worklog](docs/WORKLOG-2026-11-12.md).
 
 ## 2026-11-11 — native AppBay / Krema launchpad (user-interface checkpoint)
 

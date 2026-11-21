@@ -2,6 +2,7 @@
 
 > Evidence: operator-supplied console output and real-boot photographs on the physical workstation, plus upstream QML inspection. No remote host access, reproducible installation test, CI-based runtime check or independent rollback exercise is claimed.
 > Scope: the **running** Fedora 45 KDE Wayland desktop; this is **not** promotion of the historical Fedora 44/GNOME clean-room restore baseline.
+> **Historical checkpoint, not a new system test (2026-11-21 publication):** This report records the **2026-11-11** physical greeter/login and lock-screen observations only. It does not establish post-reboot longevity, exercised rollback, or clean-room reproducibility. For later Fedora 45/KDE evidence and unchanged restore HOLD see [Project Status](../PROJECT-STATUS.md).
 
 ## Outcome
 

@@ -4,6 +4,23 @@ Reproducible setup for my Fedora workstation.
 
 The goal of this repository is to rebuild the workstation after a clean Fedora installation without restoring an old system image. It documents and automates packages, GNOME configuration, extensions, desktop launchers, networking fixes, selected security hardening, and repository-managed localization.
 
+## 2026-11-16 — bounded Finder default and Krema integration
+
+The operator confirmed local Finder KDE LAB v1.9 Polish runtime, four functional test groups, GIO directory default handling (`finder-kde-lab-v19.desktop`), and a correctly grouped Krema dock pin (`org.brhett.finder.desktop`). Stock Dolphin remains installed; the operator separately confirmed `Meta+E` opens Finder, and a bounded portal app-ID registration retest passed (desktop entry valid, registry call succeeded, no portal warning in the captured launch log). Post-relogin/portal workflow testing and Fedora 45/KDE clean-room restore remain open. [Deployment and rollback details](docs/finder-kde-lab-deployment-2026-11-16.md) · [Krema Polish localization deployment](docs/krema-polish-localization-2026-11-16.md). The Fedora 45/KDE reproducible baseline is still HOLD.
+
+## Source-documentation checkpoint — 2026-11-15
+
+The physical workstation state below was **reported and boundedly checked on
+2026-11-10**, not newly measured today. Subsequent Finder Graphite experiments
+and the pending dialog-origin audit are documented in the [Nov 13](docs/WORKLOG-2026-11-13.md)
+and [Nov 14](docs/WORKLOG-2026-11-14.md) worklogs, published in
+[PR #59](https://github.com/wojko6/fedora-workstation-setup/pull/59).
+The [Nov 12 OpenNOW record](docs/WORKLOG-2026-11-12.md) is app-only.
+Source publication does not approve a system Dolphin replacement or establish
+a complete Fedora 45/KDE restore. The accepted **historical** reproducible
+baseline remains Fedora 44/GNOME 50.5. See the
+[documentation reconciliation](docs/audits/2026-11-15-documentation-consistency.md).
+
 ## Current physical workstation — 2026-11-10
 
 - **Running OS:** Fedora **45**, kernel **7.3.3-300.fc45.x86_64**
@@ -12,10 +29,6 @@ The goal of this repository is to rebuild the workstation after a clean Fedora i
 - **Hardware:** Lenovo Legion 5 15ACH6H; Realtek RTL8852AE Wi-Fi
 - **Post-upgrade:** physical boot, telemetry ingestion, VirtualBox UEFI start and one S3 suspend/resume cycle passed with a single NVIDIA memory-allocation warning; see [the 2026-11-10 worklog](docs/WORKLOG-2026-11-10.md).
 - **Not yet validated:** clean-room Fedora 45 restore, complete Fedora 45/KDE desired-state verification, full VirtualBox guest OS boot, repeated GPU sleep cycles, or bare-metal recovery.
-
-> **2026-11-11 login-manager checkpoint:** the physical Fedora 45 / Plasma 6.8.2 host now runs **SDDM 0.21.0 with a locally adapted MacTahoe Qt 6 greeter** rather than GDM. The operator confirmed a real reboot, the login screen on the external DisplayPort monitor, successful authentication to KDE Wayland and `sddm.service` enabled/active. This is **bounded physical acceptance**, not a clean-room-restorable Fedora 45/KDE baseline. See [the MacTahoe SDDM field report](docs/kde-mactahoe-sddm-2026-11-11.md).
-
-> **2026-11-11 Finder KDE lab:** experimental Finder-style Dolphin fork built successfully in a separate user-local lab (`BUILD_RC=0`, pinned source). Stock Dolphin remains the directory handler; graphical launch, portal integration and installation were **not** validated or performed. The separately styled KScreenLocker Tahoe background was operator-accepted without further changes. See [the Finder lab report](docs/kde-finder-lab-2026-11-11.md) and [SDDM/KScreenLocker record](docs/kde-mactahoe-sddm-2026-11-11.md).
 
 ## Last fully validated reproducible restore baseline (historical)
 
@@ -147,6 +160,8 @@ GNOME Shell extensions integrated by this repository remain the work of their re
 ## Design
 
 The repository stores the desired configuration, not private user data. Secrets, Wi-Fi credentials, SSH private keys, browser profiles, password-manager vaults, raw shell history, VPN authentication state, private/precise location data, and other sensitive state must never be committed.
+
+The proposed [Fedora Graphite Design System](docs/design/FEDORA-GRAPHITE-DESIGN-SYSTEM.md) defines a coherent visual and interaction direction for the physical KDE pilot: neutral graphite, restrained steel-blue accents, consistent toolbar/menu/navigation patterns, and accessibility-first cross-toolkit integration. Finder Graphite is an isolated local reference pilot, not a modification of the stock Dolphin. The design is **not** an installed theme, a completed cross-application conversion, or an accepted reproducible KDE restore baseline.
 
 ## Restore flow
 

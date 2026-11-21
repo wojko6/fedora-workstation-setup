@@ -2,6 +2,7 @@
 
 > Evidence boundary: physical-workstation console outputs copied by the operator; upstream source review through the GitHub repository. No assistant execution on the workstation, no independent runtime screenshot or binary reproducibility test.
 > Scope: a **separate experimental KDE Dolphin fork**, not a replacement of the system file manager. This document does not promote the Fedora 45/KDE clean-room restore baseline.
+> **Historical checkpoint, not current Finder status (2026-11-21 publication):** This document describes the **2026-11-11 Finder v0.1 compile-only** state. The `FINDER_KDE_GUI=NOT_REPORTED` and Dolphin-default findings apply **on that date only**. On **2026-11-16**, the operator confirmed the [Finder v1.9 user-local deployment, directory default and bounded portal/launcher behavior](finder-kde-lab-deployment-2026-11-16.md). Neither checkpoint promotes a Fedora 45/KDE clean-room reproducible baseline.
 
 ## Source and rationale
 

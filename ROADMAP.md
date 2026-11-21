@@ -31,6 +31,59 @@ VERIFY_RC=0
 Future work must preserve this baseline unless a new one is deliberately
 promoted through the documented validation process.
 
+## 2026-11-21 — Krema Graphite Fan Stack integration gates (lab only)
+
+- **Operator evidence:** v0.5 showed the native Downloads fan with clipping/offset; v0.6 compiled but failed to open; v0.7 logged launcher click, match and `POPUP_VISIBLE=true` with a misaligned popup; v0.8 showed improved visual anchor placement but **the test harness crashed in its cleanup diagnostics** (`pilot: unbound variable`). The operator **manually restored** production Graphite Animation v0.1 and verified one live Krema process. `FAN_STACK_V08=LAB_ONLY`, **not accepted production behavior**.
+- **Gate 1 — mandatory test harness repair:** use a restoration path that cannot be stopped by logging/diagnostic failures; explicitly handle failed starts, signals, interrupted tests and single-instance checks. Demonstrate automatic restore of the original user service and unchanged configuration, including an induced diagnostic failure. Until passed: `AUTO_RESTORE_FIX=REQUIRED` and no new live pilot.
+- **Gate 2 — geometry:** replace the trial fixed `-280` shift with the actual dock icon position; move both the popup visualization and its Wayland input surface, and verify changing dock item counts, hover magnification and the external display's available area.
+- **Gate 3 — runtime acceptance:** bounded repeated open/close, file actions, Escape/outside-click, window previews, clean single-instance shutdown/restart and logs/screenshots. No assumption that v0.8 passed clickability merely because a screenshot looked correct.
+- **Production boundary:** keep Graphite v0.1 active; do not overwrite the Krema RPM, the autostart drop-in or `kremarc` for this experiment. Fedora 45/KDE clean-room restore and desired-state promotion remain **HOLD**.
+
+## 2026-11-21 — Krema Graphite dock inspiration from Cutefish and LordOS (research only)
+
+**Scope:** design inspiration for the existing Krema Graphite / Fedora 45 KDE Wayland lab, **not** a code import, runtime change, production acceptance or Fedora 45 restore-baseline promotion. Keep Graphite Animation v0.1 as the active production dock. No new issue, file or installation is required merely to record this proposal.
+
+### Evidence and reusable ideas
+
+- **Cutefish dock:** [`dock_magnification.cpp`](https://github.com/cutefishos/cutefish-compositor/blob/main/src/shell/dock/dock_magnification.cpp) and [`dock_magnification.h`](https://github.com/cutefishos/cutefish-compositor/blob/main/src/shell/dock/dock_magnification.h) implement a time-step-aware, critically damped focus spring (`kFocusSettleMs = 120`), a 140 ms magnification ramp and a mapping with roughly 3.5 icon slots of influence. The dock is part of Cutefish's own compositor; only the **algorithmic idea** is a suitable Krema/QML experiment, not its compositor-specific integration.
+- **LordOS dock:** [`Dock.jsx`](https://github.com/lordbasex/LordOS/blob/main/themes/default/components/Dock.jsx) and [`docs/DOCK.md`](https://github.com/lordbasex/LordOS/blob/main/docs/DOCK.md) use a cosine-based hover scale and a separate drag/reorder model: 6 px drag threshold, 150 ms neighbour glide, ~60 px drag-out cue after 350 ms, and a 320 ms optional removal animation. Its edge-aware popup placement, stable drop-slot geometry and pause of magnification during dragging are useful interaction references. LordOS uses its own shell/runtime and cannot be integrated wholesale into Plasma/KWin.
+- **Krema baseline:** upstream [`isac322/krema`](https://github.com/isac322/krema) already provides parabolic/in-place hover zoom, Qt Quick/QML animations, Wayland Layer Shell integration, KDE task models, PipeWire window previews, keyboard access and configurable visibility. Preserve the existing Graphite theme and functionality rather than replacing the dock or adopting another compositor.
+
+### Ordered experiment backlog (no implementation approved)
+
+1. **Keep the safety gate first.** Repair and verify the automatic pilot rollback/test harness from the Fan Stack section above, including injected diagnostic failures, signals and a single production instance. `AUTO_RESTORE_FIX=REQUIRED` blocks any new live pilot.
+2. **Finish Fan Stack geometry before visual polish.** Anchor the Downloads fan to the actual **magnified/visual** dock icon and constrain the popup **and its Wayland input surface** to the external monitor's available geometry; test shifting icon counts, hover zoom and hit targets. Do not assume the v0.8 screenshot establishes clickability. Repeat open/close, Escape/outside-click, file actions and cleanup checks.
+3. **Isolated hover-spring A/B pilot.** Compare the current responsive Krema zoom against a time-step-independent, critically damped focus spring inspired by Cutefish. Make it opt-in and easy to revert; include safeguards for fast cursor movements, mouse leave/re-entry, open menus, previews and rearranging icons. Measure frame-time distribution, input response and visual stability on the external 2560x1440 @ 180 Hz monitor; do not claim a 180 fps pass without measurements.
+4. **Optional drag-and-drop usability pilot.** Evaluate LordOS-style stable drop gaps, smooth neighbour moves, clear drag-out/remove cues and drag cancellation; avoid accidental unpinning, preserve KDE task/launcher identity, and keep zoom/drag hit-testing predictable.
+5. **Graphite visual coherence only after functional tests.** Compare tooltip/menu/fan anchoring and subtle translucency; retain neutral graphite with restrained steel-blue accents and **no purple**. Do not replace the existing KWin/Plasma stack or impose heavyweight blur.
+
+**Promotion/rollback:** source review and licensing check precede any code reuse; run experiments in a separate build/profile with unchanged system RPM, user service/autostart and `kremarc`. Record A/B logs, screenshots, reproducible tests and automatic restoration results. Production rollout and Fedora 45/KDE desired-state promotion remain **HOLD** until the existing gates pass.
+
+## 2026-11-20 — documentation reconciliation of PR #58 and Finder v1.9
+
+- [PR #58](https://github.com/wojko6/fedora-workstation-setup/pull/58) was **merged on 2026-11-16 to `feature/fedora45-kde-graphite-restore` only**, **not to `main`**. Its merge records source history for the feature branch; it does not promote the Graphite restore design to the accepted production baseline. [Draft PR #57](https://github.com/wojko6/fedora-workstation-setup/pull/57) remains **open/unmerged**.
+- On **2026-11-16**, the operator confirmed [Finder KDE LAB v1.9](docs/finder-kde-lab-deployment-2026-11-16.md) as the local GIO default for user directories, working `gio open`, `xdg-open` and `Meta+E`, and bounded portal app-ID registration. These measured application-default and launch checks supersede the **Nov 15 Finder-default HOLD** only in that tested scope. Dolphin's system RPM remained intact.
+- **Still HOLD:** persistence after relogin, additional portal behavior, extended Finder stability, A6588.1 dialog/process ownership, complete Fedora 45/KDE desired-state verification, independent recovery and clean-room restoration. The last accepted reproducible baseline remains **Fedora 44/GNOME**. No new host measurement or system change was performed for this documentation correction.
+
+The 2026-11-15 section below is intentionally preserved as a **dated historical checkpoint**: its then-pending PR #58 and Finder-default statements are not current.
+
+## 2026-11-15 — publication reconciliation and remaining desktop gates
+
+- **Published source evidence:** [Nov 13/14 Finder Graphite worklogs](docs/WORKLOG-2026-11-14.md)
+  are on `main` through [PR #59](https://github.com/wojko6/fedora-workstation-setup/pull/59).
+  These record bounded GUI work, an earlier actual crash and partial repairs,
+  with the A6588.1 runtime dialog-origin audit still pending.
+- **Separately pending:** [Draft PR #57](https://github.com/wojko6/fedora-workstation-setup/pull/57)
+  retains the SDDM/Finder source checkpoint; [Draft PR #58](https://github.com/wojko6/fedora-workstation-setup/pull/58)
+  targets the Fedora 45 Graphite restore-design feature branch, not `main`.
+  Do not infer those unpublished documents are accepted current-state evidence.
+- **Gate unchanged:** Fedora 45/KDE physical operations were last boundedly
+  documented on November 10. A repeated clean-room restore, complete desired-state
+  verifier, Finder default-launcher acceptance, and independent recovery proof
+  remain **HOLD**. No desktop install, source promotion or other runtime action
+  follows from this documentation reconciliation.
+- [Bounded cross-document review](docs/audits/2026-11-15-documentation-consistency.md).
+
 ## 2026-11-10 — operating system upgrade complete; desired-state migration remains open
 
 The physical workstation now boots **Fedora 45**, kernel **7.3.3-300.fc45.x86_64**, with KDE Plasma 6.8.2/Wayland and NVIDIA **620.70.06 Open**. Verified bounded postflight includes a functional external monitor, S3 suspend/resume with one NVIDIA `NV_ERR_NO_MEMORY` warning, a running local ASUS/Pi-hole Alloy → Loki → Grafana pipeline, VirtualBox kernel modules and UEFI VM start, and zero failed user units after the IMSettings XDG override. [Worklog](docs/WORKLOG-2026-11-10.md).

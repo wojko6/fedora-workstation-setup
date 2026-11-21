@@ -13,10 +13,16 @@ This directory contains the reviewed operational and validation documentation fo
 
 ## Desktop environments and localization
 
-- [kde-mactahoe-sddm-2026-11-11.md](kde-mactahoe-sddm-2026-11-11.md) — Fedora 45 MacTahoe SDDM v0.4 rollout, Plasma 6.8 QML workaround, external DP configuration, real-boot authentication evidence and GDM fallback (not exercised); reproducible restore remains HOLD.
+- [WORKLOG-2026-11-17.md](WORKLOG-2026-11-17.md) — operator-confirmed Fedora 45 Konsole 26.08.3 and KIO6 user-local Polish gettext overlays (five Konsole corrections, two contextual KIO6 singular/plural entries), SHA-256 and manifest checks. **Bounded UI acceptance, no system RPM edits; Fedora 45/KDE clean-room restore HOLD.**
+- [konsole-kio6-polish-overlays-2026-11-17.md](konsole-kio6-polish-overlays-2026-11-17.md) — version-scoped localization, reproducibility limits, hashes, audit and safe opt-in rollback.
 
-- [kde-finder-lab-2026-11-11.md](kde-finder-lab-2026-11-11.md) — pinned Finder KDE fork built on Fedora 45 with Qt 6.11.2/KF6 6.31; compiler/linkage checks PASS, GUI and installation unconfirmed, stock Dolphin preserved.
+- [finder-kde-lab-deployment-2026-11-16.md](finder-kde-lab-deployment-2026-11-16.md) — operator-accepted Finder v1.9 localization, functional tests, user MIME default, KDE desktop registration, Krema task grouping, rollback and remaining gates. **Local application only; clean-room restore HOLD.**
+- [krema-polish-localization-2026-11-16.md](krema-polish-localization-2026-11-16.md) — version-pinned Krema 0.13.0 C++/QML i18n discovery, 268-entry user-local Polish PO/MO deployment, rollback and operator-confirmed bounded Polish UI acceptance.
+- [WORKLOG-2026-11-16.md](WORKLOG-2026-11-16.md) — final daily closeout: Finder v1.9 default/portal and Krema PL acceptance, Debian DNS/DHCP incidents INC-001/INC-002, four verified PR merges, and a clearly **unexecuted** CCNP networking lab queue.
 
+- [design/FEDORA-GRAPHITE-DESIGN-SYSTEM.md](design/FEDORA-GRAPHITE-DESIGN-SYSTEM.md) — proposed Fedora Graphite cross-desktop design system: neutral graphite + steel-blue visual language, coherent Qt/GTK/Electron/Flatpak interaction patterns, Finder Graphite reference pilot, accessibility, evidence gates and reversible rollouts. **Design proposal, not an installed or restore-validated system theme.**
+- [kde-mactahoe-sddm-2026-11-11.md](kde-mactahoe-sddm-2026-11-11.md) — **historical Nov 11** MacTahoe SDDM v0.4 physical login and KScreenLocker appearance record; rollback not exercised, clean-room restore HOLD.
+- [kde-finder-lab-2026-11-11.md](kde-finder-lab-2026-11-11.md) — **historical Nov 11** Finder KDE LAB v0.1 compile-only evidence; superseded for live user-local launch/default by [Nov 16 Finder v1.9](finder-kde-lab-deployment-2026-11-16.md).
 - [kde-appbay-krema-launchpad-2026-11-11.md](kde-appbay-krema-launchpad-2026-11-11.md) — native Plasma AppBay + Krema dock activation, model-refresh fix, known failed standalone-window workarounds and operator-verified UI acceptance (Fedora 45, 2026-11-11; restore promotion remains HOLD).
 - [WORKLOG-2026-11-11.md](WORKLOG-2026-11-11.md) — operator-confirmed KDE localization phases 7–9, AppBay native Launchpad + Krema integration, Plasma applet configuration sidebar width change, post-install hash evidence and remaining validation gates (2026-11-11; not a clean-room acceptance).
 
@@ -29,7 +35,20 @@ This directory contains the reviewed operational and validation documentation fo
 - [../gnome/README.md](../gnome/README.md) — GNOME desired-state policy, extension inventory, and Dhruva handling.
 - [Issue #12](https://github.com/wojko6/fedora-workstation-setup/issues/12) — planned GNOME + KDE Plasma coexistence design; GNOME remains the accepted baseline until KDE passes validation.
 
+## Practical IT Support labs
+
+- [INC-001 — DNS resolution failure (2026-11-16)](labs/helpdesk/INC-001-dns-resolution-failure-2026-11-16.md) — isolated Debian 13/VirtualBox NAT incident simulation, verified symptom/recovery, root-cause analysis, English Service Desk closure note and CV-safe lab description. **Training exercise, not a production incident.**
+- [INC-002 — DHCP client lease loss and network recovery (2026-11-16)](labs/helpdesk/INC-002-dhcp-lease-loss-and-recovery-2026-11-16.md) — VirtualBox NAT guest lease release/reacquisition, diagnosis and post-fix checks; during-outage ping failure operator-reported without captured console output. **Training exercise, not a production incident.**
+
 ## Experimental software and integrations
+
+- [WORKLOG-2026-11-15.md](WORKLOG-2026-11-15.md) — GitHub PR #20/#53/#59/#60 merge record, related ASUS/Engineering Ideas source merges and documentation reconciliation; no live Fedora changes, Finder/default restore HOLD.
+- [WORKLOG-2026-11-14.md](WORKLOG-2026-11-14.md) — Finder Graphite A6587.1–A6587.4 operator build/crash/GUI boundaries, A6588 static dialog audit (12 categories), A6588.1 guided runtime audit pending, and Graphite OS design-only decision; default Finder and Fedora restore promotion remain HOLD.
+- [WORKLOG-2026-11-13.md](WORKLOG-2026-11-13.md) — Finder KDE LAB matte Graphite A/A.1 acceptance boundaries, A.3 theme-profile confounder, A.4 address-bar and A.5 external MIME editor visual-review gaps, and A.6/A.7/A.8 plan; deployment and Fedora 45/KDE restore promotion remain HOLD.
+
+- [opennow-pl-1.0.5-2026-11-12.md](opennow-pl-1.0.5-2026-11-12.md) — OpenNOW PL 1.0.5 audit, nine catalog edits, FPS Auto QML correction, patchelf 0.19.1 and final Wayland/Krema acceptance (2026-11-12).
+- [WORKLOG-2026-11-12.md](WORKLOG-2026-11-12.md) — dated OpenNOW final build v4.1, operator-confirmed application activation and remaining language/streaming gates.
+
 
 - [TEST-WATCHLIST.md](TEST-WATCHLIST.md) — central cross-project candidate list (NectarLink, local AI/MCP, monitoring, KDE tools and model experiments), priorities, safety gates and existing issue links; **not** an approved deployment plan.
 
@@ -41,6 +60,8 @@ This directory contains the reviewed operational and validation documentation fo
 
 - [../ROADMAP.md](../ROADMAP.md) — canonical technical roadmap, sequencing and promotion gates.
 - [../PROJECT-STATUS.md](../PROJECT-STATUS.md) — current physical Fedora 45/KDE state, distinct from the last fully accepted historical Fedora 44/GNOME restore baseline.
+- [audits/2026-11-15-documentation-consistency.md](audits/2026-11-15-documentation-consistency.md) — Nov 15 cross-document source/PR reconciliation; historical Fedora 44 restore remains accepted, Fedora 45 KDE clean-room restore and Finder promotion remain HOLD.
+
 - [WORKLOG-2026-09-22.md](WORKLOG-2026-09-22.md) — day-close worklog recording the physical visual validation of Polish Plymouth offline updates.
 - [WORKLOG-2026-09-24.md](WORKLOG-2026-09-24.md) — roadmap setup, Tailscale firewalld isolation, GSConnect/ddterm v73 maintenance, complete Ptyxis 50.1 localization closure, and final physical acceptance.
 - [WORKLOG-2026-09-25.md](WORKLOG-2026-09-25.md) — ArcMenu v74, DING v97 menu completion, GSConnect v73 consistency validation, Helium 0.18.1.1 re-audit, and final zero-warning physical acceptance.
@@ -49,14 +70,16 @@ This directory contains the reviewed operational and validation documentation fo
 - [WORKLOG-2026-10-10.md](WORKLOG-2026-10-10.md) — Fedora 44 KDE Plasma 6.7.5 pilot, failed GNOME fallback, KDE/Xwayland recovery, DrKonqi timeout closure, ASUS service audit, deferred Brave issue, and AK820 USB diagnostics; promotion remains pending.
 - [WORKLOG-2026-10-11.md](WORKLOG-2026-10-11.md) — signed NVIDIA 610.57.04 rollback with an offline 615 recovery set, DNF/GDM recovery incident, two successful deep GPU resumes, reproducible PlasmaQuick screen-lock SIGSEGV (2/2), and upstream KDE Bug #526934; KDE desired-state promotion remains pending.
 - [WORKLOG-2026-10-13.md](WORKLOG-2026-10-13.md) — DNF re-upgrade to NVIDIA 615, repeat black-screen diagnosis, verified 610 rollback, ten DNF version locks, selected recovery kernel, and one successful deep resume.
-- [WORKLOG-2026-11-10.md](WORKLOG-2026-11-10.md) — physical Fedora 45 migration, recovery checkpoints, NVIDIA 620 deep resume warning, ASUS/Pi-hole ingestion, VirtualBox UEFI start, IMSettings cleanup and KDE Polish localization phases 4–7; full reproducible-baseline promotion remains HOLD.
+- [WORKLOG-2026-10-25.md](WORKLOG-2026-10-25.md) — separate Fedora-only OpenCode / Ollama / rootless Podman lab: V0.17.3 real SIGTERM and clean-copy recovery PASS; V0.18 prepared but not yet validated, deployment HOLD.
 - [WORKLOG-2026-11-07.md](WORKLOG-2026-11-07.md) — KDE Tahoe B291/B292 Polish UI verification and archive, Fedora 44/DNF5/Flatpak no-change inventory, nine-upgrade dry run, and the explicit 2026-11-08 update deferral.
+- [WORKLOG-2026-11-10.md](WORKLOG-2026-11-10.md) — physical Fedora 45 migration, recovery checkpoints, NVIDIA 620 deep resume warning, ASUS/Pi-hole ingestion, VirtualBox UEFI start, IMSettings cleanup and KDE Polish localization phases 4–7; full reproducible-baseline promotion remains HOLD.
+
 - [incidents/2026-10-13-nvidia-615-resume-regression.md](incidents/2026-10-13-nvidia-615-resume-regression.md) — detailed incident evidence, rollback procedure, bounded validation and unresolved KDE screen-lock risks.
 
 ## Verification entrypoints
 
 - `bash scripts/check-static.sh` — repository-only validation.
-- `bash scripts/verify.sh` — live physical-host verification after restore and GNOME session restart.
+- `bash scripts/verify.sh` — verifier for the historical GNOME-oriented managed desired state after the appropriate session restart; **not** a completed Fedora 45/KDE full-restore acceptance.
 - `bash scripts/audit-extension-runtime.sh` — extension-focused runtime audit.
 
 The public repository intentionally excludes credentials, machine secrets, private backup artifacts, and other sensitive user data.
