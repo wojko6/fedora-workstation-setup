@@ -39,6 +39,26 @@ promoted through the documented validation process.
 - **Gate 3 — runtime acceptance:** bounded repeated open/close, file actions, Escape/outside-click, window previews, clean single-instance shutdown/restart and logs/screenshots. No assumption that v0.8 passed clickability merely because a screenshot looked correct.
 - **Production boundary:** keep Graphite v0.1 active; do not overwrite the Krema RPM, the autostart drop-in or `kremarc` for this experiment. Fedora 45/KDE clean-room restore and desired-state promotion remain **HOLD**.
 
+## 2026-11-21 — Krema Graphite dock inspiration from Cutefish and LordOS (research only)
+
+**Scope:** design inspiration for the existing Krema Graphite / Fedora 45 KDE Wayland lab, **not** a code import, runtime change, production acceptance or Fedora 45 restore-baseline promotion. Keep Graphite Animation v0.1 as the active production dock. No new issue, file or installation is required merely to record this proposal.
+
+### Evidence and reusable ideas
+
+- **Cutefish dock:** [`dock_magnification.cpp`](https://github.com/cutefishos/cutefish-compositor/blob/main/src/shell/dock/dock_magnification.cpp) and [`dock_magnification.h`](https://github.com/cutefishos/cutefish-compositor/blob/main/src/shell/dock/dock_magnification.h) implement a time-step-aware, critically damped focus spring (`kFocusSettleMs = 120`), a 140 ms magnification ramp and a mapping with roughly 3.5 icon slots of influence. The dock is part of Cutefish's own compositor; only the **algorithmic idea** is a suitable Krema/QML experiment, not its compositor-specific integration.
+- **LordOS dock:** [`Dock.jsx`](https://github.com/lordbasex/LordOS/blob/main/themes/default/components/Dock.jsx) and [`docs/DOCK.md`](https://github.com/lordbasex/LordOS/blob/main/docs/DOCK.md) use a cosine-based hover scale and a separate drag/reorder model: 6 px drag threshold, 150 ms neighbour glide, ~60 px drag-out cue after 350 ms, and a 320 ms optional removal animation. Its edge-aware popup placement, stable drop-slot geometry and pause of magnification during dragging are useful interaction references. LordOS uses its own shell/runtime and cannot be integrated wholesale into Plasma/KWin.
+- **Krema baseline:** upstream [`isac322/krema`](https://github.com/isac322/krema) already provides parabolic/in-place hover zoom, Qt Quick/QML animations, Wayland Layer Shell integration, KDE task models, PipeWire window previews, keyboard access and configurable visibility. Preserve the existing Graphite theme and functionality rather than replacing the dock or adopting another compositor.
+
+### Ordered experiment backlog (no implementation approved)
+
+1. **Keep the safety gate first.** Repair and verify the automatic pilot rollback/test harness from the Fan Stack section above, including injected diagnostic failures, signals and a single production instance. `AUTO_RESTORE_FIX=REQUIRED` blocks any new live pilot.
+2. **Finish Fan Stack geometry before visual polish.** Anchor the Downloads fan to the actual **magnified/visual** dock icon and constrain the popup **and its Wayland input surface** to the external monitor's available geometry; test shifting icon counts, hover zoom and hit targets. Do not assume the v0.8 screenshot establishes clickability. Repeat open/close, Escape/outside-click, file actions and cleanup checks.
+3. **Isolated hover-spring A/B pilot.** Compare the current responsive Krema zoom against a time-step-independent, critically damped focus spring inspired by Cutefish. Make it opt-in and easy to revert; include safeguards for fast cursor movements, mouse leave/re-entry, open menus, previews and rearranging icons. Measure frame-time distribution, input response and visual stability on the external 2560x1440 @ 180 Hz monitor; do not claim a 180 fps pass without measurements.
+4. **Optional drag-and-drop usability pilot.** Evaluate LordOS-style stable drop gaps, smooth neighbour moves, clear drag-out/remove cues and drag cancellation; avoid accidental unpinning, preserve KDE task/launcher identity, and keep zoom/drag hit-testing predictable.
+5. **Graphite visual coherence only after functional tests.** Compare tooltip/menu/fan anchoring and subtle translucency; retain neutral graphite with restrained steel-blue accents and **no purple**. Do not replace the existing KWin/Plasma stack or impose heavyweight blur.
+
+**Promotion/rollback:** source review and licensing check precede any code reuse; run experiments in a separate build/profile with unchanged system RPM, user service/autostart and `kremarc`. Record A/B logs, screenshots, reproducible tests and automatic restoration results. Production rollout and Fedora 45/KDE desired-state promotion remain **HOLD** until the existing gates pass.
+
 ## 2026-11-20 — documentation reconciliation of PR #58 and Finder v1.9
 
 - [PR #58](https://github.com/wojko6/fedora-workstation-setup/pull/58) was **merged on 2026-11-16 to `feature/fedora45-kde-graphite-restore` only**, **not to `main`**. Its merge records source history for the feature branch; it does not promote the Graphite restore design to the accepted production baseline. [Draft PR #57](https://github.com/wojko6/fedora-workstation-setup/pull/57) remains **open/unmerged**.
