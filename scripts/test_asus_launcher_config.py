@@ -61,6 +61,34 @@ with tempfile.TemporaryDirectory(prefix="asus-launcher-test-") as td:
 
     print("PASS: ASUS launcher example parses and renders without shell evaluation")
 
+    # Validation renders in memory even when writes would otherwise succeed.
+    import sys
+    check = [sys.executable, "-IB", str(RENDERER), "--config", str(EXAMPLE),
+             "--template", str(TEMPLATE), "--ddterm-bin", "/home/tester/ddterm", "--check"]
+    before = (output.read_bytes(), output.stat().st_mtime_ns, temp.stat().st_mtime_ns)
+    subprocess.run(check, check=True)
+    assert before == (output.read_bytes(), output.stat().st_mtime_ns, temp.stat().st_mtime_ns)
+    # Intercept every Python write-open: a /dev/null write would also fail.
+    guard = """
+import runpy, sys
+sys.argv = sys.argv[1:]
+def audit(event, args):
+    if event == 'open':
+        import os
+        flags = args[2]
+        if isinstance(flags, int) and flags & (os.O_WRONLY | os.O_RDWR | os.O_CREAT | os.O_TRUNC):
+            raise AssertionError('validation opened a file for writing')
+sys.addaudithook(audit)
+runpy.run_path(sys.argv[0], run_name='__main__')
+"""
+    subprocess.run([sys.executable, "-IB", "-c", guard, *check[2:]], check=True)
+    for bad in (temp / "missing-private-sentinel", temp / "invalid.conf"):
+        if bad.name == "invalid.conf":
+            bad.write_bytes(b"private-sentinel\xff")
+        proc = subprocess.run([*check[:4], str(bad), *check[5:]], capture_output=True, text=True)
+        assert proc.returncode != 0
+        assert "Traceback" not in proc.stderr and "private-sentinel" not in proc.stderr
+
     bad_cases = {
         "unknown key": """SSH_KEY="$HOME/.ssh/id_ed25519"
 SSH_PORT="2222"

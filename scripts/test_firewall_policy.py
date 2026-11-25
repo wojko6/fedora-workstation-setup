@@ -84,6 +84,10 @@ if name == "nmcli":
         print(state["profile"])
         raise SystemExit(0)
     if args[:4] == ["-g", "GENERAL.CON-UUID", "device", "show"]:
+        state["binding_checks"] = state.get("binding_checks", 0) + 1
+        if state["binding_checks"] == int(os.environ.get("FW_TEST_SWITCH_AT", "0")):
+            state["active_uuid"] = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+        save(state)
         print(state["active_uuid"])
         raise SystemExit(0)
     if args[:4] == ["-t", "-f", "DEVICE,TYPE", "device"]:
@@ -96,12 +100,14 @@ if name == "nmcli":
         print("802-11-wireless")
         raise SystemExit(0)
     if len(args) >= 5 and args[:2] == ["-g", "connection.zone"] and args[2:4] == ["connection", "show"]:
+        assert args[4:] == ["uuid", "11111111-2222-3333-4444-555555555555"]
         print(state["profile_zone"])
         raise SystemExit(0)
     if len(args) >= 5 and args[:2] == ["connection", "modify"]:
         log("nmcli " + " ".join(args))
-        if args[3] == "connection.zone":
-            state["profile_zone"] = args[4]
+        assert args[2:4] == ["uuid", "11111111-2222-3333-4444-555555555555"]
+        if args[4] == "connection.zone":
+            state["profile_zone"] = args[5]
             save(state)
             raise SystemExit(0)
     raise SystemExit(1)
@@ -365,7 +371,7 @@ def write_mock_bin(root: Path):
         path.chmod(path.stat().st_mode | stat.S_IXUSR)
     return bindir
 
-def run_case(tmp: Path, state, trusted_uuid, *, fail_change_interface=False):
+def run_case(tmp: Path, state, trusted_uuid, *, fail_change_interface=False, switch_at=0):
     state_path = tmp / "state.json"
     log_path = tmp / "mutations.log"
     state_path.write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
@@ -373,6 +379,7 @@ def run_case(tmp: Path, state, trusted_uuid, *, fail_change_interface=False):
     bindir = write_mock_bin(tmp)
     env = os.environ.copy()
     env["PATH"] = f"{bindir}:{env['PATH']}"
+    env["FW_TEST_SWITCH_AT"] = str(switch_at)
     env["FW_TEST_STATE"] = str(state_path)
     env["FW_TEST_LOG"] = str(log_path)
     env["TRUSTED_WIFI_UUID"] = trusted_uuid
@@ -511,5 +518,22 @@ with tempfile.TemporaryDirectory(prefix="firewall-policy-tests-") as td:
             raise SystemExit(f"FAIL: rollback mismatch for target-zone field: {key}")
 
     print("PASS: rollback restores target zone, profile zone, and KDE Connect isolation changes")
+
+    for switch_at in (2, 3):
+        case = base / f"switch-{switch_at}"
+        case.mkdir()
+        original = initial_state()
+        result, state, mutations = run_case(case, original, TRUSTED_UUID, switch_at=switch_at)
+        assert result.returncode != 0, result.stdout
+        assert "binding changed" in result.stderr, result.stderr
+        assert "--change-interface=" not in mutations, mutations
+        assert state["profile_zone"] == original["profile_zone"]
+        for zone, fields in original["zones"].items():
+            for field, value in fields.items():
+                actual = state["zones"][zone][field]
+                assert (sorted(actual) == sorted(value) if isinstance(value, list)
+                        else actual == value), (zone, field, actual, value)
+        assert "restoring previous state" in result.stderr
+    print("PASS: network changes before profile/interface assignment fail closed and roll back")
 
 print("=== FIREWALL POLICY SECURITY TESTS: PASS ===")

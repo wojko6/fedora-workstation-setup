@@ -1,5 +1,6 @@
-# Required local inputs used by the Fedora 44 / GNOME stages.
-# Stage entry points are checked directly from the ordered install.sh plan.
+# Required local inputs for the 20 Fedora 44 / GNOME stages.
+# Keep in sync with the reviewed contract in validate-repository.py.
+desktop/launchers/asus-router.desktop.template
 desktop/launchers/counter-strike-2.desktop
 desktop/menu-localization-rpm.json
 gnome/dhruva/dock-state.json
@@ -10,6 +11,7 @@ gnome/extensions-lock.tsv
 gnome/extensions-tree-lock.tsv
 gnome/managed-system-extensions.tsv
 gnome/settings.dconf
+gnome/weather-locations.example.tsv
 localization/advanced-media-controller/pl.po
 localization/advanced-media-controller/v31.pot
 localization/appindicator/v64-completion.po
@@ -40,7 +42,9 @@ localization/spotlight/pl.po
 localization/tiling-shell/pl.po
 localization/user-theme/pl.po
 localization/vitals/v85-completion.po
+network/check-trusted-wifi.sh
 packages/flatpak.txt
+packages/rpm-absent.txt
 packages/rpm.txt
 patches/gnome-extensions/background-logo/prefs-pl.patch
 patches/gnome-extensions/blur-my-shell/pipeline-choose-row-i18n.patch
@@ -105,6 +109,7 @@ scripts/install-helium-localization.sh
 scripts/install-just-perfection-localization.sh
 scripts/install-papers-localization.sh
 scripts/install-plymouth-localization.sh
+scripts/install-preflight.sh
 scripts/install-ptyxis-localization.sh
 scripts/install-rpm-desktop-localizations.sh
 scripts/install-space-bar-localization.sh
@@ -117,6 +122,7 @@ scripts/prepare_github_extension_metadata.py
 scripts/ptyxis_desktop_actions.py
 scripts/ptyxis_resource_audit.py
 scripts/render-asus-launcher.py
+scripts/validate-repository.py
 scripts/verify-advanced-media-controller-localization.sh
 scripts/verify-appindicator-localization.sh
 scripts/verify-arcmenu-localization.sh

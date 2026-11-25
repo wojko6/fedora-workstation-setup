@@ -32,8 +32,8 @@ class RepoPolicy:
 def load_policy() -> tuple[tuple[str, ...], tuple[RepoPolicy, ...]]:
     try:
         data = json.loads(POLICY_FILE.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        raise RuntimeError(f"unable to load repository trust policy: {exc}") from exc
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise RuntimeError("unable to load repository trust policy (access, JSON or UTF-8 error)") from exc
 
     if not isinstance(data, dict) or data.get("schema_version") != 1:
         raise RuntimeError("repository trust policy has unsupported schema")

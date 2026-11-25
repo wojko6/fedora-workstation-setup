@@ -92,10 +92,10 @@ case "${0##*/}:$*" in
     echo "${TEST_BUS_REPLY:-(true,)}"; exit 0 ;;
   'ip:route show default') echo 'default via 192.0.2.1 dev wlan0'; exit 0 ;;
   'nmcli:-g GENERAL.CONNECTION device show wlan0') echo Lab; exit 0 ;;
-  'nmcli:-g GENERAL.CON-UUID device show wlan0'|'nmcli:-g connection.uuid connection show Lab')
+  'nmcli:-g GENERAL.CON-UUID device show wlan0'|'nmcli:-g connection.uuid connection show uuid 11111111-2222-3333-4444-555555555555')
     echo 11111111-2222-3333-4444-555555555555; exit 0 ;;
   'nmcli:-t -f DEVICE,TYPE device status') echo "wlan0:${TEST_DEVICE:-wifi}"; exit 0 ;;
-  'nmcli:-g connection.type connection show Lab') echo 802-11-wireless; exit 0 ;;
+  'nmcli:-g connection.type connection show uuid 11111111-2222-3333-4444-555555555555') echo 802-11-wireless; exit 0 ;;
 esac
 printf 'unexpected %s %s\n' "${0##*/}" "$*" >> "$TEST_CALLS"
 exit 95
@@ -106,7 +106,10 @@ def snapshot(root):
     state = {}
     for path in (root, *root.rglob("*")):
         meta = path.lstat()
-        content = hashlib.sha256(path.read_bytes()).digest() if path.is_file() else None
+        try:
+            content = hashlib.sha256(path.read_bytes()).digest() if path.is_file() else None
+        except PermissionError:
+            content = "unreadable"  # mode and mtime remain part of the snapshot
         state[path.relative_to(root)] = (meta.st_mode, meta.st_mtime_ns, content)
     return state
 
@@ -177,6 +180,7 @@ esac
     systemctl firewall-cmd gsettings dconf gnome-extensions glib-compile-schemas patch
     tar sha256sum install cmp gresource dracut lsinitrd restorecon udevadm sysctl curl gpg
     flatpak mkdir mktemp cp mv rm tee touch chmod chown systemd-analyze ss
+    basename cut date find head id readlink sed sort stat tail tr wc xargs
     """.split()
     for name in commands:
         path = mocks / name
@@ -277,6 +281,61 @@ with Path("packages/rpm.txt").open("r+b"):
         path.write_text(data)
         run(["--apply"], 1, reason)
         path.write_bytes(original)
+    manifest = repo / "packages/installer-inputs.txt"
+    original = manifest.read_bytes()
+    for data, reason in [
+        (original.replace(b"localization/ding/pl.po\n", b""), "missing mandatory entries"),
+        (original + b"localization/ding/pl.po\n", "duplicate installer input"),
+        (original + b"../outside\n", "invalid repository input path"),
+        (original + b"\xff\n", "cannot read repository input"),
+    ]:
+        manifest.write_bytes(data)
+        run(["--apply"], 1, reason)
+    manifest.write_bytes(original)
+    manifest.chmod(0)
+    try:
+        output = run(["--apply"], 1, "cannot read repository input")
+        assert "Traceback" not in output
+    finally:
+        manifest.chmod(0o644)
+
+    weather = repo / "gnome/weather-locations.local.tsv"
+    asus = repo / "desktop/launchers/asus-router.conf"
+    key = home / "synthetic-key"
+    key.write_text("synthetic fixture, not a key\n")
+    weather.write_text("Synthetic City\t52.0\t21.0\n")
+    asus.write_text(f'SSH_KEY="{key}"\nSSH_PORT=2222\nSSH_USER=fixture\nROUTER_HOST=192.0.2.1\n')
+    output = run(["--check"], 0, "PASS: mandatory preflight complete")
+    assert "PASS: private ASUS" in output and "PASS: private Weather" in output
+    for path, reason in [(asus, "invalid private ASUS"), (weather, "invalid private Weather")]:
+        original_private = path.read_bytes()
+        path.write_bytes(b"private-sentinel\xff")
+        if path == weather:
+            command = [sys.executable, "-IB", str(repo / "scripts/manage-weather-locations.py"),
+                       "--check-config", "--config", str(path)]
+        else:
+            command = [sys.executable, "-IB", str(repo / "scripts/render-asus-launcher.py"),
+                       "--check", "--config", str(path), "--template",
+                       str(repo / "desktop/launchers/asus-router.desktop.template"),
+                       "--ddterm-bin", "/synthetic/ddterm"]
+        direct = subprocess.run(command, capture_output=True, text=True, env=env, **credentials)
+        assert direct.returncode != 0 and "UTF-8" in direct.stderr, direct.stderr
+        assert "private-sentinel" not in direct.stderr and "Traceback" not in direct.stderr
+        output = run(["--apply"], 1, reason)
+        assert "private-sentinel" not in output and "Traceback" not in output
+        path.write_bytes(original_private)
+        path.chmod(0)
+        try:
+            run(["--apply"], 1, reason)
+            direct = subprocess.run(command, capture_output=True, text=True, env=env, **credentials)
+            assert direct.returncode != 0 and "unavailable" in direct.stderr, direct.stderr
+            assert str(path) not in direct.stderr and "Traceback" not in direct.stderr
+        finally:
+            path.chmod(0o644)
+    weather.unlink()
+    asus.unlink()
+    key.unlink()
+
     # The first stage bootstraps curl/GnuPG. A missing host-only tool must
     # still block before dispatch, even if its consumer is several stages later.
     (mocks / "curl").unlink()

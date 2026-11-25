@@ -59,8 +59,8 @@ if [[ -n "$EXPECTED_PROFILE" && "$active_profile" != "$EXPECTED_PROFILE" ]]; the
 fi
 
 PROFILE="$active_profile"
-profile_uuid="$(nmcli -g connection.uuid connection show "$PROFILE" 2>/dev/null || true)"
-profile_type="$(nmcli -g connection.type connection show "$PROFILE" 2>/dev/null || true)"
+profile_uuid="$(nmcli -g connection.uuid connection show uuid "$TRUSTED_UUID" 2>/dev/null || true)"
+profile_type="$(nmcli -g connection.type connection show uuid "$TRUSTED_UUID" 2>/dev/null || true)"
 
 [[ "$profile_uuid" == "$TRUSTED_UUID" ]] ||
   wifi_fail "profile UUID changed during preflight"

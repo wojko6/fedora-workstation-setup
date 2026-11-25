@@ -48,7 +48,9 @@ done
 # Later stages use these commands, but neither bootstrap nor the RPM manifest
 # explicitly supplies their providers. Detect a missing prerequisite before apply.
 for cmd in systemctl gresource gsettings dconf gnome-extensions glib-compile-schemas \
-    patch tar sha256sum cmp dracut lsinitrd restorecon udevadm sysctl; do
+    patch tar sha256sum cmp dracut lsinitrd restorecon udevadm sysctl \
+    basename chmod chown cp cut date find head id mkdir mv readlink sed sort stat \
+    tail tee tr wc xargs; do
   command -v "$cmd" >/dev/null || fail "missing later-stage command: $cmd (no declared installer provider)"
 done
 
@@ -132,7 +134,7 @@ if [[ -e "$asus" || -L "$asus" ]]; then
   if python3 -IB scripts/render-asus-launcher.py --config "$asus" \
       --template desktop/launchers/asus-router.desktop.template \
       --ddterm-bin "$HOME/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/bin/com.github.amezin.ddterm" \
-      --check-key-file --output /dev/null >/dev/null 2>&1; then
+      --check-key-file --check >/dev/null 2>&1; then
     pass "private ASUS launcher inputs validated"
   else
     fail "invalid private ASUS launcher configuration, template or key path"

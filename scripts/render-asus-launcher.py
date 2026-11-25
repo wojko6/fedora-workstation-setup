@@ -67,7 +67,7 @@ def parse_config(path: Path, home: Path) -> dict[str, str]:
 
         key, raw_value = match.groups()
         if key not in ALLOWED_KEYS:
-            fail(f"unknown config key on line {line_no}: {key}")
+            fail(f"unknown config key on line {line_no}")
         if key in values:
             fail(f"duplicate config key on line {line_no}: {key}")
 
@@ -141,7 +141,7 @@ def render_template(template_path: Path, values: dict[str, str], ddterm_bin: Pat
 
     unresolved = UNRESOLVED_RE.findall(rendered)
     if unresolved:
-        fail(f"unresolved launcher template placeholder(s): {', '.join(sorted(set(unresolved)))}")
+        fail("unresolved launcher template placeholders")
 
     return rendered
 
@@ -151,26 +151,32 @@ def main() -> int:
     parser.add_argument("--config", required=True, type=Path)
     parser.add_argument("--template", required=True, type=Path)
     parser.add_argument("--ddterm-bin", required=True, type=Path)
-    parser.add_argument("--output", required=True, type=Path)
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--output", type=Path)
+    mode.add_argument("--check", action="store_true", help="validate in memory without writing")
     parser.add_argument("--home", type=Path, default=Path.home())
     parser.add_argument("--check-key-file", action="store_true")
     args = parser.parse_args()
 
     for path, label in ((args.config, "config"), (args.template, "template")):
         if not path.is_file():
-            fail(f"ASUS launcher {label} file missing: {path}")
+            fail(f"ASUS launcher {label} file missing")
 
     values = parse_config(args.config, args.home)
 
     if args.check_key_file:
         key_path = Path(values["SSH_KEY"])
         if not key_path.is_file():
-            fail(f"SSH private key file missing: {key_path}")
+            fail("SSH private key file missing")
 
     rendered = render_template(args.template, values, args.ddterm_bin)
-    args.output.write_text(rendered, encoding="utf-8")
+    if not args.check:
+        args.output.write_text(rendered, encoding="utf-8")
     return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except (OSError, UnicodeError):
+        fail("ASUS launcher input/output unavailable or invalid UTF-8")

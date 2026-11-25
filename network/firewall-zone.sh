@@ -44,7 +44,18 @@ if sudo firewall-cmd --permanent --get-zones |
   zone_existed=1
 fi
 
-old_profile_zone="$(nmcli -g connection.zone connection show "$PROFILE" 2>/dev/null || true)"
+old_profile_zone="$(nmcli -g connection.zone connection show uuid "$TRUSTED_UUID" 2>/dev/null)"
+
+# These checks narrow the race window; NetworkManager and firewalld do not
+# provide a shared atomic transaction. Never resolve a mutable profile name.
+check_binding() {
+  local current_uuid
+  current_uuid="$(nmcli -g GENERAL.CON-UUID device show "$iface" 2>/dev/null)" || return 1
+  [[ "$current_uuid" == "$TRUSTED_UUID" ]] || {
+    fail "trusted Wi-Fi binding changed; refusing zone assignment"
+    return 1
+  }
+}
 
 other_kdeconnect_zones=()
 while IFS= read -r other_zone; do
@@ -152,7 +163,7 @@ rollback() {
   set +e
   echo "ERROR: firewall configuration failed; restoring previous state." >&2
 
-  sudo nmcli connection modify "$PROFILE" connection.zone "$old_profile_zone" >/dev/null 2>&1
+  sudo nmcli connection modify uuid "$TRUSTED_UUID" connection.zone "$old_profile_zone" >/dev/null 2>&1
 
   if (( zone_existed )); then
     clear_zone_state
@@ -187,7 +198,7 @@ if (( ! zone_existed )); then
   sudo firewall-cmd --permanent --new-zone="$ZONE" >/dev/null
 fi
 
-echo "Applying exact-state policy to trusted Wi-Fi profile: $PROFILE ($TRUSTED_UUID)"
+echo "Applying exact-state policy to reviewed Wi-Fi UUID"
 
 for other_zone in "${other_kdeconnect_zones[@]}"; do
   echo "Removing KDE Connect from non-trusted firewalld zone: $other_zone"
@@ -202,11 +213,13 @@ for service in "${desired_services[@]}"; do
   sudo firewall-cmd --permanent --zone="$ZONE" --add-service="$service" >/dev/null
 done
 
-sudo nmcli connection modify "$PROFILE" connection.zone "$ZONE"
+check_binding
+sudo nmcli connection modify uuid "$TRUSTED_UUID" connection.zone "$ZONE"
 sudo firewall-cmd --reload >/dev/null
+check_binding
 sudo firewall-cmd --zone="$ZONE" --change-interface="$iface" >/dev/null
 
-saved_zone="$(nmcli -g connection.zone connection show "$PROFILE" 2>/dev/null || true)"
+saved_zone="$(nmcli -g connection.zone connection show uuid "$TRUSTED_UUID" 2>/dev/null || true)"
 [[ "$saved_zone" == "$ZONE" ]] ||
   fail "expected saved firewall zone '$ZONE', got '${saved_zone:-none}'."
 
