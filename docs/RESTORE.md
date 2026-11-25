@@ -18,10 +18,25 @@ The repository must not contain passwords, Wi-Fi PSKs, private SSH keys, authent
 2. Clone this repository.
 3. Review the manifests and machine-specific variables.
 4. On a physical host, review the intended trusted Wi-Fi connection with `nmcli -f NAME,UUID,TYPE connection show`.
-5. Run `TRUSTED_WIFI_UUID='<reviewed-uuid>' bash install.sh`. Optionally also set `TRUSTED_WIFI_PROFILE='<reviewed-profile-name>'`.
+5. Export `TRUSTED_WIFI_UUID='<reviewed-uuid>'` on a physical host. Optionally export `TRUSTED_WIFI_PROFILE='<reviewed-profile-name>'`. Run `bash install.sh --check`, review the plan, then run `bash install.sh --apply` in the same GNOME session.
 6. Restore private user data from a separate encrypted backup.
 7. Reboot or sign out/in when GNOME changes require it.
 8. Run `scripts/verify.sh` and compare the result with the documented baseline.
+
+## Installer preflight and retry
+
+Run `bash install.sh --help` for usage. Both modes print the ordered stages and check the repository inputs, RPM and Flatpak manifests, extension inventory and lock relationships, external repository policy, Fedora release, GNOME session and trusted Wi-Fi identity. The check uses local files and read-only host queries. It can run without sudo credentials, package metadata refreshes or archive downloads.
+
+| Result | Operator action |
+| --- | --- |
+| PASS | The named check succeeded against current local state. |
+| FAIL | Correct the reported input or host prerequisite, then repeat `--check`. Any mandatory failure blocks the first stage. |
+| WARN | Review the reason. For a missing deferred command, the message identifies the installation stage or RPM provider. |
+| SKIP | The check is inapplicable, e.g. private Weather inputs are absent or a VM has no selected trusted Wi-Fi UUID. |
+
+A successful check exits 0. A failed preflight exits 1. An unknown, repeated or conflicting argument exits 2. Both `--apply` and the legacy no-argument invocation run a fresh preflight. The firewall stage rechecks the active Wi-Fi identity immediately before applying its policy.
+
+A passing preflight cannot establish remote availability, DNF solvability, hardware behaviour or session state later in the restore. Stage-time checks still verify downloaded artifacts, package signatures and installed state. If an apply stage fails, inspect its output and any stage-specific rollback, correct the cause, run `--check`, then rerun `--apply` from the start. Earlier successful stages may already have changed the host. Acceptance of this installer change remains **HOLD** pending a fresh Fedora 44/GNOME clean-room replay and physical test. Fedora 45/KDE restore also remains **HOLD**.
 
 ## Current baseline checks
 

@@ -173,8 +173,13 @@ cd fedora-workstation-setup
 # automatically from whichever network happens to be active.
 nmcli -f NAME,UUID,TYPE connection show
 
-TRUSTED_WIFI_UUID='<reviewed-networkmanager-uuid>' bash install.sh
+export TRUSTED_WIFI_UUID='<reviewed-networkmanager-uuid>'
+bash install.sh --check
+# After reviewing the plan and resolving any failures
+bash install.sh --apply
 ```
+
+Both commands run the same local preflight. A mandatory failure blocks all restore stages. Calling `bash install.sh` without arguments runs the checked apply path. See the [restore procedure](docs/RESTORE.md#installer-preflight-and-retry) for exit codes, deferred dependencies and retry instructions.
 
 On a physical host, `TRUSTED_WIFI_UUID` is mandatory and is deliberately kept outside Git. The firewalld stage rejects an active Wi-Fi connection whose UUID does not match the reviewed value before changing NetworkManager or firewalld state. `TRUSTED_WIFI_PROFILE` may additionally be supplied to pin the expected human-readable profile name. In a virtualized clean-room environment without a trusted physical Wi-Fi profile, the trusted-Wi-Fi firewall stage is an explicit environment `SKIP`.
 

@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import csv
+import json
+import os
 import re
 import stat
 import sys
@@ -51,66 +53,27 @@ def fail(message: str) -> None:
     errors.append(message)
 
 
-def load_enabled() -> list[str]:
-    if not ENABLED.is_file():
-        fail(f"missing {ENABLED.relative_to(ROOT)}")
+def load_table(path: Path, expected: list[str]) -> list[dict[str, str]]:
+    # The shell stages consume literal, tab-separated fields with read -r.
+    if not path.is_file():
+        fail(f"missing {path.relative_to(ROOT)}")
         return []
-
-    items: list[str] = []
-    for raw in ENABLED.read_text(encoding="utf-8").splitlines():
-        line = raw.strip()
-        if not line or line.startswith("#"):
+    with path.open(encoding="utf-8", newline="") as fh:
+        lines = fh.readlines()
+    if not lines or lines[0].rstrip("\n").split("\t") != expected:
+        fail(f"{path.name}: invalid header")
+        return []
+    rows = []
+    for lineno, line in enumerate(lines[1:], 2):
+        fields = line.rstrip("\n").split("\t")
+        if (not line.endswith("\n") or len(fields) != len(expected)
+                or any(value != value.strip() for value in fields)):
+            fail(f"{path.name}:{lineno}: malformed TSV row")
             continue
-        items.append(line)
-    return items
-
-
-def load_inventory() -> tuple[list[str], list[dict[str, str]]]:
-    if not INVENTORY.is_file():
-        fail(f"missing {INVENTORY.relative_to(ROOT)}")
-        return [], []
-
-    with INVENTORY.open(encoding="utf-8", newline="") as fh:
-        reader = csv.DictReader(fh, delimiter="\t")
-        header = reader.fieldnames or []
-        rows = [dict(row) for row in reader]
-    return header, rows
-
-
-def load_lock() -> tuple[list[str], list[dict[str, str]]]:
-    if not LOCK.is_file():
-        fail(f"missing {LOCK.relative_to(ROOT)}")
-        return [], []
-
-    with LOCK.open(encoding="utf-8", newline="") as fh:
-        reader = csv.DictReader(fh, delimiter="\t")
-        header = reader.fieldnames or []
-        rows = [dict(row) for row in reader]
-    return header, rows
-
-
-def load_tree_lock() -> tuple[list[str], list[dict[str, str]]]:
-    if not TREE_LOCK.is_file():
-        fail(f"missing {TREE_LOCK.relative_to(ROOT)}")
-        return [], []
-
-    with TREE_LOCK.open(encoding="utf-8", newline="") as fh:
-        reader = csv.DictReader(fh, delimiter="\t")
-        header = reader.fieldnames or []
-        rows = [dict(row) for row in reader]
-    return header, rows
-
-
-def load_managed_system() -> tuple[list[str], list[dict[str, str]]]:
-    if not MANAGED_SYSTEM.is_file():
-        fail(f"missing {MANAGED_SYSTEM.relative_to(ROOT)}")
-        return [], []
-
-    with MANAGED_SYSTEM.open(encoding="utf-8", newline="") as fh:
-        reader = csv.DictReader(fh, delimiter="\t")
-        header = reader.fieldnames or []
-        rows = [dict(row) for row in reader]
-    return header, rows
+        rows.append(dict(zip(expected, fields)))
+    if not rows:
+        fail(f"{path.name}: no data rows")
+    return rows
 
 
 def validate_entrypoints() -> None:
@@ -181,22 +144,49 @@ def validate_weather_locations() -> None:
                 )
 
 
-def load_package_manifest(path: Path) -> list[str]:
+def manifest_entries(path: Path, pattern: str, *, required: bool = True) -> list[str]:
     if not path.is_file():
         fail(f"missing {path.relative_to(ROOT)}")
         return []
-
-    items: list[str] = []
-    for raw in path.read_text(encoding="utf-8").splitlines():
-        line = raw.strip()
-        if not line or line.startswith("#"):
-            continue
-        items.append(line)
+    items = []
+    with path.open(encoding="utf-8", newline="") as fh:
+        for lineno, raw in enumerate(fh, 1):
+            line = raw.removesuffix("\n")
+            if not line or line.startswith("#"):
+                continue
+            if not raw.endswith("\n") or not re.fullmatch(pattern, line):
+                fail(f"{path.name}:{lineno}: invalid manifest entry")
+                continue
+            items.append(line)
+    if required and not items:
+        fail(f"{path.name}: empty manifest")
     return items
 
 
-required_rpms = load_package_manifest(RPM_REQUIRED)
-absent_rpms = load_package_manifest(RPM_ABSENT)
+def validate_stage_inputs() -> None:
+    for entry in manifest_entries(ROOT / "packages/installer-inputs.txt", r"[\w/-]+[\w./-]*"):
+        path = ROOT / entry
+        if Path(entry).is_absolute() or ".." in Path(entry).parts:
+            fail(f"invalid repository input path: {entry}")
+        elif not path.is_file() or not os.access(path, os.R_OK) or not path.stat().st_size:
+            fail(f"missing, empty or unreadable stage input: {entry}")
+        elif path.suffix == ".json":
+            try:
+                json.loads(path.read_text(encoding="utf-8"))
+            except ValueError as exc:
+                fail(f"{entry}: {exc}")
+    if not os.access(ROOT / "scripts/generate-dhruva-emoji-pl.py", os.X_OK):
+        fail("Dhruva emoji generator must be executable")
+
+
+validate_stage_inputs()
+rpm_pattern = r"[A-Za-z0-9][A-Za-z0-9.+_-]*"
+required_rpms = manifest_entries(RPM_REQUIRED, rpm_pattern)
+absent_rpms = manifest_entries(RPM_ABSENT, rpm_pattern, required=False)
+flatpaks = manifest_entries(ROOT / "packages/flatpak.txt",
+                           r"(?:[A-Za-z_][A-Za-z0-9_]*\.){2,}[A-Za-z_][A-Za-z0-9_-]*")
+if len(flatpaks) != len(set(flatpaks)):
+    fail("duplicate Flatpak application ID")
 
 for package, count in Counter(required_rpms).items():
     if count != 1:
@@ -210,25 +200,16 @@ for package in sorted(set(required_rpms) & set(absent_rpms)):
     fail(f"RPM cannot be both required and absent: {package}")
 
 
-enabled = load_enabled()
-header, rows = load_inventory()
-lock_header, lock_rows = load_lock()
-tree_lock_header, tree_lock_rows = load_tree_lock()
-managed_header, managed_rows = load_managed_system()
+enabled = manifest_entries(ENABLED, r"[A-Za-z0-9._+-]+@[A-Za-z0-9._+-]+")
+rows = load_table(INVENTORY, EXPECTED_HEADER)
+lock_rows = load_table(LOCK, EXPECTED_LOCK_HEADER)
+tree_lock_rows = load_table(TREE_LOCK, EXPECTED_TREE_LOCK_HEADER)
+managed_rows = load_table(MANAGED_SYSTEM, EXPECTED_MANAGED_SYSTEM_HEADER)
 validate_weather_locations()
 validate_entrypoints()
-
-if header and header != EXPECTED_HEADER:
-    fail(f"unexpected inventory header: {header!r}")
-
-if lock_header and lock_header != EXPECTED_LOCK_HEADER:
-    fail(f"unexpected extension lock header: {lock_header!r}")
-
-if tree_lock_header and tree_lock_header != EXPECTED_TREE_LOCK_HEADER:
-    fail(f"unexpected extension tree-lock header: {tree_lock_header!r}")
-
-if managed_header and managed_header != EXPECTED_MANAGED_SYSTEM_HEADER:
-    fail(f"unexpected managed-system extension header: {managed_header!r}")
+if not any(row["uuid"] == "ding@rastersoft.com" and row["runtime_version"] == "99"
+           and row["shell_major"] == "50" for row in managed_rows):
+    fail("managed-system manifest must provide DING v99 for GNOME 50")
 
 for uuid, count in Counter(enabled).items():
     if count != 1:
@@ -290,7 +271,7 @@ for row in lock_rows:
             fail(f"invalid GitHub commit pin: {uuid}: {source_ref!r}")
 
         url = inventory_row.get("url", "").strip()
-        if not url.startswith("https://github.com/"):
+        if not re.fullmatch(r"https://github\.com/[\w.-]+/[\w.-]+", url):
             fail(
                 f"GitHub commit source requires GitHub inventory URL: "
                 f"{uuid}: {url!r}"
@@ -464,6 +445,8 @@ for row in rows:
 
     if not uuid:
         continue
+    if uuid in enabled and "50" not in shell_versions.split(","):
+        fail(f"enabled extension does not support GNOME 50: {uuid}")
     if not name:
         fail(f"inventory name missing: {uuid}")
     if not shell_versions:

@@ -214,6 +214,7 @@ def main() -> int:
         description="Install or verify reviewed custom GNOME Weather locations."
     )
     mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--check-config", action="store_true", help="parse private inputs only")
     mode.add_argument("--apply", action="store_true", help="add missing locations")
     mode.add_argument("--verify", action="store_true", help="verify locations only")
     parser.add_argument(
@@ -225,6 +226,8 @@ def main() -> int:
     args = parser.parse_args()
 
     specs = load_specs(args.config)
+    if args.check_config:
+        return 0
     Gio, GLib, GWeather = load_gnome_api()
     schema_id, settings = open_weather_settings(Gio)
 
