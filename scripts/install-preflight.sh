@@ -38,11 +38,18 @@ else
   fail "GNOME Shell 50 is required (found: $gnome)"
 fi
 
-# Tools the restore uses without first installing a provider.
-for cmd in bash python3 rpm dnf sudo awk grep ip nmcli systemctl gnome-shell \
-    gdbus gresource gsettings dconf gnome-extensions glib-compile-schemas patch tar \
-    sha256sum install cmp dracut lsinitrd restorecon udevadm sysctl; do
-  command -v "$cmd" >/dev/null || fail "missing required host command: $cmd"
+# Read-only probes and the first repository setup stage. The bootstrap only
+# promises curl, GnuPG and DNF plugins/keys; the RPM manifest runs afterwards.
+for cmd in bash dirname cat python3 rpm dnf sudo awk grep ip nmcli gnome-shell \
+    gdbus mktemp rm install; do
+  command -v "$cmd" >/dev/null || fail "missing required host command: $cmd (preflight or repository setup)"
+done
+
+# Later stages use these commands, but neither bootstrap nor the RPM manifest
+# explicitly supplies their providers. Detect a missing prerequisite before apply.
+for cmd in systemctl gresource gsettings dconf gnome-extensions glib-compile-schemas \
+    patch tar sha256sum cmp dracut lsinitrd restorecon udevadm sysctl; do
+  command -v "$cmd" >/dev/null || fail "missing later-stage command: $cmd (no declared installer provider)"
 done
 
 # The first stage bootstraps these before it first consumes them.

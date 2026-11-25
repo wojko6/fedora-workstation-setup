@@ -104,7 +104,7 @@ exit 95
 
 def snapshot(root):
     state = {}
-    for path in root.rglob("*"):
+    for path in (root, *root.rglob("*")):
         meta = path.lstat()
         content = hashlib.sha256(path.read_bytes()).digest() if path.is_file() else None
         state[path.relative_to(root)] = (meta.st_mode, meta.st_mtime_ns, content)
@@ -126,6 +126,11 @@ with tempfile.TemporaryDirectory() as temp:
     system.mkdir()
     runtime = base / "runtime"
     runtime.mkdir()
+    tmpdir = base / "tmp"
+    cache = base / "cache"
+    tmpdir.mkdir(mode=0o700)
+    cache.mkdir(mode=0o700)
+    watched = (repo, home, system, runtime, tmpdir, cache)
     credentials = {}
     # CI containers sometimes run as root. Exercise the actual EUID guard
     # with an unprivileged child, without adding a bypass to the installer.
@@ -133,23 +138,29 @@ with tempfile.TemporaryDirectory() as temp:
         nobody = pwd.getpwnam("nobody")
         credentials = dict(user=nobody.pw_uid, group=nobody.pw_gid, extra_groups=[])
         base.chmod(0o755)
-        for path in (home, runtime, system, calls):
+        mocks.chmod(0o755)
+        for path in (*watched, calls, *repo.rglob("*")):
             os.chown(path, nobody.pw_uid, nobody.pw_gid)
-        for path in (repo, *repo.rglob("*")):
-            if path.is_dir():
-                path.chmod(0o755)
-            else:
-                path.chmod(0o644 | (path.stat().st_mode & 0o111))
+    for path in (repo, *repo.rglob("*")):
+        # copytree preserves modes, including a checkout mounted read-only in CI.
+        path.chmod(path.stat().st_mode | (0o700 if path.is_dir() else 0o600))
+
     # Only the two read-only shell helpers may execute. Intercept every stage
     # at dispatch, including any future stage absent from our expected order.
     shell = mocks / "bash"
     shell.write_text('''#!/bin/bash
 case "$1" in
-  "$TEST_REPO/scripts/install-preflight.sh"|network/check-trusted-wifi.sh)
+  "$TEST_REPO/scripts/install-preflight.sh")
+    echo preflight >> "$TEST_CALLS"
+    exec /bin/bash "$@"
+    ;;
+  network/check-trusted-wifi.sh)
     exec /bin/bash "$@"
     ;;
   "$TEST_REPO/"*)
-    printf 'stage %s\\n' "${1#"$TEST_REPO/"}" >> "$TEST_CALLS"
+    stage=${1#"$TEST_REPO/"}
+    printf 'stage %s\\n' "$stage" >> "$TEST_CALLS"
+    if [[ "$stage" == "${TEST_FAIL_STAGE:-}" ]]; then exit 73; fi
     ;;
   *)
     printf 'unexpected bash %s\\n' "$*" >> "$TEST_CALLS"
@@ -165,39 +176,72 @@ esac
     cat rpm gnome-shell rpm-ostree systemd-detect-virt gdbus ip nmcli sudo dnf
     systemctl firewall-cmd gsettings dconf gnome-extensions glib-compile-schemas patch
     tar sha256sum install cmp gresource dracut lsinitrd restorecon udevadm sysctl curl gpg
-    flatpak mkdir cp mv rm tee touch chmod chown systemd-analyze ss
+    flatpak mkdir mktemp cp mv rm tee touch chmod chown systemd-analyze ss
     """.split()
     for name in commands:
         path = mocks / name
         path.write_text(MOCK)
         path.chmod(0o755)
     env = dict(PATH=str(mocks), HOME=str(home), XDG_RUNTIME_DIR=str(runtime),
+               TMPDIR=str(tmpdir), XDG_CACHE_HOME=str(cache),
                DBUS_SESSION_BUS_ADDRESS="unix:path=/mock", TEST_CALLS=str(calls),
                LC_ALL="C", TEST_REPO=str(repo), SYSLOG_NG_COLLECTOR_CONF=str(system / "collector.conf"),
                TRUSTED_WIFI_UUID="11111111-2222-3333-4444-555555555555",
                TRUSTED_WIFI_PROFILE="Lab")
 
-    def run(args, rc, message, *, dispatched=(), **overrides):
+    # Positive control under exactly the identity that will run install.sh.
+    # Prove a write would succeed before relying on unchanged snapshots.
+    subprocess.run([sys.executable, "-I", "-B", "-c", """
+import os
+import sys
+from pathlib import Path
+assert os.geteuid() != 0
+for root in map(Path, sys.argv[1:]):
+    probe = root / ".write-probe"
+    with probe.open("xb") as out:
+        out.write(b"probe")
+    probe.unlink()
+with Path("packages/rpm.txt").open("r+b"):
+    pass
+""", *watched], cwd=repo, env=env, check=True, **credentials)
+
+    def run(args, rc, message, *, dispatched=(), preflight=True, **overrides):
         calls.write_text("")
-        before = [snapshot(tree) for tree in (repo, home, system, runtime)]
+        before = [snapshot(tree) for tree in watched]
         result = subprocess.run(["/bin/bash", str(repo / "install.sh"), *args],
                                 cwd=system, env={**env, **overrides}, **credentials,
                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         if result.returncode != rc or message not in result.stdout:
             raise AssertionError(f"{args}: expected {rc}, {message!r}\n{result.stdout}")
-        assert calls.read_text().splitlines() == [f"stage {stage}" for stage in dispatched], calls.read_text()
-        assert before == [snapshot(tree) for tree in (repo, home, system, runtime)], "fixture state changed"
+        expected = ["preflight"] if preflight else []
+        expected.extend(f"stage {stage}" for stage in dispatched)
+        assert calls.read_text().splitlines() == expected, calls.read_text()
+        for tree, previous in zip(watched, before):
+            assert snapshot(tree) == previous, f"fixture state changed: {tree.name}"
         return result.stdout
 
-    run(["--help"], 0, "Usage:", DBUS_SESSION_BUS_ADDRESS="")
+    run(["--help"], 0, "Usage:", preflight=False, DBUS_SESSION_BUS_ADDRESS="")
     for args in (["--invalid"], ["--apply", "--check"], ["--help", "extra"], [""]):
-        run(args, 2, "Usage:")
+        run(args, 2, "Usage:", preflight=False)
     output = run(["--check"], 0, "PASS: mandatory preflight complete")
     assert "WARN: msgfmt is deferred" in output and "SKIP: private Weather" in output
     run(["--check"], 0, "SKIP: trusted Wi-Fi", TEST_VIRT="kvm",
         TRUSTED_WIFI_UUID="", TRUSTED_WIFI_PROFILE="")
     run(["--apply"], 0, "Setup stages finished", dispatched=STAGES)
     run([], 0, "Setup stages finished", dispatched=STAGES)
+    # Use the same checkout, home and cache across a failure and two retries.
+    # A stale successful check or resuming after the failed stage would be observable.
+    failed_stage = "scripts/install-flatpaks.sh"
+    attempted = STAGES[:STAGES.index(failed_stage) + 1]
+    output = run(["--apply"], 73, f"Running {failed_stage}", dispatched=attempted,
+                 TEST_FAIL_STAGE=failed_stage)
+    assert "Setup stages finished" not in output
+    manifest = repo / "packages/flatpak.txt"
+    previous_manifest = manifest.read_bytes()
+    manifest.write_text("--system\n")
+    run(["--apply"], 1, "invalid manifest entry")
+    manifest.write_bytes(previous_manifest)
+    run(["--apply"], 0, "Setup stages finished", dispatched=STAGES)
     for args in (["--check"], ["--apply"], []):
         run(args, 1, "active Wi-Fi profile is not trusted",
             TRUSTED_WIFI_UUID="aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
@@ -233,6 +277,20 @@ esac
         path.write_text(data)
         run(["--apply"], 1, reason)
         path.write_bytes(original)
+    # The first stage bootstraps curl/GnuPG. A missing host-only tool must
+    # still block before dispatch, even if its consumer is several stages later.
+    (mocks / "curl").unlink()
+    (mocks / "gpg").unlink()
+    output = run(["--check"], 0, "PASS: mandatory preflight complete")
+    for cmd in ("curl", "gpg"):
+        assert f"WARN: {cmd} is supplied by setup-repositories.sh" in output
+    for cmd, reason in [("mktemp", "missing required host command"),
+                        ("patch", "missing later-stage command")]:
+        path = mocks / cmd
+        path.rename(mocks / "disabled")
+        run(["--apply"], 1, f"{reason}: {cmd}")
+        (mocks / "disabled").rename(path)
+
     # Missing deferred command without a provider must also stop apply.
     rpms = repo / "packages/rpm.txt"
     original = rpms.read_bytes()
@@ -255,4 +313,7 @@ esac
 
 print("PASS: check and rejected apply invoked no mutator or stage and preserved fixture state")
 print("PASS: explicit and default apply dispatched only the expected ordered stage doubles")
+print("PASS: stage failure propagated its status and stopped subsequent dispatch")
+print("PASS: retry revalidated changed inputs and restarted the plan after correction")
+print("PASS: unprivileged checks preserved writable repo, home, system, runtime, tmp and cache")
 print("=== INSTALLER PREFLIGHT TESTS: PASS ===")

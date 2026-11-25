@@ -34,6 +34,15 @@ Run `bash install.sh --help` for usage. Both modes print the ordered stages and 
 | WARN | Review the reason. For a missing deferred command, the message identifies the installation stage or RPM provider. |
 | SKIP | The check is inapplicable, e.g. private Weather inputs are absent or a VM has no selected trusted Wi-Fi UUID. |
 
+The preflight checks command availability in the order the installer needs it. This table describes the Fedora 44/GNOME restore scripts and their declared package inputs.
+
+| First consumer | Availability rule |
+| --- | --- |
+| Entry point, platform, session and Wi-Fi probes | Bash, `dirname`, `cat`, Python 3, RPM, `gnome-shell`, `gdbus`, `grep`, `awk`, `ip` and `nmcli` are host prerequisites. The physical Wi-Fi check uses the active default route. |
+| Stage 1, repository setup | The first transaction needs `sudo` and `dnf`. The same stage also uses `mktemp`, `rm` and `install`. It installs `curl` and `gnupg2` before invoking `curl` or `gpg`. Missing either of those two commands produces a warning. |
+| Stage 2, RPM restore, then later consumers | A missing command may be deferred when its provider is explicitly requested in `packages/rpm.txt`. Examples include `flatpak`, `unzip`, the Gettext tools, `firewall-cmd` (firewalld), `ddcutil`, `ptyxis` and `tailscale`. |
+| Later consumers with no explicit provider in either package list | For example, DING uses `patch`, extensions use `gnome-extensions`, Ptyxis resource checks use `gresource`, and Plymouth localization uses `dracut` and `lsinitrd`. The gate checks these on the host before stage 1. A missing command blocks apply, even if it might arrive as a transitive dependency. |
+
 A successful check exits 0. A failed preflight exits 1. An unknown, repeated or conflicting argument exits 2. Both `--apply` and the legacy no-argument invocation run a fresh preflight. The firewall stage rechecks the active Wi-Fi identity immediately before applying its policy.
 
 A passing preflight cannot establish remote availability, DNF solvability, hardware behaviour or session state later in the restore. Stage-time checks still verify downloaded artifacts, package signatures and installed state. If an apply stage fails, inspect its output and any stage-specific rollback, correct the cause, run `--check`, then rerun `--apply` from the start. Earlier successful stages may already have changed the host. Acceptance of this installer change remains **HOLD** pending a fresh Fedora 44/GNOME clean-room replay and physical test. Fedora 45/KDE restore also remains **HOLD**.
