@@ -6,6 +6,8 @@ This directory contains the reviewed operational and validation documentation fo
 
 ## Restore and recovery
 
+- [WORKLOG-2026-11-26.md](WORKLOG-2026-11-26.md) — bounded physical logrotate repair, rejected Finder G2.6-D, Codex/Craft MCP laboratory and local inference architecture; restore and agent deployment HOLD.
+
 - [RESTORE.md](RESTORE.md) — normal rebuild procedure from a clean Fedora installation.
 - [CLEAN-ROOM-RESTORE-REPORT.md](CLEAN-ROOM-RESTORE-REPORT.md) — clean-room restore validation and lessons learned.
 - [DISASTER-RECOVERY.md](DISASTER-RECOVERY.md) — offline disaster-recovery strategy and validated recovery generations.
