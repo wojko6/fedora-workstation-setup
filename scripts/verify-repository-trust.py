@@ -32,15 +32,15 @@ class RepoPolicy:
 def load_policy() -> tuple[tuple[str, ...], tuple[RepoPolicy, ...]]:
     try:
         data = json.loads(POLICY_FILE.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        raise RuntimeError(f"unable to load repository trust policy: {exc}") from exc
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise RuntimeError("unable to load repository trust policy (access, JSON or UTF-8 error)") from exc
 
-    if data.get("schema_version") != 1:
+    if not isinstance(data, dict) or data.get("schema_version") != 1:
         raise RuntimeError("repository trust policy has unsupported schema")
 
     trust_packages_raw = data.get("trust_packages")
     repos_raw = data.get("repositories")
-    if not isinstance(trust_packages_raw, list) or not all(
+    if not trust_packages_raw or not isinstance(trust_packages_raw, list) or not all(
         isinstance(item, str) and item for item in trust_packages_raw
     ):
         raise RuntimeError("trust_packages must be a non-empty string list")
@@ -353,7 +353,9 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Verify external repository trust anchors and package signer identity."
     )
-    parser.add_argument(
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--check-policy", action="store_true", help="validate the policy file only")
+    mode.add_argument(
         "--check-key",
         nargs=2,
         metavar=("REPO_ID", "PATH"),
@@ -370,6 +372,17 @@ def main() -> int:
         return 1
 
     args = parse_args()
+    if args.check_policy:
+        # These are the identities setup-repositories.sh needs after bootstrap.
+        required = {"rpmfusion-free", "rpmfusion-nonfree", "brave-browser",
+                    "copr:copr.fedorainfracloud.org:imput:helium",
+                    "copr:copr.fedorainfracloud.org:tgerov:vpcs"}
+        missing = required.difference(policy.repo_id for policy in policies)
+        if missing:
+            print(f"FAIL: missing repository trust policies: {', '.join(sorted(missing))}")
+            return 1
+        print("PASS: external repository trust policy covers bootstrap sources")
+        return 0
     if args.check_key:
         repo_id, path_text = args.check_key
         try:

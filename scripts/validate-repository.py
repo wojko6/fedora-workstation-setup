@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import csv
+import json
+import os
 import re
 import stat
 import sys
@@ -44,6 +46,154 @@ USER_PREFIX = "~/.local/share/gnome-shell/extensions/"
 SYSTEM_PREFIX = "/usr/share/gnome-shell/extensions/"
 MANAGED_SYSTEM_PREFIX = "/usr/local/share/gnome-shell/extensions/"
 
+# Explicit contract, deliberately independent of the editable manifest.
+# Update both only after reviewing the dependencies of all installer stages.
+REQUIRED_STAGE_INPUTS = frozenset("""
+desktop/launchers/asus-router.desktop.template
+desktop/launchers/counter-strike-2.desktop
+desktop/menu-localization-rpm.json
+gnome/dhruva/dock-state.json
+gnome/enabled-extensions.txt
+gnome/extension-display-names-pl.tsv
+gnome/extensions-inventory.tsv
+gnome/extensions-lock.tsv
+gnome/extensions-tree-lock.tsv
+gnome/managed-system-extensions.tsv
+gnome/settings.dconf
+gnome/weather-locations.example.tsv
+localization/advanced-media-controller/pl.po
+localization/advanced-media-controller/v31.pot
+localization/appindicator/v64-completion.po
+localization/arcmenu/v74-bindtextdomain.patch
+localization/arcmenu/v74-completion.po
+localization/arcmenu/v74-source.json
+localization/bluetooth-battery-meter/v46-budslink-completion.po
+localization/blur-my-shell/v72-completion.po
+localization/caffeine/v60-completion.po
+localization/clipboard-indicator/v71-completion.po
+localization/ddterm/v73-completion.po
+localization/dhruva/pl.po
+localization/ding/pl.po
+localization/display-brightness-ddcutil/pl.po
+localization/extension-manager/v0.6.5-completion.po
+localization/gnome-tweaks/v49.0-gsettings-enums.po
+localization/gsconnect/pl.po
+localization/helium/v0.18.1.1-pl-completion.json
+localization/just-another-search-bar/pl.po
+localization/just-perfection/pl.po
+localization/just-perfection/v37-additions.po
+localization/monitor-smart-saver/pl.po
+localization/papers/pl-overlay.po
+localization/plymouth/55-polish-plymouth.conf
+localization/ptyxis/pl.po
+localization/space-bar/v39-replacements.json
+localization/spotlight/pl.po
+localization/tiling-shell/pl.po
+localization/user-theme/pl.po
+localization/vitals/v85-completion.po
+network/check-trusted-wifi.sh
+packages/flatpak.txt
+packages/rpm-absent.txt
+packages/rpm.txt
+patches/gnome-extensions/background-logo/prefs-pl.patch
+patches/gnome-extensions/blur-my-shell/pipeline-choose-row-i18n.patch
+patches/gnome-extensions/blur-my-shell/pipeline-group-i18n.patch
+patches/gnome-extensions/browser-switcher/indicator-pl.patch
+patches/gnome-extensions/browser-switcher/menuBuilder-pl.patch
+patches/gnome-extensions/dhruva/WindowThumbnailBuilder-gettext.patch
+patches/gnome-extensions/dhruva/metadata-gettext.patch
+patches/gnome-extensions/dhruva/src__core__FolderManager-gettext.patch
+patches/gnome-extensions/dhruva/src__prefs__AboutPage-gettext.patch
+patches/gnome-extensions/dhruva/src__prefs__AppearancePage-gettext.patch
+patches/gnome-extensions/dhruva/src__prefs__BehaviorPage-gettext.patch
+patches/gnome-extensions/dhruva/src__prefs__LayoutPage-gettext.patch
+patches/gnome-extensions/dhruva/src__prefs__ModulesPage-gettext.patch
+patches/gnome-extensions/dhruva/src__prefs__ResetButtons-gettext.patch
+patches/gnome-extensions/dhruva/src__ui__AppGridUI-gettext.patch
+patches/gnome-extensions/dhruva/src__ui__DragDrop-gettext.patch
+patches/gnome-extensions/dhruva/src__ui__context-menu__AppContextMenu-gettext.patch
+patches/gnome-extensions/dhruva/src__ui__context-menu__TrashActionsHandler-gettext.patch
+patches/gnome-extensions/dhruva/src__ui__folder-menu__EmojiPicker-gettext.patch
+patches/gnome-extensions/dhruva/src__ui__folder-menu__FolderMenuBuilder-gettext.patch
+patches/gnome-extensions/dhruva/src__ui__magnifier__MagnifierFrameEngine-gettext.patch
+patches/gnome-extensions/dhruva/src__ui__modules__AppGridModule-gettext.patch
+patches/gnome-extensions/dhruva/src__ui__modules__DockModules-gettext.patch
+patches/gnome-extensions/dhruva/src__ui__modules__SystemFoldersModule-gettext.patch
+patches/gnome-extensions/dhruva/src__ui__modules__TrashModule-gettext.patch
+patches/gnome-extensions/ding/v99-desktopMenu-system-monitor.patch
+patches/gnome-extensions/spotlight/0001-localize-preferences-entry.patch
+patches/gnome-extensions/spotlight/0002-localize-shortcut-page.patch
+patches/gnome-extensions/spotlight/0003-localize-appearance-page.patch
+patches/gnome-extensions/spotlight/0004-localize-about-page.patch
+patches/gnome-extensions/tiling-shell/v76-editor-legend-gettext.patch
+patches/gnome-extensions/user-theme/metadata-pl.patch
+patches/gnome-extensions/user-theme/prefs-gettext.patch
+patches/gnome-extensions/vitals/v85-values-gettext.patch
+patches/gnome-tweaks/v49.0-gsettings-enum-gettext.patch
+scripts/apply-space-bar-localization.py
+scripts/build-ding-v99-managed-tree.sh
+scripts/desktop-entry-localization.py
+scripts/extension-display-names.py
+scripts/extension_tree_integrity.py
+scripts/generate-dhruva-emoji-pl.py
+scripts/gsconnect_runcommand_names.py
+scripts/helium-localization-post-transaction.sh
+scripts/helium_datapack.py
+scripts/install-advanced-media-controller-localization.sh
+scripts/install-appindicator-localization.sh
+scripts/install-arcmenu-localization.sh
+scripts/install-background-logo-localization.sh
+scripts/install-bluetooth-battery-meter-localization.sh
+scripts/install-blur-my-shell-localization.sh
+scripts/install-browser-switcher-localization.sh
+scripts/install-caffeine-localization.sh
+scripts/install-clipboard-indicator-localization.sh
+scripts/install-ddterm-localization.sh
+scripts/install-dhruva-localization.sh
+scripts/install-extension-display-names.sh
+scripts/install-extension-manager-localization.sh
+scripts/install-gnome-tweaks-localization.sh
+scripts/install-gsconnect-localization.sh
+scripts/install-helium-localization.sh
+scripts/install-just-perfection-localization.sh
+scripts/install-papers-localization.sh
+scripts/install-plymouth-localization.sh
+scripts/install-preflight.sh
+scripts/install-ptyxis-localization.sh
+scripts/install-rpm-desktop-localizations.sh
+scripts/install-space-bar-localization.sh
+scripts/install-spotlight-localization.sh
+scripts/install-tiling-shell-localization.sh
+scripts/install-user-theme-localization.sh
+scripts/install-vitals-localization.sh
+scripts/manage-weather-locations.py
+scripts/prepare_github_extension_metadata.py
+scripts/ptyxis_desktop_actions.py
+scripts/ptyxis_resource_audit.py
+scripts/render-asus-launcher.py
+scripts/validate-repository.py
+scripts/verify-advanced-media-controller-localization.sh
+scripts/verify-appindicator-localization.sh
+scripts/verify-arcmenu-localization.sh
+scripts/verify-bluetooth-battery-meter-localization.sh
+scripts/verify-blur-my-shell-localization.sh
+scripts/verify-caffeine-localization.sh
+scripts/verify-clipboard-indicator-localization.sh
+scripts/verify-ddterm-localization.sh
+scripts/verify-extension-manager-localization.sh
+scripts/verify-gnome-tweaks-localization.sh
+scripts/verify-gsconnect-localization.sh
+scripts/verify-helium-localization.sh
+scripts/verify-repository-trust.py
+scripts/verify-tiling-shell-localization.sh
+scripts/verify-user-theme-localization.sh
+scripts/verify-vitals-localization.sh
+scripts/verify_ego_extension.py
+scripts/verify_github_archive.py
+security/repository-trust.json
+system/dnf5/actions.d/90-helium-localization.actions
+""".split())
+
 errors: list[str] = []
 
 
@@ -51,68 +201,41 @@ def fail(message: str) -> None:
     errors.append(message)
 
 
-def load_enabled() -> list[str]:
-    if not ENABLED.is_file():
-        fail(f"missing {ENABLED.relative_to(ROOT)}")
+def input_diagnostics(function):
+    def checked(*args, **kwargs):
+        try:
+            return function(*args, **kwargs)
+        except (OSError, UnicodeError):
+            fail("cannot read repository input (access or UTF-8 error)")
+            return []
+    return checked
+
+
+@input_diagnostics
+def load_table(path: Path, expected: list[str]) -> list[dict[str, str]]:
+    # The shell stages consume literal, tab-separated fields with read -r.
+    if not path.is_file():
+        fail(f"missing {path.relative_to(ROOT)}")
         return []
-
-    items: list[str] = []
-    for raw in ENABLED.read_text(encoding="utf-8").splitlines():
-        line = raw.strip()
-        if not line or line.startswith("#"):
+    with path.open(encoding="utf-8", newline="") as fh:
+        lines = fh.readlines()
+    if not lines or lines[0].rstrip("\n").split("\t") != expected:
+        fail(f"{path.name}: invalid header")
+        return []
+    rows = []
+    for lineno, line in enumerate(lines[1:], 2):
+        fields = line.rstrip("\n").split("\t")
+        if (not line.endswith("\n") or len(fields) != len(expected)
+                or any(value != value.strip() for value in fields)):
+            fail(f"{path.name}:{lineno}: malformed TSV row")
             continue
-        items.append(line)
-    return items
+        rows.append(dict(zip(expected, fields)))
+    if not rows:
+        fail(f"{path.name}: no data rows")
+    return rows
 
 
-def load_inventory() -> tuple[list[str], list[dict[str, str]]]:
-    if not INVENTORY.is_file():
-        fail(f"missing {INVENTORY.relative_to(ROOT)}")
-        return [], []
-
-    with INVENTORY.open(encoding="utf-8", newline="") as fh:
-        reader = csv.DictReader(fh, delimiter="\t")
-        header = reader.fieldnames or []
-        rows = [dict(row) for row in reader]
-    return header, rows
-
-
-def load_lock() -> tuple[list[str], list[dict[str, str]]]:
-    if not LOCK.is_file():
-        fail(f"missing {LOCK.relative_to(ROOT)}")
-        return [], []
-
-    with LOCK.open(encoding="utf-8", newline="") as fh:
-        reader = csv.DictReader(fh, delimiter="\t")
-        header = reader.fieldnames or []
-        rows = [dict(row) for row in reader]
-    return header, rows
-
-
-def load_tree_lock() -> tuple[list[str], list[dict[str, str]]]:
-    if not TREE_LOCK.is_file():
-        fail(f"missing {TREE_LOCK.relative_to(ROOT)}")
-        return [], []
-
-    with TREE_LOCK.open(encoding="utf-8", newline="") as fh:
-        reader = csv.DictReader(fh, delimiter="\t")
-        header = reader.fieldnames or []
-        rows = [dict(row) for row in reader]
-    return header, rows
-
-
-def load_managed_system() -> tuple[list[str], list[dict[str, str]]]:
-    if not MANAGED_SYSTEM.is_file():
-        fail(f"missing {MANAGED_SYSTEM.relative_to(ROOT)}")
-        return [], []
-
-    with MANAGED_SYSTEM.open(encoding="utf-8", newline="") as fh:
-        reader = csv.DictReader(fh, delimiter="\t")
-        header = reader.fieldnames or []
-        rows = [dict(row) for row in reader]
-    return header, rows
-
-
+@input_diagnostics
 def validate_entrypoints() -> None:
     if not INSTALLER.is_file():
         fail("missing install.sh")
@@ -123,6 +246,7 @@ def validate_entrypoints() -> None:
         fail("install.sh must be executable by its owner (git mode 100755)")
 
 
+@input_diagnostics
 def validate_weather_locations() -> None:
     if not WEATHER_LOCATIONS_EXAMPLE.is_file():
         fail(f"missing {WEATHER_LOCATIONS_EXAMPLE.relative_to(ROOT)}")
@@ -181,22 +305,59 @@ def validate_weather_locations() -> None:
                 )
 
 
-def load_package_manifest(path: Path) -> list[str]:
+@input_diagnostics
+def manifest_entries(path: Path, pattern: str, *, required: bool = True) -> list[str]:
     if not path.is_file():
         fail(f"missing {path.relative_to(ROOT)}")
         return []
-
-    items: list[str] = []
-    for raw in path.read_text(encoding="utf-8").splitlines():
-        line = raw.strip()
-        if not line or line.startswith("#"):
-            continue
-        items.append(line)
+    items = []
+    with path.open(encoding="utf-8", newline="") as fh:
+        for lineno, raw in enumerate(fh, 1):
+            line = raw.removesuffix("\n")
+            if not line or line.startswith("#"):
+                continue
+            if not raw.endswith("\n") or not re.fullmatch(pattern, line):
+                fail(f"{path.name}:{lineno}: invalid manifest entry")
+                continue
+            items.append(line)
+    if required and not items:
+        fail(f"{path.name}: empty manifest")
     return items
 
 
-required_rpms = load_package_manifest(RPM_REQUIRED)
-absent_rpms = load_package_manifest(RPM_ABSENT)
+@input_diagnostics
+def validate_stage_inputs() -> None:
+    entries = manifest_entries(ROOT / "packages/installer-inputs.txt", r"[A-Za-z0-9_./-]+")
+    if len(entries) != len(set(entries)):
+        fail("duplicate installer input")
+    if REQUIRED_STAGE_INPUTS - set(entries):
+        fail("installer-inputs.txt: missing mandatory entries")
+    if set(entries) - REQUIRED_STAGE_INPUTS:
+        fail("installer-inputs.txt: unreviewed entries")
+    for entry in entries:
+        path = ROOT / entry
+        if (Path(entry).is_absolute() or ".." in Path(entry).parts
+                or str(Path(entry)) != entry or not path.resolve().is_relative_to(ROOT)):
+            fail(f"invalid repository input path: {entry}")
+        elif not path.is_file() or not os.access(path, os.R_OK) or not path.stat().st_size:
+            fail(f"missing, empty or unreadable stage input: {entry}")
+        elif path.suffix == ".json":
+            try:
+                json.loads(path.read_text(encoding="utf-8"))
+            except (ValueError, OSError):
+                fail("invalid or unreadable JSON stage input")
+    if not os.access(ROOT / "scripts/generate-dhruva-emoji-pl.py", os.X_OK):
+        fail("Dhruva emoji generator must be executable")
+
+
+validate_stage_inputs()
+rpm_pattern = r"[A-Za-z0-9][A-Za-z0-9.+_-]*"
+required_rpms = manifest_entries(RPM_REQUIRED, rpm_pattern)
+absent_rpms = manifest_entries(RPM_ABSENT, rpm_pattern, required=False)
+flatpaks = manifest_entries(ROOT / "packages/flatpak.txt",
+                           r"(?:[A-Za-z_][A-Za-z0-9_]*\.){2,}[A-Za-z_][A-Za-z0-9_-]*")
+if len(flatpaks) != len(set(flatpaks)):
+    fail("duplicate Flatpak application ID")
 
 for package, count in Counter(required_rpms).items():
     if count != 1:
@@ -210,25 +371,16 @@ for package in sorted(set(required_rpms) & set(absent_rpms)):
     fail(f"RPM cannot be both required and absent: {package}")
 
 
-enabled = load_enabled()
-header, rows = load_inventory()
-lock_header, lock_rows = load_lock()
-tree_lock_header, tree_lock_rows = load_tree_lock()
-managed_header, managed_rows = load_managed_system()
+enabled = manifest_entries(ENABLED, r"[A-Za-z0-9._+-]+@[A-Za-z0-9._+-]+")
+rows = load_table(INVENTORY, EXPECTED_HEADER)
+lock_rows = load_table(LOCK, EXPECTED_LOCK_HEADER)
+tree_lock_rows = load_table(TREE_LOCK, EXPECTED_TREE_LOCK_HEADER)
+managed_rows = load_table(MANAGED_SYSTEM, EXPECTED_MANAGED_SYSTEM_HEADER)
 validate_weather_locations()
 validate_entrypoints()
-
-if header and header != EXPECTED_HEADER:
-    fail(f"unexpected inventory header: {header!r}")
-
-if lock_header and lock_header != EXPECTED_LOCK_HEADER:
-    fail(f"unexpected extension lock header: {lock_header!r}")
-
-if tree_lock_header and tree_lock_header != EXPECTED_TREE_LOCK_HEADER:
-    fail(f"unexpected extension tree-lock header: {tree_lock_header!r}")
-
-if managed_header and managed_header != EXPECTED_MANAGED_SYSTEM_HEADER:
-    fail(f"unexpected managed-system extension header: {managed_header!r}")
+if not any(row["uuid"] == "ding@rastersoft.com" and row["runtime_version"] == "99"
+           and row["shell_major"] == "50" for row in managed_rows):
+    fail("managed-system manifest must provide DING v99 for GNOME 50")
 
 for uuid, count in Counter(enabled).items():
     if count != 1:
@@ -290,7 +442,7 @@ for row in lock_rows:
             fail(f"invalid GitHub commit pin: {uuid}: {source_ref!r}")
 
         url = inventory_row.get("url", "").strip()
-        if not url.startswith("https://github.com/"):
+        if not re.fullmatch(r"https://github\.com/[\w.-]+/[\w.-]+", url):
             fail(
                 f"GitHub commit source requires GitHub inventory URL: "
                 f"{uuid}: {url!r}"
@@ -464,6 +616,8 @@ for row in rows:
 
     if not uuid:
         continue
+    if uuid in enabled and "50" not in shell_versions.split(","):
+        fail(f"enabled extension does not support GNOME 50: {uuid}")
     if not name:
         fail(f"inventory name missing: {uuid}")
     if not shell_versions:

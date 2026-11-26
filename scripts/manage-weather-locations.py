@@ -35,7 +35,7 @@ def fail(message: str) -> "NoReturn":
 
 def load_specs(path: Path) -> list[LocationSpec]:
     if not path.is_file():
-        fail(f"weather location config missing: {path}")
+        fail("weather location config missing")
 
     specs: list[LocationSpec] = []
     seen_names: set[str] = set()
@@ -46,27 +46,27 @@ def load_specs(path: Path) -> list[LocationSpec]:
             if not row or not row[0].strip() or row[0].lstrip().startswith("#"):
                 continue
             if len(row) != 3:
-                fail(f"{path}:{lineno}: expected 3 tab-separated fields")
+                fail(f"Weather config line {lineno}: expected 3 tab-separated fields")
 
             name = row[0].strip()
             try:
                 latitude = float(row[1])
                 longitude = float(row[2])
             except ValueError:
-                fail(f"{path}:{lineno}: latitude/longitude must be decimal numbers")
+                fail(f"Weather config line {lineno}: latitude/longitude must be decimal numbers")
 
             if not (-90.0 <= latitude <= 90.0):
-                fail(f"{path}:{lineno}: invalid latitude: {latitude}")
+                fail(f"Weather config line {lineno}: invalid latitude")
             if not (-180.0 <= longitude <= 180.0):
-                fail(f"{path}:{lineno}: invalid longitude: {longitude}")
+                fail(f"Weather config line {lineno}: invalid longitude")
             if name in seen_names:
-                fail(f"{path}:{lineno}: duplicate location name: {name}")
+                fail(f"Weather config line {lineno}: duplicate location name")
 
             seen_names.add(name)
             specs.append(LocationSpec(name, latitude, longitude))
 
     if not specs:
-        fail(f"no weather locations defined in {path}")
+        fail("no weather locations defined")
 
     return specs
 
@@ -214,6 +214,7 @@ def main() -> int:
         description="Install or verify reviewed custom GNOME Weather locations."
     )
     mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--check-config", action="store_true", help="parse private inputs only")
     mode.add_argument("--apply", action="store_true", help="add missing locations")
     mode.add_argument("--verify", action="store_true", help="verify locations only")
     parser.add_argument(
@@ -225,6 +226,8 @@ def main() -> int:
     args = parser.parse_args()
 
     specs = load_specs(args.config)
+    if args.check_config:
+        return 0
     Gio, GLib, GWeather = load_gnome_api()
     schema_id, settings = open_weather_settings(Gio)
 
@@ -312,4 +315,7 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except (OSError, UnicodeError):
+        fail("Weather input/output unavailable or invalid UTF-8")

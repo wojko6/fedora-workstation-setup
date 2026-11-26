@@ -1,6 +1,6 @@
 # Fedora Workstation Setup
 
-> **2026-11-26 source-state reconciliation (not a runtime test):** installer preflight/check-mode [issue #31](https://github.com/wojko6/fedora-workstation-setup/issues/31) remains open. [PR #70](https://github.com/wojko6/fedora-workstation-setup/pull/70) is OPEN/DRAFT, HEAD `3340d9fd664bc747463ffbc3cfa7cd85fbf3d9a1`; [Static checks run 45628171780](https://github.com/wojko6/fedora-workstation-setup/actions/runs/45628171780) completed successfully on that exact HEAD. The candidate is not on `main`; review, Fedora 44/GNOME clean-room replay and physical acceptance remain pending. Do not use the candidate's `--check` instructions as an installed `main` capability. Historical Fedora 44/GNOME 50.5 restore evidence is unchanged; Fedora 45/KDE restore and deployment remain HOLD.
+> **2026-11-26 historical source-state snapshot before integration (not a runtime test):** installer preflight/check-mode [issue #31](https://github.com/wojko6/fedora-workstation-setup/issues/31) remains open. [PR #70](https://github.com/wojko6/fedora-workstation-setup/pull/70) is OPEN/DRAFT, HEAD `3340d9fd664bc747463ffbc3cfa7cd85fbf3d9a1`; [Static checks run 45628171780](https://github.com/wojko6/fedora-workstation-setup/actions/runs/45628171780) completed successfully on that exact HEAD. The candidate is not on `main`; review, Fedora 44/GNOME clean-room replay and physical acceptance remain pending. The candidate instructions below apply to this PR branch only until source merge; source merge alone is not restore acceptance. Historical Fedora 44/GNOME 50.5 restore evidence is unchanged; Fedora 45/KDE restore and deployment remain HOLD.
 
 Reproducible setup for my Fedora workstation.
 
@@ -175,8 +175,13 @@ cd fedora-workstation-setup
 # automatically from whichever network happens to be active.
 nmcli -f NAME,UUID,TYPE connection show
 
-TRUSTED_WIFI_UUID='<reviewed-networkmanager-uuid>' bash install.sh
+export TRUSTED_WIFI_UUID='<reviewed-networkmanager-uuid>'
+bash install.sh --check
+# After reviewing the plan and resolving any failures
+bash install.sh --apply
 ```
+
+Both commands run the same local preflight. A mandatory failure blocks all restore stages. Calling `bash install.sh` without arguments runs the checked apply path. See the [restore procedure](docs/RESTORE.md#installer-preflight-and-retry) for exit codes, deferred dependencies and retry instructions.
 
 On a physical host, `TRUSTED_WIFI_UUID` is mandatory and is deliberately kept outside Git. The firewalld stage rejects an active Wi-Fi connection whose UUID does not match the reviewed value before changing NetworkManager or firewalld state. `TRUSTED_WIFI_PROFILE` may additionally be supplied to pin the expected human-readable profile name. In a virtualized clean-room environment without a trusted physical Wi-Fi profile, the trusted-Wi-Fi firewall stage is an explicit environment `SKIP`.
 

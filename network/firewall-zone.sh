@@ -2,9 +2,6 @@
 set -Eeuo pipefail
 
 ZONE="workstation-kdeconnect"
-TRUSTED_UUID="${TRUSTED_WIFI_UUID:-}"
-EXPECTED_PROFILE="${TRUSTED_WIFI_PROFILE:-}"
-
 fail() {
   echo "ERROR: $*" >&2
   return 1
@@ -14,57 +11,8 @@ for cmd in ip nmcli rpm systemctl firewall-cmd sudo; do
   command -v "$cmd" >/dev/null 2>&1 || fail "required command not found: $cmd"
 done
 
-virt="none"
-if command -v systemd-detect-virt >/dev/null 2>&1; then
-  virt="$(systemd-detect-virt 2>/dev/null || true)"
-  [[ -n "$virt" ]] || virt="none"
-fi
-
-if [[ -z "$TRUSTED_UUID" && "$virt" != "none" ]]; then
-  echo "SKIP: trusted Wi-Fi firewalld policy is not applied in virtualized environment: $virt"
-  exit 0
-fi
-
-[[ -n "$TRUSTED_UUID" ]] || fail \
-  "TRUSTED_WIFI_UUID is required; refusing to trust the active/default-route network implicitly."
-
-if [[ ! "$TRUSTED_UUID" =~ ^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$ ]]; then
-  fail "TRUSTED_WIFI_UUID is not a valid NetworkManager UUID: $TRUSTED_UUID"
-fi
-
-iface="$(ip route show default 2>/dev/null | awk '/default/ {print $5; exit}')"
-[[ -n "$iface" ]] || fail "default-route interface unavailable; firewall zone not changed."
-
-active_profile="$(nmcli -g GENERAL.CONNECTION device show "$iface" 2>/dev/null || true)"
-active_uuid="$(nmcli -g GENERAL.CON-UUID device show "$iface" 2>/dev/null || true)"
-iface_type="$(
-  nmcli -t -f DEVICE,TYPE device status 2>/dev/null |
-    awk -F: -v dev="$iface" '$1 == dev { print $2; exit }'
-)"
-
-[[ -n "$active_profile" && "$active_profile" != "--" ]] ||
-  fail "NetworkManager profile unavailable for default-route interface: $iface"
-[[ -n "$active_uuid" && "$active_uuid" != "--" ]] ||
-  fail "NetworkManager UUID unavailable for default-route interface: $iface"
-[[ "$iface_type" == "wifi" ]] ||
-  fail "default-route interface is not Wi-Fi: $iface (type: ${iface_type:-unknown})"
-
-if [[ "$active_uuid" != "$TRUSTED_UUID" ]]; then
-  fail "active Wi-Fi profile is not trusted: $active_profile ($active_uuid)"
-fi
-
-if [[ -n "$EXPECTED_PROFILE" && "$active_profile" != "$EXPECTED_PROFILE" ]]; then
-  fail "trusted Wi-Fi profile name mismatch: expected '$EXPECTED_PROFILE', active '$active_profile'"
-fi
-
-PROFILE="$active_profile"
-profile_uuid="$(nmcli -g connection.uuid connection show "$PROFILE" 2>/dev/null || true)"
-profile_type="$(nmcli -g connection.type connection show "$PROFILE" 2>/dev/null || true)"
-
-[[ "$profile_uuid" == "$TRUSTED_UUID" ]] ||
-  fail "profile UUID changed during preflight: expected $TRUSTED_UUID, found ${profile_uuid:-none}"
-[[ "$profile_type" == "802-11-wireless" ]] ||
-  fail "trusted NetworkManager profile is not Wi-Fi: $PROFILE (type: ${profile_type:-unknown})"
+# Repeat the identity check immediately before using the interface and profile.
+source "$(dirname -- "${BASH_SOURCE[0]}")/check-trusted-wifi.sh"
 
 rpm -q firewalld >/dev/null 2>&1 ||
   fail "firewalld package is not installed."
@@ -96,7 +44,18 @@ if sudo firewall-cmd --permanent --get-zones |
   zone_existed=1
 fi
 
-old_profile_zone="$(nmcli -g connection.zone connection show "$PROFILE" 2>/dev/null || true)"
+old_profile_zone="$(nmcli -g connection.zone connection show uuid "$TRUSTED_UUID" 2>/dev/null)"
+
+# These checks narrow the race window; NetworkManager and firewalld do not
+# provide a shared atomic transaction. Never resolve a mutable profile name.
+check_binding() {
+  local current_uuid
+  current_uuid="$(nmcli -g GENERAL.CON-UUID device show "$iface" 2>/dev/null)" || return 1
+  [[ "$current_uuid" == "$TRUSTED_UUID" ]] || {
+    fail "trusted Wi-Fi binding changed; refusing zone assignment"
+    return 1
+  }
+}
 
 other_kdeconnect_zones=()
 while IFS= read -r other_zone; do
@@ -204,7 +163,7 @@ rollback() {
   set +e
   echo "ERROR: firewall configuration failed; restoring previous state." >&2
 
-  sudo nmcli connection modify "$PROFILE" connection.zone "$old_profile_zone" >/dev/null 2>&1
+  sudo nmcli connection modify uuid "$TRUSTED_UUID" connection.zone "$old_profile_zone" >/dev/null 2>&1
 
   if (( zone_existed )); then
     clear_zone_state
@@ -239,7 +198,7 @@ if (( ! zone_existed )); then
   sudo firewall-cmd --permanent --new-zone="$ZONE" >/dev/null
 fi
 
-echo "Applying exact-state policy to trusted Wi-Fi profile: $PROFILE ($TRUSTED_UUID)"
+echo "Applying exact-state policy to reviewed Wi-Fi UUID"
 
 for other_zone in "${other_kdeconnect_zones[@]}"; do
   echo "Removing KDE Connect from non-trusted firewalld zone: $other_zone"
@@ -254,11 +213,13 @@ for service in "${desired_services[@]}"; do
   sudo firewall-cmd --permanent --zone="$ZONE" --add-service="$service" >/dev/null
 done
 
-sudo nmcli connection modify "$PROFILE" connection.zone "$ZONE"
+check_binding
+sudo nmcli connection modify uuid "$TRUSTED_UUID" connection.zone "$ZONE"
 sudo firewall-cmd --reload >/dev/null
+check_binding
 sudo firewall-cmd --zone="$ZONE" --change-interface="$iface" >/dev/null
 
-saved_zone="$(nmcli -g connection.zone connection show "$PROFILE" 2>/dev/null || true)"
+saved_zone="$(nmcli -g connection.zone connection show uuid "$TRUSTED_UUID" 2>/dev/null || true)"
 [[ "$saved_zone" == "$ZONE" ]] ||
   fail "expected saved firewall zone '$ZONE', got '${saved_zone:-none}'."
 

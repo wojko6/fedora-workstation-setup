@@ -5,84 +5,21 @@ ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
 log() { printf '\n==> %s\n' "$*"; }
 
-if (( EUID == 0 )); then
-  echo "ERROR: run install.sh as the desktop user, not as root." >&2
-  echo "Privileged stages invoke sudo explicitly when required." >&2
-  exit 1
+usage() {
+  printf '%s\n' 'Usage: install.sh [--check | --apply | --help]' \
+    '  --check  Validate Fedora 44 / GNOME 50 and print the ordered plan.' \
+    '  --apply  Run preflight, then apply the plan (default with no arguments).'
+}
+
+mode=--apply
+if (( $# > 0 )); then
+  if (( $# != 1 )); then usage >&2; exit 2; fi
+  case "$1" in
+    --help) usage; exit 0 ;;
+    --check|--apply) mode="$1" ;;
+    *) usage >&2; exit 2 ;;
+  esac
 fi
-
-if [[ -z "${DBUS_SESSION_BUS_ADDRESS:-}" || -z "${XDG_RUNTIME_DIR:-}" ]]; then
-  echo "ERROR: a graphical user session is required for GNOME/user-state restore." >&2
-  echo "Run the installer from a terminal inside the target GNOME session." >&2
-  exit 1
-fi
-
-if [[ ! -r /etc/fedora-release ]]; then
-  echo "ERROR: This setup is intended for Fedora." >&2
-  exit 1
-fi
-
-if command -v rpm-ostree >/dev/null 2>&1 &&
-   rpm-ostree status >/dev/null 2>&1; then
-  echo "ERROR: image-based Fedora (rpm-ostree) is not supported by this repository." >&2
-  echo "This restore path targets classic DNF/RPM Fedora Workstation." >&2
-  exit 1
-fi
-
-EXPECTED_FEDORA="44"
-EXPECTED_GNOME_MAJOR="50"
-
-fedora_version="$(rpm -E %fedora)"
-if [[ "$fedora_version" != "$EXPECTED_FEDORA" ]]; then
-  echo "ERROR: supported Fedora version is $EXPECTED_FEDORA, found $fedora_version." >&2
-  exit 1
-fi
-
-if ! command -v gnome-shell >/dev/null 2>&1; then
-  echo "ERROR: gnome-shell is required." >&2
-  exit 1
-fi
-
-gnome_version="$(gnome-shell --version 2>/dev/null)"
-
-if [[ "$gnome_version" =~ ([0-9]+)(\.[0-9]+)* ]]; then
-  gnome_major="${BASH_REMATCH[1]}"
-else
-  echo "ERROR: unable to determine GNOME Shell version from: $gnome_version" >&2
-  exit 1
-fi
-
-if [[ "$gnome_major" != "$EXPECTED_GNOME_MAJOR" ]]; then
-  echo "ERROR: supported GNOME major is $EXPECTED_GNOME_MAJOR, found ${gnome_major:-unknown}." >&2
-  exit 1
-fi
-
-virt="none"
-if command -v systemd-detect-virt >/dev/null 2>&1; then
-  virt="$(systemd-detect-virt 2>/dev/null || true)"
-  [[ -n "$virt" ]] || virt="none"
-fi
-
-if [[ "$virt" == "none" ]]; then
-  if [[ -z "${TRUSTED_WIFI_UUID:-}" ]]; then
-    echo "ERROR: TRUSTED_WIFI_UUID is required on a physical host." >&2
-    echo "Review the intended trusted Wi-Fi profile first with:" >&2
-    echo "  nmcli -f NAME,UUID,TYPE connection show" >&2
-    echo "Then rerun with TRUSTED_WIFI_UUID='<uuid>'." >&2
-    exit 1
-  fi
-
-  if [[ ! "${TRUSTED_WIFI_UUID}" =~ ^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$ ]]; then
-    echo "ERROR: TRUSTED_WIFI_UUID is not a valid NetworkManager UUID." >&2
-    exit 1
-  fi
-fi
-
-log "Fedora workstation setup"
-cat /etc/fedora-release
-printf 'Validated baseline: Fedora %s / GNOME %s\n' \
-  "$fedora_version" "$gnome_version"
-printf 'Virtualization: %s\n' "$virt"
 
 stages=(
   scripts/setup-repositories.sh
@@ -107,14 +44,14 @@ stages=(
   security/disable-wsdd.sh
 )
 
-for stage in "${stages[@]}"; do
-  path="$ROOT_DIR/$stage"
+printf 'Ordered restore plan (%s stages):\n' "${#stages[@]}"
+printf '  %s\n' "${stages[@]}"
 
-  if [[ ! -f "$path" || ! -r "$path" ]]; then
-    echo "ERROR: required setup stage is missing or unreadable: $stage" >&2
-    exit 1
-  fi
-done
+if ! bash "$ROOT_DIR/scripts/install-preflight.sh" "${stages[@]}"; then
+  echo "FAIL: preflight blocked restore before the first stage" >&2
+  exit 1
+fi
+[[ "$mode" == --apply ]] || exit 0
 
 for stage in "${stages[@]}"; do
   path="$ROOT_DIR/$stage"
