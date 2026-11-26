@@ -175,6 +175,8 @@ changing the desktop environment.
 
 ### #31 — installer preflight / check mode
 
+**2026-11-26 source-state reconciliation (not a runtime test):** installer preflight/check-mode [issue #31](https://github.com/wojko6/fedora-workstation-setup/issues/31) remains open. [PR #70](https://github.com/wojko6/fedora-workstation-setup/pull/70) is OPEN/DRAFT, HEAD `3340d9fd664bc747463ffbc3cfa7cd85fbf3d9a1`; [Static checks run 45628171780](https://github.com/wojko6/fedora-workstation-setup/actions/runs/45628171780) completed successfully on that exact HEAD. The candidate is not on `main`; review, Fedora 44/GNOME clean-room replay and physical acceptance remain pending. Do not use the candidate's `--check` instructions as an installed `main` capability. Historical Fedora 44/GNOME 50.5 restore evidence is unchanged; Fedora 45/KDE restore and deployment remain HOLD.
+
 [Add installer preflight/check mode before applying workstation mutations](https://github.com/wojko6/fedora-workstation-setup/issues/31)
 
 Target flow:
