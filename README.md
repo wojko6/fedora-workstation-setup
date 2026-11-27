@@ -6,6 +6,10 @@ Reproducible setup for my Fedora workstation.
 
 The goal of this repository is to rebuild the workstation after a clean Fedora installation without restoring an old system image. It documents and automates packages, GNOME configuration, extensions, desktop launchers, networking fixes, selected security hardening, and repository-managed localization.
 
+## 2026-11-27 — Graphite Desktop and ABI maintenance (bounded local checkpoint)
+
+The operator restored ShapeCorners against KWin 6.8.3 without restarting the compositor, accepted Finder's rounded corners and hidden local menu, and deployed local ABI Guard 0.3.0-dev3 plus an active 30-minute user timer. 35/35 internal/laboratory tests passed; production apply remains NOOP-only, real alert delivery and post-login activation are pending. [Technical worklog](docs/WORKLOG-2026-11-27.md). Fedora 45/KDE clean-room restore remains HOLD; this is not a repository-managed installer.
+
 ## 2026-11-16 — bounded Finder default and Krema integration
 
 The operator confirmed local Finder KDE LAB v1.9 Polish runtime, four functional test groups, GIO directory default handling (`finder-kde-lab-v19.desktop`), and a correctly grouped Krema dock pin (`org.brhett.finder.desktop`). Stock Dolphin remains installed; the operator separately confirmed `Meta+E` opens Finder, and a bounded portal app-ID registration retest passed (desktop entry valid, registry call succeeded, no portal warning in the captured launch log). Post-relogin/portal workflow testing and Fedora 45/KDE clean-room restore remain open. [Deployment and rollback details](docs/finder-kde-lab-deployment-2026-11-16.md) · [Krema Polish localization deployment](docs/krema-polish-localization-2026-11-16.md). The Fedora 45/KDE reproducible baseline is still HOLD.
